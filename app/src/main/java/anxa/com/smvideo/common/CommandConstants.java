@@ -13,7 +13,7 @@ public class CommandConstants {
     public static String API_TV = "tv";
     public static String API_USER = "user";
     public static String API_HELP = "Help/Api";
-
+    public static String API_REGISTRATION = "tv/registration";
     /* API COMMANDS */
     public static String FREE_DISCOVER= "free/discover";
     public static String FREE_TESTIMONIALS = "free/testimonials";
@@ -40,4 +40,6 @@ public class CommandConstants {
     public static String COMMAND_GOOGLE_ORDER_UPDATE= "google-update";
     public static String COMMAND_REGISTRATION= "register";
     public static String COMMAND_REGISTRATIONUPDATE= "registerUpdate";
+    public static String COMMAND_REGISTRATIONCONTINUE =  "registerContinue";
+    public static String COMMAND_REGISTRATIONCHECK="check-registration";
 }

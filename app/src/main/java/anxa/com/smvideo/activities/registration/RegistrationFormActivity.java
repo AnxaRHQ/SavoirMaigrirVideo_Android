@@ -17,6 +17,10 @@ import android.widget.Toast;
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.activities.LoginActivity;
+import anxa.com.smvideo.connection.ApiCaller;
+import anxa.com.smvideo.connection.http.AsyncResponse;
+import anxa.com.smvideo.contracts.BaseContract;
+import anxa.com.smvideo.contracts.UserDataContract;
 import anxa.com.smvideo.models.RegUserProfile;
 
 import static anxa.com.smvideo.util.AppUtil.isEmail;
@@ -31,6 +35,7 @@ public class RegistrationFormActivity extends Activity implements View.OnClickLi
     Button registerButton;
     LinearLayout progressLayout;
     RegUserProfile userProfile = new RegUserProfile();
+    ApiCaller caller;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +57,8 @@ public class RegistrationFormActivity extends Activity implements View.OnClickLi
 
         progressLayout = (LinearLayout) findViewById(R.id.progress);
         progressLayout.setVisibility(View.GONE);
+
+        caller = new ApiCaller();
     }
 
     @Override
@@ -99,13 +106,13 @@ public class RegistrationFormActivity extends Activity implements View.OnClickLi
 
         if (validateRegistrationForm()) {
             startProgress();
-
+            checkRegistration();
             //uncomment this after
-            submitRegistrationForm();
+            //submitRegistrationForm();
 //            callOptinPage();
         } else {
             //form not validated
-            registerButton.setEnabled(true);
+            stopProgress();
         }
     }
     public void startProgress() {
@@ -139,6 +146,9 @@ public class RegistrationFormActivity extends Activity implements View.OnClickLi
             displayToastMessage(getString(R.string.SIGNUP_EMAIL_ERROR));
             return false;
         }  else {
+
+
+
             return true;
         }
     }
@@ -155,6 +165,30 @@ public class RegistrationFormActivity extends Activity implements View.OnClickLi
             }
         });
     }
+    private void checkRegistration()
+    {  UserDataContract contract = new UserDataContract();
+        contract.Email = emailText.getText().toString();
+        contract.FirstName = firstNameText.getText().toString();
+        contract.LastName = lastNameText.getText().toString();
+        caller.CheckRegistration(new AsyncResponse() {
+            @Override
+            public void processFinish(Object output) {
+                if (output != null) {
+
+                    BaseContract responseContract = (BaseContract) output;
+
+                    if (responseContract.Message.equalsIgnoreCase("AccountAlreadyExist")) {
+                        displayToastMessage(getString(R.string.ALERTMESSAGE_ACCOUNT_EXISTS));
+                        stopProgress();
+                    }
+                    if (responseContract.Message.equalsIgnoreCase("Successful")) {
+                        submitRegistrationForm();
+                    }
+                }
+            }
+        }, contract);
+    }
+
     private void submitRegistrationForm() {
         userProfile.setFirstname(firstNameText.getText().toString());
         userProfile.setLastname(lastNameText.getText().toString());

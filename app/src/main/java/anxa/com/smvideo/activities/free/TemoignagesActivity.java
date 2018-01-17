@@ -22,6 +22,7 @@ import java.util.List;
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.activities.registration.RegistrationActivity;
+import anxa.com.smvideo.activities.registration.RegistrationFormActivity;
 import anxa.com.smvideo.common.SavoirMaigrirVideoConstants;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
@@ -201,9 +202,7 @@ public class TemoignagesActivity extends Fragment implements View.OnClickListene
     }
 
     private void goToRegistrationPage() {
-        Intent mainIntent = new Intent(context, RegistrationActivity.class);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivityForResult(mainIntent, BROWSERTAB_ACTIVITY);
+        Intent mainIntent = new Intent(context, RegistrationFormActivity.class);
+        startActivity(mainIntent);
     }
 }

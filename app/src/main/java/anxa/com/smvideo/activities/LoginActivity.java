@@ -44,7 +44,7 @@ public class LoginActivity extends Activity{
     private ApiCaller apiCaller;
     private ProgressBar loginProgressBar;
 
-
+    private static int NPNA_OFFERACTIVITY = 333;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +81,7 @@ public class LoginActivity extends Activity{
 
         loginContract.Email = email_et.getText().toString();
         loginContract.Password = password_et.getText().toString();
-        loginContract.Check_npna = false;
+        loginContract.Check_npna = true;
 
         apiCaller = new ApiCaller();
 
@@ -97,6 +97,12 @@ public class LoginActivity extends Activity{
                     if (c != null) {
                         if(c.Message.equalsIgnoreCase("Failed")){
                             displayToastMessage(getString(R.string.ALERTMESSAGE_LOGIN_FAILED));
+                        }
+                        else if(c.Message.equalsIgnoreCase("NoAccess")){
+                            ApplicationData.getInstance().userDataContract = c.Data;
+                            ApplicationData.getInstance().regId = c.Data.Id;
+                            ApplicationData.getInstance().saveLoginCredentials(loginContract.Email, loginContract.Password);
+                            goToNpnaPage();
                         }else {
                             ApplicationData.getInstance().userDataContract = c.Data;
                             ApplicationData.getInstance().regId = c.Data.Id;
@@ -121,6 +127,11 @@ public class LoginActivity extends Activity{
         ApplicationData.getInstance().accountType = "account";
         Intent mainIntent = new Intent(this, LandingPageAccountActivity.class);
         startActivity(mainIntent);
+    }
+    private void goToNpnaPage()
+    {
+        Intent npna = new Intent(getApplicationContext(), NpnaActivity.class);
+        startActivity(npna);
     }
 
     private Boolean validateLogin() {

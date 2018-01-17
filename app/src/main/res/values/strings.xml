@@ -46,7 +46,7 @@
     <string name="menu_account_repas">Repas</string>
     <string name="menu_account_recettes">Recettes</string>
     <!--<string name="menu_account_conseils">Conseils</string>-->
-    <string name="menu_account_webinars">Webinaires en direct</string>
+    <string name="menu_account_webinars">Consultations en direct</string>
     <string name="menu_account_exercices">Exercices</string>
     <string name="menu_account_poids">Suivi Du Poids</string>
     <string name="menu_account_compte">Mon Compte</string>
@@ -280,7 +280,7 @@
 
     <string name="inscription_headerTitle">Bienvenu dans mon\napplication</string>
     <string name="inscription_headerDesc">Choisissez ci-dessous la\nversion qui vous intéresses</string>
-    <string name="inscription_description">Coaching video avec plans de repas\npersonalisés, recettes et webinaires</string>
+    <string name="inscription_description">Coaching video avec plans de repas\npersonalisés, recettes et consultations</string>
     <string name="incription_996mois">€ 9,96/ mois</string>
     <string name="incription_3mois">3 mois € 29,90</string>
     <string name="incription_832mois">€ 8,32/ mois</string>
@@ -291,7 +291,7 @@
     <string name="registration_validateAccount">Pour valider votre compte :</string>
     <string name="registration_confirmEmail">confirmez votre email</string>
     <string name="registration_createPassword">Créez un mot de passe</string>
-    <string name="registration_choosePseudo">Choisissez un pseudo pour participer aux webinaires en direct</string>
+    <string name="registration_choosePseudo">Choisissez un pseudo pour participer aux consultations en direct</string>
     <string name="registration_objective">Définissez votre objectif</string>
     <string name="registration_initialWeight">Je Pèse (en kg)</string>
     <string name="registration_targetWeight">Je veux peser (en kg)</string>
@@ -341,4 +341,24 @@
     <string name="registration_nocooking_desc">De combien de temps disposez-vous par jour pour préparer vos repas et ceux du foyer :</string>
     <string name="registration_nocookingplan_interested">Êtes-vous intéressé pour tester nos nouveaux plans de repas sans cuisiner</string>
     <string name="registration_nocookingplan_duration">(pendant 7 à 15 jours)</string>
+
+    <string name="npna_intro">
+         <![CDATA[Bonjour,
+
+<p>Nous vous confirmons que depuis août 2011 l’accès à l’espace personnel est réservé aux personnes qui souscrivent au programme.</p>
+
+
+<p>Nous tenons à vous informer que vous n’êtes plus client(e) du programme Savoir Maigrir depuis le #subscriptionenddate#. </p>]]>
+    </string>
+    <string name="npna_intro2">
+        <![CDATA[<b>Vous préférez prolonger ou reprendre Savoir Maigrir avec Jean-Michel Cohen ?</b>]]>
+    </string>
+    <string name="npna_intro3">
+        Nous avons le plaisir de vous proposer de poursuivre le programme à tarif préférentiel !
+    </string>
+    <string name="npna_buttontext">
+        CLIQUEZ ICI POUR POURSUIVRE LE PROGRAMME
+    </string>
+    <string name="npnaoffer1text">Accédez à ce programme</string>
+    <string name="npnaoffer2text">Des milliers de personnes comme vous sont en train de maigrir en suivant le programme de coaching.</string>
 </resources>

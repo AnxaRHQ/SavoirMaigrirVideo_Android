@@ -8,7 +8,7 @@ import java.util.List;
  * Created by aprilanxa on 29/06/2017.
  */
 
-public class UserDataContract {
+public class UserDataContract extends BaseContract{
     @SerializedName("Id")
     public int Id;
 

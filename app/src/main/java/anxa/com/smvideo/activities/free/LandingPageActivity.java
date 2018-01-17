@@ -14,6 +14,7 @@ import anxa.com.smvideo.activities.LoginActivity;
 import anxa.com.smvideo.activities.MainActivity;
 import anxa.com.smvideo.activities.registration.RegistrationActivity;
 import anxa.com.smvideo.activities.account.BrowserActivity;
+import anxa.com.smvideo.activities.registration.RegistrationFormActivity;
 import anxa.com.smvideo.common.WebkitURL;
 
 /**
@@ -100,10 +101,8 @@ public class LandingPageActivity extends Activity implements View.OnClickListene
     }
 
     private void goToRegistrationPage() {
-        Intent mainIntent = new Intent(this, RegistrationActivity.class);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivityForResult(mainIntent, BROWSERTAB_ACTIVITY);
+        Intent mainIntent = new Intent(this, RegistrationFormActivity.class);
+        startActivity(mainIntent);
     }
     private void goToContactPage() {
         Intent mainContentBrowser = new Intent(this, BrowserActivity.class);

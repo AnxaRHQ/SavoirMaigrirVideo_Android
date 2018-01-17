@@ -202,7 +202,7 @@ public class SelectRegistrationCuisinerActivity extends Activity {
 
         loginContract.Email = ApplicationData.getInstance().getSavedUserName();
         loginContract.Password = ApplicationData.getInstance().getSavedPassword();
-        loginContract.Check_npna = false;
+        loginContract.Check_npna = true;
 
 
 

@@ -88,7 +88,7 @@ public class SplashActivity extends Activity {
 
         loginContract.Email = ApplicationData.getInstance().getSavedUserName();
         loginContract.Password = ApplicationData.getInstance().getSavedPassword();
-        loginContract.Check_npna = false;
+        loginContract.Check_npna = true;
 
         apiCaller = new ApiCaller();
 
@@ -102,7 +102,12 @@ public class SplashActivity extends Activity {
                     if (c != null) {
                         if (c.Message.equalsIgnoreCase("Failed")) {
                             displayToastMessage(getString(R.string.ALERTMESSAGE_LOGIN_FAILED));
-                        } else {
+                        }  else if(c.Message.equalsIgnoreCase("NoAccess")){
+                            ApplicationData.getInstance().userDataContract = c.Data;
+                            ApplicationData.getInstance().regId = c.Data.Id;
+
+                            goToNpnaPage();
+                        }else {
                             ApplicationData.getInstance().userDataContract = c.Data;
                             ApplicationData.getInstance().regId = c.Data.Id;
 
@@ -137,7 +142,11 @@ public class SplashActivity extends Activity {
             }
         }, _splashTime);
     }
-
+    private void goToNpnaPage()
+    {
+        Intent npna = new Intent(getApplicationContext(), NpnaActivity.class);
+        startActivity(npna);
+    }
     public void displayToastMessage(final String message) {
         final Context context = this;
         this.runOnUiThread(new Runnable() {

@@ -33,6 +33,7 @@ import anxa.com.smvideo.contracts.RegistrationResponseContract;
 import anxa.com.smvideo.contracts.RepasResponseContract;
 import anxa.com.smvideo.contracts.ShoppingListResponseContract;
 import anxa.com.smvideo.contracts.TVPaymentOrderContract;
+import anxa.com.smvideo.contracts.TVRegistrationContinueContract;
 import anxa.com.smvideo.contracts.TVRegistrationContract;
 import anxa.com.smvideo.contracts.TVRegistrationUpdateContract;
 import anxa.com.smvideo.contracts.UserDataContract;
@@ -309,15 +310,29 @@ public class ApiCaller {
         command.Command = CommandConstants.COMMAND_REGISTRATION;
         command.RegEmail = email;
 
-        apiClient.PostAsync(asyncResponse, "tv/registration", command, gson.toJson(tvRegistrationContract), RegistrationResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);;
+        apiClient.PostAsync(asyncResponse, CommandConstants.API_REGISTRATION, command, gson.toJson(tvRegistrationContract), RegistrationResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);;
     }
     public void PostRegistrationUpdate(AsyncResponse asyncResponse, TVRegistrationUpdateContract tvRegistrationContract, int regid) {
         MasterCommand command = new MasterCommand();
         command.Command = CommandConstants.COMMAND_REGISTRATIONUPDATE;
         command.RegId = regid;
 
-        apiClient.PostAsync(asyncResponse, "tv/registration", command, gson.toJson(tvRegistrationContract), BaseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);;
+        apiClient.PostAsync(asyncResponse, CommandConstants.API_REGISTRATION, command, gson.toJson(tvRegistrationContract), BaseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);;
     }
+    public void PostRegisterContinue(AsyncResponse asyncResponse, TVRegistrationContinueContract tvRegistrationContinueContract) {
+        MasterCommand command = new MasterCommand();
+        command.Command = CommandConstants.COMMAND_REGISTRATIONCONTINUE;
+        command.RegId = tvRegistrationContinueContract.regId;
+         apiClient.PostAsync(asyncResponse, CommandConstants.API_REGISTRATION, command, gson.toJson(tvRegistrationContinueContract), BaseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);;
+    }
+    public void CheckRegistration(AsyncResponse asyncResponse, UserDataContract contract)
+    {
+        MasterCommand command = new MasterCommand();
+        command.Command = CommandConstants.COMMAND_REGISTRATIONCHECK;
+        command.RegEmail = contract.Email;
+        apiClient.PostAsync(asyncResponse, CommandConstants.API_REGISTRATION, command, gson.toJson(contract), UserDataContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
     public enum AnxamatsEvents
     {
         ANXAMATS_EVENTS_ACTIVETIME(1);

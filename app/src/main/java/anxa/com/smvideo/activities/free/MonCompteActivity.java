@@ -13,16 +13,17 @@ import android.widget.TextView;
 
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.activities.registration.RegistrationActivity;
+import anxa.com.smvideo.activities.registration.RegistrationFormActivity;
 
 /**
  * Created by josephollero on 6/2/2017.
  */
 
-public class MonCompteActivity extends Fragment {
+public class MonCompteActivity extends Fragment implements View.OnClickListener {
 
     private Context context;
     private static final int BROWSERTAB_ACTIVITY = 1111;
-
+    private TextView header_right;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,14 +45,19 @@ public class MonCompteActivity extends Fragment {
 
             }
         });
-
+        header_right = (TextView) (mView.findViewById(R.id.header_right_tv));
+        header_right.setOnClickListener(this);
         return mView;
     }
+    @Override
+    public void onClick(final View v) {
 
+        if (v == header_right) {
+            goToRegistrationPage();
+        }
+    }
     private void goToRegistrationPage() {
-        Intent mainIntent = new Intent(context, RegistrationActivity.class);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivityForResult(mainIntent, BROWSERTAB_ACTIVITY);
+        Intent mainIntent = new Intent(context, RegistrationFormActivity.class);
+        startActivity(mainIntent);
     }
 }
