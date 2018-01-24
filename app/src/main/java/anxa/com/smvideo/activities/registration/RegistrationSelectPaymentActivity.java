@@ -415,4 +415,6 @@ public class RegistrationSelectPaymentActivity extends Activity implements IabBr
             Log.d(TAG, "onActivityResult handled by IABUtil.");
         }
     }
+
+
 }
