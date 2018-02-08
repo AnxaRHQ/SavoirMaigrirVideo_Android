@@ -41,6 +41,9 @@ public class DietProfilesDataContract {
     @SerializedName("CalorieType")
     public int CalorieType;
 
+    @SerializedName("CoachingProfile")
+    public int CoachingProfile;
+
     @SerializedName("CoachProgram")
     public int CoachProgram;
 

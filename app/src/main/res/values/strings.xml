@@ -102,6 +102,15 @@
     <string name="mon_compte_niveau_calorique_1600">1600 kcal</string>
     <string name="mon_compte_niveau_calorique_1800">1800 kcal</string>
 
+    <string name="mon_compte_coaching">Régime Suivi</string>
+    <string name="mon_compte_coaching_classic_female">Classique pour les femmes</string>
+    <string name="mon_compte_coaching_classic_male">Classique pour les hommes</string>
+    <string name="mon_compte_coaching_overwhelmed">Pour les femmes débordées</string>
+    <string name="mon_compte_coaching_difficult">Pour les femmes ayant des difficultés à maigrir</string>
+    <string name="mon_compte_coaching_menopause">Pour les femmes après la ménopause</string>
+    <string name="mon_compte_coaching_moderatemobility">Pour les femmes à mobilité modérée</string>
+    <string name="mon_compte_coaching_medication">Pour les femmes sous traitement médicamenteux</string>
+
     <string name="mon_compte_alertes_receive">Recevoir mes plans des repas par email</string>
     <string name="mon_compte_alertes_vos_plans">Vos plans de repas sont envoyés chaque vendredi</string>
 
@@ -132,6 +141,7 @@
     <string name="WEIGHT_GRAPH_DATE">Date</string>
     <string name="WEIGHT_GRAPH_SEE_MORE">Voir plus</string>
     <string name="WEIGHT_GRAPH_DEVICE">Appareil</string>
+    <string name="WEIGHT_GRAPH_IMC">IMC</string>
     <string name="WEIGHT_GRAPH_NO_MORE_CONTENTS_TO_SHOW">Fin du contenu</string>
     <string name="WEIGHT_GRAPH_EDIT_WEIGHT">Editer le Poids</string>
     <string name="WEIGHT_BUTTON">Courbe de Poids</string>

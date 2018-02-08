@@ -186,6 +186,7 @@ public class RegistrationAccountCreateActivity extends Activity {
                         displayToastMessage(getString(R.string.ALERTMESSAGE_ACCOUNT_EXISTS));
                     }
                     if (responseContract.Message.equalsIgnoreCase("Successful")) {
+                        ApplicationData.getInstance().regId = responseContract.data.RegId;
                         ApplicationData.getInstance().regUserProfile.setUsername(contract.username);
                         ApplicationData.getInstance().regUserProfile.setEmail(contract.email);
                         ApplicationData.getInstance().regUserProfile.setRegId(String.valueOf(responseContract.data.RegId));

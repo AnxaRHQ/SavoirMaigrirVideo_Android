@@ -103,10 +103,8 @@ public class SplashActivity extends Activity {
                         if (c.Message.equalsIgnoreCase("Failed")) {
                             displayToastMessage(getString(R.string.ALERTMESSAGE_LOGIN_FAILED));
                         }  else if(c.Message.equalsIgnoreCase("NoAccess")){
-                            ApplicationData.getInstance().userDataContract = c.Data;
-                            ApplicationData.getInstance().regId = c.Data.Id;
-
-                            goToNpnaPage();
+                            Intent npna = new Intent(getApplicationContext(), LoginActivity.class);
+                            startActivity(npna);
                         }else {
                             ApplicationData.getInstance().userDataContract = c.Data;
                             ApplicationData.getInstance().regId = c.Data.Id;

@@ -457,7 +457,7 @@
                         android:layout_weight="1"
                         android:gravity="left"
                         android:paddingLeft="10dp"
-                        android:text="@string/WEIGHT_GRAPH_DEVICE"
+                        android:text="@string/WEIGHT_GRAPH_IMC"
                         android:textColor="@color/text_darkgray"
                         android:textSize="16dp"
                         android:textStyle="bold" />

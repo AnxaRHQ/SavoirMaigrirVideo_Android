@@ -1089,7 +1089,31 @@ public class AppUtil {
             return 1;
         }
     }
-
+    public static int getCoachingIndex(String coaching, Context context) {
+        if (coaching.equalsIgnoreCase(context.getString(R.string.mon_compte_coaching_classic_female))) {
+            return 1;
+        } else if (coaching.equalsIgnoreCase(context.getString(R.string.mon_compte_coaching_menopause))) {
+            return 2;
+        } else if (coaching.equalsIgnoreCase(context.getString(R.string.mon_compte_coaching_medication))) {
+            return 3;
+        } else if (coaching.equalsIgnoreCase(context.getString(R.string.mon_compte_coaching_difficult))) {
+            return 4;
+        } else if (coaching.equalsIgnoreCase(context.getString(R.string.mon_compte_coaching_overwhelmed))) {
+            return 5;
+        } else if (coaching.equalsIgnoreCase(context.getString(R.string.mon_compte_coaching_moderatemobility))) {
+            return 6;
+        } else if (coaching.equalsIgnoreCase(context.getString(R.string.mon_compte_coaching_classic_male))) {
+            return 7;
+        } else {
+            return 1;
+        }
+    }
+    public static int getGenderIndex(String gender, Context context) {
+        if (gender.equalsIgnoreCase(context.getString(R.string.mon_compte_sexe_fem))) {
+            return 0;
+        }
+        return 1;
+    }
     public static String getCalorieType(int calorieType, Context context) {
         String calorieString = "";
         switch (calorieType) {
@@ -1113,7 +1137,35 @@ public class AppUtil {
         }
         return calorieString;
     }
-
+    public static String getCoaching(int coaching, Context context) {
+        String calorieString = "";
+        switch (coaching) {
+            case 1:
+                calorieString = context.getString(R.string.mon_compte_coaching_classic_female);
+                break;
+            case 2:
+                calorieString = context.getString(R.string.mon_compte_coaching_menopause);
+                break;
+            case 3:
+                calorieString = context.getString(R.string.mon_compte_coaching_medication);
+                break;
+            case 4:
+                calorieString = context.getString(R.string.mon_compte_coaching_difficult);
+                break;
+            case 5:
+                calorieString = context.getString(R.string.mon_compte_coaching_overwhelmed);
+                break;
+            case 6:
+                calorieString = context.getString(R.string.mon_compte_coaching_moderatemobility);
+                break;
+            case 7:
+                calorieString = context.getString(R.string.mon_compte_coaching_classic_male);
+                break;
+            default:
+                calorieString = context.getString(R.string.mon_compte_coaching_classic_female);
+        }
+        return calorieString;
+    }
     public static int getCalorieTypeIndex(String calorieTypeString, Context context) {
         if (calorieTypeString.equalsIgnoreCase(context.getString(R.string.mon_compte_niveau_calorique_900))) {
             return 1;

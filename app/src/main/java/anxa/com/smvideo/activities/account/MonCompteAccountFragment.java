@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,6 +49,7 @@ public class MonCompteAccountFragment extends Fragment implements View.OnClickLi
     private EditText height_et;
     private TextView plan_et;
     private TextView niveau_calorique_et;
+    private TextView coaching_et;
     private EditText email_et;
     private ProgressBar savingProgressBar;
 
@@ -60,6 +62,7 @@ public class MonCompteAccountFragment extends Fragment implements View.OnClickLi
     String[] genderArray = new String[]{};
     String[] plansArray = new String[]{};
     String[] caloriesArray = new String[]{};
+    String[] coachingArray = new String[]{};
 
     View mView;
 
@@ -84,7 +87,8 @@ public class MonCompteAccountFragment extends Fragment implements View.OnClickLi
                 getString(R.string.mon_compte_plans_laitages_avec), getString(R.string.mon_compte_plans_laitages_sans), getString(R.string.mon_compte_plans_petit_dejeuner), getString(R.string.mon_compte_plans_special), getString(R.string.mon_compte_plans_vegetarien)};
         caloriesArray = new String[]{getString(R.string.mon_compte_niveau_calorique_900), getString(R.string.mon_compte_niveau_calorique_1200), getString(R.string.mon_compte_niveau_calorique_1400),
                 getString(R.string.mon_compte_niveau_calorique_1600), getString(R.string.mon_compte_niveau_calorique_1800)};
-
+        coachingArray = new String[]{getString(R.string.mon_compte_coaching_classic_female), getString(R.string.mon_compte_coaching_overwhelmed), getString(R.string.mon_compte_coaching_difficult),
+                getString(R.string.mon_compte_coaching_menopause), getString(R.string.mon_compte_coaching_moderatemobility), getString(R.string.mon_compte_coaching_medication)};
         //header change
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_account_compte));
         ((TextView) (mView.findViewById(R.id.header_right_tv))).setVisibility(View.GONE);
@@ -107,6 +111,10 @@ public class MonCompteAccountFragment extends Fragment implements View.OnClickLi
         plan_et.setOnClickListener(this);
         niveau_calorique_et = (TextView) (mView.findViewById(R.id.mon_calories_et));
         niveau_calorique_et.setOnClickListener(this);
+        coaching_et = (TextView) (mView.findViewById(R.id.mon_coaching_et));
+
+        coaching_et.setOnClickListener(this);
+
 //        email_et = (EditText) (mView.findViewById(R.id.mon_email_et));
 
         savingProgressBar = (ProgressBar) (mView.findViewById(R.id.account_progressBar));
@@ -135,6 +143,17 @@ public class MonCompteAccountFragment extends Fragment implements View.OnClickLi
                             String[] arr = genderArray;
                             sexe_et.setText(arr[item]);
                             dietProfilesDataContract.Gender = item;
+                            if(item == 1)
+                            {
+                                coaching_et.setText(getString(R.string.mon_compte_coaching_classic_male));
+
+                            }else{
+                                if(coaching_et.getText().toString() == getString(R.string.mon_compte_coaching_classic_male))
+                                {
+                                    coaching_et.setText(getString(R.string.mon_compte_coaching_classic_female));
+                                }
+
+                            }
                         }
                     });
 
@@ -165,6 +184,23 @@ public class MonCompteAccountFragment extends Fragment implements View.OnClickLi
             genericDialog = builder.create();
             genericDialog.show();
         }
+        else if (v == coaching_et) {
+            if (sexe_et.getText().toString() != getString(R.string.mon_compte_sexe_masc)) {
+
+
+                builder.setItems(coachingArray,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int item) {
+                                String[] arr = coachingArray;
+                                coaching_et.setText(arr[item]);
+                                dietProfilesDataContract.CoachingProfile = item;
+                            }
+                        });
+
+                genericDialog = builder.create();
+                genericDialog.show();
+            }
+        }
 //        else if(v == logout_btn){
 //            logout();
 //        }
@@ -183,8 +219,10 @@ public class MonCompteAccountFragment extends Fragment implements View.OnClickLi
 
                 plan_et.setText(AppUtil.getMealTypeString(dietProfilesDataContract.MealPlanType, context));
                 niveau_calorique_et.setText(AppUtil.getCalorieType(dietProfilesDataContract.CalorieType, context));
-
+                coaching_et.setText(AppUtil.getCoaching(dietProfilesDataContract.CoachingProfile, context));
                 sexe_et.setText(genderArray[dietProfilesDataContract.Gender]);
+
+
             }
         }
     }
@@ -229,6 +267,8 @@ public class MonCompteAccountFragment extends Fragment implements View.OnClickLi
 
         dietProfilesDataContract.CalorieType = AppUtil.getCalorieTypeIndex(niveau_calorique_et.getText().toString(), context);
         dietProfilesDataContract.MealPlanType = AppUtil.getMealTypeIndex(plan_et.getText().toString(), context);
+        dietProfilesDataContract.CoachingProfile = AppUtil.getCoachingIndex(coaching_et.getText().toString(), context);
+       dietProfilesDataContract.Gender = AppUtil.getGenderIndex(sexe_et.getText().toString(), context);
 
         if (userDataContract.DietProfiles != null) {
             for (DietProfilesDataContract dietProfile : userDataContract.DietProfiles) {
