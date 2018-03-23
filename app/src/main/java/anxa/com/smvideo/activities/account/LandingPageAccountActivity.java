@@ -89,8 +89,8 @@ public class LandingPageAccountActivity extends Activity implements View.OnClick
 
                         userName = c.Data.FirstName;
 
-                        String welcome_message = getString(R.string.welcome_account_1).replace("%@", userName) + getString(R.string.welcome_account_2);
-                        ((TextView) (findViewById(R.id.welcome_message_account_tv))).setText(welcome_message);
+//                        String welcome_message = getString(R.string.welcome_account_1).replace("%@", userName) + getString(R.string.welcome_account_2);
+//                        ((TextView) (findViewById(R.id.welcome_message_account_tv))).setText(welcome_message);
 
                         if (c.Data.DietProfiles != null) {
                             for (DietProfilesDataContract dietProfilesDataContract : c.Data.DietProfiles) {
@@ -100,7 +100,9 @@ public class LandingPageAccountActivity extends Activity implements View.OnClick
                                 }
                             }
                             ApplicationData.getInstance().currentWeekNumber = AppUtil.getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), new Date());
-                            welcome_message = welcome_message.replace("%d", Integer.toString(ApplicationData.getInstance().currentWeekNumber));
+//                            welcome_message = welcome_message.replace("%d", Integer.toString(ApplicationData.getInstance().currentWeekNumber));
+                            String welcome_message = getString(R.string.welcome_account_1).replace("%@", userName).concat(getString(R.string.welcome_account_2).replace("%f", AppUtil.getCurrentDayName(AppUtil.getCurrentDayNumber()))).concat(getString(R.string.welcome_account_3).replace("%d", Integer.toString(ApplicationData.getInstance().currentWeekNumber)));
+
                             ((TextView) (findViewById(R.id.welcome_message_account_tv))).setText(welcome_message);
                         }
                         updateProgressBar();

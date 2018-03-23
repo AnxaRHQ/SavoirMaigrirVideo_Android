@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/landing_login_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5">
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="110dp"
+        android:layout_height="30dp"
+        android:layout_margin="20dp"
+        android:visibility="invisible"/>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4">
+
+        <TextView
+            android:text="@string/login_free_button"
+            android:layout_width="260dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:background="@drawable/rounded_button_dark_orange_borderless"
+            style="@style/whiteBoldLarge"
+            android:id="@+id/login_back_to_landing_tv"
+            android:clickable="true"
+            android:onClick="goToFreePart"/>
+
+    <Button
+        android:id="@+id/registration_button"
+        android:layout_width="260dp"
+        android:layout_height="45dp"
+        android:background="@drawable/button_no_border_white"
+        android:text="@string/login_registration_button"
+        style="@style/loginRegistrationButton"
+        android:layout_marginTop="50dp"
+        android:onClick="goToRegisrationPage"
+        android:visibility="invisible"/>
+
+
+
+    <TextView
+        android:text="@string/login_login_account_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/registration_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        style="@style/whiteNormalMedium"
+        android:id="@+id/login_account_exist_tv"
+        android:clickable="true"
+        android:onClick="goToLoginPage"/>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

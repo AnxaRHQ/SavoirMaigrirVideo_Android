@@ -30,7 +30,8 @@ public class MainLandingPageActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.landing_main);
+        setContentView(R.layout.landing_main_new);
+//        setContentView(R.layout.landing_main);
     }
 
     private void goToLoginPage() {

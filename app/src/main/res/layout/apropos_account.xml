@@ -17,24 +17,10 @@
 
         <ImageView
             android:id="@+id/login_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/smv_login_logo" />
-
-        <TextView
-            android:id="@+id/login_subtitle"
-            style="@style/darkGrayNormalXLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/login_iv"
-            android:gravity="center"
-            android:text="@string/login_programme"
-            android:layout_marginBottom="15dp"
-            />
-
+            android:src="@drawable/image_apropos"
+            android:scaleType="fitXY"/>
 
     </RelativeLayout>
 

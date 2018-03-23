@@ -38,7 +38,7 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/nav_logo_sidenav" />
+                android:src="@drawable/nav_logo" />
 
             <ImageView
                 android:id="@+id/avatar"

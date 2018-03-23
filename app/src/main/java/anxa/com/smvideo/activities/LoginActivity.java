@@ -48,7 +48,8 @@ public class LoginActivity extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_main);
+        setContentView(R.layout.login_main_new);
+//        setContentView(R.layout.login_main);
 
         loginContract = new LoginContract();
 

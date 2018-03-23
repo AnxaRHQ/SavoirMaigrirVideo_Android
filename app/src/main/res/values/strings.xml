@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Savoir Maigrir en Vidéo</string>
+    <string name="app_name">Dr. Jean-Michel Cohen</string>
     <string name="app_version">Version 1.0</string>
 
     <string name="header_right_button">Je m\'inscris</string>
@@ -40,8 +40,9 @@
 
 
     <!--account page-->
-    <string name="welcome_account_1">Bonjour %@, c\'est le mer</string>
-    <string name="welcome_account_2">credi de la semaine %d de votre programme</string>
+    <string name="welcome_account_1">Bonjour %@, c\'est l</string>
+    <string name="welcome_account_2">e %f de la se</string>
+    <string name="welcome_account_3">maine %d de votre programme</string>
     <string name="menu_account_coaching">Coaching</string>
     <string name="menu_account_repas">Repas</string>
     <string name="menu_account_recettes">Recettes</string>
@@ -80,7 +81,7 @@
     <string name="mon_compte_plans_repas">Plans de repas</string>
     <string name="mon_compte_plans_brunch">Brunch</string>
     <string name="mon_compte_plans_classique">Classique</string>
-    <string name="mon_compte_plans_pour">Pour mincir à petits prix</string>
+    <string name="mon_compte_plans_pour">Menu Rapide et Economique</string>
     <string name="mon_compte_plans_dejeuner">Sans déjeuner - déjeuner léger</string>
     <string name="mon_compte_plans_diner">Sans diner ou diner léger</string>
     <string name="mon_compte_plans_gluten">Sans gluten</string>
@@ -92,7 +93,7 @@
     <string name="mon_compte_plans_special">Spécial colopathie</string>
     <string name="mon_compte_plans_vegetarien">Végétarien</string>
     <string name="mon_compte_plans_jeune_cohen">Jeûne Cohen 16h</string>
-    <string name="mon_compte_plans_low_budget">Pour mincir à petits prix</string>
+    <string name="mon_compte_plans_low_budget">Menu Rapide et Economique</string>
     <string name="mon_compte_plans_plat_prepares">Maigrir Sans Cuisiner</string>
 
     <string name="mon_compte_niveau_calorique">Niveau calorique</string>
@@ -247,7 +248,7 @@
     <string name="login_login_button">Connexion</string>
     <string name="login_registration_button">Je m\'inscris</string>
     <string name="login_login_account_button">Deja inscrit ? Connectez-vous ! </string>
-    <string name="login_free_button">Découvrir l\’appli</string>
+    <string name="login_free_button">Découvrir l\'appli</string>
     <string name="login_programme">Programme en vidéo</string>
     <string name="login_back_to_landing">Pas encore inscrit ?</string>
     <string name="login_email_placeholder">Votre adresse Email</string>
