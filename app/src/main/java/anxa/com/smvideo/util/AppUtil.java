@@ -1270,4 +1270,80 @@ public class AppUtil {
         }
     }
 
+    public static String BuildProfilePicUrl(String format, String profileImageUrl) {
+
+        if (profileImageUrl != null) {
+            String proFileImageURL = format.replace("%@", profileImageUrl);
+            if (profileImageUrl.endsWith("_")) {
+                proFileImageURL = format.replace("%@/", profileImageUrl);
+            }
+            return proFileImageURL;
+        }
+        return format.replace("%@/", "male_");
+    }
+
+    public static String getMonthDay(Date date) {
+        String localTime;
+        try {
+            Calendar cal = Calendar.getInstance();
+            TimeZone tz = cal.getTimeZone();
+
+        /* date formatter in local timezone */
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");
+
+            sdf.setTimeZone(tz);
+            localTime = sdf.format(date);
+
+//        Log.d("Month+Day: ", localTime);
+        } catch (NullPointerException e) {
+            return "";
+        }
+
+        return localTime;
+    }
+
+    public static String getTimeOnly24(long millisec) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(millisec);
+        c.setTimeZone(TimeZone.getDefault());
+        //french timezone
+        c.add(Calendar.HOUR, -1);
+
+        String temp = ((c.get(Calendar.HOUR) < 10) ? ("0" + c.get(Calendar.HOUR)) : c.get(Calendar.HOUR))
+                + ":"
+                + ((c.get(Calendar.MINUTE) < 10) ? ("0" + c.get(Calendar.MINUTE)) : c.get(Calendar.MINUTE))
+                + " " + (c.get(Calendar.AM_PM) == 0 ? "AM" : "PM");
+
+        return temp;
+    }
+
+    public static long getCurrentDateinLongGMT() {
+        Calendar calendar = Calendar.getInstance();
+        long unixtime = calendar.getTime().getTime() / 1000L;
+        return unixtime;
+    }
+
+    public static long getCurrentDateinLong() {
+        Calendar calendar = Calendar.getInstance();
+
+        final Date currentTime = new Date();
+
+        final SimpleDateFormat sdf =
+                new SimpleDateFormat("EEE, MMM d, yyyy hh:mm:ss a z");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        calendar.setTime(currentTime);
+        calendar.add(Calendar.HOUR, 8);
+        long unixtime = calendar.getTime().getTime() / 1000L;
+        return unixtime;
+    }
+
+    public static long getCreatedDateForDisplay(long timestamp) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timestamp * 1000);
+        calendar.add(Calendar.HOUR, 1);
+        long unixtime = calendar.getTime().getTime() / 1000L;
+        return unixtime;
+    }
+
 }

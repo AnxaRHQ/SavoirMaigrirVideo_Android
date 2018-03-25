@@ -1,5 +1,7 @@
 package anxa.com.smvideo.models;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by angelaanxa on 10/17/2017.
  */
@@ -26,6 +28,16 @@ public class RegUserProfile {
     private int mealProfile;
     private String cuisiner;
     private boolean noCookingTrial;
+    private String profileimageurl;
+
+    public String getProfileimageurl() {
+        return profileimageurl;
+    }
+
+    public void setProfileimageurl(String profileimageurl) {
+        this.profileimageurl = profileimageurl;
+    }
+    
     public int getSid() {
         return sid;
     }

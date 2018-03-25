@@ -22,11 +22,13 @@ import anxa.com.smvideo.contracts.BMVideoResponseContract;
 import anxa.com.smvideo.contracts.BaseContract;
 import anxa.com.smvideo.contracts.CoachingVideosResponseContract;
 import anxa.com.smvideo.contracts.LoginContract;
+import anxa.com.smvideo.contracts.MessagesResponseContract;
 import anxa.com.smvideo.contracts.PaymentConfirmationContract;
 import anxa.com.smvideo.contracts.PaymentOrderDataContract;
 import anxa.com.smvideo.contracts.PaymentOrderGoogleContract;
 import anxa.com.smvideo.contracts.PaymentOrderResponseContract;
 import anxa.com.smvideo.contracts.PostAnxamatsContract;
+import anxa.com.smvideo.contracts.PostMessagesContract;
 import anxa.com.smvideo.contracts.RecipeResponseContract;
 import anxa.com.smvideo.contracts.RegistrationDataContract;
 import anxa.com.smvideo.contracts.RegistrationResponseContract;
@@ -200,6 +202,62 @@ public class ApiCaller {
 
         apiClient.GetAsync(asyncResponse, CommandConstants.API_TV, command, params, RepasResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
     }
+
+    private final int COMMAND_QUESTIONSLIMIT = 10;
+
+    /**
+     * @param asyncResponse
+     * @param userId        - regId of user
+     * @param after         - unix timestamp, the value of this is the latest timestamp record in local storage
+     */
+    public void GetLatestMessagesThread(AsyncResponse asyncResponse, int userId, int after) {
+
+        MasterCommand command = new MasterCommand();
+        command.Command = CommandConstants.ACCOUNT_MESSAGES;
+        command.RegId = ApplicationData.getInstance().regId;
+
+        Hashtable params = new Hashtable();
+        params.put("regId", userId);
+        params.put("command", CommandConstants.COMMAND_QUESTIONSGETCURSOR);
+        params.put("after", after > 0 ? after : System.currentTimeMillis() / 1000L);
+        params.put("limit", COMMAND_QUESTIONSLIMIT);
+
+        apiClient.GetAsync(asyncResponse, CommandConstants.API_HELP, command, params, MessagesResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    /**
+     * @param asyncResponse
+     * @param userId        regid
+     * @param before        - unix timestamp, the value of this is the oldest timestamp record in local storage
+     */
+    public void GetPreviousMessagesThread(AsyncResponse asyncResponse, int before) {
+
+        MasterCommand command = new MasterCommand();
+//        command.Command = CommandConstants.ACCOUNT_MESSAGES;
+        command.RegId = ApplicationData.getInstance().regId;
+
+        Hashtable params = new Hashtable();
+//        params.put("regId", ApplicationData.getInstance().regId);
+//        params.put("command", CommandConstants.COMMAND_QUESTIONSGETCURSOR);
+        params.put("before", before > 0 ? before : System.currentTimeMillis() / 1000L);
+        params.put("limit", COMMAND_QUESTIONSLIMIT);
+
+        apiClient.GetAsync(asyncResponse, CommandConstants.ACCOUNT_MESSAGES, command, params, MessagesResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    /**
+     * @param asyncResponse
+     * @param contract      message contract, should not be null
+     */
+    public void PostMessage(AsyncResponse asyncResponse, PostMessagesContract contract) {
+        MasterCommand command = new MasterCommand();
+        command.RegId = ApplicationData.getInstance().regId;
+        command.Command = CommandConstants.COMMAND_QUESTIONSNEW;
+
+        apiClient.PostAsync(asyncResponse, "message", command, gson.toJson(contract), MessagesResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+
 
     public void GetAccountShoppingList(AsyncResponse asyncResponse, int weekNumber, int dayNumber) {
 

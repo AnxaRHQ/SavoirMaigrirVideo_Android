@@ -27,6 +27,7 @@ import anxa.com.smvideo.activities.account.CoachingAccountFragment;
 import anxa.com.smvideo.activities.account.ConseilsFragment;
 import anxa.com.smvideo.activities.account.ExerciceFragment;
 import anxa.com.smvideo.activities.account.LandingPageAccountActivity;
+import anxa.com.smvideo.activities.account.MessagesAccountFragment;
 import anxa.com.smvideo.activities.account.MonCompteAccountFragment;
 import anxa.com.smvideo.activities.account.RecipesAccountFragment;
 import anxa.com.smvideo.activities.account.RepasFragment;
@@ -101,7 +102,8 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
             mNavItems.add(new NavItem(getString(R.string.menu_account_coaching), R.drawable.icon_account_coaching));
             mNavItems.add(new NavItem(getString(R.string.menu_account_repas), R.drawable.icon_account_repas));
             mNavItems.add(new NavItem(getString(R.string.menu_account_recettes), R.drawable.icon_account_recettes));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_webinars), R.drawable.icon_account_webinar));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_carnet), R.drawable.icon_account_carnet));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_messages), R.drawable.icon_account_messagerie));mNavItems.add(new NavItem(getString(R.string.menu_account_webinars), R.drawable.icon_account_webinar));
             mNavItems.add(new NavItem(getString(R.string.menu_account_exercices), R.drawable.icon_account_exercises));
             mNavItems.add(new NavItem(getString(R.string.menu_account_poids), R.drawable.icon_account_poids));
             mNavItems.add(new NavItem(getString(R.string.menu_account_compte), R.drawable.icon_account_compte));
@@ -197,28 +199,38 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Recettes;
                     fragment = new RecipesAccountFragment();
                     break;
-                case 4: //conseils
+                case 4: //carnet
+//                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Carnet;
+//                    fragment = new RecipesAccountFragment();
+                    goToHomePage();
+                    break;
+                case 5: //messages
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Messages;
+                    fragment = new MessagesAccountFragment();
+                    break;
+                case 6: //conseils
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Conseil;
                     fragment = new WebinarFragment();
                     break;
-                case 5: //exercices
+                case 7: //exercices
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Exercices;
                     fragment = new ExerciceFragment();
                     break;
-                case 6: //suivi
+                case 8: //suivi
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Suivi;
                     fragment = new WeightGraphFragment();
                     break;
-                case 7: //mon compte
+                case 9: //mon compte
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_MonCompte;
                     fragment = new MonCompteAccountFragment();
                     break;
-                case 8: //apropos
+                case 10: //apropos
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Apropos;
                     fragment = new AproposFragment();
                     break;
                 default:
                     fragment = new CoachingAccountFragment();
+
             }
         }
 

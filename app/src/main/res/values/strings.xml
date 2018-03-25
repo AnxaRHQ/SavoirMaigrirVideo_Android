@@ -51,6 +51,8 @@
     <string name="menu_account_exercices">Exercices</string>
     <string name="menu_account_poids">Suivi Du Poids</string>
     <string name="menu_account_compte">Mon Compte</string>
+    <string name="menu_account_messages">Messagerie Diététique</string>
+    <string name="menu_account_carnet">Carnet Minceur</string>
 
     <string name="lost_weight_text">Vous avez perdu </string>
 
@@ -372,4 +374,20 @@
     </string>
     <string name="npnaoffer1text">Accédez à ce programme</string>
     <string name="npnaoffer2text">Des milliers de personnes comme vous sont en train de maigrir en suivant le programme de coaching.</string>
+
+    <!--Native Diet Messages-->
+    <string name="messages_add_a_comment">Ajouter un commentaire</string>
+    <string name="messages_btn_submit">Poster</string>
+    <string name="messages_load_more">Voir les messages précédents</string>
+    <string name="messages_no_more_contents">Fin du contenu</string>
+    <string name="messages_failed_to_send">Ce message n\'a pas été envoyé:</string>
+    <string name="messages_error">Erreur</string>
+    <string name="messages_questionlimitmessage">Votre question a bien été transmise à votre diététicienne, elle vous répondra sous 48 heures.</string>
+    <string name="messages_liked">%@ aime votre message</string>
+    <string name="ALERTMESSAGE_OFFLINE">Il semble y avoir un problème de connexion.</string>
+
+    <string name="profile_pic_url" translatable="false">http://img1.aujourdhui.com/users/%@/big.jpg</string>
+
+    <string name="btn_retry">Réessayer</string>
+
 </resources>

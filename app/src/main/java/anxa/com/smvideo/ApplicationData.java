@@ -4,12 +4,15 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.crashlytics.android.Crashlytics;
 
 import anxa.com.smvideo.activities.MainActivity;
 import anxa.com.smvideo.contracts.CoachingVideosContract;
 import anxa.com.smvideo.contracts.DietProfilesDataContract;
+import anxa.com.smvideo.contracts.MessagesContract;
+import anxa.com.smvideo.contracts.MessagesResponseContract;
 import anxa.com.smvideo.contracts.QuestionsContract;
 import anxa.com.smvideo.contracts.RepasContract;
 import anxa.com.smvideo.contracts.ResultsResponseDataContract;
@@ -43,12 +46,15 @@ public class ApplicationData extends Application {
         Account_Coaching(5),
         Account_Repas(6),
         Account_Recettes(7),
-        Account_Conseil(8),
-        Account_Exercices(9),
-        Account_Suivi(10),
-        Account_MonCompte(11),
-        Account_Apropos(12),
-        Home(13);
+        Account_Carnet(8),
+        Account_Messages(9),
+        Account_Conseil(10),
+        Account_Exercices(11),
+        Account_Suivi(12),
+        Account_MonCompte(13),
+        Account_Apropos(14),
+        Home(15);
+
 
         private int numVal;
 
@@ -85,6 +91,8 @@ public class ApplicationData extends Application {
     private static final String PROPERTY_APP_ANXAMATS_SESSIONSTART = "anaxamatsSessionStart";
     private static final String PROPERTY_APP_SESSIONTIME = "sessopmTo,e";
 
+    private static final String PROPERTY_APP_CURSOR_BEFORE = "cursor_before";
+    private static final String PROPERTY_APP_CURSOR_PREVIOUS = "cursor_previous";
 
     public SelectedFragment selectedFragment = SelectedFragment.Decouvir;
 
@@ -95,6 +103,7 @@ public class ApplicationData extends Application {
     public List<QuestionsContract> questionsList = new ArrayList<>();
     public List<VideoContract> discoverVideoList = new ArrayList<>();
     public List<VideoContract> testimonialVideoList = new ArrayList<>();
+    public List<MessagesContract> messagesList = new ArrayList<>();
 
     /** account **/
     public UserDataContract userDataContract = null;
@@ -125,6 +134,12 @@ public class ApplicationData extends Application {
 
     public String pageTitle = "Page Title";
     public String customAgent = "";
+
+    //messages
+    public MessagesResponseContract messagesResponseContract = new MessagesResponseContract();
+    public String urlClicked;
+    public Hashtable<String, Bitmap> coachPhotosList = new Hashtable<String, Bitmap>();
+    public BitmapFactory.Options options_Avatar = new BitmapFactory.Options();
 
 
 
@@ -227,4 +242,41 @@ public class ApplicationData extends Application {
         editor.putLong(PROPERTY_APP_SESSIONTIME, value);
         editor.commit();
     }
+
+    public long getBeforeDate(){
+        final SharedPreferences prefs = getGCMPreferences(context);
+        return prefs.getLong(PROPERTY_APP_CURSOR_BEFORE, 0);
+    }
+
+    public void setBeforeDate(long beforeDate){
+        final SharedPreferences prefs = getGCMPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong(PROPERTY_APP_CURSOR_BEFORE, beforeDate);
+        editor.commit();
+    }
+
+    public long getPreviousDate(){
+        final SharedPreferences prefs = getGCMPreferences(context);
+        return prefs.getLong(PROPERTY_APP_CURSOR_PREVIOUS, 0);
+    }
+
+    public void setPreviousDate(long previousDate){
+        final SharedPreferences prefs = getGCMPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong(PROPERTY_APP_CURSOR_PREVIOUS, previousDate);
+        editor.commit();
+    }
+
+
+    public Bitmap getUserProfilePhoto() {
+        return userProfilePhoto;
+    }
+
+    public void setUserProfilePhoto(Bitmap userProfilePhoto) {
+        this.userProfilePhoto = userProfilePhoto;
+    }
+
+    private Bitmap userProfilePhoto;
+
+
 }

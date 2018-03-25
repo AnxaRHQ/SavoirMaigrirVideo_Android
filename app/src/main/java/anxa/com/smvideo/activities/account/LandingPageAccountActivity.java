@@ -125,6 +125,8 @@ public class LandingPageAccountActivity extends Activity implements View.OnClick
         ((Button) findViewById(R.id.LandingExercicesButton)).setOnClickListener(this);
         ((Button) findViewById(R.id.LandingSuiviButton)).setOnClickListener(this);
         ((Button) findViewById(R.id.LandingMonCompteButton)).setOnClickListener(this);
+        ((Button) findViewById(R.id.LandingCarnetAccountButton)).setOnClickListener(this);
+        ((Button) findViewById(R.id.LandingMessagesButton)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.LandingImage1_account)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.LandingImage2_account)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.LandingImage3_account)).setOnClickListener(this);
@@ -132,6 +134,10 @@ public class LandingPageAccountActivity extends Activity implements View.OnClick
         ((ImageView) findViewById(R.id.LandingImage5_account)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.LandingImage6_account)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.LandingImage7_account)).setOnClickListener(this);
+        ((ImageView) findViewById(R.id.LandingImage8_account)).setOnClickListener(this);
+        ((ImageView) findViewById(R.id.LandingImage9_account)).setOnClickListener(this);
+
+
 
         contact_btn = (Button) findViewById(R.id.contact_account);
         contact_btn.setPaintFlags(contact_btn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -293,13 +299,17 @@ public class LandingPageAccountActivity extends Activity implements View.OnClick
             goToRepasPage();
         } else if (v.getId() == R.id.LandingRecettesAccountButton || v.getId() == R.id.LandingImage3_account) {
             goToRecettesPage();
-        } else if (v.getId() == R.id.LandingConseilsButton || v.getId() == R.id.LandingImage4_account) {
+        } else if (v.getId() == R.id.LandingCarnetAccountButton || v.getId() == R.id.LandingImage4_account) {
+            goToCarnetPage();
+        } else if (v.getId() == R.id.LandingMessagesButton || v.getId() == R.id.LandingImage5_account) {
+            goToMessagesPage();
+        } else if (v.getId() == R.id.LandingConseilsButton || v.getId() == R.id.LandingImage6_account) {
             goToConseilsPage();
-        } else if (v.getId() == R.id.LandingExercicesButton || v.getId() == R.id.LandingImage5_account) {
+        } else if (v.getId() == R.id.LandingExercicesButton || v.getId() == R.id.LandingImage7_account) {
             goToExercicesPage();
-        } else if (v.getId() == R.id.LandingSuiviButton || v.getId() == R.id.LandingImage6_account) {
+        } else if (v.getId() == R.id.LandingSuiviButton || v.getId() == R.id.LandingImage8_account) {
             goToSuiviPage();
-        } else if (v.getId() == R.id.LandingMonCompteButton || v.getId() == R.id.LandingImage7_account) {
+        } else if (v.getId() == R.id.LandingMonCompteButton || v.getId() == R.id.LandingImage9_account) {
             goToMonComptePage();
         } else if (v == header_info_iv) {
             goToAproposPage();
@@ -307,6 +317,7 @@ public class LandingPageAccountActivity extends Activity implements View.OnClick
             goToContactPage();
         }
     }
+
 
     public void goToCoachingPage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Coaching;
@@ -322,6 +333,18 @@ public class LandingPageAccountActivity extends Activity implements View.OnClick
 
     public void goToRecettesPage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Recettes;
+        Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
+        startActivity(mainIntent);
+    }
+
+    public void goToCarnetPage() {
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Carnet;
+        Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
+        startActivity(mainIntent);
+    }
+
+    public void goToMessagesPage() {
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Messages;
         Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
         startActivity(mainIntent);
     }

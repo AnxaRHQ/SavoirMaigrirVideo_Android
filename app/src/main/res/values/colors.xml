@@ -34,5 +34,7 @@
 
     <color name="bg_orangedark">#f2680d</color>
 
+    <color name="common_button_blue">#229cd9</color>
+    <color name="common_button_white">#ffffff</color>
 
 </resources>
