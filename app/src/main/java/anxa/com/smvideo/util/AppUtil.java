@@ -1,17 +1,21 @@
 package anxa.com.smvideo.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TimePicker;
 
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,6 +23,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.List;
@@ -29,7 +34,12 @@ import java.util.regex.Pattern;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
+import anxa.com.smvideo.contracts.Carnet.ExerciseContract;
+import anxa.com.smvideo.contracts.Carnet.MealCommentContract;
+import anxa.com.smvideo.contracts.Carnet.MealContract;
+import anxa.com.smvideo.contracts.Carnet.MoodContract;
 import anxa.com.smvideo.contracts.WeightGraphContract;
+import anxa.com.smvideo.models.Workout;
 
 /**
  * Created by angelaanxa on 5/23/2017.
@@ -1089,6 +1099,7 @@ public class AppUtil {
             return 1;
         }
     }
+
     public static int getCoachingIndex(String coaching, Context context) {
         if (coaching.equalsIgnoreCase(context.getString(R.string.mon_compte_coaching_classic_female))) {
             return 1;
@@ -1108,12 +1119,14 @@ public class AppUtil {
             return 1;
         }
     }
+
     public static int getGenderIndex(String gender, Context context) {
         if (gender.equalsIgnoreCase(context.getString(R.string.mon_compte_sexe_fem))) {
             return 0;
         }
         return 1;
     }
+
     public static String getCalorieType(int calorieType, Context context) {
         String calorieString = "";
         switch (calorieType) {
@@ -1137,6 +1150,7 @@ public class AppUtil {
         }
         return calorieString;
     }
+
     public static String getCoaching(int coaching, Context context) {
         String calorieString = "";
         switch (coaching) {
@@ -1166,6 +1180,7 @@ public class AppUtil {
         }
         return calorieString;
     }
+
     public static int getCalorieTypeIndex(String calorieTypeString, Context context) {
         if (calorieTypeString.equalsIgnoreCase(context.getString(R.string.mon_compte_niveau_calorique_900))) {
             return 1;
@@ -1307,7 +1322,7 @@ public class AppUtil {
         c.setTimeInMillis(millisec);
         c.setTimeZone(TimeZone.getDefault());
         //french timezone
-        c.add(Calendar.HOUR, -1);
+        c.add(Calendar.HOUR, -2);
 
         String temp = ((c.get(Calendar.HOUR) < 10) ? ("0" + c.get(Calendar.HOUR)) : c.get(Calendar.HOUR))
                 + ":"
@@ -1344,6 +1359,874 @@ public class AppUtil {
         calendar.add(Calendar.HOUR, 1);
         long unixtime = calendar.getTime().getTime() / 1000L;
         return unixtime;
+    }
+
+    /**
+     * Native Carnet
+     **/
+    public static Date updateDate(Date date, int dayOffset) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        int DayoftheMonth = c.get(Calendar.DAY_OF_MONTH);
+        c.set(Calendar.DAY_OF_MONTH, DayoftheMonth + (dayOffset));
+        return c.getTime();
+    }
+
+    public static String getMonthDayYear(Date date) {
+        String localTime;
+        try {
+
+            Calendar cal = Calendar.getInstance();
+            TimeZone tz = cal.getTimeZone();
+
+        /* date formatter in local timezone */
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
+            sdf.setTimeZone(tz);
+            localTime = sdf.format(date);
+
+        } catch (NullPointerException e) {
+            return "";
+        }
+
+        return localTime;
+    }
+
+    /**
+     * return 0 if date falls on Sunday
+     * //return 1 if date falls on Monday
+     * //return 2 if date falls on Tuesday
+     * //return 3 if date falls on Wednesday
+     * //return 4 if date falls on Thursday
+     * //return 5 if date falls on Friday
+     * //return 6 if date falls on Saturday
+     **/
+    public static int getWeekIndexOfDate(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setFirstDayOfWeek(Calendar.SUNDAY);
+
+        c.setTime(date);
+        return c.get(Calendar.DAY_OF_WEEK) - 1;
+    }
+
+    public static int getDayDifference(Date startDate, Date endDate) {
+        int daysbetween = 0;
+        if (startDate != null && endDate != null) {
+            Calendar cstartDate = getDatePart(startDate);
+            Calendar cendDate = getDatePart(endDate);
+
+            while (cstartDate.before(cendDate)) {
+                cstartDate.add(Calendar.DAY_OF_MONTH, 1);
+                daysbetween++;
+
+            }
+        }
+        return daysbetween;
+    }
+
+    public static Calendar getDatePart(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);// set this to midnight
+
+        cal.set(Calendar.MINUTE, 0);// set this to 0
+        cal.set(Calendar.SECOND, 0);// set this to 0
+        cal.set(Calendar.MILLISECOND, 0);// set this to 0
+        return cal;
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public static Date getCurrentDateinDate() {
+        Calendar calendar = Calendar.getInstance();
+        return calendar.getTime();
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public static Date getCurrentDate(int addDays) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, addDays);
+        return (calendar.getTime());
+    }
+
+    public static Date toDateGMT(long timestamp) {
+
+        try {
+            Date date = new Date();
+            date.setTime(timestamp * 1000);
+
+            DateFormat gmtFormat = new SimpleDateFormat();
+            TimeZone gmtTime = TimeZone.getTimeZone("GMT");
+            gmtFormat.setTimeZone(gmtTime);
+
+            String gmtDate = gmtFormat.format(date);
+
+            DateFormat gmtFormat2 = new SimpleDateFormat();
+
+            return gmtFormat2.parse(gmtDate);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return new Date();
+    }
+
+    private static final int BREAKFAST = 1;
+    private static final int LUNCH = 2;
+    private static final int DINNER = 4;
+    private static final int AM_SNACK = 5;
+    private static final int PM_SNACK = 6;
+
+    public static String getMealTitle(Context context, int mealtype) {
+
+        switch (mealtype) {
+            case BREAKFAST:
+                return context.getResources().getString(R.string.MEALTYPE_BREAKFAST);
+            case AM_SNACK:
+                return context.getResources().getString(R.string.MEALTYPE_MORNINGSNACK);
+            case LUNCH:
+                return context.getResources().getString(R.string.MEALTYPE_LUNCH);
+            case PM_SNACK:
+                return context.getResources().getString(R.string.MEALTYPE_AFTERNOONSNACK);
+            case DINNER:
+                return context.getResources().getString(R.string.MEALTYPE_DINNER);
+            default:
+                return context.getResources().getString(R.string.MEALTYPE_DINNER);
+        }
+    }
+
+
+    /**
+     * Used in time display for comments in meals
+     **/
+
+    public static String getTimeOnly24Comments(long millisec) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(millisec);
+        c.setTimeZone(TimeZone.getDefault());
+
+        String temp = ((c.get(Calendar.HOUR) < 10) ? ("0" + c
+                .get(Calendar.HOUR)) : c.get(Calendar.HOUR))
+                + ":"
+                + ((c.get(Calendar.MINUTE) < 10) ? ("0" + c
+                .get(Calendar.MINUTE)) : c.get(Calendar.MINUTE))
+                + " " + (c.get(Calendar.AM_PM) == 0 ? "AM" : "PM");
+
+        return temp;
+    }
+
+    public static String getTimeOnly12(long millisec) {
+        return getTimeOnly(millisec, true);
+    }
+
+    public static String getTimeOnly12() {
+        long millisec = new Date().getTime() / 1000;
+        return getTimeOnlyMeals(millisec);
+    }
+
+    public static String getTimeOnly(long millisec, boolean is24) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(millisec);
+        c.setTimeZone(TimeZone.getDefault());
+
+        if (!is24) {
+            Date dt = new Date();
+            dt.setTime(millisec * 1000);
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa");
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+            String temp = sdf.format(dt);
+
+            return temp;
+        } else {
+            Date dt = new Date();
+            dt.setTime(millisec * 1000);
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+            String temp = sdf.format(dt);
+
+            return temp;
+        }
+    }
+
+    public static String getTimeOnlyMeals(long millisec) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(millisec);
+        c.setTimeZone(TimeZone.getDefault());
+
+        Date dt = new Date();
+        dt.setTime(millisec * 1000);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
+        String temp = sdf.format(dt);
+
+        return temp;
+    }
+
+    public static String getExercise(Context context, Integer exerciseType) {
+        String exerciseString = "";
+
+        exerciseString = getExerciseValue(context, Workout.EXERCISE_TYPE.getExerciseType(exerciseType));
+
+        return exerciseString;
+    }
+
+    public static String getExerciseValue(Context context, Workout.EXERCISE_TYPE exerciseTypeIndex) {
+        String exerciseString = "";
+
+        if (exerciseTypeIndex == Workout.EXERCISE_TYPE.ACTIVITY_IOS) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_ACTIVITY);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.OTHER) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_OTHER);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.RUNNING) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_RUN);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.CYCLING) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_BIKE);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.MOUNTAIN_BIKING) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_MOUNTAIN_BIKING);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.WALKING) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_WALK);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.HIKING) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_HIKING);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.DOWNHILL_SKIING) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_DOWNHILL_SKIING);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.CROSSCOUNTRY_SKIING) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_CROSS_COUNTRY_SKIING);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.SNOWBOARDING) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_SNOWBOARDING);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.SKATING) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_SKATING);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.SWIMMING) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_SWIM);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.WHEELCHAIR) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_WHEELCHAIR);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.ROWING) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_ROWING);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.ELLIPTICAL) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_ELLIPTICAL);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.NO_EXERCISE) {
+            exerciseString = "";
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.YOGA) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_YOGA);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.PILATES) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_PILATES);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.CROSSFIT) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_CROSSFIT);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.SPINNING) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_SPINNING);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.ZUMBA) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_ZUMBA);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.BARRE) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_BARRE);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.GROUP_WORKOUT) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_GROUP_WORKOUT);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.DANCE) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_DANCE);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.BOOTCAMP) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_BOOTCAMP);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.BOXING) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_BOXING);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.MMA) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_MMA);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.MEDITATION) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_MEDITATION);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.STRENGTH_TRAINING) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_STRENGTH_TRAINING);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.CIRCUIT_TRAINING) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_CIRCUIT_TRAINING);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.CORE_STRENGTHENING) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_CORE_STRENGTHENING);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.ARC_TRAINER) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_ARC_TRAINER);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.STAIR_MASTER) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_STAIRMASTER);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.STEPWELL) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_STEPWELL);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.NORDIC_WALKING) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_NORDIC_WALKING);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.SPORTS) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_SPORTS);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.WORKOUT) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_WORKOUT);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.AQUAGYM) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_AQUAGYM);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.GOLF) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_GOLF);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.HOUSEWORK) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_HOUSEWORK);
+        } else if (exerciseTypeIndex == Workout.EXERCISE_TYPE.GARDENING) {
+            exerciseString = context.getResources().getString(R.string.EXERCISE_MENU_GARDENING);
+        }
+
+        return exerciseString;
+    }
+
+    public static String getDateinString(Date dateRaw) {
+        //format: 16 May 2016
+        String strDateFormat = "d MMM yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+        return sdf.format(dateRaw);
+
+    }
+
+
+    public static int getPhotoResource(int type) {
+        //depending on type image dummy meal color changes
+        switch (type) {
+            case BREAKFAST:
+                return R.drawable.meal_default_breakfast;
+            case AM_SNACK:
+                return R.drawable.meal_default_amsnack;
+            case LUNCH:
+                return R.drawable.meal_default_lunch;
+            case PM_SNACK:
+                return R.drawable.meal_default_pmsnack;
+            default:
+                return R.drawable.meal_default_dinner;
+        }
+    }
+
+    public static long dateToUnixTimestamp(Date dt) {
+        long unixtime = dt.getTime() / 1000L;
+        return unixtime;
+    }
+
+    public static Hashtable<String, List<MealContract>> getMealsByDateRange(Date todate, Date fromdate, Hashtable<String, MealContract> list, int dayInTheRange) {
+
+        Hashtable<String, List<MealContract>> weeklyMeal = new Hashtable<String, List<MealContract>>();
+        String key = "";
+        int date_day;
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(fromdate);
+
+        int month_day = c.get(Calendar.MONTH) + 1;
+        Boolean last_day_reached = false;
+
+        //check if last day of month is reached
+        int max_day = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        //loop from date to to date range
+        for (int i = 0; i < dayInTheRange; i++) {
+            date_day = c.get(Calendar.DAY_OF_MONTH);
+
+            if (last_day_reached) {
+                month_day = (month_day + 1) % 12;
+                last_day_reached = false;
+            }
+
+            if (date_day == max_day) {
+                last_day_reached = true;
+            }
+            //use month_daydate as a key 1_10
+            key = month_day + "_" + date_day;
+            //create dummy data
+            List<MealContract> value = new ArrayList<MealContract>();
+            weeklyMeal.put(key, value);
+            c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 1);
+
+        }//end for
+
+        Enumeration<MealContract> mealEnum = list.elements();
+
+        while (mealEnum.hasMoreElements()) {
+            MealContract meal = mealEnum.nextElement();
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(AppUtil.toDateGMT(meal.MealCreationDate));
+
+            date_day = cal.get(Calendar.DAY_OF_MONTH);
+            month_day = cal.get(Calendar.MONTH) + 1;
+
+            List<MealContract> dummy = weeklyMeal.get(month_day + "_" + date_day);
+
+            if (dummy != null) {
+                dummy.add(meal);
+                weeklyMeal.remove(month_day + "_" + date_day);
+                weeklyMeal.put(month_day + "_" + date_day, dummy);
+            }
+
+
+        }//end while
+        //insert dummy meals
+        for (Object dateKey : weeklyMeal.keySet().toArray()) {
+            List<MealContract> arr = weeklyMeal.get("" + dateKey);
+            int addNullCount = (arr.size());
+            for (int ctr = 0; ctr < (5 - addNullCount); ctr++) {
+                arr.add(null);
+            }
+            weeklyMeal.remove("" + dateKey);
+            weeklyMeal.put("" + dateKey, arr);
+        }
+        return weeklyMeal;
+    }
+
+    public static Hashtable<String, List<MoodContract>> getMoodByDateRange(Date todate, Date fromdate, Hashtable<String, MoodContract> list, int dayInTheRange) {
+        Hashtable<String, List<MoodContract>> weeklyMood = new Hashtable<String, List<MoodContract>>();
+        String key = "";
+
+        int date_day;
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(fromdate);
+
+        int month_day = c.get(Calendar.MONTH) + 1;
+        Boolean last_day_reached = false;
+        //check if last day of month is reached
+        int max_day = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        //loop from date to to date range
+        for (int i = 0; i < dayInTheRange; i++) {
+            date_day = c.get(Calendar.DAY_OF_MONTH);
+            if (last_day_reached) {
+                month_day = month_day + 1;
+                if(month_day > 12)
+                {
+                    month_day = 1;
+                }
+                last_day_reached = false;
+            }
+            if (date_day == max_day) {
+                last_day_reached = true;
+            }
+            //use month_daydate as a key 1_10
+            key = month_day + "_" + date_day;
+
+            //create dummy data
+            List<MoodContract> value = new ArrayList<MoodContract>();
+            weeklyMood.put(key, value);
+            c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 1);
+
+        }//end for
+        Enumeration<MoodContract> moodEnumeration = list.elements();
+
+        while (moodEnumeration.hasMoreElements()) {
+            MoodContract mood = moodEnumeration.nextElement();
+
+            //get date_day of the meal
+            c.setTime(AppUtil.toDate(mood.CreationDate));
+
+            date_day = c.get(Calendar.DAY_OF_MONTH);
+            month_day = c.get(Calendar.MONTH) + 1;
+
+            List<MoodContract> dummy = weeklyMood.get(month_day + "_" + date_day);
+
+            if (dummy != null) {
+                dummy.add(mood);
+                weeklyMood.remove(month_day + "_" + date_day);
+                weeklyMood.put(month_day + "_" + date_day, dummy);
+            }
+        }//end while
+
+        //end for
+        return weeklyMood;
+
+    }
+
+    public static Hashtable<String, List<ExerciseContract>> getWorkOutByDateRange(Date todate, Date fromdate, Hashtable<String, ExerciseContract> list, int dayInTheRange) {
+
+        Hashtable<String, List<ExerciseContract>> weeklyWorkOut = new Hashtable<String, List<ExerciseContract>>();
+        String key = "";
+        int date_day;
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(fromdate);
+
+        int month_day = c.get(Calendar.MONTH) + 1;
+        Boolean last_day_reached = false;
+
+        //check if last day of month is reached
+        int max_day = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        //loop from date to to date range
+        for (int i = 0; i < dayInTheRange; i++) {
+            date_day = c.get(Calendar.DAY_OF_MONTH);
+
+            if (last_day_reached) {
+                month_day = (month_day + 1) % 12;
+                last_day_reached = false;
+            }
+
+            if (date_day == max_day) {
+                last_day_reached = true;
+            }
+            //use month_daydate as a key 1_10
+            key = month_day + "_" + date_day;
+            //create dummy data
+            List<ExerciseContract> value = new ArrayList<ExerciseContract>();
+            weeklyWorkOut.put(key, value);
+            c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 1);
+
+        }//end for
+
+        Enumeration<ExerciseContract> workOutEnum = list.elements();
+
+        while (workOutEnum.hasMoreElements()) {
+            ExerciseContract workOut = workOutEnum.nextElement();
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(AppUtil.toDateGMT(workOut.CreationDate));
+
+            date_day = cal.get(Calendar.DAY_OF_MONTH);
+            month_day = cal.get(Calendar.MONTH) + 1;
+
+            List<ExerciseContract> dummy = weeklyWorkOut.get(month_day + "_" + date_day);
+
+            if (dummy != null) {
+                dummy.add(workOut);
+                weeklyWorkOut.remove(month_day + "_" + date_day);
+                weeklyWorkOut.put(month_day + "_" + date_day, dummy);
+            }
+
+
+        }//end while
+
+
+        return weeklyWorkOut;
+    }
+
+    public static Hashtable<String, Integer> getMealCountPerWeek(Hashtable<String, List<MealContract>> weeklyMeal) {
+
+        Hashtable<String, Integer> mealCount = new Hashtable<String, Integer>();
+
+        for (Object dateKey : weeklyMeal.keySet().toArray()) {
+
+            List<MealContract> arr = weeklyMeal.get((String) dateKey);
+
+            int count = 0;
+            for (MealContract meal : arr) {
+
+                if (meal != null && meal.MealId > 0) {
+                    count++;
+                }
+                if (count > 5) //max count of meal is just 5 meals
+                    count = 5;
+            }
+            mealCount.put("" + dateKey, count);
+        }
+
+        return mealCount;
+    }
+
+    public static Hashtable<String, Integer> getCommentCountPerWeek(Hashtable<String, List<MealContract>> weeklyMeal) {
+
+        Hashtable<String, Integer> mealCount = new Hashtable<String, Integer>();
+
+        for (Object dateKey : weeklyMeal.keySet().toArray()) {
+
+            List<MealContract> arr = weeklyMeal.get((String) dateKey);
+
+            int count = 0;
+
+            for (MealContract meal : arr) {
+
+                if (meal != null && meal.Comments.Count > 0) {
+                    for (MealCommentContract comment: meal.Comments.Comments){
+                        try {
+                            if (comment.Coach.CoachProfileId != null) {
+                                count++;
+                                break;
+                            }
+                        }catch (NullPointerException e){
+                            e.printStackTrace();
+                        }
+
+                    }
+//                    count++;
+                }
+                if (count > 5) //max count of meal is just 5 meals
+                    count = 5;
+            }
+            mealCount.put("" + dateKey, count);
+
+        }
+
+        return mealCount;
+    }
+
+    public static Date stringToDateWeight(String dateString) {
+        return stringToDateFormat(dateString, "yyyy-MM-dd");
+    }
+
+    public static Date stringToDateFormat(String str, String dateformat) {
+        if (str != null && str.length() > 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat(dateformat, Locale.getDefault());
+
+            Date d;
+            try {
+                d = sdf.parse(str);
+
+            } catch (ParseException e) {
+                return null;
+            }
+            return d;
+        } else {
+            return null;
+        }
+    }
+    public static String getMonthonDate(Date date) {
+        //Ex: Nov 17, 2014 returns 17
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+
+        return "" + (c.get(Calendar.MONTH) + 1);
+    }
+
+
+    public static String getDateStringGetSync(Date date) {
+        String localTime;
+        try {
+
+            Calendar cal = Calendar.getInstance();
+            TimeZone tz = cal.getTimeZone();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+            sdf.setTimeZone(tz);
+            localTime = sdf.format(date);
+        } catch (NullPointerException e) {
+            return "";
+        }
+
+        return localTime;
+    }
+
+    public static String getMealTip(Context context, int dayIndex, int mealtype) {
+        if (dayIndex == 0) { //sunday
+            switch (mealtype) {
+                case BREAKFAST:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_SUNDAYBREAKFAST);
+                case AM_SNACK:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_SUNDAYMORNINGSNACK);
+                case LUNCH:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_SUNDAYLUNCH);
+                case PM_SNACK:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_SUNDAYAFTERNOONSNACK);
+                case DINNER:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_SUNDAYDINNER);
+            }
+        } else if (dayIndex == 1) { //Monday
+            switch (mealtype) {
+                case BREAKFAST:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_MONDAYBREAKFAST);
+                case AM_SNACK:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_MONDAYMORNINGSNACK);
+                case LUNCH:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_MONDAYLUNCH);
+                case PM_SNACK:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_MONDAYAFTERNOONSNACK);
+                case DINNER:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_MONDAYDINNER);
+            }
+        } else if (dayIndex == 2) { //TUesday
+            switch (mealtype) {
+                case BREAKFAST:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_TUESDAYBREAKFAST);
+                case AM_SNACK:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_TUESDAYMORNINGSNACK);
+                case LUNCH:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_TUESDAYLUNCH);
+                case PM_SNACK:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_TUESDAYAFTERNOONSNACK);
+                case DINNER:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_TUESDAYDINNER);
+            }
+        } else if (dayIndex == 3) { //Wen
+            switch (mealtype) {
+                case BREAKFAST:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_WEDNESDAYBREAKFAST);
+                case AM_SNACK:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_WEDNESDAYMORNINGSNACK);
+                case LUNCH:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_WEDNESDAYLUNCH);
+                case PM_SNACK:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_WEDNESDAYAFTERNOONSNACK);
+                case DINNER:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_WEDNESDAYDINNER);
+            }
+        } else if (dayIndex == 4) { //THurs
+            switch (mealtype) {
+                case BREAKFAST:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_THURSDAYBREAKFAST);
+                case AM_SNACK:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_THURSDAYMORNINGSNACK);
+                case LUNCH:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_THURSDAYLUNCH);
+                case PM_SNACK:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_THURSDAYAFTERNOONSNACK);
+                case DINNER:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_THURSDAYDINNER);
+            }
+        } else if (dayIndex == 5) { //Fri
+            switch (mealtype) {
+                case BREAKFAST:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_FRIDAYBREAKFAST);
+                case AM_SNACK:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_FRIDAYMORNINGSNACK);
+                case LUNCH:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_FRIDAYLUNCH);
+                case PM_SNACK:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_FRIDAYAFTERNOONSNACK);
+                case DINNER:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_FRIDAYDINNER);
+            }
+        } else if (dayIndex == 6) { //Sat
+            switch (mealtype) {
+                case BREAKFAST:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_SATURDAYBREAKFAST);
+                case AM_SNACK:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_SATURDAYMORNINGSNACK);
+                case LUNCH:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_SATURDAYLUNCH);
+                case PM_SNACK:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_SATURDAYAFTERNOONSNACK);
+                case DINNER:
+                    return context.getResources().getString(R.string.ONETOONECOACHING_TIPS_SATURDAYDINNER);
+            }
+        }
+        return "";
+    }
+
+    public static String getDayonDate(Date date) {
+        //Ex: Nov 17, 2014 returns 17
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+
+        return ("" + c.get(Calendar.DAY_OF_MONTH));
+    }
+
+    public static long dateToTimestamp(Date dt) {
+        long unixtime = dateToLongFormat(dt);
+
+        return unixtime;
+    }
+
+    public static long dateToLongFormat(Date date) {
+        long returnValue;
+
+        Date d = date;
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(d);
+
+        TimeZone z = c.getTimeZone();
+        int offset = z.getRawOffset();
+
+        if (z.inDaylightTime(new Date())) {
+            offset = offset + z.getDSTSavings();
+        }
+        int offsetHrs = offset / 1000 / 60 / 60;
+        int offsetMins = offset / 1000 / 60 % 60;
+
+        c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY) + (offsetHrs));
+        c.set(Calendar.MINUTE, c.get(Calendar.MINUTE) + (offsetMins));
+
+        returnValue = c.getTimeInMillis() / 1000;
+
+        return returnValue;
+
+    }
+
+    public static Date formatDate(TimePicker timepicker, int month, int day, int year) {
+
+        System.out.println("AppUtil formatDate: " + day);
+        String time = formatDate(timepicker);
+        time = year + "-" + month + "-" + day + " " + time;
+
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+        try {
+            date = sdf.parse(time);
+        } catch (ParseException e) {
+        }
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+
+        return date;
+    }
+
+    public static String formatDate(TimePicker timepicker) {
+        String str;
+        String time;
+        if (timepicker.getCurrentHour() < 11) { // Am
+            time = ((timepicker.getCurrentHour() < 10) ? ("0" + timepicker
+                    .getCurrentHour()) : timepicker.getCurrentHour())
+                    + ":"
+                    + ((timepicker.getCurrentMinute() < 10) ? ("0" + timepicker
+                    .getCurrentMinute()) : timepicker
+                    .getCurrentMinute());
+            // + "am";
+        } else { // pm
+            time = timepicker.getCurrentHour()
+                    + ":"
+                    + ((timepicker.getCurrentMinute() < 10) ? ("0" + timepicker
+                    .getCurrentMinute()) : timepicker
+                    .getCurrentMinute());
+            // + "pm";
+
+        }
+        str = time;
+        return str;
+    }
+
+    public static int getIntYearonDate(Date date) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+
+        return c.get(Calendar.YEAR);
+    }
+
+    public static int getIntMonthonDate(Date date) {
+        //Ex: Nov 17, 2014 returns 17
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+
+        return c.get(Calendar.MONTH) + 1;
+    }
+
+    public static int getIntDayonDate(Date date) {
+        //Ex: Nov 17, 2014 returns 17
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+
+        return c.get(Calendar.DAY_OF_MONTH);
+    }
+
+    public static int getHour() {
+
+        Calendar calendar = Calendar.getInstance();
+        // Add one minute to current date time
+        calendar.setTime(new Date());
+        return calendar.get(Calendar.HOUR_OF_DAY);
+    }
+
+    public static int getMinute() {
+
+        Calendar calendar = Calendar.getInstance();
+        // Add one minute to current date time
+        calendar.setTime(new Date());
+        return calendar.get(Calendar.MINUTE);
+    }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+
     }
 
 }

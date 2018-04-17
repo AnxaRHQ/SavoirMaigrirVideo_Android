@@ -43,4 +43,6 @@ public class MessagesContract {
     public int CoachIdLiked;
     @SerializedName("coachLikedName")
     public String CoachLikedName;
+    @SerializedName("Id")
+    public String Id;
 }

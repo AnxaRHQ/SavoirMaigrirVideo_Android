@@ -1,0 +1,62 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:id="@+id/mealtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/MEALTYPE_WATER"
+            android:textColor="#000000"
+            android:textSize="20dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/waterCell_rl"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/hapimoment_background">
+
+        <ImageView
+            android:id="@+id/glass_iv"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:src="@drawable/water_glass_gray"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:id="@+id/glasses_water"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:layout_toRightOf="@id/glass_iv"
+            android:text="Record your water intake"
+            android:textSize="15sp"
+            android:textColor="@color/text_darkgray"/>
+
+        <ImageView
+            android:id="@+id/arrow_iv"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:src="@drawable/arrow_right_white"
+            android:layout_margin="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

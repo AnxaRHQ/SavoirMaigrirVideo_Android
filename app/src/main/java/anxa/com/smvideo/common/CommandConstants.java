@@ -47,4 +47,9 @@ public class CommandConstants {
 
     public static String COMMAND_QUESTIONSGETCURSOR = "questionsThreadCursor";
     public static String COMMAND_QUESTIONSNEW = "new";
+
+    public static String COMMAND_CARNETSYNC = "sync";
+    public static String COMMAND_CARNETMEALPLANFORDAY = "MealPlanForDay";
+    public static String COMMAND_UPLOADPHOTO = "upload";
+
 }

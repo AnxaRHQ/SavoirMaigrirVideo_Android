@@ -390,4 +390,242 @@
 
     <string name="btn_retry">Réessayer</string>
 
+    <!--Native Carnet-->
+    <string name="meallist_getmeal_week" translatable="false">MEAL_GET_WEEK</string>
+    <string name="CALENDAR_MO">LUN</string>
+    <string name="CALENDAR_TU">MAR</string>
+    <string name="CALENDAR_WE">MER</string>
+    <string name="CALENDAR_TH">JEU</string>
+    <string name="CALENDAR_FR">VEN</string>
+    <string name="CALENDAR_SA">SAM</string>
+    <string name="CALENDAR_SU">DIM</string>
+
+    <!-- meal type -->
+    <string name="MEALTYPE_BREAKFAST">Petit-déjeuner</string>
+    <string name="MEALTYPE_MORNINGSNACK">Encas du matin</string>
+    <string name="MEALTYPE_LUNCH">Déjeuner</string>
+    <string name="MEALTYPE_AFTERNOONSNACK">Goûter</string>
+    <string name="MEALTYPE_DINNER">Dîner</string>
+
+    <string name="MEALTYPE_WATER">Eau</string>
+    <string name="MEALTYPE_HAPIMOMENT">Humeur</string>
+
+    <string name="EXERCISE">Exercice</string>
+    <string name="EXERCISE_WALK">Marche</string>
+    <string name="EXERCISE_RUN">Jogging</string>
+    <string name="EXERCISE_BIKE">Vélo</string>
+    <string name="EXERCISE_SWIM">Natation</string>
+    <string name="EXERCISE_WORKOUT">Fitness</string>
+    <string name="EXERCISE_OTHER">Autres</string>
+    <string name="ONETOONECOACHING_DESCRIBEACTIVITY">Décrire l\'activité (optionnel)</string>
+    <string name="EXERCISE_OTHEROPTION">Sélectionner</string>
+    <string name="EXERCISE_DURATION">Durée: </string>
+    <string name="EXERCISE_DISTANCE">Distance</string>
+    <string name="EXERCISE_STEPS">Nombre de pas (pas)</string>
+
+    <string name="EXERCISE_MENU_RUN_DEVICE">Jogging (%@)</string>
+    <string name="EXERCISE_MENU_ACTIVITY">Activité (%@)</string>
+    <string name="EXERCISE_MENU_OTHER">Autres</string>
+    <string name="EXERCISE_MENU_RUN">Jogging</string>
+    <string name="EXERCISE_MENU_BIKE">Vélo</string>
+    <string name="EXERCISE_MENU_MOUNTAIN_BIKING">VTT</string>
+    <string name="EXERCISE_MENU_WALK">Marche</string>
+    <string name="EXERCISE_MENU_HIKING">Randonnée</string>
+    <string name="EXERCISE_MENU_DOWNHILL_SKIING">Downhill Skiing</string>
+    <string name="EXERCISE_MENU_CROSS_COUNTRY_SKIING">Ski alpin</string>
+    <string name="EXERCISE_MENU_SNOWBOARDING">Snowboard</string>
+    <string name="EXERCISE_MENU_SKATING">Patinage</string>
+    <string name="EXERCISE_MENU_SWIM">Natation</string>
+    <string name="EXERCISE_MENU_WHEELCHAIR">Wheelchair</string>
+    <string name="EXERCISE_MENU_ROWING">Aviron</string>
+    <string name="EXERCISE_MENU_ELLIPTICAL">Vélo elliptique</string>
+    <string name="EXERCISE_MENU_YOGA">Yoga</string>
+    <string name="EXERCISE_MENU_PILATES">Pilates</string>
+    <string name="EXERCISE_MENU_CROSSFIT">Crossfit</string>
+    <string name="EXERCISE_MENU_SPINNING">Spinning</string>
+    <string name="EXERCISE_MENU_ZUMBA">Zumba</string>
+    <string name="EXERCISE_MENU_BARRE">Gymnastique</string>
+    <string name="EXERCISE_MENU_GROUP_WORKOUT">Entraînement en groupe</string>
+    <string name="EXERCISE_MENU_DANCE">Danse</string>
+    <string name="EXERCISE_MENU_BOOTCAMP">Stage d\'entraînement</string>
+    <string name="EXERCISE_MENU_BOXING">Boxe</string>
+    <string name="EXERCISE_MENU_MMA">MMA</string>
+    <string name="EXERCISE_MENU_MEDITATION">Méditation</string>
+    <string name="EXERCISE_MENU_STRENGTH_TRAINING">Musculation</string>
+    <string name="EXERCISE_MENU_CIRCUIT_TRAINING">Circuit Training</string>
+    <string name="EXERCISE_MENU_CORE_STRENGTHENING">Core Strengthening</string>
+    <string name="EXERCISE_MENU_ARC_TRAINER">Rameur</string>
+    <string name="EXERCISE_MENU_STAIRMASTER">Stepper</string>
+    <string name="EXERCISE_MENU_STEPWELL">Stepwell</string>
+    <string name="EXERCISE_MENU_NORDIC_WALKING">Marche nordique</string>
+    <string name="EXERCISE_MENU_SPORTS">Sport</string>
+    <string name="EXERCISE_MENU_WORKOUT">Fitness</string>
+    <string name="EXERCISE_MENU_AQUAGYM">Aquagym</string>
+    <string name="EXERCISE_MENU_GOLF">Golf</string>
+    <string name="EXERCISE_MENU_HOUSEWORK">Ménage</string>
+    <string name="EXERCISE_MENU_GARDENING">Jardinage</string>
+
+    <string-array name="otherexercise_array">
+        <item name="OTHER_EXERCISE_1">Aquagym</item>
+        <item name="OTHER_EXERCISE_2">VTT</item>
+        <item name="OTHER_EXERCISE_3">Randonnée</item>
+        <item name="OTHER_EXERCISE_4">Downhill Skiing</item>
+        <item name="OTHER_EXERCISE_5">Ski alpin</item>
+        <item name="OTHER_EXERCISE_6">Snowboard</item>
+        <item name="OTHER_EXERCISE_7">Patinage</item>
+        <item name="OTHER_EXERCISE_8">Aviron</item>
+        <item name="OTHER_EXERCISE_9">Vélo elliptique</item>
+        <item name="OTHER_EXERCISE_10">Yoga</item>
+        <item name="OTHER_EXERCISE_11">Pilates</item>
+        <item name="OTHER_EXERCISE_12">Zumba</item>
+        <item name="OTHER_EXERCISE_13">Gymnastique</item>
+        <item name="OTHER_EXERCISE_14">Entraînement en groupe</item>
+        <item name="OTHER_EXERCISE_15">Danse</item>
+        <item name="OTHER_EXERCISE_16">Stage d\'entraînement</item>
+        <item name="OTHER_EXERCISE_17">Boxe</item>
+        <item name="OTHER_EXERCISE_18">MMA</item>
+        <item name="OTHER_EXERCISE_19">Méditation</item>
+        <item name="OTHER_EXERCISE_20">Core Strengthening</item>
+        <item name="OTHER_EXERCISE_21">Rameur</item>
+        <item name="OTHER_EXERCISE_22">Stepper</item>
+        <item name="OTHER_EXERCISE_23">Marche nordique</item>
+        <item name="OTHER_EXERCISE_24">Sport</item>
+        <item name="OTHER_EXERCISE_25">Golf</item>
+        <item name="OTHER_EXERCISE_26">Ménage</item>
+        <item name="OTHER_EXERCISE_27">Jardinage</item>
+    </string-array>
+
+    <string name="EXERCISE_HEADER">Exercice</string>
+    <string name="EDIT_EXERCISE_HEADER">Editer Exercice</string>
+    <string name="LOG_EXERCISE_HEADER">Exercice</string>
+    <string name="EXERCISEVIEW_STEPS">Nombre de pas</string>
+    <string name="EXERCISEVIEW_DISTANCE">Distance (Km)</string>
+    <string name="EXERCISEVIEW_DURATION">Durée</string>
+
+    <string name="btn_done">OK</string>
+    <string name="btn_save">Enregistrer</string>
+
+    <string name="APPROVED">Approuvé</string>
+    <string name="COMMENTED">Commenté</string>
+
+    <string name="MEAL_OPTIONS_NAV_HEADER">Meal Options</string>
+    <string name="STEPS">pas</string>
+
+    <string name="MEAL_WATER_GLASSES">Verres d\'eau</string>
+    <!--mood page -->
+    <string name="CARNETMINCEUR_HUMOR_YOURHUMOR">Votre humeur</string>
+    <string name="CARNETMINCEUR_HUMOR_AREYOUHUNGRY">Avez-vous eu faim ?</string>
+
+    <string name="SAVING_PROGRESS_FAILED">Erreur</string>
+    <string name="SAVING_PROGRESS_TEXT">Sauvegarde</string>
+    <string name="SAVING_PROGRESS_RETRY">Réessayer</string>
+    <string name="SAVING_PROGRESS_LATER">Plus tard</string>
+    <string name="error500message">Oops.... Le document demandé vient de générér une erreur.</string>
+
+    <!-- meal info -->
+    <string name="ONETOONECOACHING_TIPS_MONDAYBREAKFAST">Bonjour ! Le soleil vient de se lever, c’est l’heure du petit déjeuner. Surtout, quelle que soit l’heure à laquelle vous émergez des limbes ne sautez pas ce repas primordial pour mettre votre en corps en bonnes conditions pour une journée du tonnerre.</string>
+    <string name="ONETOONECOACHING_TIPS_MONDAYMORNINGSNACK">Un petit creux ? Ne vous jetez pas sur n’importe quoi sous prétexte que vous avez faim… Allez donc piocher des idées dans vos bonus.</string>
+    <string name="ONETOONECOACHING_TIPS_MONDAYLUNCH">L’heure du déjeuner c’est maintenant ! Surtout ne sautez pas le repas : quoi qu’il arrive mangez un petit quelque chose pour tenir et ne pas favoriser le grignotage pour le reste de la journée.</string>
+    <string name="ONETOONECOACHING_TIPS_MONDAYAFTERNOONSNACK">Nous sommes à la mi-journée : c’est le moment de vérifier si vous êtes suffisamment hydraté(e). Il faut toujours boire dans la journée avant d’avoir soif. Pour rappel, il faut consommer environ 8 verres d’eau par jour pour un apport hydrique suffisant.</string>
+    <string name="ONETOONECOACHING_TIPS_MONDAYDINNER">Bonsoir, pensez « dîner léger » : un repas trop riche le soir risque d’altérer la qualité de votre sommeil.</string>
+    <string name="ONETOONECOACHING_TIPS_TUESDAYBREAKFAST">Bonjour. Une belle journée s’annonce : commencez-la dans de bonnes conditions. Prenez le temps de petit-déjeuner assis(e) et n’oubliez aucun élément de votre menu. Suivez-bien votre plan de repas, ainsi vous pourrez vous éviter le petit creux de 11h !</string>
+    <string name="ONETOONECOACHING_TIPS_TUESDAYMORNINGSNACK">Idée d’encas de matinée : un fruit à croquer. En plus c’est facile à emporter dans votre sac.</string>
+    <string name="ONETOONECOACHING_TIPS_TUESDAYLUNCH">Le repas du midi est important. Traitez-le comme tel. Prenez votre temps, apprenez à savourer chaque bouchée, mangez doucement, mastiquer bien.</string>
+    <string name="ONETOONECOACHING_TIPS_TUESDAYAFTERNOONSNACK">Vous avez soif, mais vous détestez l’eau ? C’est l’heure du goûter alors pourquoi ne pas opter pour un thé sans sucres, un petit déca ou encore une tisane ?</string>
+    <string name="ONETOONECOACHING_TIPS_TUESDAYDINNER">La tisane est votre alliée pour dormir : camomille, valériane, tilleul ou encore menthe ou romarin pour la digestion. Bonne nuit !</string>
+    <string name="ONETOONECOACHING_TIPS_WEDNESDAYBREAKFAST">Hello. Envie d’originalité ce matin ? Pensez à l’américaine et faites-vous un petit déjeuner type brunch avec des œufs, du jambon ou du saumon fumé par exemple. Dans vos plans de repas ou vos bonus vous trouverez facilement des idées.</string>
+    <string name="ONETOONECOACHING_TIPS_WEDNESDAYMORNINGSNACK">Vous avez la sensation d’avoir faim alors que vous avez pris un bon petit déjeuner ce matin ? Buvez un verre d’eau ou une boisson chaude non sucrée et attendez quelques minutes pour voir si cette sensation est réelle.</string>
+    <string name="ONETOONECOACHING_TIPS_WEDNESDAYLUNCH">Hello ! Il est midi et à midi… ? C’est le moment où on est au calme ! Mangez confortablement assis(e) et, si besoin, éloignez-vous des contrariétés du bureau. Mieux vaut profiter d’un moment présent rien qu’à soi.</string>
+    <string name="ONETOONECOACHING_TIPS_WEDNESDAYAFTERNOONSNACK">On vous nargue avec ces gâteaux sous vos yeux et votre estomac crie « C’est l’heure du goûter ! »… Ne craquez pas, restez concentré(e) sur votre objectif minceur et sortez votre propre goûter conforme aux principes de votre programme.</string>
+    <string name="ONETOONECOACHING_TIPS_WEDNESDAYDINNER">Bonsoir, c’est le dernier repas de la journée, profitez-en pour le passer en famille sans TV, ni querelle. Faites-en un moment d’échanges et de partage.</string>
+    <string name="ONETOONECOACHING_TIPS_THURSDAYBREAKFAST">Bonjour. Vous êtes affamé(e) ce matin ? Un bon petit déjeuner s’impose. Boisson chaude, fruit frai, laitage et féculent… Tout doit disparaitre !</string>
+    <string name="ONETOONECOACHING_TIPS_THURSDAYMORNINGSNACK">Besoin d’un encas ? Vous n’arrivez pas à finir votre petit déjeuner mais vous avez toujours faim en milieu de matinée ? Emportez avec vous ce qu’il reste : vous en profiterez quand vous aurez faim.</string>
+    <string name="ONETOONECOACHING_TIPS_THURSDAYLUNCH">Bonjour, n’oubliez pas de suivre au mieux la structure alimentaire journalière c’est-à-dire le squelette de vos repas : crudités, féculents, légumes cuits, protéines, laitage maigre et fruit. Pensez-y à la cantine surtout quand vous composez votre plateau.</string>
+    <string name="ONETOONECOACHING_TIPS_THURSDAYAFTERNOONSNACK">Envie de faire un gâteau pour le goûter ? Pensez à piocher dans les recettes de votre programme. Cela ravira les petits et les grands dont vous faites partie !</string>
+    <string name="ONETOONECOACHING_TIPS_THURSDAYDINNER">Bonsoir ! Évitez les excitants le soir : café, thé, écrans, jeux vidéos… bref tout ce qui peut contrarier votre bonne digestion ainsi que la qualité de votre sommeil.</string>
+    <string name="ONETOONECOACHING_TIPS_FRIDAYBREAKFAST">Bonjour, ce matin, c’est la soupe à la grimace ? Pas faim ? Pas envie de se lever ? Ne vous forcez pas, dans votre plan de repas du jour, prenez ce qui vous fait plaisir et emportez le reste : vous pourrez le manger plus tard dans la matinée si vous avez faim.</string>
+    <string name="ONETOONECOACHING_TIPS_FRIDAYMORNINGSNACK">C’est l’heure de votre encas ? Profitez-en pour faire une véritable pause ! Sortez de votre bureau, prenez l’air frais ou bien lancez une conversation agréable avec vos collègues.</string>
+    <string name="ONETOONECOACHING_TIPS_FRIDAYLUNCH">Vous le midi, c’est 10 minutes pour le repas et puis basta ? Alors ne mangez pas votre dessert tout de suite. Accordez 20 minutes à votre cerveau pour savoir si vous avez encore faim. Si non, gardez-le pour plus tard.</string>
+    <string name="ONETOONECOACHING_TIPS_FRIDAYAFTERNOONSNACK">Ne passez surtout pas par le distributeur de bonbons, gâteaux, chocolats et autres friandises… Faites-lui la grève : préférez votre goûter et votre silhouette !</string>
+    <string name="ONETOONECOACHING_TIPS_FRIDAYDINNER">Vous avez envie de grignoter ? Ayez à porter de main des aliments sains (légumes crus, laitages maigres…) et bannissez les aliments transformés et sucrés.</string>
+    <string name="ONETOONECOACHING_TIPS_SATURDAYBREAKFAST">Bonjour ! Une séance de sport ce matin ? Choisissez un petit déjeuner riche en protéines, laitages et féculents peu transformés comme le pain complet ou les céréales sans sucres ajoutés.</string>
+    <string name="ONETOONECOACHING_TIPS_SATURDAYMORNINGSNACK">Vous avez faim ? Et vous êtes irrésistiblement attiré(e) par ce que vous êtes en train de préparer pour midi ? Stop ! Prenez un encas plutôt, vous pourrez ainsi vaquer à vos occupations sereinement.</string>
+    <string name="ONETOONECOACHING_TIPS_SATURDAYLUNCH">N’oubliez pas le plaisir ! Ce n’est pas parce que vous êtes au régime que vous devez tout vous interdire. Utilisez la liste des équivalences pour vous autoriser un plaisir de temps en temps.</string>
+    <string name="ONETOONECOACHING_TIPS_SATURDAYAFTERNOONSNACK">Idées de goûters sains et gourmands ? 2 carrés de chocolat noir à 70%, une poignée d’amandes, quelques fruits secs, un fruit à croquer… Mais aussi des bâtonnets de légumes crus ou un laitage par exemple.</string>
+    <string name="ONETOONECOACHING_TIPS_SATURDAYDINNER">Une bonne soupe le soir est un allié pour votre régime. Elle vous permet de faire le plein de légumes cuits, tout en vous rassasiant. Elle sera également facilement digérée. Alors, des idées originales de soupes pour ce soir ?</string>
+    <string name="ONETOONECOACHING_TIPS_SUNDAYBREAKFAST">Bonjour ! Adaptez bien votre déjeuner en fonction de la saison : vous éviterez ainsi la monotonie. Des poires, des kiwis et des oranges en hiver… Des abricots, des fruits rouges, des pêches et du melon en été !</string>
+    <string name="ONETOONECOACHING_TIPS_SUNDAYMORNINGSNACK">Idées d’encas sains : fruits à croquer, une petite poignée d’amandes, quelques fruits secs…</string>
+    <string name="ONETOONECOACHING_TIPS_SUNDAYLUNCH">Même un repas familial traditionnel peut respecter aisément les bases de votre régime. Ne vous découragez pas sous prétexte que vous avez du monde à la maison ou que les bouches de vos jeunes têtes blondes piaffent d’impatience… Restez concentré(e) !</string>
+    <string name="ONETOONECOACHING_TIPS_SUNDAYAFTERNOONSNACK">Vous ne pouvez pas vivre sans un goûter à 16h ? Essayez-donc de ne pas manger votre dessert du déjeuner et gardez-le pour l’occasion.</string>
+    <string name="ONETOONECOACHING_TIPS_SUNDAYDINNER">Prenez votre repas du soir le plus tôt possible afin qu’il soit suffisamment éloigné du moment où vous irez vous coucher. Cela améliorera la qualité de votre sommeil, or pour bien maigrir il faut bien dormir ! Bonne nuit.</string>
+    <string name="ONETOONECOACHING_ADDMEAL_DESCRIBEMEAL">Décrivez votre repas</string>
+
+    <!--Add a Meal-->
+    <string name="ADD_PHOTO_MEAL">Ajouter une photo\nde votre repas</string>
+    <string name="MEALSADD_ADDCOMMENT">Ajouter un commentaire</string>
+    <string name="MEALSADD_DESCRIPTION">Décrivez votre repas</string>
+    <string name="MEALSADD_FOODGROUP">Précisez les familles d’aliments</string>
+
+    <string name="dashboard_activities_content2">Carnet Minceur</string>
+
+    <string name="ADD_MEAL_FOLLOWED_PLAN">J\'ai respecté mon plan de repas</string>
+    <string name="MENU_EDIT_MEAL">Editer le repas</string>
+    <string name="MENU_DELETE_MEAL">Supprimer le repas</string>
+    <string name="NOTIFICATIONS_CANCEL">Annuler</string>
+
+    <string name="WATER_JOURNAL_EMPTY">Votre consommation d\'eau</string>
+    <string name="WATER_JOURNAL_NOT_EMPTY">%@ verres d\'eau</string>
+
+    <string name="MENU_EDIT_EXERCISE">Editer de exercice</string>
+    <string name="MENU_DELETE_EXERCISE">Supprimer le exercice</string>
+    <string name="ALERTMESSAGE_EXERCISETYPE">Sélectionner votre exercice</string>
+
+    <!-- mood values -->
+    <string name="CARNETMINCEUR_MOOD_1">Je me sens en super forme</string>
+    <string name="CARNETMINCEUR_MOOD_2">Je me sens bien</string>
+    <string name="CARNETMINCEUR_MOOD_3">Je me sens moyennement en forme</string>
+    <string name="CARNETMINCEUR_MOOD_4">Je suis en petite forme</string>
+    <string name="CARNETMINCEUR_MOOD_5">Je ne me sens pas bien</string>
+    <!-- hunger values -->
+    <string name="CARNETMINCEUR_NOTHUNGRY">Je n\'ai pas eu faim</string>
+    <string name="CARNETMINCEUR_HUNGRY">J\'ai eu faim</string>
+
+    <string name="MEAL_PHOTO_TAKE_PHOTO">Prendre une photo </string>
+    <string name="MEAL_PHOTO_PICK_FROM_GALLERY">Choisir une photo</string>
+
+
+    <!-- food groups title -->
+    <string name="FOODGROUP_PROTEIN">Protéines</string>
+    <string name="FOODGROUP_DAIRY">Produits laitiers</string>
+    <string name="FOODGROUP_STARCHES">Féculents</string>
+    <string name="FOODGROUP_FRUITSVEGGIES">Fruits et légumes</string>
+    <string name="FOODGROUP_FAT">Matières grasses</string>
+    <string name="FOODGROUP_DRINKS">Boissons</string>
+    <string name="FOODGROUP_SWEETS">Produits sucrés</string>
+
+    <string name="ALERTMESSAGE_MEALDESCRIPTION">Prenez votre repas en photo ou décrivez-le pour que votre coach puisse l\'analyser.</string>
+    <string name="ALERTMESSAGE_MEALADDDED_ONGOING">Votre repas est actuellement en cours &#8230;</string>
+
+    <!-- food groups description -->
+    <string name="TIPS_PROTEIN">Il est conseillé de consommer de la viande, du poisson, des oeufs ou autre équivalence protidique végétale (soja, association céréales + légumineuse) au moins une fois par jour et de choisir des protéines de qualité pour le maintien de notre masse musculaire.</string>
+    <string name="TIPS_DAIRY">Il est conseillé de consommer un produit laitier à chaque repas pour leur apport en protéines et le calcium indispensables à la croissance et à la solidité des os.</string>
+    <string name="TIPS_STARCHES">Les féculents (céréales, pommes de terre, légumes secs, pain, etc.) constituent la base énergétique de notre alimentation. Il est conseillé d\'en consommer à l\'un des deux repas principaux de la journée et de choisir les moins transformés et plus riches en fibres.</string>
+    <string name="TIPS_FRUITSVEGGIES">Les légumes sans MG sont à consommer à volonté pour profiter de leurs apports en vitamines, minéraux et fibres. Consommez au moins 2 portions de légumes par jour dont une crudité. Pour les fruits, croquez 2 à 3 portions chaque jour pour faire le plein de vitalité !</string>
+    <string name="TIPS_FAT">Indispensables pour le bon fonctionnement de votre organisme, les matières grasses apportent les acides gras essentiels et les vitamines liposolubles A, D, E et K. Il est conseillé de consommer les graisses avec modération et de privilégier les lipides de bonne qualité comme l\'huile d\'olive ou de colza.</string>
+    <string name="TIPS_DRINKS">Une hydratation régulière est indispensable à l\'organisme. Buvez chaque jour au moins 1,5 litre de boisson et retenez que la seule boisson indispensable à votre organisme reste l\'eau ! Alors buvez de l\'eau plate ou gazeuse tout au long de la journée mais pensez aussi aux tisanes, au thé et au café.</string>
+    <string name="TIPS_SWEETS">Non indispensables à l\'organisme, les produits sucrés restent des aliments plaisir, à consommer avec modération. Pour les produits sucrants, préférez les édulcorants naturels.</string>
+
+    <string name="messages_coach_rating_intro">Je donne une note à la réponse de mon coach </string>
+    <string name="messages_low_rating_intro"> <![CDATA[<b>Merci de cocher ce qui ne vous a pas satisfait</b> (plusieurs réponses possibles) :]]></string>
+    <string name="message_rating_conseils">Conseils nutritionnels</string>
+    <string name="message_rating_temps">Temps de réponse</string>
+    <string name="message_rating_qualite">Qualité du coaching</string>
+    <string name="message_rating_autres">Autres</string>
+    <string name="message_rating_thankyou">Merci! Votre vote a bien été enregistré</string>
+
+    <string name="BUTTON_SUBMIT">je valide</string>
+    <string name="TEXT_OTHERS">Autre - précisez</string>
+
+    <string name="evaluation_title">Évaluation</string>
+
 </resources>

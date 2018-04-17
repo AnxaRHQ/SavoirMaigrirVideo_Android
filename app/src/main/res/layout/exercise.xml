@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Layout for add/edit exercise-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <!-- Top Navigation Bar -->
+    <include
+        layout="@layout/header_menu"
+        android:id="@+id/exercises_headermenu"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentTop="true" />
+
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/exercises_headermenu"
+        android:background="@color/common_button_white">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/text_gray"
+            android:id="@+id/addExerciseLayout">
+
+            <HorizontalScrollView
+                android:id="@+id/exercise_selection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollIndicators="none">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <!-- WALK -->
+                    <LinearLayout
+                        android:id="@+id/exercise_walk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="5dp">
+
+                        <ImageButton
+                            android:id="@+id/exercise_walk_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/button_exercise_walk"/>
+
+                        <TextView
+                            android:id="@+id/exercise_walk_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/EXERCISE_WALK"/>
+
+                    </LinearLayout>
+                    <!-- RUN-->
+                    <LinearLayout
+                        android:id="@+id/exercise_run"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="5dp">
+
+                        <ImageButton
+                            android:id="@+id/exercise_run_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/button_exercise_run"
+                            android:longClickable="false" />
+
+                        <TextView
+                            android:id="@+id/exercise_run_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/EXERCISE_RUN"/>
+
+                    </LinearLayout>
+                    <!-- BIKE -->
+                    <LinearLayout
+                        android:id="@+id/exercise_bike"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="5dp">
+
+                        <ImageButton
+                            android:id="@+id/exercise_bike_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/button_exercise_bike"/>
+
+                        <TextView
+                            android:id="@+id/exercise_bike_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/EXERCISE_BIKE"/>
+
+                    </LinearLayout>
+                    <!-- SWIM -->
+                    <LinearLayout
+                        android:id="@+id/exercise_swim"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="5dp">
+
+                        <ImageButton
+                            android:id="@+id/exercise_swim_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/button_exercise_swim"/>
+
+                        <TextView
+                            android:id="@+id/exercise_swim_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/EXERCISE_SWIM"/>
+
+                    </LinearLayout>
+                    <!-- WORKOUT -->
+                    <LinearLayout
+                        android:id="@+id/exercise_workout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="5dp">
+
+                        <ImageButton
+                            android:id="@+id/exercise_workout_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/button_exercise_workout"/>
+
+                        <TextView
+                            android:id="@+id/exercise_workout_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/EXERCISE_WORKOUT"/>
+
+                    </LinearLayout>
+                    <!-- OTHER -->
+                    <LinearLayout
+                        android:id="@+id/exercise_other"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="5dp">
+
+                        <ImageButton
+                            android:id="@+id/exercise_other_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/button_exercise_other"/>
+
+                        <TextView
+                            android:id="@+id/exercise_other_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/EXERCISE_OTHER"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+            <!-- "other" option -->
+            <RelativeLayout
+                android:id="@+id/exercise_otheroption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background_gray"
+                android:layout_alignParentBottom="false"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
+
+                <TextView
+                    android:id="@+id/exercise_otheroption_text"
+                    style="@style/blackNormal.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/EXERCISE_OTHEROPTION"
+                    android:clickable="true"
+                    android:onClick="showOtherExerciseOptions"
+                    android:textColor="#9A9A9A"
+                    android:paddingRight="50dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:cropToPadding="false"
+                    android:rotation="90"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignWithParentIfMissing="false"
+                    android:layout_alignParentBottom="false"
+                    android:background="@drawable/arrow_right_white"
+                    android:layout_marginRight="20dp"
+                    android:layout_alignParentEnd="false"
+                    android:layout_centerVertical="true" />
+
+
+            </RelativeLayout>
+
+            <!-- Describe activity -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_button_white_bordergray"
+                android:orientation="vertical"
+                android:id="@+id/exercise_description">
+
+                <EditText
+                    android:id="@+id/exercise_desc"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:ellipsize="end"
+                    android:gravity="top"
+                    android:hint="@string/ONETOONECOACHING_DESCRIBEACTIVITY"
+                    android:maxLength="250"
+                    android:maxLines="4"
+                    android:minLines="4"
+                    android:padding="5dp" />
+
+                <TextView
+                    android:id="@+id/exercise_desccount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="2dp"
+                    android:maxLines="1"
+                    android:text="250/250"
+                    android:textColor="@color/text_orange" />
+
+            </LinearLayout>
+
+            <!-- time logger container -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/text_white"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/exercise_time_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp">
+
+                    <ImageView
+                        android:id="@+id/exercise_icon_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:src="@drawable/creation_icon_time"
+                        android:layout_marginLeft="5dp" />
+
+                    <TextView
+                        android:id="@+id/exercise_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/exercise_icon_time"
+                        android:text="01:00 PM" />
+
+                    <Button
+                        android:id="@+id/date_save_tv"
+                        android:layout_width="70dp"
+                        android:layout_height="23dp"
+                        android:layout_alignParentRight="true"
+                        android:gravity="right|center"
+                        android:paddingBottom="0dp"
+                        android:paddingTop="0dp"
+                        android:text="@string/btn_done"
+                        android:textColor="#C8C8C8"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+                <include
+                    android:id="@+id/timepickercontainer"
+                    layout="@layout/datetimepicker"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ff0000" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5px"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/common_gray_separator" />
+
+            <!-- duration container -->
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/duration_container"
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:background="@color/common_button_white">
+
+                <TextView
+                    android:id="@+id/duration_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/EXERCISE_DURATION"
+                    android:textColor="@color/text_black"
+                    android:layout_marginRight="10dp" />
+
+                <TextView
+                    android:id="@+id/duration_minutes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30 mins"
+                    android:layout_toRightOf="@id/duration_text"/>
+
+                <SeekBar
+                    android:id="@+id/seekBar_duration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="5dp"
+                    android:maxHeight="5dp"
+                    android:max="48"
+                    android:progress="5"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:theme="@android:style/Theme.Holo"
+                    android:background="@android:color/transparent"
+                    android:progressDrawable="@drawable/duration_progressbar"
+                    android:thumb="@drawable/white_slider"
+                    android:progressTint="@android:color/secondary_text_light_nodisable"
+                    android:progressBackgroundTint="@android:color/darker_gray"
+                    android:layout_below="@+id/duration_text" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5px"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/common_gray_separator" />
+
+            <!-- distance and steps container -->
+            <LinearLayout
+                android:id="@+id/distanceAndStepsContainer"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:weightSum="100"
+                android:background="@color/common_button_white">
+
+                <!-- distance container -->
+                <RelativeLayout
+                    android:id="@+id/distancecontanier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50">
+
+                    <TextView
+                        android:id="@+id/distance_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_black"
+                        android:text="@string/EXERCISE_DISTANCE" />
+
+                    <EditText
+                        android:id="@+id/distance_text"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:layout_below="@id/distance_label"
+                        android:background="@drawable/button_background_gray"
+                        android:maxLength="5"
+                        android:padding="2dp" />
+
+                    <TextView
+                        android:id="@+id/distance_labelKM"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/distance_label"
+                        android:layout_toRightOf="@id/distance_text"
+                        android:textColor="@color/text_darkgray"
+                        android:text=" km"
+                        android:layout_marginLeft="5dp" />
+
+                </RelativeLayout>
+                <!-- step container -->
+                <RelativeLayout
+                    android:id="@+id/stepcontanier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="50">
+
+                    <TextView
+                        android:id="@+id/step_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_black"
+                        android:text="@string/EXERCISE_STEPS" />
+
+                    <EditText
+                        android:id="@+id/step_text"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:layout_below="@id/step_label"
+                        android:background="@drawable/button_background_gray"
+                        android:maxLength="5"
+                        android:padding="2dp" />
+
+                    <TextView
+                        android:id="@+id/step_labelSteps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/step_label"
+                        android:layout_toRightOf="@id/step_text"
+                        android:textColor="@color/text_darkgray"
+                        android:text=" steps"
+                        android:layout_marginLeft="5dp" />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <!-- save button -->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@android:color/white">
+
+                <Button
+                    android:id="@+id/submitButton"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btn_save"
+                    style="@style/btnStyleOrange"
+                    android:clickable="true"
+                    android:layout_margin="40dp" />
+
+            </LinearLayout>
+
+            <!-- progress bar -->
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/savingLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/navView"
+        android:background="@color/helptips_black_overlay"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/progressLayout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/common_gray_separator"
+            android:orientation="horizontal"
+            android:weightSum="8">
+
+            <TextView
+                android:id="@+id/progressTitle"
+                style="@style/grayNormal.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/SAVING_PROGRESS_TEXT"
+                android:textColor="@color/dialog_textcolor_message" />
+
+            <ProgressBar
+                android:id="@+id/savingProgressBar"
+                style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center"
+                android:layout_weight="6"
+                android:clickable="false"
+                android:indeterminate="true" />
+
+            <ImageButton
+                android:id="@+id/btn_cancelSaving"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:src="@drawable/hapicoach_x_btn"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/progressLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/progressLayout"
+            android:background="@color/common_gray_light_separator" />
+
+
+        <LinearLayout
+            android:id="@+id/retryLayout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/progressLine"
+            android:background="@color/text_gray"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <Button
+                android:id="@+id/btn_retry"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:text="@string/SAVING_PROGRESS_RETRY"
+                android:textColor="@color/common_button_orange"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/dialog_textcolor_message" />
+
+            <Button
+                android:id="@+id/btn_later"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:text="@string/SAVING_PROGRESS_LATER"
+                android:textColor="@color/common_button_orange"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/progressLine2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/progressLayout"
+            android:background="@color/common_gray_light_separator" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

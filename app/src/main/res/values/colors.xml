@@ -37,4 +37,29 @@
     <color name="common_button_blue">#229cd9</color>
     <color name="common_button_white">#ffffff</color>
 
+    <!--Native Carnet-->
+    <color name="text_green">#00ff00</color>
+    <color name="text_blue_comment">#399deb</color>
+    <color name="text_white">#ffffff</color>
+    <color name="tw__transparent">#00000000</color>
+    <color name="text_gray">#eaeaea</color>
+    <color name="common_gray_light_separator">#cacaca</color>
+    <color name="helptips_black_overlay">#66000000</color>
+    <color name="text_blue">#0000ff</color>
+    <color name="text_black">#000000</color>
+    <color name="tw__light_gray">#ccd6dd</color>
+    <color name="water_tint">#4db6e3</color>
+    <color name="light_orange">#FFEDDF</color>
+    <color name="off_white">#f7f7f7</color>
+
+    <color name="dialog_bg">#ffffff</color>
+    <color name="dialog_textcolor_message">#898989</color>
+
+    <color name="dialog_leftbtn_bg">#229CD9</color>
+    <color name="dialog_rightbtn_bg">#ffffff</color>
+    <color name="default_button">#FF7E01</color>
+
+    <color name="header_text_color">#4B4D4E</color>
+    <color name="header_bg">#EBEBEB</color>
+
 </resources>

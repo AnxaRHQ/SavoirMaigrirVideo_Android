@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout01"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@color/dialog_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/title_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:maxLines="2"
+                android:text="Dialog Title"
+                android:textColor="@color/text_orange"
+                android:textSize="20sp"
+                android:textStyle="bold"></TextView>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/separator1"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/common_gray_separator" />
+
+        <TextView
+            android:id="@+id/messagedetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dip"
+            android:gravity="left"
+            android:text="Dialog message detail"
+            android:textColor="@color/dialog_textcolor_message"
+            android:textSize="16sp"></TextView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="3dp"
+            android:background="@color/common_gray_separator" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/YesButton"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@color/dialog_leftbtn_bg"
+                android:gravity="center"
+                android:text="@string/btn_yes"
+                android:visibility="visible"></TextView>
+
+            <TextView
+                android:id="@+id/NoButton"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@color/common_button_white"
+                android:gravity="center"
+                android:text="@string/btn_no"
+                android:visibility="visible"></TextView>
+
+            <TextView
+                android:id="@+id/OtherButton"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="2"
+                android:background="@color/dialog_rightbtn_bg"
+                android:gravity="center"
+                android:text="@string/btn_cancel"
+                android:visibility="gone"
+                android:textColor="@color/common_button_orange"
+                android:textStyle="bold"
+                android:textSize="16sp"></TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/CloseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-30dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/container"
+        android:src="@drawable/anxacoaching_x_btn"
+        android:visibility="visible" />
+
+</RelativeLayout>

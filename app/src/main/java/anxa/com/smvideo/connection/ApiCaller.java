@@ -1,6 +1,7 @@
 package anxa.com.smvideo.connection;
 
 import android.app.Application;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
@@ -12,6 +13,7 @@ import anxa.com.smvideo.BuildConfig;
 import anxa.com.smvideo.common.CommandConstants;
 import anxa.com.smvideo.common.SavoirMaigrirVideoConstants;
 import anxa.com.smvideo.connection.http.AnxamatsClient;
+import anxa.com.smvideo.connection.http.AsyncBitmapResponse;
 import anxa.com.smvideo.connection.http.AsyncResponse;
 import anxa.com.smvideo.connection.http.MasterCommand;
 import anxa.com.smvideo.connection.http.SavoirMaigrirVideoApiClient;
@@ -20,13 +22,19 @@ import anxa.com.smvideo.contracts.BMQuestionsResponseContract;
 import anxa.com.smvideo.contracts.BMResultsResponseContract;
 import anxa.com.smvideo.contracts.BMVideoResponseContract;
 import anxa.com.smvideo.contracts.BaseContract;
+import anxa.com.smvideo.contracts.Carnet.GetCarnetSyncContract;
+import anxa.com.smvideo.contracts.Carnet.MealPlanForDayResponseContract;
+import anxa.com.smvideo.contracts.Carnet.UploadMealsDataContract;
+import anxa.com.smvideo.contracts.Carnet.UploadMealsDataResponseContract;
 import anxa.com.smvideo.contracts.CoachingVideosResponseContract;
 import anxa.com.smvideo.contracts.LoginContract;
+import anxa.com.smvideo.contracts.MessageRatingContract;
 import anxa.com.smvideo.contracts.MessagesResponseContract;
 import anxa.com.smvideo.contracts.PaymentConfirmationContract;
 import anxa.com.smvideo.contracts.PaymentOrderDataContract;
 import anxa.com.smvideo.contracts.PaymentOrderGoogleContract;
 import anxa.com.smvideo.contracts.PaymentOrderResponseContract;
+import anxa.com.smvideo.contracts.PhotoUploadDataResponseContract;
 import anxa.com.smvideo.contracts.PostAnxamatsContract;
 import anxa.com.smvideo.contracts.PostMessagesContract;
 import anxa.com.smvideo.contracts.RecipeResponseContract;
@@ -381,8 +389,52 @@ public class ApiCaller {
         MasterCommand command = new MasterCommand();
         command.Command = CommandConstants.COMMAND_REGISTRATIONCONTINUE;
         command.RegId = tvRegistrationContinueContract.regId;
-         apiClient.PostAsync(asyncResponse, CommandConstants.API_REGISTRATION, command, gson.toJson(tvRegistrationContinueContract), BaseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);;
+         apiClient.PostAsync(asyncResponse, CommandConstants.API_REGISTRATION, command, gson.toJson(tvRegistrationContinueContract), BaseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
     }
+
+    public void PostCarnetSync(AsyncResponse asyncResponse, int userId, UploadMealsDataContract contract) {
+        MasterCommand command = new MasterCommand();
+        command.RegId = userId;
+        command.Command = CommandConstants.COMMAND_CARNETSYNC;
+
+        apiClient.PostAsync(asyncResponse, "meal", command, gson.toJson(contract), UploadMealsDataResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
+        ;
+    }
+    /**
+     * @param asyncResponse
+     * @param userId
+     * @param dateFrom
+     * @param dateTo
+     */
+    public void GetCarnetSync(AsyncResponse asyncResponse, int userId, String dateFrom, String dateTo) {
+
+        MasterCommand command = new MasterCommand();
+        command.RegId = ApplicationData.getInstance().regId;
+
+        Hashtable params = new Hashtable();
+        params.put("regId", userId);
+        params.put("command", CommandConstants.COMMAND_CARNETSYNC);
+        params.put("dateFrom", dateFrom);
+        params.put("dateTo", dateTo);
+
+
+        apiClient.GetAsync(asyncResponse, "meal", command, params, GetCarnetSyncContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void GetMealPlanForDay(AsyncResponse asyncResponse, int userId, String selectedDate, int mealType) {
+
+        MasterCommand command = new MasterCommand();
+        command.RegId = ApplicationData.getInstance().regId;
+
+        Hashtable params = new Hashtable();
+        params.put("regId", userId);
+        params.put("command", CommandConstants.COMMAND_CARNETMEALPLANFORDAY);
+        params.put("sel", selectedDate);
+        params.put("mType", mealType);
+
+        apiClient.GetAsync(asyncResponse, "meal", command, params, MealPlanForDayResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
     public void CheckRegistration(AsyncResponse asyncResponse, UserDataContract contract)
     {
         MasterCommand command = new MasterCommand();
@@ -406,5 +458,20 @@ public class ApiCaller {
         }
     }
 
+    public void PostUploadMealPhoto(AsyncBitmapResponse asyncResponse, int userId, Bitmap bitmap, int index, boolean forUpload) {
+        MasterCommand command = new MasterCommand();
+        command.RegId = userId;
+        command.Command = CommandConstants.COMMAND_UPLOADPHOTO;
+        apiClient.PostBitmapAsyncMeal(asyncResponse, "photo", command, bitmap, PhotoUploadDataResponseContract.class, index, forUpload);
+    }
+
+    public void PostRating(AsyncResponse asyncResponse, String regId, MessageRatingContract contract)
+    {
+        MasterCommand command = new MasterCommand();
+        command.RegId = ApplicationData.getInstance().userDataContract.Id;
+        command.Command = "postRating";
+
+        apiClient.PostAsync(asyncResponse, "message", command, gson.toJson(contract), MessageRatingContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
+    }
 
 }

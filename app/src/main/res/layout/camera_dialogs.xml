@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/alert_light_frame"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/image_camera"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imagea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:src="@android:drawable/ic_menu_camera" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@+id/image"
+            android:text="@string/MEAL_PHOTO_TAKE_PHOTO"
+            android:textColor="#000000" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/separator1"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="3dp"
+        android:background="#cacaca" />
+
+    <LinearLayout
+        android:id="@+id/image_gallery"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:src="@android:drawable/ic_menu_gallery" />
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@+id/image"
+            android:text="@string/MEAL_PHOTO_PICK_FROM_GALLERY"
+            android:textColor="#000000" />
+    </LinearLayout>
+
+
+</LinearLayout>

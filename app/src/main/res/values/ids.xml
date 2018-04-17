@@ -4,4 +4,7 @@
     <item name="video_id" type="id" />
     <item name="week_id" type="id" />
     <item name="category_id" type="id" />
+
+    <item name="datepage1" type="id" />
+
 </resources>

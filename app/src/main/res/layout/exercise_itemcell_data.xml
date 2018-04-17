@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:measureWithLargestChild="false">
+
+    <!-- activity details -->
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_background_gray"
+        android:paddingTop="5dp">
+
+        <ImageView
+            android:id="@+id/exercise_displaylogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/exercise_display_walk"
+            android:layout_alignParentLeft="true" />
+
+        <ImageView
+            android:id="@+id/exercise_displayAddButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/exercise_btn_addround"
+            android:layout_alignParentRight="true"
+            android:paddingRight="5dp" />
+
+        <TextView
+            android:id="@+id/exercise_displayTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Activity (HAPI Activity Tracker)"
+            android:layout_toRightOf="@id/exercise_displaylogo"
+            android:textStyle="bold"
+            android:textColor="@color/text_black" />
+
+        <TextView
+            android:id="@+id/exercise_selectedBody"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="81 min - 15.121 km"
+            android:layout_toRightOf="@id/exercise_displaylogo"
+            android:layout_below="@id/exercise_displayTitle"
+            android:textColor="@color/text_darkgray" />
+
+
+        <TextView
+            android:id="@+id/exercise_displayTime"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="11:59 PM"
+            android:layout_toRightOf="@id/exercise_displaylogo"
+            android:layout_below="@id/exercise_selectedBody"
+            android:theme="@style/grayNormal"
+            android:textColor="@color/text_gray" />
+
+        <!-- description (optional) -->
+        <TextView
+            android:id="@+id/exercise_displayDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="description text here ..."
+            android:layout_below="@id/exercise_displayTime"
+            android:padding="5dp"
+            android:textColor="@color/text_black"
+            android:textSize="10dp"
+            android:background="@drawable/bg_exercise_description" />
+
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>

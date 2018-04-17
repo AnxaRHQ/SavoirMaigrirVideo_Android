@@ -61,7 +61,14 @@
                 android:layout_alignParentLeft="true"
                 android:background="@android:color/transparent"
                 android:src="@drawable/profile_default_avatar" />
-
+            <ImageView
+                android:id="@+id/chat_like"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="0dp"
+                android:src="@drawable/like_gray"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/timestamp"/>
             <TextView
                 android:id="@+id/timestamp"
                 android:layout_width="wrap_content"
@@ -79,7 +86,8 @@
                 android:layout_centerVertical="true"
                 android:background="@android:color/transparent"
                 android:src="@drawable/meal_smiley_gray"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                android:clickable="false"/>
 
             <LinearLayout
                 android:id="@+id/chat_message_cont"
@@ -103,37 +111,28 @@
                     android:text="sample text please read"
                     android:textColor="@android:color/black"/>
 
-            <LinearLayout
+                <LinearLayout
 
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/chat_status"
-                android:layout_toRightOf="@id/chat_avatar"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/chat_message_user"
-                    android:textSize="13sp"
-                    android:textStyle="normal"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/comment_bubble_coach"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical|left"
-                    android:padding="10dp"
-                    android:text="sample text please read"
-                    android:textColor="@android:color/black"
-                    android:autoLink="web"/>
-
-                <!--<include-->
-                    <!--android:id="@+id/audio_message"-->
-                    <!--layout="@layout/audio_player"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:gravity="center_vertical|left"-->
-                    <!--android:padding="10dp">-->
-                <!--</include>-->
-            </LinearLayout>
+                    android:layout_toLeftOf="@id/chat_status"
+                    android:layout_toRightOf="@id/chat_avatar"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/chat_message_user"
+                        android:textSize="13sp"
+                        android:textStyle="normal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/comment_bubble_coach"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical|left"
+                        android:padding="10dp"
+                        android:text="sample text please read"
+                        android:textColor="@android:color/black"
+                        android:autoLink="web"/>
+                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

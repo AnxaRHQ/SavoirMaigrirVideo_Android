@@ -1,5 +1,6 @@
 package anxa.com.smvideo.activities.account;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
@@ -45,13 +46,8 @@ import anxa.com.smvideo.connection.http.AsyncResponse;
 import anxa.com.smvideo.contracts.MessagesContract;
 import anxa.com.smvideo.contracts.MessagesResponseContract;
 import anxa.com.smvideo.contracts.PostMessagesContract;
-import anxa.com.smvideo.contracts.VideoContract;
-import anxa.com.smvideo.contracts.VideoResponseContract;
-import anxa.com.smvideo.ui.CustomListView;
 import anxa.com.smvideo.ui.MessagesListLayout;
-import anxa.com.smvideo.ui.VideoListAdapter;
 import anxa.com.smvideo.util.AppUtil;
-import anxa.com.smvideo.util.VideoHelper;
 
 /**
  * Created by aprilanxa on 22/03/2018.
@@ -64,7 +60,6 @@ public class MessagesAccountFragment extends Fragment implements View.OnClickLis
     TextView submit_tv;
     EditText comment_et;
     PostMessagesContract newPostMessageContract;
-    //    CustomDialog dialog;
     Button loadMore_btn;
     RelativeLayout loadMore_layout;
 
@@ -83,7 +78,7 @@ public class MessagesAccountFragment extends Fragment implements View.OnClickLis
     String intentExtra;
     private int allowedQuestionsToAsk = 0;
 
-    private Context context;
+    public Context context;
     protected ApiCaller caller;
     View mView;
 
@@ -289,7 +284,10 @@ public class MessagesAccountFragment extends Fragment implements View.OnClickLis
                                                      } else {
                                                          loadMore_layout.setVisibility(View.VISIBLE);
                                                          loadMore_btn.setVisibility(View.VISIBLE);
-                                                         loadMore_btn.setText(getResources().getString(R.string.messages_load_more));
+                                                         Activity activity = getActivity();
+                                                         if(activity != null){
+                                                             loadMore_btn.setText(getResources().getString(R.string.messages_load_more));
+                                                         }
                                                      }
                                                  }
                                              }

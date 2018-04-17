@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+    android:id="@+id/exerciseListLayout"
+    android:fillViewport="true"
+    android:layout_weight="1">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp" >
+
+        <TextView
+            android:id="@+id/exercise_displayTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/EXERCISE"
+            android:textColor="#000000"
+            android:textSize="20dp" />
+    </RelativeLayout>
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/exerciseListView"
+        android:layout_gravity="center_horizontal"
+        android:dividerHeight="0dp"
+        android:divider="@null"
+        android:layout_marginBottom="10dp"
+        android:focusable="false"
+        android:clickable="false"
+        android:listSelector="@android:color/transparent"/>
+
+    <LinearLayout
+        android:id="@+id/exerciseView_checked"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/meal_approved_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Checked"
+            android:paddingLeft="5dp"
+            android:textColor="@android:color/holo_green_dark"
+            android:id="@+id/checked" />
+
+    </LinearLayout>
+
+</LinearLayout>

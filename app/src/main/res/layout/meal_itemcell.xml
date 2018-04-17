@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:measureWithLargestChild="false">
+
+    <!-- meal header -->
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/mealtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/MEALTYPE_BREAKFAST"
+            android:textColor="@color/text_black"
+            android:textSize="20dp"/>
+
+        <ImageView
+            android:id="@+id/mealinfo"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/meal_info_icon" />
+
+        <TextView
+            android:id="@+id/mealtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/mealinfo"
+            android:text="6:00 PM"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+    <!--meal photo -->
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="130dp"
+        android:background="#efefef">
+
+        <!--main photo -->
+        <ImageView
+            android:id="@+id/mealphoto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/meal_addameal"
+            android:scaleType="centerInside"
+            android:background="#efefef" />
+
+        <!--mutiple photo -->
+        <LinearLayout
+            android:id="@+id/multiPhoto_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@+id/mealphoto"
+            android:orientation="horizontal"
+            android:weightSum="5"
+            android:background="#7F333333"
+            android:visibility="invisible">
+
+            <ImageView
+                android:id="@+id/mealphoto1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="1dp"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/mealphoto2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="1dp"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:id="@+id/mealphoto3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="1dp"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/mealphoto4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="1dp"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/mealphoto5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="1dp"
+                android:scaleType="centerCrop"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/meal_uploadfailed"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:background="#66000000"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:weightSum="10">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:src="@drawable/meal_failed_icon" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="10dp"
+                android:text="" />
+
+            <ImageView
+                android:id="@+id/meal_uploadfailed_refresh"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_weight="1"
+                android:paddingRight="5dp"
+                android:src="@drawable/meal_refresh_btn" />
+
+            <ImageView
+                android:id="@+id/meal_uploadfailed_delete"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_weight="1"
+                android:paddingRight="5dp"
+                android:src="@drawable/meal_x_btn" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/meal_uploadresume"
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"
+            android:layout_alignParentBottom="true"
+            android:background="#66000000"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:id="@+id/resumeProgressBar"
+               android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:clickable="false"
+                android:indeterminate="true" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!--meal rating -->
+    <LinearLayout
+        android:id="@+id/icon_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/icon_container_approved"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/comment_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/meal_commented_icon"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/comment_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/meal_info_icon"
+                android:text="@string/COMMENTED"
+                android:textColor="@color/text_blue" />
+
+            <View
+                android:id="@+id/spacer"
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/approved_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/meal_approved_icon"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/approved_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:gravity="right|bottom"
+                android:text="@string/APPROVED"
+                android:visibility="visible"
+                android:textColor="@color/text_green"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- desc -->
+    <TextView
+        android:id="@+id/mealdesc"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:maxLines="5"
+        android:text=""
+        android:visibility="gone" />
+
+    <!--seperator -->
+    <View
+        android:id="@+id/separator"
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/container"
+        android:background="@color/common_gray_separator" />
+
+</LinearLayout>

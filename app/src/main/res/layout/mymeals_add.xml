@@ -1,0 +1,646 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/common_button_white">
+
+    <!-- Top Navigation Bar -->
+    <include
+        layout="@layout/header_menu"
+        android:id="@+id/meals_add_headermenu"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentTop="true" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/meals_add_headermenu"
+        android:background="@color/common_button_white">
+
+        <LinearLayout
+            android:id="@+id/addmealLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:background="@color/text_gray"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="2dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/mealtitle"
+                    style="@style/blackNormal.Large"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/MEALTYPE_BREAKFAST" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/common_gray_separator" />
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp">
+
+                <LinearLayout
+                    android:id="@+id/mealphotocontainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="105dp"
+                    android:layout_margin="1dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/dummy"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
+                        android:paddingLeft="5dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:id="@+id/rl_imagethumb"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:visibility="visible">
+
+                            <TextView
+                                android:id="@+id/add_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/ADD_PHOTO_MEAL"
+                                android:textSize="10sp"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/text_darkgray"/>
+
+                            <ImageView
+                                android:id="@+id/add_photo_camera"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="0dp"
+                                android:paddingRight="5dp"
+                                android:paddingLeft="5dp"
+                                android:scaleType="centerCrop"
+                                android:layout_below="@id/add_text"
+                                android:src="@drawable/add_photo_camera"
+                                android:visibility="visible"
+                                android:clickable="true"
+                                android:onClick="goToCameraPage" />
+
+                            <ImageView
+                                android:id="@+id/add_photo_gallery"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/add_photo_camera"
+                                android:src="@drawable/add_photo_gallery"
+                                android:paddingRight="5dp"
+                                android:paddingLeft="5dp"
+                                android:paddingBottom="0dp"
+                                android:visibility="visible"
+                                android:scaleType="centerCrop"
+                                android:onClick="goToGalleryPage"
+                                android:clickable="true" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/ll_imagethumb1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_gravity="center_horizontal|bottom"
+                            android:orientation="vertical"
+                            android:paddingLeft="5dp"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:id="@+id/imagethumb1"
+                                android:layout_width="92dp"
+                                android:layout_height="76dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/creation_addphoto"
+                                android:visibility="visible" />
+
+                            <ImageView
+                                android:id="@+id/btn_close_1"
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_alignParentTop="true"
+                                android:src="@drawable/hapicoach_x_btn"
+                                android:visibility="visible" />
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/ll_imagethumb2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/imagethumb2"
+                            android:layout_width="92dp"
+                            android:layout_height="76dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/creation_addphoto"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/btn_close_2"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignRight="@+id/imagethumb2"
+                            android:src="@drawable/hapicoach_x_btn"
+                            android:visibility="visible" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/ll_imagethumb3"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/imagethumb3"
+                            android:layout_width="92dp"
+                            android:layout_height="76dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/creation_addphoto"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/btn_close_3"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_alignTop="@+id/imagethumb3"
+                            android:layout_alignRight="@+id/imagethumb3"
+                            android:src="@drawable/hapicoach_x_btn"
+                            android:visibility="visible" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/ll_imagethumb4"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/imagethumb4"
+                            android:layout_width="92dp"
+                            android:layout_height="76dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/creation_addphoto"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/btn_close_4"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_alignTop="@+id/imagethumb4"
+                            android:layout_alignRight="@+id/imagethumb4"
+                            android:src="@drawable/hapicoach_x_btn"
+                            android:visibility="visible" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/ll_imagethumb5"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/imagethumb5"
+                            android:layout_width="92dp"
+                            android:layout_height="76dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/creation_addphoto"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/btn_close_5"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_alignTop="@+id/imagethumb5"
+                            android:layout_alignRight="@+id/imagethumb5"
+                            android:src="@drawable/hapicoach_x_btn"
+                            android:visibility="visible" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <View
+                android:id="@+id/separator"
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:layout_below="@id/mealphotocontainer"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/common_gray_separator" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:text="@string/ADD_MEAL_FOLLOWED_PLAN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox"
+                style="@style/blackNormal.Medium"
+                android:paddingLeft="5dp"/>
+
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_button_white_bordergray"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/mealdesc"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:ellipsize="end"
+                    android:gravity="top"
+                    android:hint="@string/ONETOONECOACHING_ADDMEAL_DESCRIBEMEAL"
+                    android:maxLength="500"
+                    android:maxLines="4"
+                    android:minLines="4"
+                    android:padding="5dp" />
+
+                <TextView
+                    android:id="@+id/mealdesccount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="2dp"
+                    android:maxLines="1"
+                    android:text="250/250"
+                    android:textColor="@color/text_orange" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="@color/common_gray_separator" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/text_white"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/meal_time_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp">
+
+                    <ImageView
+                        android:id="@+id/mealinfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:src="@drawable/creation_icon_time" />
+
+                    <TextView
+                        android:id="@+id/mealtime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/mealinfo"
+                        android:text="01:00 PM" />
+
+                    <Button
+                        android:id="@+id/date_save_tv"
+                        android:layout_width="70dp"
+                        android:layout_height="23dp"
+                        android:layout_alignParentRight="true"
+                        android:gravity="right|center"
+                        android:paddingBottom="0dp"
+                        android:paddingTop="0dp"
+                        android:text="@string/btn_done"
+                        android:textColor="#C8C8C8"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+                <include
+                    android:id="@+id/timepickercontainer"
+                    layout="@layout/datetimepicker"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ff0000" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/common_gray_separator" />
+
+                <!--start of identify food group layout-->
+                <LinearLayout
+                    android:id="@+id/meal_food_group_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:visibility="visible">
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/blackNormal.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="5dp"
+                            android:text="@string/MEALSADD_FOODGROUP" />
+
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <ImageButton
+                            android:id="@+id/fg_protein"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/button_foodgroup_protein" />
+
+                        <ImageButton
+                            android:id="@+id/fg_starch"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/button_foodgroup_starch" />
+
+                        <ImageButton
+                            android:id="@+id/fg_vegetable"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/button_foodgroup_vegetable" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <ImageButton
+                            android:id="@+id/fg_fats"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/button_foodgroup_fat" />
+
+                        <ImageButton
+                            android:id="@+id/fg_dairy"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/button_foodgroup_dairy" />
+
+                        <ImageButton
+                            android:id="@+id/fg_fruit"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/button_foodgroup_fruit" />
+                    </LinearLayout>
+
+                </LinearLayout>
+                <!--end of identify food group layout-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="20dp"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/submitButton"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        android:text="@string/btn_save"
+                        style="@style/btnStyleOrange"/>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/progress"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_horizontal"
+                        android:indeterminateDrawable="@drawable/animateprogress"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout android:layout_width="match_parent"
+                android:gravity="center"
+                android:paddingTop="25dp"
+                android:background="@color/text_white"
+                android:paddingBottom="25dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:visibility="gone" >
+
+                <Button
+                    android:id="@+id/footerbutton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    style="@style/btnStyleOrange"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/savingLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/navView"
+        android:background="@color/helptips_black_overlay"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/progressLayout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/common_gray_separator"
+            android:orientation="horizontal"
+            android:weightSum="8">
+
+            <TextView
+                android:id="@+id/progressTitle"
+                style="@style/grayNormal.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/SAVING_PROGRESS_TEXT"
+                android:textColor="@color/dialog_textcolor_message" />
+
+            <ProgressBar
+                android:id="@+id/savingProgressBar"
+                style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center"
+                android:layout_weight="6"
+                android:clickable="false"
+                android:indeterminate="true" />
+
+            <ImageButton
+                android:id="@+id/btn_cancelSaving"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:src="@drawable/hapicoach_x_btn"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/progressLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/progressLayout"
+            android:background="@color/common_gray_light_separator" />
+
+
+        <LinearLayout
+            android:id="@+id/retryLayout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/progressLine"
+            android:background="@color/text_gray"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <Button
+                android:id="@+id/btn_retry"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:text="@string/SAVING_PROGRESS_RETRY"
+                android:textColor="@color/common_button_orange"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/dialog_textcolor_message" />
+
+            <Button
+                android:id="@+id/btn_later"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:text="@string/SAVING_PROGRESS_LATER"
+                android:textColor="@color/common_button_orange"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/progressLine2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/progressLayout"
+            android:background="@color/common_gray_light_separator" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -198,6 +198,14 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.account.MessageRatingReasonActivity"
+            android:configChanges="orientation"
+            android:theme="@android:style/Theme.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="4bd653fefec16d38537bf1546f014e6c75d7f206" />

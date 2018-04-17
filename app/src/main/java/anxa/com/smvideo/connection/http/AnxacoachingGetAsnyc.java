@@ -66,6 +66,7 @@ public class AnxacoachingGetAsnyc extends AsyncTask<String,String, String> {
     protected void onPostExecute(String response) {
 
         Object obt = gson.fromJson(response, classType);
+
         Delegate.processFinish(obt);
 
     }

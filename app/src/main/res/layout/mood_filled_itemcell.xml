@@ -1,0 +1,121 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/moodFilledContainer"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/text_gray"
+    android:descendantFocusability="blocksDescendants"
+
+    android:layout_margin="5dp">
+
+                 <RelativeLayout
+                     android:id="@+id/moodHeaderJournal"
+                     android:layout_width="fill_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginBottom="5dp"
+                     android:background="@color/text_white">
+                         <TextView
+                             android:text="@string/MEALTYPE_HAPIMOMENT"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:textColor="@color/text_black"
+                             android:textSize="20dp"
+                             android:layout_alignParentLeft="true"
+                             android:layout_centerVertical="true"/>
+                 </RelativeLayout>
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/moodDescriptionContainer"
+        android:layout_below="@+id/moodHeaderJournal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="@color/text_white"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
+        <ImageView
+            android:id="@+id/moodImage"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/mood1"/>
+
+        <TextView
+            android:id="@+id/moodTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/moodImage"
+            android:text="Je me sens en super forme"
+            android:textColor="@color/text_black"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+<RelativeLayout
+    android:id="@+id/hungerDescriptionContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/moodDescriptionContainer"
+    android:background="@color/text_white"
+    android:padding="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp">
+    <ImageView
+        android:id="@+id/hungryImage"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/mood5"
+       />
+
+    <TextView
+                             android:id="@+id/hungryDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/hungryImage"
+        android:text="Je me sens en super forme"
+        android:textColor="@color/text_black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        />
+</RelativeLayout>
+    <TextView
+                        android:id="@+id/moodDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout="@+id/hungryImage"
+        android:layout_below="@+id/hungerDescriptionContainer"
+        android:text="Je me sens en super forme"
+        android:textColor="@color/text_black"
+        android:textSize="14sp"
+        android:layout_margin="5dp"
+        />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_below="@+id/moodDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/text_white"
+        android:descendantFocusability="blocksDescendants">
+
+    <com.anxa.ui.CarnetCommentListLayout
+        android:id="@+id/commentlist"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp" />
+</RelativeLayout>
+
+    </RelativeLayout>

@@ -1,5 +1,6 @@
 package anxa.com.smvideo.connection.http;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -175,5 +176,15 @@ public class SavoirMaigrirVideoApiClient {
         builder.appendQueryParameter("sig", sig);
         return builder.build().toString();
 
+    }
+
+    public  <T extends BaseContract> void PostBitmapAsyncMeal(AsyncBitmapResponse asyncResponse, String apiName, MasterCommand command, Bitmap bitmap, Class<T> classType, int index, boolean forUpload) {
+        AnxacoachingPostBitmapAsync client = new AnxacoachingPostBitmapAsync(asyncResponse, FormatUri(apiName, "post", command),bitmap, index, forUpload, classType);
+//        client.execute(json);
+        // System.out.println("json: " + json);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            client.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        else
+            client.execute();
     }
 }

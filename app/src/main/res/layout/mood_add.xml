@@ -1,0 +1,342 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/common_button_white">
+
+    <!-- Top Navigation Bar -->
+    <include
+        layout="@layout/header_menu"
+        android:id="@+id/mood_add_headermenu"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentTop="true" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mood_add_headermenu"
+        android:background="@color/common_button_white">
+
+        <LinearLayout
+            android:id="@+id/addhapimomentLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:background="@color/text_gray"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/separator"
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/common_gray_separator" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="@string/CARNETMINCEUR_HUMOR_YOURHUMOR"
+                android:textSize="16sp"
+                android:textColor="@color/text_black"/>
+
+            <LinearLayout
+                android:id="@+id/hapiMoodContainer"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/mood1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="0.2"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/mood1" />
+
+                <ImageButton
+                    android:id="@+id/mood2"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="0.2"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/mood2" />
+
+                <ImageButton
+                    android:id="@+id/mood3"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="0.2"
+                    android:layout_centerHorizontal="true"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/mood3" />
+
+                <ImageButton
+                    android:id="@+id/mood4"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="0.2"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/mood4" />
+
+                <ImageButton
+                    android:id="@+id/mood5"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="0.2"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/mood5" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="@color/common_gray_separator" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/CARNETMINCEUR_HUMOR_AREYOUHUNGRY"
+                android:textSize="16sp"
+                android:layout_margin="5dp"
+                android:textColor="@color/text_black"/>
+            <LinearLayout
+                android:id="@+id/areYouHungryContainer"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:layout_margin="5dp"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/hungryYes"
+                    android:layout_weight="0.5"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/rounded_button_white_orangeborder"
+                    android:text="@string/btn_yes"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_orange"/>
+
+
+
+                <Button
+                    android:id="@+id/hungryNo"
+                    android:layout_weight="0.5"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/rounded_button_white_orangeborder"
+                    android:text="@string/btn_no"
+                    android:textAllCaps="true"
+                    android:textColor="@color/text_orange"/>
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_button_white_bordergray"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/desc"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:ellipsize="end"
+                    android:gravity="top"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:textColorHint="@color/text_lightgray"
+                    android:textSize="14sp"
+                    android:maxLength="250"
+                    android:maxLines="4"
+                    android:minLines="4"
+                    android:padding="5dp" />
+
+                <TextView
+                    android:id="@+id/descCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="2dp"
+                    android:maxLines="1"
+                    android:text="250/250"
+                    android:textColor="@color/text_orange" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/text_white"
+                android:orientation="vertical">
+
+
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px"
+                    android:background="@color/common_gray_separator" />
+
+
+
+
+                    android:id="@+id/timepickercontainer"
+                    layout="@layout/datetimepicker"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ff0000" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/submitButton"
+                        style="@style/btnStyleOrange"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        android:text="@string/btn_save" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/progress"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical"
+                    android:visibility="invisible">
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_horizontal"
+                        android:indeterminateDrawable="@drawable/animateprogress"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/savingLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/navView"
+        android:background="@color/helptips_black_overlay"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/progressLayout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/common_gray_separator"
+            android:orientation="horizontal"
+            android:weightSum="8">
+
+            <TextView
+                android:id="@+id/progressTitle"
+                style="@style/grayNormal.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/SAVING_PROGRESS_TEXT"
+                android:textColor="@color/dialog_textcolor_message" />
+
+            <ProgressBar
+                android:id="@+id/savingProgressBar"
+                style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center"
+                android:layout_weight="6"
+                android:clickable="false"
+                android:indeterminate="true" />
+
+            <ImageButton
+                android:id="@+id/btn_cancelSaving"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:src="@drawable/hapicoach_x_btn"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/progressLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/progressLayout"
+            android:background="@color/common_gray_light_separator" />
+
+
+        <LinearLayout
+            android:id="@+id/retryLayout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/progressLine"
+            android:background="@color/text_gray"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <Button
+                android:id="@+id/btn_retry"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:text="@string/SAVING_PROGRESS_RETRY"
+                android:textColor="@color/common_button_orange"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/dialog_textcolor_message" />
+
+            <Button
+                android:id="@+id/btn_later"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:text="@string/SAVING_PROGRESS_LATER"
+                android:textColor="@color/common_button_orange"
+                android:textSize="14sp" />
+
+            <!--test update-->
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

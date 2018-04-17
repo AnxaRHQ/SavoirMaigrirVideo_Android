@@ -5,10 +5,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 import com.crashlytics.android.Crashlytics;
 
 import anxa.com.smvideo.activities.MainActivity;
+import anxa.com.smvideo.contracts.Carnet.ExerciseContract;
+import anxa.com.smvideo.contracts.Carnet.MealContract;
+import anxa.com.smvideo.contracts.Carnet.MoodContract;
+import anxa.com.smvideo.contracts.Carnet.WaterContract;
 import anxa.com.smvideo.contracts.CoachingVideosContract;
 import anxa.com.smvideo.contracts.DietProfilesDataContract;
 import anxa.com.smvideo.contracts.MessagesContract;
@@ -79,6 +85,14 @@ public class ApplicationData extends Application {
     public RegUserProfile regUserProfile;
     private Context context;
 
+    public int screenWidth;
+    public int screenHeight;
+    public int maxWidthImage; //for list meals dynamic sizing
+    public int maxheightImage;//for list meals dynamic sizing
+    public int maxWidthCameraView; //for list camera dynamic sizing
+    public int maxHeightCameraView;//for list camera dynamic sizing
+
+
     public static long minimumAnxamatsSessionTime = 3000; //3 seconds
     public static long maximumAnxamatsSessionTime = 45000; //45 seconds
     public static long maximSessionTime = 300000; //300 seconds
@@ -119,9 +133,16 @@ public class ApplicationData extends Application {
     public List<String> shoppingCategoryList = new ArrayList<>();
     public ResultsResponseDataContract bilanminceurResults = new ResultsResponseDataContract();
     public RecipeContract selectedRelatedRecipe = new RecipeContract();
+    public List<WaterContract> waterList = new ArrayList<>();
+    public Hashtable<String, Bitmap> coachCommentsPhotosList = new Hashtable<String, Bitmap>();
+    public Hashtable<String, MealContract> tempList = new Hashtable<String, MealContract>();
 
     public WeightHistoryContract currentWeight;
     public WeightHistoryContract initialWeightContract;
+    public WaterContract currentWater;
+    public MoodContract currentMood;
+    public ExerciseContract currentWorkOut;
+    public MealContract currentMealView;
 
     public String currentSelectedCategory;
 
@@ -135,6 +156,10 @@ public class ApplicationData extends Application {
     public String pageTitle = "Page Title";
     public String customAgent = "";
 
+
+    public static final int REQUESTCODE_MEALEDIT = 198;
+    public static final int REQUESTCODE_MEALVIEW = 196;
+
     //messages
     public MessagesResponseContract messagesResponseContract = new MessagesResponseContract();
     public String urlClicked;
@@ -142,6 +167,12 @@ public class ApplicationData extends Application {
     public BitmapFactory.Options options_Avatar = new BitmapFactory.Options();
 
 
+    //Carnet
+    public Date toDateCurrent;
+    public Date fromDateCurrent;
+    public Date currentSelectedDate = new Date();
+    public Date toDateSyncCurrent;
+    public Date fromDateSyncCurrent;
 
     @Override
     public void onCreate() {
@@ -278,5 +309,39 @@ public class ApplicationData extends Application {
 
     private Bitmap userProfilePhoto;
 
+    public void getWindowDimension(Context ctx) {
+        WindowManager wm = (WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics metrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(metrics);
 
+        screenWidth = metrics.widthPixels;
+        screenHeight = metrics.heightPixels;
+
+        float imagepercentW = 0.85f;
+        float imagepercentH = 0.30f;
+
+        maxWidthImage = (int) (Math.round(screenWidth * imagepercentW));
+        maxheightImage = (int) (Math.round(screenHeight * imagepercentH));
+
+        imagepercentW = 0.8f;
+        imagepercentH = 0.3f;
+
+        maxWidthCameraView = (int) (Math.round(screenWidth * imagepercentW));
+        maxHeightCameraView = (int) (Math.round(screenHeight * imagepercentH));
+
+        //createAllTables(this);
+        toDateSyncCurrent = getToDate(this);
+        fromDateSyncCurrent = fromDate(this);
+    }
+
+    public Date getToDate(Context context) {
+        return AppUtil.getCurrentDateinDate();
+    }
+
+    public Date fromDate(Context context) {
+
+        final SharedPreferences prefs = getGCMPreferences(context);
+        int addDays = -7; //get the first 7 days
+        return AppUtil.getCurrentDate(addDays);
+    }
 }

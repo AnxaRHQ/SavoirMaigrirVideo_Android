@@ -23,6 +23,7 @@ import java.util.Date;
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.activities.account.AproposFragment;
+import anxa.com.smvideo.activities.account.CarnetAccountFragment;
 import anxa.com.smvideo.activities.account.CoachingAccountFragment;
 import anxa.com.smvideo.activities.account.ConseilsFragment;
 import anxa.com.smvideo.activities.account.ExerciceFragment;
@@ -200,9 +201,8 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                     fragment = new RecipesAccountFragment();
                     break;
                 case 4: //carnet
-//                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Carnet;
-//                    fragment = new RecipesAccountFragment();
-                    goToHomePage();
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Carnet;
+                    fragment = new CarnetAccountFragment();
                     break;
                 case 5: //messages
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Messages;

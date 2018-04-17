@@ -1,0 +1,198 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/foodGroupsContainer"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:visibility="visible" >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8" >
+
+        <LinearLayout
+            android:id="@+id/foodGroups"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible" >
+
+            <RelativeLayout
+                android:id="@+id/proteinContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:padding="5dp"
+                android:visibility="visible" >
+
+                <ImageView
+                    android:id="@+id/imageViewProtein"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/FOODGROUP_PROTEIN"
+                    android:src="@drawable/creation_icon_protein"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/textViewProtein"
+                    style="@style/blackNormal.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/imageViewProtein"
+                    android:paddingLeft="5dp"
+                    android:text="@string/FOODGROUP_PROTEIN" />
+
+                <TextView
+                    android:id="@+id/textViewTipProtein"
+                    style="@style/darkGrayNormal.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imageViewProtein"
+                    android:paddingLeft="5dp"
+                    android:text="@string/TIPS_PROTEIN" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/dairyContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:padding="5dp"
+                android:visibility="visible" >
+
+                <ImageView
+                    android:id="@+id/imageViewDairy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/FOODGROUP_DAIRY"
+                    android:src="@drawable/creation_icon_dairy"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/textViewDairy"
+                    style="@style/blackNormal.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/imageViewDairy"
+                    android:paddingLeft="5dp"
+                    android:text="@string/FOODGROUP_DAIRY" />
+
+                <TextView
+                    android:id="@+id/textViewTipDairy"
+                    style="@style/darkGrayNormal.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imageViewDairy"
+                    android:paddingLeft="5dp"
+                    android:text="@string/TIPS_DAIRY" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/starchesContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:padding="5dp"
+                android:visibility="visible" >
+
+                <ImageView
+                    android:id="@+id/imageViewStarches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/FOODGROUP_STARCHES"
+                    android:src="@drawable/creation_icon_starches"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/textViewStarches"
+                    style="@style/blackNormal.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/imageViewStarches"
+                    android:paddingLeft="5dp"
+                    android:text="@string/FOODGROUP_STARCHES" />
+
+                <TextView
+                    android:id="@+id/textViewTipStarches"
+                    style="@style/darkGrayNormal.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imageViewStarches"
+                    android:paddingLeft="5dp"
+                    android:text="@string/TIPS_STARCHES" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fruitsVeggiesContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:padding="5dp"
+                android:visibility="visible" >
+
+                <ImageView
+                    android:id="@+id/imageViewFruitsVeggies"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/FOODGROUP_FRUITSVEGGIES"
+                    android:src="@drawable/creation_icon_vegetables"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/textViewFruitsVeggies"
+                    style="@style/blackNormal.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/imageViewFruitsVeggies"
+                    android:paddingLeft="5dp"
+                    android:text="@string/FOODGROUP_FRUITSVEGGIES" />
+
+                <TextView
+                    android:id="@+id/textViewTipFruitsVeggies"
+                    style="@style/darkGrayNormal.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imageViewFruitsVeggies"
+                    android:paddingLeft="5dp"
+                    android:text="@string/TIPS_FRUITSVEGGIES" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fatContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:padding="5dp"
+                android:visibility="visible" >
+
+                <ImageView
+                    android:id="@+id/imageViewFat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/FOODGROUP_FAT"
+                    android:src="@drawable/creation_icon_fat"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/textViewFat"
+                    style="@style/blackNormal.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/imageViewFat"
+                    android:paddingLeft="5dp"
+                    android:text="@string/FOODGROUP_FAT" />
+
+                <TextView
+                    android:id="@+id/textViewTipFat"
+                    style="@style/darkGrayNormal.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imageViewFat"
+                    android:paddingLeft="5dp"
+                    android:text="@string/TIPS_FAT" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
