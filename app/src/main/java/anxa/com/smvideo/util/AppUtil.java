@@ -11,6 +11,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TimePicker;
 
+import org.joda.time.DateTime;
+import org.joda.time.Weeks;
+
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.security.MessageDigest;
@@ -846,7 +849,13 @@ public class AppUtil {
     }
 
     public static int getCurrentWeekNumber(long coachingStartDate, Date endTime) {
-        Calendar startCalendar = new GregorianCalendar();
+
+        int weekNumber = Weeks.weeksBetween(new DateTime(coachingStartDate*1000),new DateTime()).getWeeks();
+        weekNumber = weekNumber + 1;
+        if(weekNumber < 0){
+            weekNumber = 0;
+        }
+    /*    Calendar startCalendar = new GregorianCalendar();
         startCalendar.setTimeInMillis(coachingStartDate * 1000);
         Calendar endCalendar = new GregorianCalendar();
         endCalendar.setTime(endTime);
@@ -855,7 +864,7 @@ public class AppUtil {
 
         if (endCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
             weekNumber = weekNumber - 1;
-        }
+        }*/
 
         return weekNumber;
     }

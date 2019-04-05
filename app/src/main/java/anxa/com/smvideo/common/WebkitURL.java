@@ -29,7 +29,9 @@ public class WebkitURL {
 
     public static String webinarURL = "/1dirparjour/webinar";
 
-    public static String webinarAutoLoginURL = "/3actparjour/login?u=%d&p=%password&redirect=/1dirparjour/webinar";
+    public static String webinarAutoLoginURL = "/3actparjour/login?u=%d&p=%password&redirect=/1dirparjour/webinar/broadcast";
+
+    public static String webinarWebkitUrl = "/5minparjour/mobile/conference?regId=%regId&sig=%sig";
     public static final String ANXAMATS_URL = "http://api.anxa.com/anxamats";
 
 }

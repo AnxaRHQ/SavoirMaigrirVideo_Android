@@ -44,15 +44,20 @@
     <string name="welcome_account_2">e %f de la se</string>
     <string name="welcome_account_3">maine %d de votre programme</string>
     <string name="menu_account_coaching">Coaching</string>
-    <string name="menu_account_repas">Repas</string>
-    <string name="menu_account_recettes">Recettes</string>
+    <string name="menu_account_repas">Plan De Repas</string>
+    <string name="menu_account_recettes">Diététicienne</string>
     <!--<string name="menu_account_conseils">Conseils</string>-->
-    <string name="menu_account_webinars">Consultations en direct</string>
+    <string name="menu_account_webinars">Consultations</string>
     <string name="menu_account_exercices">Exercices</string>
-    <string name="menu_account_poids">Suivi Du Poids</string>
+    <string name="menu_account_poids">Courbes &amp; Progrés</string>
     <string name="menu_account_compte">Mon Compte</string>
     <string name="menu_account_messages">Messagerie Diététique</string>
     <string name="menu_account_carnet">Carnet Minceur</string>
+    <string name="menu_account_session">Session du jour</string>
+    <string name="menu_account_videos">500+ Vidéos</string>
+    <string name="menu_account_communaute">Communaute</string>
+    <string name="menu_account_fiches">Fiches Pratiques</string>
+    <string name="menu_account_ambassadrice">Ambassadrice</string>
 
     <string name="lost_weight_text">Vous avez perdu </string>
 

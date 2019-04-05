@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/fullbackground"
     android:orientation="vertical">
 
@@ -113,8 +114,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="15"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -129,30 +129,31 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="4dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
                         android:id="@+id/LandingImage1_account"
                         style="@style/LandingImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/landing_account_coaching" />
+                        android:src="@drawable/landing_account_repas"
+                        app:siShape="@drawable/shape_rounded_rectangle"
+                        />
 
                     <Button
-                        android:id="@+id/LandingCoachingButton"
+                        android:id="@+id/LandingRepasButton"
                         style="@style/LandingButtonAccount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/menu_account_coaching"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignLeft="@+id/LandingImage1_account"
+                        android:text="@string/menu_account_repas"
+                        android:layout_alignBottom="@id/LandingImage1_account"
                         android:layout_alignStart="@+id/LandingImage1_account"
                         android:layout_alignRight="@+id/LandingImage1_account"
-                        android:layout_alignEnd="@+id/LandingImage1_account" />
+                        android:layout_alignLeft="@+id/LandingImage1_account"
+                        android:layout_alignEnd="@+id/LandingImage1_account"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -170,15 +171,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/landing_account_repas" />
+                        android:src="@drawable/landing_account_conseils" />
 
                     <Button
-                        android:id="@+id/LandingRepasButton"
+                        android:id="@+id/LandingConsultationButton"
                         style="@style/LandingButtonAccount"
-                        android:layout_width="129dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/menu_account_repas"
-                        android:layout_alignParentBottom="true"
+                        android:text="@string/menu_account_webinars"
+                        android:layout_alignBottom="@id/LandingImage2_account"
                         android:layout_alignLeft="@+id/LandingImage2_account"
                         android:layout_alignStart="@+id/LandingImage2_account"
                         android:layout_alignRight="@+id/LandingImage2_account"
@@ -201,7 +202,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/landing_account_recettes" />
+                        android:src="@drawable/landing_account_messagerie" />
 
                     <Button
                         android:id="@+id/LandingRecettesAccountButton"
@@ -209,7 +210,7 @@
                         android:layout_width="129dp"
                         android:layout_height="wrap_content"
                         android:text="@string/menu_account_recettes"
-                        android:layout_alignParentBottom="true"
+                        android:layout_alignBottom="@+id/LandingImage3_account"
                         android:layout_alignLeft="@+id/LandingImage3_account"
                         android:layout_alignStart="@+id/LandingImage3_account"
                         android:layout_alignRight="@+id/LandingImage3_account"
@@ -240,15 +241,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/landing_account_carnet" />
+                        android:src="@drawable/landing_account_coaching" />
 
                     <Button
                         android:id="@+id/LandingCarnetAccountButton"
                         style="@style/LandingButtonAccount"
                         android:layout_width="1dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/menu_account_carnet"
-                        android:layout_alignParentBottom="true"
+                        android:text="@string/menu_account_session"
+                        android:layout_alignBottom="@+id/LandingImage4_account"
                         android:layout_alignLeft="@+id/LandingImage4_account"
                         android:layout_alignStart="@+id/LandingImage4_account"
                         android:layout_alignRight="@+id/LandingImage4_account"
@@ -277,8 +278,8 @@
                         style="@style/LandingButtonAccount"
                         android:layout_width="1dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/menu_account_messages"
-                        android:layout_alignParentBottom="true"
+                        android:text="@string/menu_account_videos"
+                        android:layout_alignBottom="@+id/LandingImage5_account"
                         android:layout_alignLeft="@+id/LandingImage5_account"
                         android:layout_alignStart="@+id/LandingImage5_account"
                         android:layout_alignRight="@+id/LandingImage5_account"
@@ -301,15 +302,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/landing_account_conseils" />
+                        android:src="@drawable/landing_account_poids" />
 
                     <Button
                         android:id="@+id/LandingConseilsButton"
                         style="@style/LandingButtonAccount"
                         android:layout_width="1dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/menu_account_webinars"
-                        android:layout_alignParentBottom="true"
+                        android:text="@string/menu_account_poids"
+                        android:layout_alignBottom="@+id/LandingImage6_account"
                         android:layout_alignLeft="@+id/LandingImage6_account"
                         android:layout_alignStart="@+id/LandingImage6_account"
                         android:layout_alignRight="@+id/LandingImage6_account"
@@ -346,10 +347,10 @@
                     <Button
                         android:id="@+id/LandingExercicesButton"
                         style="@style/LandingButtonAccount"
-                        android:layout_width="129dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/menu_account_exercices"
-                        android:layout_alignParentBottom="true"
+                        android:text="@string/menu_account_communaute"
+                        android:layout_alignBottom="@+id/LandingImage7_account"
                         android:layout_alignLeft="@+id/LandingImage7_account"
                         android:layout_alignStart="@+id/LandingImage7_account"
                         android:layout_alignRight="@+id/LandingImage7_account"
@@ -376,10 +377,10 @@
                     <Button
                         android:id="@+id/LandingSuiviButton"
                         style="@style/LandingButtonAccount"
-                        android:layout_width="129dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/menu_account_poids"
-                        android:layout_alignParentBottom="true"
+                        android:text="@string/menu_account_fiches"
+                        android:layout_alignBottom="@+id/LandingImage8_account"
                         android:layout_alignLeft="@+id/LandingImage8_account"
                         android:layout_alignStart="@+id/LandingImage8_account"
                         android:layout_alignRight="@+id/LandingImage8_account"
@@ -407,10 +408,10 @@
                     <Button
                         android:id="@+id/LandingMonCompteButton"
                         style="@style/LandingButtonAccount"
-                        android:layout_width="129dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/menu_account_compte"
-                        android:layout_alignParentBottom="true"
+                        android:text="@string/menu_account_ambassadrice"
+                        android:layout_alignBottom="@+id/LandingImage9_account"
                         android:layout_alignLeft="@+id/LandingImage9_account"
                         android:layout_alignStart="@+id/LandingImage9_account"
                         android:layout_alignRight="@+id/LandingImage9_account"
