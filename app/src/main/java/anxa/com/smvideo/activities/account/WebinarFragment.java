@@ -64,15 +64,15 @@ public class WebinarFragment extends Fragment {
 //        ((ImageView) mView.findViewById(R.id.header_menu_iv)).setVisibility(View.VISIBLE);
 
 
-        String autologinURL = WebkitURL.webinarAutoLoginURL.replace("%d", Integer.toString(ApplicationData.getInstance().userDataContract.Id));
+        String webinarWebkitUrl = WebkitURL.webinarWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id));
         try {
-            autologinURL = autologinURL.replace("%password", AppUtil.SHA1(Integer.toString(ApplicationData.getInstance().userDataContract.Id) + "Dxx-|%dsDaI"));
+            webinarWebkitUrl = webinarWebkitUrl.replace("%sig", AppUtil.SHA1(Integer.toString(ApplicationData.getInstance().userDataContract.Id) + "Dxx-|%dsDaI"));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        URLPath = WebkitURL.domainURL + autologinURL;
+        URLPath = WebkitURL.domainURL + webinarWebkitUrl;
 
         // Save the web view
         mainContentWebView = (VideoEnabledWebView)mView.findViewById(R.id.maincontentWebView);

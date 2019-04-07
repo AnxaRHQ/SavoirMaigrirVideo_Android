@@ -118,7 +118,7 @@ public class LandingPageAccountActivity extends Activity implements View.OnClick
         ApplicationData.getInstance().showLandingPage = false;
 
         //initialize on click (transfer inside api call if there will be one in the future
-        ((Button) findViewById(R.id.LandingCoachingButton)).setOnClickListener(this);
+        ((Button) findViewById(R.id.LandingConsultationButton)).setOnClickListener(this);
         ((Button) findViewById(R.id.LandingRepasButton)).setOnClickListener(this);
         ((Button) findViewById(R.id.LandingRecettesAccountButton)).setOnClickListener(this);
         ((Button) findViewById(R.id.LandingConseilsButton)).setOnClickListener(this);
@@ -293,8 +293,8 @@ public class LandingPageAccountActivity extends Activity implements View.OnClick
     }
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.LandingCoachingButton || v.getId() == R.id.LandingImage1_account) {
-            goToCoachingPage();
+        if (v.getId() == R.id.LandingConsultationButton || v.getId() == R.id.LandingImage1_account) {
+            goToConsultationPage();
         } else if (v.getId() == R.id.LandingRepasButton || v.getId() == R.id.LandingImage2_account) {
             goToRepasPage();
         } else if (v.getId() == R.id.LandingRecettesAccountButton || v.getId() == R.id.LandingImage3_account) {
@@ -373,7 +373,11 @@ public class LandingPageAccountActivity extends Activity implements View.OnClick
         Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
         startActivity(mainIntent);
     }
-
+    public void goToConsultationPage() {
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Conseil;
+        Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
+        startActivity(mainIntent);
+    }
     private void updateProgressBar() {
         initial_weight_tv.setText(Float.toString(ApplicationData.getInstance().dietProfilesDataContract.StartWeightInKg) + " kg");
         target_weight_tv.setText(Float.toString(ApplicationData.getInstance().dietProfilesDataContract.TargetWeightInKg) + " kg");

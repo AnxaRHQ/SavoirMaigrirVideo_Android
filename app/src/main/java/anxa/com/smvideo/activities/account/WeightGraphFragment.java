@@ -172,6 +172,7 @@ public class WeightGraphFragment extends Fragment implements View.OnClickListene
 
         getWeightGraphData();
 
+
         return mView;
     }
 

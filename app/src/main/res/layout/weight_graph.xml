@@ -217,7 +217,10 @@
                             android:layout_gravity="center"
                             android:layout_margin="5dp"
                             android:background="@drawable/rounded_button_white_borderorange"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:clickable="true">
 
                             <EditText
                                 android:id="@+id/weight_enter_et"

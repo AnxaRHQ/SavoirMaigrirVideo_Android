@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SMVideo_Android.iml" filepath="$PROJECT_DIR$/SMVideo_Android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SavoirMaigrirVideo_Android.iml" filepath="$PROJECT_DIR$/SavoirMaigrirVideo_Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/SavoirMaigrirVideo_Android.iml" filepath="$PROJECT_DIR$/SavoirMaigrirVideo_Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
