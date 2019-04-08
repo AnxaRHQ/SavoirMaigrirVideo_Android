@@ -32,6 +32,7 @@ import anxa.com.smvideo.activities.account.MessagesAccountFragment;
 import anxa.com.smvideo.activities.account.MonCompteAccountFragment;
 import anxa.com.smvideo.activities.account.RecipesAccountFragment;
 import anxa.com.smvideo.activities.account.RepasFragment;
+import anxa.com.smvideo.activities.account.VideosFragment;
 import anxa.com.smvideo.activities.account.WebinarFragment;
 import anxa.com.smvideo.activities.account.WeightGraphFragment;
 import anxa.com.smvideo.activities.free.BilanMinceurActivity;
@@ -186,43 +187,41 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                 case 0:
                     goToHomePage();
                     break;
-                case 1: //coaching
+                case 1: //repas
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Repas;
+                    fragment = new RepasFragment();
+                    break;
+                case 2: //consultations
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Conseil;
+                    fragment = new WebinarFragment();
+                    break;
+                case 3: //recettes
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Messages;
+                    fragment = new MessagesAccountFragment();
+                    break;
+                case 4: //session
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Coaching;
+
                     if (!ApplicationData.getInstance().fromArchive)
                         ApplicationData.getInstance().selectedWeekNumber = AppUtil.getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), new Date());
                     fragment = new CoachingAccountFragment();
                     break;
-                case 2: //repas
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Repas;
-                    fragment = new RepasFragment();
-                    break;
-                case 3: //recettes
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Recettes;
-                    fragment = new RecipesAccountFragment();
-                    break;
-                case 4: //carnet
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Carnet;
-                    fragment = new CarnetAccountFragment();
-                    break;
-                case 5: //messages
+                case 5: //500 videos
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Messages;
-                    fragment = new MessagesAccountFragment();
+                    fragment = new VideosFragment();
                     break;
-                case 6: //conseils
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Conseil;
-                    fragment = new WebinarFragment();
-                    break;
-                case 7: //exercices
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Exercices;
-                    fragment = new ExerciceFragment();
-                    break;
-                case 8: //suivi
+                case 6: //courbes
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Suivi;
                     fragment = new WeightGraphFragment();
                     break;
-                case 9: //mon compte
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_MonCompte;
-                    fragment = new MonCompteAccountFragment();
+                case 7: //communaute
+
+                    break;
+                case 8: //fiches
+
+                    break;
+                case 9: //ambassadrice
+
                     break;
                 case 10: //apropos
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Apropos;

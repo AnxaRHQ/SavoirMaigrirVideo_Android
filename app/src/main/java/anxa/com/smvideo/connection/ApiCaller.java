@@ -195,7 +195,14 @@ public class ApiCaller {
 
         apiClient.GetAsync(asyncResponse, CommandConstants.API_VIDEOS, command, VideoResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
     }
+    public void GetVideos(AsyncResponse asyncResponse) {
 
+        MasterCommand command = new MasterCommand();
+        command.Command = CommandConstants.ACCOUNT_VIDEOS;
+        Hashtable params = new Hashtable();
+        params.put("catId", "");
+        apiClient.GetAsync(asyncResponse, CommandConstants.API_VIDEOS, command, params, VideoResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
+    }
     public void GetAccountRepas(AsyncResponse asyncResponse, int weekNumber, int dayNumber) {
 
         MasterCommand command = new MasterCommand();

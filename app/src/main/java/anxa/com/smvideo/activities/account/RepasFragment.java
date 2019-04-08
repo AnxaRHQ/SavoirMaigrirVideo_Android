@@ -61,6 +61,7 @@ public class RepasFragment extends Fragment implements View.OnClickListener {
     private ImageButton previousDay_btn;
     private Button mealPlan_btn;
     private Button shoppingList_btn;
+    private Button recettes_btn;
 
     private ScrollView repasScrollView;
     private ScrollView shoppingListScrollView;
@@ -181,9 +182,10 @@ public class RepasFragment extends Fragment implements View.OnClickListener {
 
         mealPlan_btn = (Button) mView.findViewById(R.id.meal_plan_button);
         shoppingList_btn = (Button) mView.findViewById(R.id.shopping_list_button);
-
+        recettes_btn = (Button) mView.findViewById(R.id.recettes_button);
         mealPlan_btn.setOnClickListener(this);
         shoppingList_btn.setOnClickListener(this);
+        recettes_btn.setOnClickListener(this);
 
         mealPlan_btn.setSelected(true);
 
@@ -489,8 +491,11 @@ public class RepasFragment extends Fragment implements View.OnClickListener {
 
             mealPlan_btn.setSelected(true);
             shoppingList_btn.setSelected(false);
+            recettes_btn.setSelected(false);
+
             repasScrollView.setVisibility(View.VISIBLE);
             shoppingListScrollView.setVisibility(View.GONE);
+            removeFragment();
 
         } else if (v == shoppingList_btn) {
             System.out.println("REpas weeknumber shoppingList_btn: " + weekNumber);
@@ -507,16 +512,50 @@ public class RepasFragment extends Fragment implements View.OnClickListener {
             }
             mealPlan_btn.setSelected(false);
             shoppingList_btn.setSelected(true);
+            recettes_btn.setSelected(false);
 
             repasScrollView.setVisibility(View.GONE);
             shoppingListScrollView.setVisibility(View.VISIBLE);
 
             getShoppingList();
-        } else {
+            removeFragment();
+
+        } else if (v == recettes_btn){
+            mealPlan_btn.setSelected(false);
+            shoppingList_btn.setSelected(false);
+            recettes_btn.setSelected(true);
+            loadRecetteFragment();
+        }
+            else {
             int recipeId = (Integer) v.getTag(R.id.recipe_id);
             getSpecificRecipe(recipeId);
         }
     }
+
+    private void loadRecetteFragment()
+    {
+        FragmentManager fragmentManager = getFragmentManager();
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS") != null) {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS")).commit();
+        } else {
+        }
+
+        try {
+            Fragment fragment = new RecipesAccountFragment();
+            fragmentManager.beginTransaction().replace(R.id.recettesContent, fragment, "CURRENT_FRAGMENT_IN_REPAS").commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void removeFragment()
+    {
+        FragmentManager fragmentManager = getFragmentManager();
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS") != null) {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS")).commit();
+        }
+    }
+
 
     private void getSpecificRecipe(int recipeId) {
         caller.GetAccountRecipeCtid(new AsyncResponse() {

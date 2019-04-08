@@ -129,18 +129,22 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
+                    <com.github.siyamed.shapeimageview.RoundedImageView
                         android:id="@+id/LandingImage1_account"
                         style="@style/LandingImage"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:src="@drawable/landing_account_repas"
-                        app:siShape="@drawable/shape_rounded_rectangle"
+                        app:siRadius="6dp"
+                        app:siBorderWidth="1dp"
+                        app:siBorderAlpha="0.1"
                         />
 
                     <Button
@@ -149,6 +153,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/menu_account_repas"
+                        android:background="@drawable/rectangle_rounded_bottom"
                         android:layout_alignBottom="@id/LandingImage1_account"
                         android:layout_alignStart="@+id/LandingImage1_account"
                         android:layout_alignRight="@+id/LandingImage1_account"
@@ -160,19 +165,23 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="4dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <com.github.siyamed.shapeimageview.RoundedImageView
                         android:id="@+id/LandingImage2_account"
                         style="@style/LandingImage"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/landing_account_conseils" />
-
+                        android:src="@drawable/landing_account_conseils"
+                        app:siRadius="6dp"
+                        app:siBorderWidth="1dp"
+                        app:siBorderAlpha="0.1"
+                        />
                     <Button
                         android:id="@+id/LandingConsultationButton"
                         style="@style/LandingButtonAccount"
@@ -190,19 +199,23 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <com.github.siyamed.shapeimageview.RoundedImageView
                         android:id="@+id/LandingImage3_account"
                         style="@style/LandingImage"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/landing_account_messagerie" />
+                        android:src="@drawable/landing_account_messagerie"
+                        app:siRadius="6dp"
+                        app:siBorderWidth="1dp"
+                        app:siBorderAlpha="0.1"
+                        />
 
                     <Button
                         android:id="@+id/LandingRecettesAccountButton"
@@ -224,24 +237,30 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:orientation="horizontal"
+                android:gravity="center"
                 android:weightSum="3">
 
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:layout_marginLeft="4dp"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <com.github.siyamed.shapeimageview.RoundedImageView
                         android:id="@+id/LandingImage4_account"
                         style="@style/LandingImage"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/landing_account_coaching" />
+                        android:src="@drawable/landing_account_coaching"
+                        app:siRadius="6dp"
+                        app:siBorderWidth="1dp"
+                        app:siBorderAlpha="0.1"
+                        />
 
                     <Button
                         android:id="@+id/LandingCarnetAccountButton"
@@ -260,18 +279,23 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:layout_marginLeft="4dp"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <com.github.siyamed.shapeimageview.RoundedImageView
                         android:id="@+id/LandingImage5_account"
                         style="@style/LandingImage"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/landing_account_messagerie" />
+                        android:src="@drawable/landing_account_messagerie"
+                        app:siRadius="6dp"
+                        app:siBorderWidth="1dp"
+                        app:siBorderAlpha="0.1"
+                        />
 
                     <Button
                         android:id="@+id/LandingMessagesButton"
@@ -296,13 +320,17 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <com.github.siyamed.shapeimageview.RoundedImageView
                         android:id="@+id/LandingImage6_account"
                         style="@style/LandingImage"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/landing_account_poids" />
+                        android:src="@drawable/landing_account_poids"
+                        app:siRadius="6dp"
+                        app:siBorderWidth="1dp"
+                        app:siBorderAlpha="0.1"
+                        />
 
                     <Button
                         android:id="@+id/LandingConseilsButton"
@@ -325,24 +353,30 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:orientation="horizontal"
+                android:gravity="center"
                 android:weightSum="3">
 
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:layout_marginLeft="4dp"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <com.github.siyamed.shapeimageview.RoundedImageView
                         android:id="@+id/LandingImage7_account"
                         style="@style/LandingImage"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/landing_account_exercise" />
+                        android:src="@drawable/landing_account_exercise"
+                        app:siRadius="6dp"
+                        app:siBorderWidth="1dp"
+                        app:siBorderAlpha="0.1"
+                        />
 
                     <Button
                         android:id="@+id/LandingExercicesButton"
@@ -363,16 +397,21 @@
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:layout_marginLeft="4dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <com.github.siyamed.shapeimageview.RoundedImageView
                         android:id="@+id/LandingImage8_account"
                         style="@style/LandingImage"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/landing_account_poids" />
+                        android:src="@drawable/landing_account_poids"
+                        app:siRadius="6dp"
+                        app:siBorderWidth="1dp"
+                        app:siBorderAlpha="0.1"
+                        />
 
                     <Button
                         android:id="@+id/LandingSuiviButton"
@@ -393,17 +432,21 @@
                     android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <com.github.siyamed.shapeimageview.RoundedImageView
                         android:id="@+id/LandingImage9_account"
                         style="@style/LandingImage"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/landing_account_compte" />
+                        android:src="@drawable/landing_account_compte"
+                        app:siRadius="6dp"
+                        app:siBorderWidth="1dp"
+                        app:siBorderAlpha="0.1"
+                        />
 
                     <Button
                         android:id="@+id/LandingMonCompteButton"
@@ -445,6 +488,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:id="@+id/landing_account_progressBar" />
+        android:id="@+id/landing_account_progressBar"
+        android:visibility="gone"/>
 
 </RelativeLayout>

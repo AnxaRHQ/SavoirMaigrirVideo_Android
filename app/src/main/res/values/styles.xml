@@ -25,12 +25,13 @@
 
     <style name="LandingButtonAccount">
 
-        <item name="android:background">#80000000</item>
+        <item name="android:background">@drawable/rectangle_rounded_bottom</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">10sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:layout_centerHorizontal">true</item>
+
     </style>
 
     <style name="LandingImage">

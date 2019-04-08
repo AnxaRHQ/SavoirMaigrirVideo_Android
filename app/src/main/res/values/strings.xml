@@ -128,6 +128,7 @@
     <!--Repas-->
     <string name="repas_header_meal_plans">Plan de repas</string>
     <string name="repas_header_shopping_list">Liste de courses</string>
+    <string name="repas_header_recettes">Recettes</string>
     <string name="repas_header_meal_plan">Vous suivez actuellement le programme \n#program à #calorie/jour</string>
     <string name="repas_breakfast">Petit-Déjeuner</string>
     <string name="repas_lunch">Déjeuner</string>

@@ -39,6 +39,15 @@
             android:background="@drawable/button_weight_graph_bg"
             android:text="@string/repas_header_shopping_list" />
 
+        <Button
+            android:id="@+id/recettes_button"
+            style="@style/whiteNormalRepas"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_weight_graph_bg"
+            android:text="@string/repas_header_recettes" />
     </LinearLayout>
 
     <LinearLayout
@@ -606,5 +615,14 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/recettesContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/repasSearch_ll">
+
+
+    </RelativeLayout>
 
 </RelativeLayout>
