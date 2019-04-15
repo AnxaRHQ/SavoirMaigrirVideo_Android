@@ -361,7 +361,7 @@
             android:layout_marginRight="10dp"
             android:background="@color/common_gray_separator" />
 
-        <com.anxa.ui.CarnetCommentListLayout
+        <anxa.com.smvideo.ui.CarnetCommentListLayout
             android:id="@+id/commentlist"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

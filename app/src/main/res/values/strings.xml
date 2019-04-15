@@ -45,7 +45,8 @@
     <string name="welcome_account_3">maine %d de votre programme</string>
     <string name="menu_account_coaching">Coaching</string>
     <string name="menu_account_repas">Plan De Repas</string>
-    <string name="menu_account_recettes">Diététicienne</string>
+    <string name="menu_account_recettes">Recettes</string>
+    <string name="menu_account_dieticienne">Diététicienne</string>
     <!--<string name="menu_account_conseils">Conseils</string>-->
     <string name="menu_account_webinars">Consultations</string>
     <string name="menu_account_exercices">Exercices</string>

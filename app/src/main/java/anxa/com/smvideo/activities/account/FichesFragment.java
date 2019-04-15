@@ -40,7 +40,7 @@ import anxa.com.smvideo.util.AppUtil;
  * Created by aprilanxa on 18/08/2017.
  */
 
-public class WebinarFragment extends Fragment {
+public class FichesFragment extends Fragment {
 
     ImageButton forwardBrowserButton, backBrowserButton, refreshBrowserButton;
     String URLPath = "";
@@ -65,15 +65,15 @@ public class WebinarFragment extends Fragment {
 //        ((ImageView) mView.findViewById(R.id.header_menu_iv)).setVisibility(View.VISIBLE);
 
 
-        String webinarWebkitUrl = WebkitURL.webinarWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id));
+        String fichesWebkitUrl = WebkitURL.fichesWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id));
         try {
-            webinarWebkitUrl = webinarWebkitUrl.replace("%sig", AppUtil.SHA1("get" + WebkitURL.webinarWebkitUrl.split(Pattern.quote("?"))[0] + Integer.toString(ApplicationData.getInstance().userDataContract.Id) + "Au!Ui 7RCw h9p1m36"));
+            fichesWebkitUrl = fichesWebkitUrl.replace("%sig", AppUtil.SHA1("get" + WebkitURL.fichesWebkitUrl.split(Pattern.quote("?"))[0] + Integer.toString(ApplicationData.getInstance().userDataContract.Id) + "Au!Ui 7RCw h9p1m36"));
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        URLPath = WebkitURL.domainURL + webinarWebkitUrl;
+        URLPath = WebkitURL.domainURL + fichesWebkitUrl;
 
         // Save the web view
         mainContentWebView = (VideoEnabledWebView)mView.findViewById(R.id.maincontentWebView);

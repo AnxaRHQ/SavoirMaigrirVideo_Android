@@ -27,6 +27,7 @@ import anxa.com.smvideo.activities.account.CarnetAccountFragment;
 import anxa.com.smvideo.activities.account.CoachingAccountFragment;
 import anxa.com.smvideo.activities.account.ConseilsFragment;
 import anxa.com.smvideo.activities.account.ExerciceFragment;
+import anxa.com.smvideo.activities.account.FichesFragment;
 import anxa.com.smvideo.activities.account.LandingPageAccountActivity;
 import anxa.com.smvideo.activities.account.MessagesAccountFragment;
 import anxa.com.smvideo.activities.account.MonCompteAccountFragment;
@@ -100,15 +101,16 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
 
             }
             ((TextView) (findViewById(R.id.slide_nav_header_tv))).setText(welcome_message);
-            mNavItems.add(new NavItem(getString(R.string.menu_home), R.drawable.icon_home));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_coaching), R.drawable.icon_account_coaching));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_repas), R.drawable.icon_account_repas));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_recettes), R.drawable.icon_account_recettes));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_carnet), R.drawable.icon_account_carnet));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_messages), R.drawable.icon_account_messagerie));mNavItems.add(new NavItem(getString(R.string.menu_account_webinars), R.drawable.icon_account_webinar));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_exercices), R.drawable.icon_account_exercises));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_poids), R.drawable.icon_account_poids));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_compte), R.drawable.icon_account_compte));
+            mNavItems.add(new NavItem(getString(R.string.menu_home)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_repas)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_webinars)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_dieticienne)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_session)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_videos)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_poids)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_communaute)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_fiches)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_ambassadrice)));
         }
 
         // DrawerLayout
@@ -192,7 +194,7 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                     fragment = new RepasFragment();
                     break;
                 case 2: //consultations
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Conseil;
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
                     fragment = new WebinarFragment();
                     break;
                 case 3: //recettes
@@ -211,14 +213,15 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                     fragment = new VideosFragment();
                     break;
                 case 6: //courbes
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Suivi;
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Weight;
                     fragment = new WeightGraphFragment();
                     break;
                 case 7: //communaute
 
                     break;
                 case 8: //fiches
-
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Fiches;
+                    fragment = new FichesFragment();
                     break;
                 case 9: //ambassadrice
 
@@ -226,6 +229,10 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                 case 10: //apropos
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Apropos;
                     fragment = new AproposFragment();
+                    break;
+                case 12: //fiches
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Fiches;
+                    fragment = new FichesFragment();
                     break;
                 default:
                     fragment = new CoachingAccountFragment();

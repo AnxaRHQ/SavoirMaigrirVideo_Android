@@ -293,24 +293,24 @@ public class LandingPageAccountActivity extends Activity implements View.OnClick
     }
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.LandingConsultationButton || v.getId() == R.id.LandingImage1_account) {
-            goToConsultationPage();
-        } else if (v.getId() == R.id.LandingRepasButton || v.getId() == R.id.LandingImage2_account) {
+        if (v.getId() == R.id.LandingRepasButton || v.getId() == R.id.LandingImage1_account) {
             goToRepasPage();
+        } else if (v.getId() == R.id.LandingConsultationButton || v.getId() == R.id.LandingImage2_account) {
+            goToConsultationPage();
         } else if (v.getId() == R.id.LandingRecettesAccountButton || v.getId() == R.id.LandingImage3_account) {
-            goToRecettesPage();
-        } else if (v.getId() == R.id.LandingCarnetAccountButton || v.getId() == R.id.LandingImage4_account) {
-            goToCarnetPage();
-        } else if (v.getId() == R.id.LandingMessagesButton || v.getId() == R.id.LandingImage5_account) {
             goToMessagesPage();
+        } else if (v.getId() == R.id.LandingCarnetAccountButton || v.getId() == R.id.LandingImage4_account) {
+            goToCoachingPage();
+        } else if (v.getId() == R.id.LandingMessagesButton || v.getId() == R.id.LandingImage5_account) {
+            goToVideosPage();
         } else if (v.getId() == R.id.LandingConseilsButton || v.getId() == R.id.LandingImage6_account) {
-            goToConseilsPage();
+            goToWeightPage();
         } else if (v.getId() == R.id.LandingExercicesButton || v.getId() == R.id.LandingImage7_account) {
-            goToExercicesPage();
+            goToCommunityPage();
         } else if (v.getId() == R.id.LandingSuiviButton || v.getId() == R.id.LandingImage8_account) {
-            goToSuiviPage();
+            goToFichesPage();
         } else if (v.getId() == R.id.LandingMonCompteButton || v.getId() == R.id.LandingImage9_account) {
-            goToMonComptePage();
+            goToAmbassadricePage();
         } else if (v == header_info_iv) {
             goToAproposPage();
         } else if (v == contact_btn) {
@@ -331,17 +331,6 @@ public class LandingPageAccountActivity extends Activity implements View.OnClick
         startActivity(mainIntent);
     }
 
-    public void goToRecettesPage() {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Recettes;
-        Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
-        startActivity(mainIntent);
-    }
-
-    public void goToCarnetPage() {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Carnet;
-        Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
-        startActivity(mainIntent);
-    }
 
     public void goToMessagesPage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Messages;
@@ -350,31 +339,43 @@ public class LandingPageAccountActivity extends Activity implements View.OnClick
     }
 
     public void goToConseilsPage() {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Conseil;
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
         Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
         startActivity(mainIntent);
 
     }
 
-    public void goToExercicesPage() {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Exercices;
+    public void goToVideosPage() {
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Videos;
+        Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
+        startActivity(mainIntent);
+    }
+    public void goToWeightPage() {
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Weight;
+        Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
+        startActivity(mainIntent);
+
+    }
+    public void goToCommunityPage() {
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Communaute;
+        Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
+        startActivity(mainIntent);
+
+    }
+    public void goToAmbassadricePage() {
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Ambassadrice;
+        Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
+        startActivity(mainIntent);
+
+    }
+    public void goToFichesPage() {
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Fiches;
         Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
         startActivity(mainIntent);
     }
 
-    public void goToSuiviPage() {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Suivi;
-        Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
-        startActivity(mainIntent);
-    }
-
-    public void goToMonComptePage() {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_MonCompte;
-        Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
-        startActivity(mainIntent);
-    }
     public void goToConsultationPage() {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Conseil;
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
         Intent mainIntent = new Intent(getBaseContext(), MainActivity.class);
         startActivity(mainIntent);
     }

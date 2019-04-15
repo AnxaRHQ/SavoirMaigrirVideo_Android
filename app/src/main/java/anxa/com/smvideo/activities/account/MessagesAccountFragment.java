@@ -62,10 +62,14 @@ public class MessagesAccountFragment extends Fragment implements View.OnClickLis
     PostMessagesContract newPostMessageContract;
     Button loadMore_btn;
     RelativeLayout loadMore_layout;
+    RelativeLayout carnetContent;
+    RelativeLayout messagesContent;
 
     MessagesResponseContract response;
 
     List<MessagesContract> items;
+    Button messages_btn;
+    Button carnet_btn;
 
     long previousDate;
 
@@ -108,7 +112,14 @@ public class MessagesAccountFragment extends Fragment implements View.OnClickLis
         progressBar = (ProgressBar) mView.findViewById(R.id.progressBar);
         progressBar.setIndeterminate(true);
         loadMore_layout = (RelativeLayout) mView.findViewById(R.id.loadMoreLayout);
+        messagesContent = (RelativeLayout) mView.findViewById(R.id.messagesContent);
+        carnetContent = (RelativeLayout) mView.findViewById(R.id.carnetContent);
 
+        messages_btn = (Button) mView.findViewById(R.id.messages_button);
+        carnet_btn = (Button) mView.findViewById(R.id.carnet_button);
+
+        messages_btn.setOnClickListener(this);
+        carnet_btn.setOnClickListener(this);
         progressBar.setVisibility(View.VISIBLE);
 
         if (items != null && items.size() > 1) {
@@ -441,9 +452,44 @@ public class MessagesAccountFragment extends Fragment implements View.OnClickLis
 
             System.out.println("postComment");
             postComment(v);
+        }else if (v == messages_btn){
+            messages_btn.setSelected(true);
+            carnet_btn.setSelected(false);
+            messagesContent.setVisibility(View.VISIBLE);
+            carnetContent.setVisibility(View.GONE);
+            removeFragment();
+        }else if(v == carnet_btn){
+            messages_btn.setSelected(false);
+            carnet_btn.setSelected(true);
+            loadCarnetFragment();
+        }
+    }
+    private void loadCarnetFragment()
+    {
+        FragmentManager fragmentManager = getFragmentManager();
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_DIETITIAN") != null) {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_DIETITIAN")).commit();
+        } else {
+        }
+
+        try {
+            Fragment fragment = new CarnetAccountFragment();
+            fragmentManager.beginTransaction().replace(R.id.carnetContent, fragment, "CURRENT_FRAGMENT_IN_DIETITIAN").commit();
+            messagesContent.setVisibility(View.GONE);
+            carnetContent.setVisibility(View.VISIBLE);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
+    private void removeFragment()
+    {
+        FragmentManager fragmentManager = getFragmentManager();
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS") != null) {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS")).commit();
+        }
+    }
     private void showCustomDialog(String message) {
 //
 //        dialog = new CustomDialog(context, null, null, null, true, message, null, this);

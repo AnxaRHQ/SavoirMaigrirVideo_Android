@@ -107,7 +107,7 @@
         android:background="@color/text_white"
         android:descendantFocusability="blocksDescendants">
 
-    <com.anxa.ui.CarnetCommentListLayout
+    <anxa.com.smvideo.ui.CarnetCommentListLayout
         android:id="@+id/commentlist"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
