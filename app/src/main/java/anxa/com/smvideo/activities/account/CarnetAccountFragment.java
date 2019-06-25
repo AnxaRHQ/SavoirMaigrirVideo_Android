@@ -94,11 +94,9 @@ public class CarnetAccountFragment extends Fragment implements View.OnClickListe
     AlphaAnimation inAnimation;
     AlphaAnimation outAnimation;
 
-
     private Context context;
     protected ApiCaller caller;
     View mView;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -110,8 +108,8 @@ public class CarnetAccountFragment extends Fragment implements View.OnClickListe
         caller = new ApiCaller();
 
         //header change
-        ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_account_messages));
-        ((TextView) (mView.findViewById(R.id.header_right_tv))).setVisibility(View.INVISIBLE);
+//        ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_account_messages));
+//        ((TextView) (mView.findViewById(R.id.header_right_tv))).setVisibility(View.INVISIBLE);
 
         mealList = (CarnetList) mView.findViewById(R.id.meallist);
 
@@ -201,7 +199,7 @@ public class CarnetAccountFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onDestroy() {
-//        unregisterReceiver(the_receiver);
+        context.unregisterReceiver(the_receiver);
 
         super.onDestroy();
     }

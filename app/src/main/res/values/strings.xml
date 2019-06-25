@@ -56,14 +56,14 @@
     <string name="menu_account_carnet">Carnet Minceur</string>
     <string name="menu_account_session">Session du jour</string>
     <string name="menu_account_videos">500+ Vidéos</string>
-    <string name="menu_account_communaute">Communaute</string>
+    <string name="menu_account_communaute">Community</string>
     <string name="menu_account_fiches">Fiches Pratiques</string>
     <string name="menu_account_ambassadrice">Ambassadrice</string>
 
     <string name="lost_weight_text">Vous avez perdu </string>
 
-    <string name="coaching_header">Coaching - Semane %d</string>
-    <string name="coaching_archive_week">Semane %d</string>
+    <string name="coaching_header">Coaching - Semaine %d</string>
+    <string name="coaching_archive_week">Semaine %d</string>
     <string name="coaching_header_right">Archive</string>
     <string name="coaching_broadcast_string">Archive_week_selected</string>
 

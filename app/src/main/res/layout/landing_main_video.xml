@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/text_black">
+
+    <RelativeLayout
+        android:id="@+id/videoview_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_ll"
+        android:background="@color/text_black">
+
+        <VideoView
+            android:id="@+id/main_video_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_ll"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="M'insiscre"
+            android:textColor="@color/text_white"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:background="@drawable/orange_border"
+            android:onClick="goToFreePart"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Me connecter"
+            android:textColor="@color/text_white"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:background="@color/text_black"
+            android:onClick="goToLoginPage"/>
+    </LinearLayout>
+
+
+
+</RelativeLayout>

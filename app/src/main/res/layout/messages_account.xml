@@ -8,14 +8,14 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@android:color/white"
-        android:orientation="vertical">
+        android:background="@android:color/white">
 
         <include
-            layout="@layout/header_menu"
             android:id="@+id/messages_headermenu"
+            layout="@layout/header_menu"
             android:layout_width="match_parent"
-            android:layout_height="44dp"/>
+            android:layout_height="44dp" />
+
         <LinearLayout
             android:id="@+id/dietitianTab_ll"
             android:layout_width="match_parent"
@@ -45,12 +45,13 @@
 
 
         </LinearLayout>
+
         <RelativeLayout
             android:id="@+id/messagesContent"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:layout_below="@+id/dietitianTab_ll">
+            android:layout_below="@+id/dietitianTab_ll"
+            android:orientation="vertical">
 
             <include
                 android:id="@+id/commentfieldcontainer"
@@ -59,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="bottom"
-                android:visibility="visible"/>
+                android:visibility="visible" />
 
             <anxa.com.smvideo.ui.MessagesListLayout
                 android:id="@+id/commentlist"
@@ -70,8 +71,7 @@
                 android:layout_marginBottom="3dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="3dp"
-                />
+                android:layout_marginTop="3dp" />
 
             <RelativeLayout
                 android:id="@+id/loadMoreLayout"
@@ -92,7 +92,7 @@
                     android:enabled="true"
                     android:text="@string/messages_load_more"
                     android:textColor="@color/common_button_blue"
-                    android:visibility="visible"/>
+                    android:visibility="visible" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"
@@ -108,6 +108,7 @@
 
             </RelativeLayout>
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/carnetContent"
             android:layout_width="fill_parent"

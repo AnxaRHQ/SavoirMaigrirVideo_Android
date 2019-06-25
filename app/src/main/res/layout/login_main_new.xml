@@ -17,7 +17,7 @@
         android:layout_weight="4">
 
         <EditText
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="10dp"
             android:layout_width="260dp"
             android:inputType="textEmailAddress"
             android:ems="10"
@@ -50,7 +50,7 @@
             android:layout_below="@+id/login_password_et"
             android:gravity="center_vertical"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="20dp">
 
             <TextView
                 android:id="@+id/login_forgotpw"

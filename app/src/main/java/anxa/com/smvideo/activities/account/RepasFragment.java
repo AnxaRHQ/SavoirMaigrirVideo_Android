@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -62,6 +63,9 @@ public class RepasFragment extends Fragment implements View.OnClickListener {
     private Button mealPlan_btn;
     private Button shoppingList_btn;
     private Button recettes_btn;
+
+    private LinearLayout repasHeader_ll;
+    private LinearLayout repasSearch_ll;
 
     private ScrollView repasScrollView;
     private ScrollView shoppingListScrollView;
@@ -153,6 +157,9 @@ public class RepasFragment extends Fragment implements View.OnClickListener {
 
         nextDay_btn.setOnClickListener(this);
         previousDay_btn.setOnClickListener(this);
+
+        repasHeader_ll = (LinearLayout) mView.findViewById(R.id.repasHeader_ll);
+        repasSearch_ll = (LinearLayout) mView.findViewById(R.id.repasSearch_ll);
 
         bfastListView = (CustomListView) mView.findViewById(R.id.repas_bfast_list);
         lunchListView = (CustomListView) mView.findViewById(R.id.repas_lunch_list);
@@ -477,6 +484,9 @@ public class RepasFragment extends Fragment implements View.OnClickListener {
             }
         } else if (v == mealPlan_btn) {
 
+            repasHeader_ll.setVisibility(View.VISIBLE);
+            repasSearch_ll.setVisibility(View.VISIBLE);
+
             if (isUserWeek0) {
                 weekNumber = 1;
                 dayNumber = 1;
@@ -499,6 +509,10 @@ public class RepasFragment extends Fragment implements View.OnClickListener {
 
         } else if (v == shoppingList_btn) {
             System.out.println("REpas weeknumber shoppingList_btn: " + weekNumber);
+
+
+            repasHeader_ll.setVisibility(View.VISIBLE);
+            repasSearch_ll.setVisibility(View.VISIBLE);
 
             if (isUserWeek0) {
                 weekNumber = 1;
@@ -546,6 +560,9 @@ public class RepasFragment extends Fragment implements View.OnClickListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        repasHeader_ll.setVisibility(View.GONE);
+        repasSearch_ll.setVisibility(View.GONE);
     }
 
     private void removeFragment()

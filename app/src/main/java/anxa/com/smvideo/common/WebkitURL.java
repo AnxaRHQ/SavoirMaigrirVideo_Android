@@ -33,6 +33,7 @@ public class WebkitURL {
 
     public static String webinarWebkitUrl = "/5minparjour/mobile/conference?regId=%regId&sig=%sig";
     public static String fichesWebkitUrl = "/5minparjour/mobile/fichespratiques?regId=%regId&sig=%sig";
+    public static String ambassadriceWebkitUrl = "/5minparjour/mobile/community/SuperAmbassadeur?regId=%regId&sig=%sig";
     public static final String ANXAMATS_URL = "http://api.anxa.com/anxamats";
 
 }

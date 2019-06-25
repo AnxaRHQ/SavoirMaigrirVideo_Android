@@ -118,6 +118,7 @@ public class MessagesAccountFragment extends Fragment implements View.OnClickLis
         messages_btn = (Button) mView.findViewById(R.id.messages_button);
         carnet_btn = (Button) mView.findViewById(R.id.carnet_button);
 
+        messages_btn.setSelected(true);
         messages_btn.setOnClickListener(this);
         carnet_btn.setOnClickListener(this);
         progressBar.setVisibility(View.VISIBLE);

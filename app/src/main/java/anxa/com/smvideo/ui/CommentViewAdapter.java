@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -102,8 +103,20 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
             String proFileImageURL = AppUtil.BuildProfilePicUrl(context.getResources().getString(R.string.profile_pic_url), Integer.toString(ApplicationData.getInstance().regId));
 
             //download profile pic
-            new DownloadImageTask((ImageView) viewHolder.imageView)
-                    .execute(proFileImageURL);
+//            new DownloadImageTask((ImageView) viewHolder.imageView)
+//                    .execute(proFileImageURL);
+
+            final ImageView viewHolder_iv = viewHolder.imageView;
+            final String profileURL_img = proFileImageURL;
+            final  Handler mHandler = new Handler(context.getMainLooper());
+            mHandler.post(new Runnable() {
+                int i=0;
+                @Override
+                public void run() {
+                    new DownloadImageTask((ImageView) viewHolder_iv).execute(profileURL_img);
+                    mHandler.postDelayed(this, 5000);
+                }
+            });
 
 //            proFileImageURL = AppUtil.BuildProfilePicUrl(context.getResources().getString(R.string.profile_pic_url), Integer.toString(message.CoachId));
 

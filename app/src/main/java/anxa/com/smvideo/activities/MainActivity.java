@@ -22,6 +22,7 @@ import java.util.Date;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
+import anxa.com.smvideo.activities.account.AmbassadriceFragment;
 import anxa.com.smvideo.activities.account.AproposFragment;
 import anxa.com.smvideo.activities.account.CarnetAccountFragment;
 import anxa.com.smvideo.activities.account.CoachingAccountFragment;
@@ -111,6 +112,7 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
             mNavItems.add(new NavItem(getString(R.string.menu_account_communaute)));
             mNavItems.add(new NavItem(getString(R.string.menu_account_fiches)));
             mNavItems.add(new NavItem(getString(R.string.menu_account_ambassadrice)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_compte)));
         }
 
         // DrawerLayout
@@ -160,6 +162,8 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
  * Called when a particular item from the navigation drawer is selected.*/
     private void selectItemFromDrawer(int position) {
         Fragment fragment = new RecipesActivity();
+
+        System.out.println("selectedrfrom drawer: " + position);
 
         if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free")) {
             switch (position) {
@@ -224,15 +228,12 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                     fragment = new FichesFragment();
                     break;
                 case 9: //ambassadrice
-
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Ambassadrice;
+                    fragment = new AmbassadriceFragment();
                     break;
-                case 10: //apropos
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Apropos;
-                    fragment = new AproposFragment();
-                    break;
-                case 12: //fiches
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Fiches;
-                    fragment = new FichesFragment();
+                case 10: //mon compte
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.MonCompte;
+                    fragment = new MonCompteAccountFragment();
                     break;
                 default:
                     fragment = new CoachingAccountFragment();
