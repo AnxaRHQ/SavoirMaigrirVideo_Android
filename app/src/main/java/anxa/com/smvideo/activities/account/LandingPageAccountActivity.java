@@ -2,6 +2,7 @@ package anxa.com.smvideo.activities.account;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -355,8 +356,7 @@ public class LandingPageAccountActivity extends Fragment implements View.OnClick
 
     public void goToMessagesPage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Messages;
-        Intent mainIntent = new Intent(context, MainActivity.class);
-        startActivity(mainIntent);
+        goToFragmentPage(new MessagesAccountFragment());
     }
 
     public void goToConseilsPage() {
@@ -391,14 +391,76 @@ public class LandingPageAccountActivity extends Fragment implements View.OnClick
     }
     public void goToFichesPage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Fiches;
-        Intent mainIntent = new Intent(context, MainActivity.class);
-        startActivity(mainIntent);
+        Bundle bundle = new Bundle();
+        bundle.putString("header_title", getString(R.string.menu_account_webinars));
+        bundle.putString("webkit_url", WebkitURL.fichesWebkitUrl);
+        goToWebkitPage(ApplicationData.SelectedFragment.Account_Fiches, bundle);
     }
 
     public void goToConsultationPage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
-        Intent mainIntent = new Intent(context, MainActivity.class);
-        startActivity(mainIntent);
+        Bundle bundle = new Bundle();
+        bundle.putString("header_title", getString(R.string.menu_account_webinars));
+        bundle.putString("webkit_url", WebkitURL.webinarWebkitUrl);
+        goToWebkitPage(ApplicationData.SelectedFragment.Account_Consultation, bundle);
+    }
+    private void goToFragmentPage(Fragment fragment) {
+       FragmentManager fragmentManager = getFragmentManager();
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
+        } else {
+        }
+
+        try {
+
+            fragmentManager.beginTransaction().replace(R.id.mainContent, fragment, "CURRENT_FRAGMENT").commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    private void goToWebkitPage(ApplicationData.SelectedFragment selectedFragment, Bundle bundle) {
+        ApplicationData.getInstance().selectedFragment = selectedFragment;
+
+        Fragment fragment = new WebkitFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragment.setArguments(bundle);
+
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
+        } else {
+        }
+
+        try {
+
+            fragmentManager.beginTransaction().replace(R.id.mainContent, fragment, "CURRENT_FRAGMENT").commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+     private void goToDtsPage(ApplicationData.SelectedFragment selectedFragment, Bundle bundle) {
+        ApplicationData.getInstance().selectedFragment = selectedFragment;
+
+        Fragment fragment = new DtsWebkitFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragment.setArguments(bundle);
+
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
+        } else {
+        }
+
+        try {
+
+            fragmentManager.beginTransaction().replace(R.id.mainContent, fragment, "CURRENT_FRAGMENT").commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
     }
     private void updateProgressBar() {
         initial_weight_tv.setText(Float.toString(ApplicationData.getInstance().dietProfilesDataContract.StartWeightInKg) + " kg");

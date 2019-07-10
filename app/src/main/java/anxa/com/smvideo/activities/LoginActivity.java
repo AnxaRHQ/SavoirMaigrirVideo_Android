@@ -126,8 +126,10 @@ public class LoginActivity extends Activity{
 
     private void goToAccountLandingPage(){
         ApplicationData.getInstance().accountType = "account";
-        Intent mainIntent = new Intent(this, LandingPageAccountActivity.class);
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Home;
+        Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(mainIntent);
+        finish();
     }
     private void goToNpnaPage()
     {

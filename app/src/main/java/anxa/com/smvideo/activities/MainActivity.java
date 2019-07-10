@@ -257,6 +257,9 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                 case 10: //messages
 
                     break;
+                case 11: //logout
+                    logoutUser();
+                    break;
                 default:
                     fragment = new CoachingAccountFragment();
 
@@ -278,7 +281,11 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
 
 
         mDrawerList.setItemChecked(position, true);
-        //setTitle(mNavItems.get(position).mTitle);
+        if(bundle.getString("header_title") != null)
+        {
+            setTitle(bundle.getString("header_title"));
+        }
+
 
         // Close the drawer
         mDrawerLayout.closeDrawer(mDrawerPane);
