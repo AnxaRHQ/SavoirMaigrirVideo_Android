@@ -1,0 +1,112 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/paymentoptions_rl"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/gray_bg_reg_code">
+
+    <include
+        android:id="@+id/reg_header"
+        layout="@layout/reg_header"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/validate_top_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reg_header"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/PREMIUM_SENT_BY_SMS"
+        android:textColor="@color/text_black"
+        android:textSize="16.5sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+
+    <TextView
+        android:id="@+id/validate_telnum_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/validate_top_tv"
+        android:gravity="center"
+        android:text="+63 9175430851"
+        android:textColor="@color/text_black"
+        android:textSize="16.5sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/validate_enter_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/validate_telnum_tv"
+        android:layout_margin="30dp"
+        android:gravity="center"
+        android:text="@string/PREMIUM_ENTER_IT_BELOW"
+        android:textColor="@color/text_black"
+        android:textSize="16.5sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:layout_above="@+id/validatecode_et"
+        android:background="@color/common_gray_separator" />
+
+    <EditText
+        android:id="@+id/validatecode_et"
+        style="@style/blackNormal.Large"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/validate_enter_tv"
+        android:background="@color/text_white"
+        android:gravity="center"
+        android:inputType="phone" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/validatecode_et"
+        android:background="@color/common_gray_separator" />
+
+    <TextView
+        android:id="@+id/validate_resend_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/validate_submit_ll"
+        android:layout_margin="30dp"
+        android:gravity="center"
+        android:text="@string/PREMIUM_RESEND_ACCESS_CODE_BUTTON"
+        android:textColor="@color/text_black"
+        android:textSize="16.5sp"
+        android:clickable="true"
+        android:onClick="resendAccessCode" />
+
+    <LinearLayout
+        android:id="@+id/validate_submit_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="15dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/validate_submitBtn"
+            style="@style/btnStyleWhiteCode"
+            android:layout_width="250dp"
+            android:layout_height="35dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:clickable="true"
+            android:onClick="validateAccessCode"
+            android:text="@string/btn_submit" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar_validateCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+</RelativeLayout>

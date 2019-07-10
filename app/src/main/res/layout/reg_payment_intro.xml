@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/common_button_white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/reg_header"
+        layout="@layout/reg_header"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentTop="true" />
+
+    <LinearLayout
+        android:id="@+id/welcome_header_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reg_header"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:background="@color/common_gray_separator" />
+
+        <LinearLayout
+            android:id="@+id/welcome_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray_bg_reg_code"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:src="@drawable/greeting_jmc" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/welcome_title_tv"
+                    style="@style/RecipeBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:gravity="left"
+                    android:paddingLeft="5dp"
+                    android:text="@string/REG_WELCOME_TITLE" />
+
+                <TextView
+                    android:id="@+id/welcome_subtitle_tv"
+                    style="@style/blackNormal.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:gravity="left"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/REG_WELCOME_SUBTITLE" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="@color/common_gray_separator" />
+
+    <LinearLayout
+        android:id="@+id/welcome_payment_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/welcome_header_ll"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/welcome_payment_title_tv"
+            style="@style/RecipeBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="@string/REG_WELCOME_PAYMENT_TITLE" />
+
+        <Button
+            android:id="@+id/welcome_payment_btn"
+            style="@style/btnStyleDarkOrange"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:text="@string/REG_WELCOME_PAYMENT_BTN_TITLE"
+            android:clickable="true"
+            android:onClick="proceedToPaymentPage"/>
+
+        <TextView
+            android:id="@+id/welcome_free_title_tv"
+            style="@style/blackNormal.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="@string/REG_WELCOME_FREE_TITLE" />
+
+        <Button
+            android:id="@+id/welcome_free_btn"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:text="@string/REG_WELCOME_FREE_BTN_TITLE"
+            android:textColor="@color/text_white"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:clickable="true"
+            android:onClick="proceedToAccessCodePage"
+            android:background="@drawable/rounded_background_darkgray"/>
+
+    </LinearLayout>
+
+        <!--<ProgressBar-->
+            <!--android:id="@+id/progressBar_optin"-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:visibility="visible" />-->
+
+</LinearLayout>

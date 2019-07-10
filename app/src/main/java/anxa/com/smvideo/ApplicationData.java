@@ -59,7 +59,11 @@ public class ApplicationData extends Application {
         Account_Fiches(12),
         Account_Communaute(11),
         Account_Apropos(14),
-        Home(15);
+        Home(15),
+        Account_Nutrition(16),
+        Account_Boutique(17),
+        Account_Notifications(18),
+        Account_Search(19);
 
 
         private int numVal;

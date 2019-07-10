@@ -41,7 +41,7 @@ public class CommandConstants {
     public static String COMMAND_GOOGLE_ORDER = "order";
     public static String COMMAND_GOOGLE_ORDER_CONFIRM = "confirmation";
     public static String COMMAND_GOOGLE_ORDER_UPDATE= "google-update";
-    public static String COMMAND_REGISTRATION= "register";
+    public static String COMMAND_REGISTRATION= "register-new";
     public static String COMMAND_REGISTRATIONUPDATE= "registerUpdate";
     public static String COMMAND_REGISTRATIONCONTINUE =  "registerContinue";
     public static String COMMAND_REGISTRATIONCHECK="check-registration";
@@ -52,5 +52,7 @@ public class CommandConstants {
     public static String COMMAND_CARNETSYNC = "sync";
     public static String COMMAND_CARNETMEALPLANFORDAY = "MealPlanForDay";
     public static String COMMAND_UPLOADPHOTO = "upload";
+    public static String COMMAND_SEND = "send";
+    public static String COMMAND_VALIDATE = "validate";
 
 }

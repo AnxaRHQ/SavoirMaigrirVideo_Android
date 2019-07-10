@@ -40,36 +40,7 @@
                 android:layout_marginTop="5dp"
                 android:src="@drawable/nav_logo" />
 
-            <ImageView
-                android:id="@+id/avatar"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_below="@id/avatar_header"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/greeting_jmc" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_below="@id/avatar_header"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:layout_toRightOf="@+id/avatar"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/slide_nav_header_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="@string/welcome_message"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"

@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -27,15 +28,19 @@ import anxa.com.smvideo.activities.account.AproposFragment;
 import anxa.com.smvideo.activities.account.CarnetAccountFragment;
 import anxa.com.smvideo.activities.account.CoachingAccountFragment;
 import anxa.com.smvideo.activities.account.ConseilsFragment;
+import anxa.com.smvideo.activities.account.DtsWebkitFragment;
 import anxa.com.smvideo.activities.account.ExerciceFragment;
 import anxa.com.smvideo.activities.account.FichesFragment;
 import anxa.com.smvideo.activities.account.LandingPageAccountActivity;
 import anxa.com.smvideo.activities.account.MessagesAccountFragment;
 import anxa.com.smvideo.activities.account.MonCompteAccountFragment;
+import anxa.com.smvideo.activities.account.NutritionFragment;
 import anxa.com.smvideo.activities.account.RecipesAccountFragment;
 import anxa.com.smvideo.activities.account.RepasFragment;
+import anxa.com.smvideo.activities.account.SearchFragment;
 import anxa.com.smvideo.activities.account.VideosFragment;
 import anxa.com.smvideo.activities.account.WebinarFragment;
+import anxa.com.smvideo.activities.account.WebkitFragment;
 import anxa.com.smvideo.activities.account.WeightGraphFragment;
 import anxa.com.smvideo.activities.free.BilanMinceurActivity;
 import anxa.com.smvideo.activities.free.DiscoverActivity;
@@ -43,6 +48,7 @@ import anxa.com.smvideo.activities.free.LandingPageActivity;
 import anxa.com.smvideo.activities.free.MonCompteActivity;
 import anxa.com.smvideo.activities.free.RecipesActivity;
 import anxa.com.smvideo.activities.free.TemoignagesActivity;
+import anxa.com.smvideo.common.WebkitURL;
 import anxa.com.smvideo.models.NavItem;
 import anxa.com.smvideo.ui.DrawerListAdapter;
 import anxa.com.smvideo.util.AppUtil;
@@ -57,7 +63,7 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
     private LinearLayout apropos_ll;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-
+    private ImageView notifHeader;
     ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
 
     @Override
@@ -71,17 +77,10 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
 
         apropos_ll = (LinearLayout)findViewById(R.id.apropos_ll);
 
-        //landing page on the first launch
-        if (ApplicationData.getInstance().showLandingPage) {
-            if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free")) {
-                launchActivity(LandingPageActivity.class);
-            } else {
-                launchActivity(LandingPageAccountActivity.class);
-            }
-        }
+
 
         if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free")) {
-            ((TextView) (findViewById(R.id.slide_nav_header_tv))).setText(getString(R.string.welcome_message));
+
             mNavItems.add(new NavItem(getString(R.string.menu_home), R.drawable.icon_home));
             mNavItems.add(new NavItem(getString(R.string.menu_decouvrir), R.drawable.decouvrez_ico));
             mNavItems.add(new NavItem(getString(R.string.menu_bilan), R.drawable.bilanminceur_ico));
@@ -101,18 +100,19 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                 System.out.println("welcome message: " + welcome_message);
 
             }
-            ((TextView) (findViewById(R.id.slide_nav_header_tv))).setText(welcome_message);
+
             mNavItems.add(new NavItem(getString(R.string.menu_home)));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_repas)));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_webinars)));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_dieticienne)));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_session)));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_videos)));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_poids)));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_communaute)));
             mNavItems.add(new NavItem(getString(R.string.menu_account_fiches)));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_ambassadrice)));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_compte)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_nutrition)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_coaching)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_communaute)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_videos)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_boutique)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_espacevip)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_notifications)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_invitations)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_message)));
+            mNavItems.add(new NavItem(getString(R.string.mon_compte_disconnect)));
         }
 
         // DrawerLayout
@@ -131,6 +131,15 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                 selectItemFromDrawer(position);
             }
         });
+
+        //landing page on the first launch
+   /*     if (ApplicationData.getInstance().showLandingPage) {
+            if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free")) {
+                launchActivity(LandingPageActivity.class);
+            } else {
+                goToHomePage();
+            }
+        }*/
     }
 
     @Override
@@ -162,7 +171,7 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
  * Called when a particular item from the navigation drawer is selected.*/
     private void selectItemFromDrawer(int position) {
         Fragment fragment = new RecipesActivity();
-
+        Bundle bundle = new Bundle();
         System.out.println("selectedrfrom drawer: " + position);
 
         if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free")) {
@@ -191,49 +200,62 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
         } else {
             switch (position) {
                 case 0:
-                    goToHomePage();
+                   goToHomePage();
                     break;
-                case 1: //repas
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Repas;
-                    fragment = new RepasFragment();
-                    break;
-                case 2: //consultations
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
-                    fragment = new WebinarFragment();
-                    break;
-                case 3: //recettes
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Messages;
-                    fragment = new MessagesAccountFragment();
-                    break;
-                case 4: //session
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Coaching;
+                case 1: //fiches
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Fiches;
+                    fragment = new WebkitFragment();
 
-                    if (!ApplicationData.getInstance().fromArchive)
-                        ApplicationData.getInstance().selectedWeekNumber = AppUtil.getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), new Date());
-                    fragment = new CoachingAccountFragment();
+                    bundle.putString("header_title", getString(R.string.menu_account_fiches));
+                    bundle.putString("webkit_url", WebkitURL.fichesWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
+                    fragment.setArguments(bundle);
+                    break;
+                case 2: //nutrition
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Nutrition;
+                    fragment = new WebkitFragment();
+                    bundle.putString("header_title", getString(R.string.menu_account_nutrition));
+                    bundle.putString("webkit_url", WebkitURL.nutritionWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
+                    fragment.setArguments(bundle);
+                    break;
+                case 3: //coaching
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Coaching;
+                    fragment = new WebkitFragment();
+                    bundle.putString("header_title", getString(R.string.menu_account_coaching));
+                    bundle.putString("webkit_url", WebkitURL.coachingWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
+                    fragment.setArguments(bundle);
+                    break;
+                case 4: //community
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Communaute;
+                    fragment = new WebkitFragment();
+                    bundle.putString("header_title", getString(R.string.menu_account_community));
+                    bundle.putString("webkit_url", WebkitURL.communityWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
+                    fragment.setArguments(bundle);
                     break;
                 case 5: //500 videos
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Messages;
-                    fragment = new VideosFragment();
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Videos;
+                    fragment = new WebkitFragment();
+                    bundle.putString("header_title", getString(R.string.menu_account_videos));
+                    bundle.putString("webkit_url", WebkitURL.videosWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
+                    fragment.setArguments(bundle);
                     break;
-                case 6: //courbes
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Weight;
-                    fragment = new WeightGraphFragment();
+                case 6: //boutique
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Boutique;
+                    fragment = new WebkitFragment();
+                    bundle.putString("header_title", getString(R.string.menu_account_boutique));
+                    bundle.putString("webkit_url", WebkitURL.boutiqueWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
+                    fragment.setArguments(bundle);
                     break;
-                case 7: //communaute
+                case 7: //devenir vip
 
                     break;
-                case 8: //fiches
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Fiches;
-                    fragment = new FichesFragment();
+                case 8: //notifications
+
                     break;
-                case 9: //ambassadrice
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Ambassadrice;
-                    fragment = new AmbassadriceFragment();
+                case 9: //invitations
+
                     break;
-                case 10: //mon compte
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.MonCompte;
-                    fragment = new MonCompteAccountFragment();
+                case 10: //messages
+
                     break;
                 default:
                     fragment = new CoachingAccountFragment();
@@ -256,7 +278,7 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
 
 
         mDrawerList.setItemChecked(position, true);
-        setTitle(mNavItems.get(position).mTitle);
+        //setTitle(mNavItems.get(position).mTitle);
 
         // Close the drawer
         mDrawerLayout.closeDrawer(mDrawerPane);
@@ -272,6 +294,10 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                 ApplicationData.getInstance().selectedWeekNumber = AppUtil.getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), new Date());
             }
             mDrawerLayout.openDrawer(Gravity.LEFT);
+        }
+        else if (view.getId() == R.id.header_search) {
+            //search menu
+            goToSearchPage();
         }
     }
 
@@ -324,9 +350,74 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
             Intent mainIntent = new Intent(this, LandingPageActivity.class);
             startActivity(mainIntent);
         }else{
-            ApplicationData.getInstance().accountType = "account";
-            Intent mainIntent = new Intent(this, LandingPageAccountActivity.class);
-            startActivity(mainIntent);
+            Fragment fragment = new LandingPageAccountActivity();
+
+            ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Home;
+            FragmentManager fragmentManager = getFragmentManager();
+            if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
+                fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
+            } else {
+            }
+
+            try {
+
+                fragmentManager.beginTransaction().replace(R.id.mainContent, fragment, "CURRENT_FRAGMENT").commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            //mDrawerLayout.closeDrawer(mDrawerPane);
         }
+    }
+    public void goToNotificationsPage(View view) {
+
+      Bundle bundle = new Bundle();
+        bundle.putString("header_title", getString(R.string.menu_account_notifications));
+        bundle.putString("webkit_url", WebkitURL.notificationsUrl);
+        goToDtsPage(ApplicationData.SelectedFragment.Account_Notifications, bundle);
+    }
+    private void goToDtsPage(ApplicationData.SelectedFragment selectedFragment, Bundle bundle) {
+        ApplicationData.getInstance().selectedFragment = selectedFragment;
+
+        Fragment fragment = new DtsWebkitFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragment.setArguments(bundle);
+
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
+        } else {
+        }
+
+        try {
+
+            fragmentManager.beginTransaction().replace(R.id.mainContent, fragment, "CURRENT_FRAGMENT").commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mDrawerLayout.closeDrawer(mDrawerPane);
+
+    }
+
+    private void goToSearchPage() {
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Search;
+
+        Fragment fragment = new SearchFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
+        } else {
+        }
+
+        try {
+
+            fragmentManager.beginTransaction().replace(R.id.mainContent, fragment, "CURRENT_FRAGMENT").commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mDrawerLayout.closeDrawer(mDrawerPane);
+
     }
 }

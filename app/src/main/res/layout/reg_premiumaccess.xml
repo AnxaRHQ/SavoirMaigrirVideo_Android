@@ -1,0 +1,179 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/paymentoptions_rl"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/gray_bg_reg_code">
+
+    <include
+        android:id="@+id/reg_header"
+        layout="@layout/reg_header"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentTop="true" />
+
+
+    <TextView
+        android:id="@+id/premiumaccess_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reg_header"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:text="@string/PREMIUM_ACCESS_CONTENT_TOP"
+        android:textColor="@color/text_black"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/premiumaccess_tv"
+        android:layout_marginTop="15dp"
+        android:background="@color/text_white"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:background="@color/common_gray_separator" />
+
+        <RelativeLayout
+            android:id="@+id/premium_countryContainer"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/premium_country_hint"
+                style="@style/darkGrayNormal.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|left"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/COUNTRY_CODE_PLACEHOLDER" />
+
+            <TextView
+                android:id="@+id/premium_country_tv"
+                style="@style/blackNormal.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:editable="true"
+                android:gravity="center_vertical|right"
+                android:hint="@string/COUNTRY_CODE_PLACEHOLDER"
+                android:inputType="textCapSentences|text"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:singleLine="true"
+                android:textColorHint="#cacaca"
+                android:clickable="true"
+                android:layout_alignParentRight="true" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:background="@color/common_gray_separator" />
+
+        <RelativeLayout
+            android:id="@+id/premium_codeContainer"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/premium_code_hint"
+                style="@style/darkGrayNormal.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|left"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/CODE_PLACEHOLDER" />
+
+            <TextView
+                android:id="@+id/premium_code_tv"
+                style="@style/blackNormal.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical|right"
+                android:hint="@string/CODE_PLACEHOLDER"
+                android:background="@android:color/transparent"
+                android:textColorHint="@color/tw__light_gray" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:background="@color/common_gray_separator" />
+
+        <RelativeLayout
+            android:id="@+id/premium_telNumContainer"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/premium_telNum_hint"
+                style="@style/darkGrayNormal.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|left"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/TELNUM_PLACEHOLDER" />
+
+            <EditText
+                android:id="@+id/premium_telNum_et"
+                style="@style/blackNormal.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical|right"
+                android:hint="@string/TELNUM_PLACEHOLDER"
+                android:textColorHint="@color/tw__light_gray"
+                android:background="@android:color/transparent"
+                android:editable="true"
+                android:inputType="phone" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:background="@color/common_gray_separator" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/reg_submitBtn"
+            style="@style/btnStyleWhiteCode"
+            android:layout_width="255dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:clickable="true"
+            android:onClick="sendAccessCode"
+            android:text="@string/PREMIUM_ACCESS_BUTTON_TITLE"
+            android:enabled="true" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar_premium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+</RelativeLayout>

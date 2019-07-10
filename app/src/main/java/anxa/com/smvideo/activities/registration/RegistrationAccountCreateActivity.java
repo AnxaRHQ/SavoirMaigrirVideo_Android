@@ -165,7 +165,7 @@ public class RegistrationAccountCreateActivity extends Activity {
         System.out.println("submitRegistrationForm ");
         final TVRegistrationContract contract = new TVRegistrationContract();
         contract.email = String.valueOf(etEmail.getText());
-        contract.username = String.valueOf(etPseudo.getText());
+        //contract.username = String.valueOf(etPseudo.getText());
         contract.password = String.valueOf(etPassword.getText());
         contract.sid = 221;
         contract.siteId = 3;
@@ -187,7 +187,7 @@ public class RegistrationAccountCreateActivity extends Activity {
                     }
                     if (responseContract.Message.equalsIgnoreCase("Successful")) {
                         ApplicationData.getInstance().regId = responseContract.data.RegId;
-                        ApplicationData.getInstance().regUserProfile.setUsername(contract.username);
+                        //ApplicationData.getInstance().regUserProfile.setUsername(contract.username);
                         ApplicationData.getInstance().regUserProfile.setEmail(contract.email);
                         ApplicationData.getInstance().regUserProfile.setRegId(String.valueOf(responseContract.data.RegId));
                         ApplicationData.getInstance().regUserProfile.setAJRegNo(String.valueOf(responseContract.data.AJRegNo));

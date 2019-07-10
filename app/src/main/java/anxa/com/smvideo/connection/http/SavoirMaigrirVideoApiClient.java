@@ -50,7 +50,7 @@ public class SavoirMaigrirVideoApiClient {
     }
     public String FormatUri(String apiName, String httpMethod,  MasterCommand command)  {
         Uri.Builder builder = new Uri.Builder();
-        builder.scheme("http").encodedAuthority(WebkitURL.domainURL.replace("http://", ""));
+        builder.scheme("http").encodedAuthority(WebkitURL.domainURL.replace("https://", ""));
         builder.appendPath(SavoirMaigrirVideoConstants.SM_VIDEO_API_PATH);
         if(apiName != null && !apiName.isEmpty())
         {
@@ -121,7 +121,7 @@ public class SavoirMaigrirVideoApiClient {
 
     public String FormatUri(String apiName, String httpMethod,  MasterCommand command,  Hashtable params)  {
         Uri.Builder builder = new Uri.Builder();
-        builder.scheme("http").encodedAuthority(WebkitURL.domainURL.replace("http://", ""));
+        builder.scheme("http").encodedAuthority(WebkitURL.domainURL.replace("https://", ""));
         builder.appendPath(SavoirMaigrirVideoConstants.SM_VIDEO_API_PATH);
         if(apiName != null && !apiName.isEmpty())
         {

@@ -61,4 +61,5 @@
 
     <color name="header_text_color">#4B4D4E</color>
     <color name="header_bg">#EBEBEB</color>
+    <color name="gray_bg_reg_code">#EDEDED</color>
 </resources>

@@ -1,6 +1,7 @@
 package anxa.com.smvideo.ui;
 
 import android.content.Context;
+import android.opengl.Visibility;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,9 +58,15 @@ public class DrawerListAdapter extends BaseAdapter {
 
         TextView titleView = (TextView) view.findViewById(R.id.title);
         ImageView iconView = (ImageView) view.findViewById(R.id.icon);
+        View divider = (View)view.findViewById(R.id.vwDivider);
 
         titleView.setText( mNavItems.get(position).mTitle );
         iconView.setImageResource(mNavItems.get(position).mIcon);
+        if(position==5) {
+            divider.setVisibility(View.VISIBLE);
+        }else{
+            divider.setVisibility(View.GONE);
+        }
 
         return view;
     }

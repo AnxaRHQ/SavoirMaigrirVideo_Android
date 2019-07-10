@@ -6,7 +6,7 @@ package anxa.com.smvideo.common;
 
 public class WebkitURL {
 
-    public static String domainURL = "http://savoir-maigrir.aujourdhui.com";
+    public static String domainURL = "https://savoir-maigrir.aujourdhui.com";
 
     //for QC
     //public static String domainURL = "http://qc.savoir-maigrir.aujourdhui.com";
@@ -30,10 +30,20 @@ public class WebkitURL {
     public static String webinarURL = "/1dirparjour/webinar";
 
     public static String webinarAutoLoginURL = "/3actparjour/login?u=%d&p=%password&redirect=/1dirparjour/webinar/broadcast";
+    public static String autoLoginURL = "/3actparjour/login?u=%u&p=%p";
 
     public static String webinarWebkitUrl = "/5minparjour/mobile/conference?regId=%regId&sig=%sig";
     public static String fichesWebkitUrl = "/5minparjour/mobile/fichespratiques?regId=%regId&sig=%sig";
     public static String ambassadriceWebkitUrl = "/5minparjour/mobile/community/SuperAmbassadeur?regId=%regId&sig=%sig";
+    public static String nutritionWebkitUrl = "/5minparjour/mobile/nutrition?regId=%regId&sig=%sig";
+    public static String coachingWebkitUrl = "/5minparjour/mobile/coaching?regId=%regId&sig=%sig";
+    public static String communityWebkitUrl = "/5minparjour/mobile/community?regId=%regId&sig=%sig";
+    public static String videosWebkitUrl = "/5minparjour/mobile/coaching/coachingvideos?regId=%regId&sig=%sig";
+    public static String boutiqueWebkitUrl = "/5minparjour/mobile/boutique?regId=%regId&sig=%sig";
+
+    public static String notificationsUrl = "/5minparjour/coaching/coachresponse";
+    public static String searchUrl = "/5minparjour/Search?keyword=%s";
     public static final String ANXAMATS_URL = "http://api.anxa.com/anxamats";
+
 
 }

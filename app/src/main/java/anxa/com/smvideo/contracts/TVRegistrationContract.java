@@ -9,7 +9,10 @@ public class TVRegistrationContract extends BaseContract {
     public int siteId;
     public int sid;
     public String email;
-    public String username;
+    public String firstname;
+    public String lastname;
     public String password ;
+    public String gender;
+    public String country;
     public int paymentId ;
 }

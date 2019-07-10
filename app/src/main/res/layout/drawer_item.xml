@@ -26,5 +26,11 @@
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:layout_marginLeft="10dp"/>
-
+    <View
+        android:id="@+id/vwDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:visibility="gone"/>
 </RelativeLayout>

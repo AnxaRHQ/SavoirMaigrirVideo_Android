@@ -15,6 +15,7 @@ import anxa.com.smvideo.activities.MainActivity;
 import anxa.com.smvideo.activities.registration.RegistrationActivity;
 import anxa.com.smvideo.activities.account.BrowserActivity;
 import anxa.com.smvideo.activities.registration.RegistrationFormActivity;
+import anxa.com.smvideo.activities.registration.RegistrationMainObjectiveActivity;
 import anxa.com.smvideo.common.WebkitURL;
 
 /**
@@ -46,8 +47,8 @@ public class LandingPageActivity extends Activity implements View.OnClickListene
         ((ImageView) findViewById(R.id.LandingImage3)).setOnClickListener(this);
         ((ImageView) findViewById(R.id.LandingImage4)).setOnClickListener(this);
 
-        header_info_iv = (ImageView) findViewById(R.id.header_info_iv);
-        header_info_iv.setOnClickListener(this);
+/*        header_info_iv = (ImageView) findViewById(R.id.header_info_iv);
+        header_info_iv.setOnClickListener(this);*/
 
         contact_btn = (Button) findViewById(R.id.contact_account);
         contact_btn.setPaintFlags(contact_btn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -101,7 +102,7 @@ public class LandingPageActivity extends Activity implements View.OnClickListene
     }
 
     private void goToRegistrationPage() {
-        Intent mainIntent = new Intent(this, RegistrationFormActivity.class);
+        Intent mainIntent = new Intent(this, RegistrationMainObjectiveActivity.class);
         startActivity(mainIntent);
     }
     private void goToContactPage() {

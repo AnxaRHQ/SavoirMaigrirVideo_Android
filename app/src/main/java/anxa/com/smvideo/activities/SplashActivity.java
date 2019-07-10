@@ -125,20 +125,19 @@ public class SplashActivity extends Activity {
     }
 
     private void goToAccountPage() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+
                 if (ApplicationData.getInstance().isLoggedIn(getBaseContext())) {
                     ApplicationData.getInstance().accountType = "account";
-                    responseIntent = new Intent(SplashActivity.this, LandingPageAccountActivity.class);
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Home;
+                    Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(mainIntent);
                 } else {
                     responseIntent = new Intent(SplashActivity.this, MainLandingPageActivity.class);
                 }
 
-                SplashActivity.this.startActivity(responseIntent);
-                SplashActivity.this.finish();
-            }
-        }, _splashTime);
+               /* SplashActivity.this.startActivity(responseIntent);
+                SplashActivity.this.finish();*/
+
     }
     private void goToNpnaPage()
     {

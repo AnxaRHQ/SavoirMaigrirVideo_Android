@@ -3,7 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black">
-
+    <ImageView
+        android:id="@+id/header_notif_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:src="@drawable/notif_icon_light"
+        android:onClick="goToNotificationsPage"/>
     <ImageView
         android:id="@+id/header_title_iv"
         android:layout_width="wrap_content"
@@ -11,14 +19,34 @@
         android:layout_centerInParent="true"
         android:gravity="center"
         android:src="@drawable/nav_logo"/>
-
     <ImageView
+        android:id="@+id/header_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/header_menu_iv"
+        android:paddingRight="5dp"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:src="@drawable/baseline_search_white_36" />
+    <ImageView
+        android:id="@+id/header_menu_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="5dp"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:src="@drawable/ic_menu_white_24dp" />
+
+<!--    <ImageView
         android:id="@+id/header_info_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:paddingRight="10dp"
-        android:src="@drawable/ic_info_outline_white_24dp"/>
+        android:src="@drawable/ic_info_outline_white_24dp"/>-->
 
 </RelativeLayout>

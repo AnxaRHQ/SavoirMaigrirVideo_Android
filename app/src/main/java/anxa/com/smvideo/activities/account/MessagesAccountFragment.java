@@ -53,7 +53,7 @@ import anxa.com.smvideo.util.AppUtil;
  * Created by aprilanxa on 22/03/2018.
  */
 
-public class MessagesAccountFragment extends Fragment implements View.OnClickListener {
+public class MessagesAccountFragment extends BaseFragment implements View.OnClickListener {
 
     MessagesListLayout commentList;
     ProgressBar progressBar;
@@ -484,13 +484,7 @@ public class MessagesAccountFragment extends Fragment implements View.OnClickLis
         }
     }
 
-    private void removeFragment()
-    {
-        FragmentManager fragmentManager = getFragmentManager();
-        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS") != null) {
-            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS")).commit();
-        }
-    }
+
     private void showCustomDialog(String message) {
 //
 //        dialog = new CustomDialog(context, null, null, null, true, message, null, this);

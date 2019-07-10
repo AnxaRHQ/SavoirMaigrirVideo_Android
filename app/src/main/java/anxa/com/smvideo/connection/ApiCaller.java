@@ -6,6 +6,9 @@ import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Hashtable;
 
 import anxa.com.smvideo.ApplicationData;
@@ -34,10 +37,12 @@ import anxa.com.smvideo.contracts.PaymentConfirmationContract;
 import anxa.com.smvideo.contracts.PaymentOrderDataContract;
 import anxa.com.smvideo.contracts.PaymentOrderGoogleContract;
 import anxa.com.smvideo.contracts.PaymentOrderResponseContract;
+import anxa.com.smvideo.contracts.PersonnalisationContract;
 import anxa.com.smvideo.contracts.PhotoUploadDataResponseContract;
 import anxa.com.smvideo.contracts.PostAnxamatsContract;
 import anxa.com.smvideo.contracts.PostMessagesContract;
 import anxa.com.smvideo.contracts.RecipeResponseContract;
+import anxa.com.smvideo.contracts.RegisterUserResponseContract;
 import anxa.com.smvideo.contracts.RegistrationDataContract;
 import anxa.com.smvideo.contracts.RegistrationResponseContract;
 import anxa.com.smvideo.contracts.RepasResponseContract;
@@ -53,6 +58,7 @@ import anxa.com.smvideo.contracts.WeightGraphContract;
 import anxa.com.smvideo.contracts.WeightGraphResponseContract;
 import anxa.com.smvideo.contracts.WeightHistoryContract;
 import anxa.com.smvideo.contracts.WeightHistoryResponseContract;
+import anxa.com.smvideo.models.RegUserProfile;
 import anxa.com.smvideo.util.AppUtil;
 
 /**
@@ -217,7 +223,13 @@ public class ApiCaller {
 
         apiClient.GetAsync(asyncResponse, CommandConstants.API_TV, command, params, RepasResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
     }
+    public void PostPersonnalisation(AsyncResponse asyncResponse, String regId, PersonnalisationContract perso) {
+        MasterCommand command = new MasterCommand();
+        command.RegId = Integer.parseInt(regId);
+        command.Command = "personnalisation";
 
+        apiClient.PostAsync(asyncResponse, "registration", command, gson.toJson(perso), PersonnalisationContract.class, AsyncTask.THREAD_POOL_EXECUTOR);;
+    }
     private final int COMMAND_QUESTIONSLIMIT = 10;
 
     /**
@@ -385,6 +397,14 @@ public class ApiCaller {
 
         apiClient.PostAsync(asyncResponse, CommandConstants.API_REGISTRATION, command, gson.toJson(tvRegistrationContract), RegistrationResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);;
     }
+    public void PostRegistration(AsyncResponse asyncResponse, RegUserProfile userProfile) {
+        MasterCommand command = new MasterCommand();
+        command.Email = userProfile.getEmail();
+        command.RegEmail = userProfile.getEmail();
+        command.Command = CommandConstants.COMMAND_REGISTRATION;
+
+        apiClient.PostAsync(asyncResponse, CommandConstants.API_REGISTRATION, command, gson.toJson(userProfile), RegistrationResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);;
+    }
     public void PostRegistrationUpdate(AsyncResponse asyncResponse, TVRegistrationUpdateContract tvRegistrationContract, int regid) {
         MasterCommand command = new MasterCommand();
         command.Command = CommandConstants.COMMAND_REGISTRATIONUPDATE;
@@ -479,6 +499,42 @@ public class ApiCaller {
         command.Command = "postRating";
 
         apiClient.PostAsync(asyncResponse, "message", command, gson.toJson(contract), MessageRatingContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+    public void PostRequestCode(AsyncResponse asyncResponse, String telNum, String regId) {
+        MasterCommand command = new MasterCommand();
+        command.RegId = Integer.parseInt(regId);
+        command.Command = CommandConstants.COMMAND_SEND;
+
+        JSONObject json = new JSONObject();
+        try {
+
+            json.put("phone", telNum);
+            json.put("code", "");
+
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        apiClient.PostAsync(asyncResponse, "accesscode", command, json.toString(), RegisterUserResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);;
+    }
+    public void PostValidateCode(AsyncResponse asyncResponse, String telNum, String regId, String code) {
+        MasterCommand command = new MasterCommand();
+        command.RegId = Integer.parseInt(regId);
+        command.Command = CommandConstants.COMMAND_VALIDATE;
+
+        JSONObject json = new JSONObject();
+        try {
+
+            json.put("phone", telNum);
+            json.put("code", code);
+
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        apiClient.PostAsync(asyncResponse, "accesscode", command, json.toString(), RegisterUserResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);;
     }
 
 }
