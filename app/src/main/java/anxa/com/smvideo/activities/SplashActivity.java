@@ -49,7 +49,8 @@ public class SplashActivity extends Activity {
                     if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free")) {
                         mainIntent = new Intent(SplashActivity.this, LandingPageActivity.class);
                     } else {
-                        mainIntent = new Intent(SplashActivity.this, MainLandingPageActivity.class);
+                        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Home;
+                        mainIntent = new Intent(SplashActivity.this, MainActivity.class);
                     }
                     SplashActivity.this.startActivity(mainIntent);
                     SplashActivity.this.finish();

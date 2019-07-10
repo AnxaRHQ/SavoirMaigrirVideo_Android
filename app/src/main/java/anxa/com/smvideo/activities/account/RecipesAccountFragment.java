@@ -57,7 +57,6 @@ public class RecipesAccountFragment extends Fragment implements View.OnClickList
         //header change
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_account_recettes));
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setVisibility(View.GONE);
-        ((TextView) (mView.findViewById(R.id.header_right_tv))).setVisibility(View.INVISIBLE);
 
         //hide header
         (mView.findViewById(R.id.headermenu)).setVisibility(View.GONE);

@@ -13,7 +13,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -41,7 +43,7 @@ import anxa.com.smvideo.util.VideoHelper;
  * Created by aprilanxa on 14/06/2017.
  */
 
-public class CoachingAccountFragment extends Fragment implements View.OnClickListener {
+public class CoachingAccountFragment extends BaseFragment implements View.OnClickListener {
 
     private Context context;
     protected ApiCaller caller;
@@ -57,7 +59,7 @@ public class CoachingAccountFragment extends Fragment implements View.OnClickLis
     private int currentCoachingWeekNumber;
     private int currentCoachingDayNumber;
     private int selectedCoachingWeekNumber;
-
+    private ImageView backButton;
     private boolean fromArchive;
     String headerTitle;
 
@@ -84,9 +86,12 @@ public class CoachingAccountFragment extends Fragment implements View.OnClickLis
         headerTitle = getString(R.string.coaching_header);
         headerTitle.replace("%d", Integer.toString(currentCoachingWeekNumber));
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(headerTitle.replace("%d", Integer.toString(currentCoachingWeekNumber)));
-        header_right = (TextView) (mView.findViewById(R.id.header_right_tv));
+     /*   header_right = (TextView) (mView.findViewById(R.id.header_right_tv));
         header_right.setText(getString(R.string.coaching_header_right));
-        header_right.setOnClickListener(this);
+        header_right.setOnClickListener(this);*/
+
+        backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_menu_back);
+        backButton.setOnClickListener(this);
 
         coachingListView = (CustomListView) mView.findViewById(R.id.coachingListView);
 
@@ -131,7 +136,9 @@ public class CoachingAccountFragment extends Fragment implements View.OnClickLis
     public void onClick(final View v) {
         if (v == header_right) {
             proceedToArchivePage();
-        } else {
+        } else if(v == backButton) {
+            super.removeFragment();
+        }else {
             FragmentManager fm = getFragmentManager();
             String tag = YouTubePlayerFragment.class.getSimpleName();
             playerFragment = (YouTubePlayerFragment) fm.findFragmentByTag(tag);

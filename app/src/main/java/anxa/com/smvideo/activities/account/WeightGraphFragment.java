@@ -20,8 +20,10 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -63,7 +65,7 @@ import anxa.com.smvideo.util.AppUtil;
  * Created by aprilanxa on 28/06/2017.
  */
 
-public class WeightGraphFragment extends Fragment implements View.OnClickListener, View.OnKeyListener, OnChartGestureListener{
+public class WeightGraphFragment extends BaseFragment implements View.OnClickListener, View.OnKeyListener, OnChartGestureListener{
 
     private Context context;
     protected ApiCaller caller;
@@ -83,7 +85,7 @@ public class WeightGraphFragment extends Fragment implements View.OnClickListene
     private WeightGraphContract latestWeight;
     private TextView currentWeightTitle;
     private ProgressBar weightProgressBar;
-
+    private ImageView backButton;
     private TextView targetWeightValue_tv, lostWeightValue_tv, bmiValue_tv;
 
     private int selectedDateRange;
@@ -128,7 +130,6 @@ public class WeightGraphFragment extends Fragment implements View.OnClickListene
 
         //header change
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_account_poids));
-        ((TextView) (mView.findViewById(R.id.header_right_tv))).setVisibility(View.INVISIBLE);
 
         weightLineChart = (LineChart) mView.findViewById(R.id.viewcontentGraph);
         weightLineChart.setVisibility(View.VISIBLE);
@@ -172,7 +173,8 @@ public class WeightGraphFragment extends Fragment implements View.OnClickListene
 
         getWeightGraphData();
 
-
+        backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_menu_back);
+        backButton.setOnClickListener(this);
         return mView;
     }
 
@@ -291,6 +293,8 @@ public class WeightGraphFragment extends Fragment implements View.OnClickListene
             }
         } else if (v.getId() == R.id.weight_data_rl) {
             dismissKeyboard();
+        }else if(v == backButton) {
+            super.removeFragment();
         }
     }
 

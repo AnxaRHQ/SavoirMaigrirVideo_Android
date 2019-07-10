@@ -63,7 +63,8 @@ public class ApplicationData extends Application {
         Account_Nutrition(16),
         Account_Boutique(17),
         Account_Notifications(18),
-        Account_Search(19);
+        Account_Search(19),
+        Account_CoachingNative(20);
 
 
         private int numVal;

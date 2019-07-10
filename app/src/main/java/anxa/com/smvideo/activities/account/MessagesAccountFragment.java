@@ -70,6 +70,7 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
     List<MessagesContract> items;
     Button messages_btn;
     Button carnet_btn;
+    private ImageView backButton;
 
     long previousDate;
 
@@ -98,7 +99,7 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
 
         //header change
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_account_messages));
-        ((TextView) (mView.findViewById(R.id.header_right_tv))).setVisibility(View.INVISIBLE);
+
 
         items = new ArrayList<>(ApplicationData.getInstance().messagesList);
 
@@ -128,6 +129,8 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
         }
         commentList.initData(items, context, null);
 
+        backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_menu_back);
+        backButton.setOnClickListener(this);
         return mView;
     }
 
@@ -463,6 +466,8 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
             messages_btn.setSelected(false);
             carnet_btn.setSelected(true);
             loadCarnetFragment();
+        }else if(v == backButton) {
+            super.removeFragment();
         }
     }
     private void loadCarnetFragment()

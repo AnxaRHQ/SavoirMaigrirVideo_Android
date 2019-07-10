@@ -110,8 +110,8 @@ public class LandingPageAccountActivity extends Fragment implements View.OnClick
 
                         userName = c.Data.FirstName;
 
-//                        String welcome_message = getString(R.string.welcome_account_1).replace("%@", userName) + getString(R.string.welcome_account_2);
-//                        ((TextView) (mView.findViewById(R.id.welcome_message_account_tv))).setText(welcome_message);
+                        String welcome_message = getString(R.string.welcome_account_1).replace("%@", userName) + getString(R.string.welcome_account_2);
+                        ((TextView) (mView.findViewById(R.id.welcome_message_account_tv))).setText(welcome_message);
 
                         if (c.Data.DietProfiles != null) {
                             for (DietProfilesDataContract dietProfilesDataContract : c.Data.DietProfiles) {
@@ -121,10 +121,10 @@ public class LandingPageAccountActivity extends Fragment implements View.OnClick
                                 }
                             }
                             ApplicationData.getInstance().currentWeekNumber = AppUtil.getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), new Date());
-//                            welcome_message = welcome_message.replace("%d", Integer.toString(ApplicationData.getInstance().currentWeekNumber));
-                            //String welcome_message = getString(R.string.welcome_account_1).replace("%@", userName).concat(getString(R.string.welcome_account_2).replace("%f", AppUtil.getCurrentDayName(AppUtil.getCurrentDayNumber()))).concat(getString(R.string.welcome_account_3).replace("%d", Integer.toString(ApplicationData.getInstance().currentWeekNumber)));
+                            //welcome_message = welcome_message.replace("%d", Integer.toString(ApplicationData.getInstance().currentWeekNumber));
+                             welcome_message = getString(R.string.welcome_account_1).replace("%@", userName).concat(getString(R.string.welcome_account_2).replace("%f", AppUtil.getCurrentDayName(AppUtil.getCurrentDayNumber()))).concat(getString(R.string.welcome_account_3).replace("%d", Integer.toString(ApplicationData.getInstance().currentWeekNumber)));
 
-                            //((TextView) (mView.findViewById(R.id.welcome_message_account_tv))).setText(welcome_message);
+                            ((TextView) (mView.findViewById(R.id.welcome_message_account_tv))).setText(welcome_message);
                         }
                         updateProgressBar();
                     }
@@ -342,15 +342,13 @@ public class LandingPageAccountActivity extends Fragment implements View.OnClick
 
 
     public void goToCoachingPage() {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Coaching;
-        Intent mainIntent = new Intent(context, MainActivity.class);
-        startActivity(mainIntent);
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_CoachingNative;
+        goToFragmentPage(new CoachingAccountFragment());
     }
 
     public void goToRepasPage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Repas;
-        Intent mainIntent = new Intent(context, MainActivity.class);
-        startActivity(mainIntent);
+        goToFragmentPage(new RepasFragment());
     }
 
 
@@ -368,31 +366,34 @@ public class LandingPageAccountActivity extends Fragment implements View.OnClick
 
     public void goToVideosPage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Videos;
-        Intent mainIntent = new Intent(context, MainActivity.class);
-        startActivity(mainIntent);
+        Bundle bundle = new Bundle();
+        bundle.putString("header_title", getString(R.string.menu_account_videos));
+        bundle.putString("webkit_url", WebkitURL.videosWebkitUrl);
+        goToWebkitPage(ApplicationData.SelectedFragment.Account_Videos, bundle);
     }
     public void goToWeightPage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Weight;
-        Intent mainIntent = new Intent(context, MainActivity.class);
-        startActivity(mainIntent);
+        goToFragmentPage(new WeightGraphFragment());
 
     }
     public void goToCommunityPage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Communaute;
-        Intent mainIntent = new Intent(context, MainActivity.class);
-        startActivity(mainIntent);
-
+        Bundle bundle = new Bundle();
+        bundle.putString("header_title", getString(R.string.menu_account_communaute));
+        bundle.putString("webkit_url", WebkitURL.communityWebkitUrl);
+        goToWebkitPage(ApplicationData.SelectedFragment.Account_Videos, bundle);
     }
     public void goToAmbassadricePage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Ambassadrice;
-        Intent mainIntent = new Intent(context, MainActivity.class);
-        startActivity(mainIntent);
-
+        Bundle bundle = new Bundle();
+        bundle.putString("header_title", getString(R.string.menu_account_ambassadrice));
+        bundle.putString("webkit_url", WebkitURL.ambassadriceWebkitUrl);
+        goToWebkitPage(ApplicationData.SelectedFragment.Account_Ambassadrice, bundle);
     }
     public void goToFichesPage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Fiches;
         Bundle bundle = new Bundle();
-        bundle.putString("header_title", getString(R.string.menu_account_webinars));
+        bundle.putString("header_title", getString(R.string.menu_account_fiches));
         bundle.putString("webkit_url", WebkitURL.fichesWebkitUrl);
         goToWebkitPage(ApplicationData.SelectedFragment.Account_Fiches, bundle);
     }

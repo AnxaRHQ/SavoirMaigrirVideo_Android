@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -48,7 +50,7 @@ import anxa.com.smvideo.util.AppUtil;
  * Created by aprilanxa on 22/06/2017.
  */
 
-public class RepasFragment extends Fragment implements View.OnClickListener {
+public class RepasFragment extends BaseFragment implements View.OnClickListener {
 
     private Context context;
     protected ApiCaller caller;
@@ -121,6 +123,8 @@ public class RepasFragment extends Fragment implements View.OnClickListener {
 
     private RepasRelatedListAdapter repasListAdapter_related;
 
+    private ImageView backButton;
+
     private boolean isUserWeek0 = false;
 
     private int dayOffset = 0;
@@ -146,7 +150,9 @@ public class RepasFragment extends Fragment implements View.OnClickListener {
 
         //header change
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_account_repas));
-        ((mView.findViewById(R.id.header_right_tv))).setVisibility(View.INVISIBLE);
+
+        backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_menu_back);
+        backButton.setOnClickListener(this);
 
         repasProgram_tv = (TextView) (mView.findViewById(R.id.repasHeader_tv));
         shoppingList_recipe_tv = (TextView) (mView.findViewById(R.id.shoppingList_recipe_header));
@@ -465,7 +471,7 @@ public class RepasFragment extends Fragment implements View.OnClickListener {
                         getMealOfTheDay();
                     }
                 }
-            } else {
+            }else {
                 if (isUserWeek0) {
                     if (weekNumber == 2) {
                         dayOffset_list = -1;
@@ -505,7 +511,7 @@ public class RepasFragment extends Fragment implements View.OnClickListener {
 
             repasScrollView.setVisibility(View.VISIBLE);
             shoppingListScrollView.setVisibility(View.GONE);
-            removeFragment();
+            removeRepasFragment();
 
         } else if (v == shoppingList_btn) {
             System.out.println("REpas weeknumber shoppingList_btn: " + weekNumber);
@@ -532,15 +538,17 @@ public class RepasFragment extends Fragment implements View.OnClickListener {
             shoppingListScrollView.setVisibility(View.VISIBLE);
 
             getShoppingList();
-            removeFragment();
+            removeRepasFragment();
 
         } else if (v == recettes_btn){
             mealPlan_btn.setSelected(false);
             shoppingList_btn.setSelected(false);
             recettes_btn.setSelected(true);
             loadRecetteFragment();
+        }else if(v == backButton) {
+            super.removeFragment();
         }
-            else {
+        else {
             int recipeId = (Integer) v.getTag(R.id.recipe_id);
             getSpecificRecipe(recipeId);
         }
@@ -565,7 +573,7 @@ public class RepasFragment extends Fragment implements View.OnClickListener {
         repasSearch_ll.setVisibility(View.GONE);
     }
 
-    private void removeFragment()
+    private void removeRepasFragment()
     {
         FragmentManager fragmentManager = getFragmentManager();
         if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS") != null) {

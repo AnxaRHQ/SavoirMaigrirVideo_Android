@@ -34,6 +34,7 @@ import anxa.com.smvideo.activities.account.FichesFragment;
 import anxa.com.smvideo.activities.account.LandingPageAccountActivity;
 import anxa.com.smvideo.activities.account.MessagesAccountFragment;
 import anxa.com.smvideo.activities.account.MonCompteAccountFragment;
+import anxa.com.smvideo.activities.account.NotificationsFragment;
 import anxa.com.smvideo.activities.account.NutritionFragment;
 import anxa.com.smvideo.activities.account.RecipesAccountFragment;
 import anxa.com.smvideo.activities.account.RepasFragment;
@@ -378,10 +379,23 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
     }
     public void goToNotificationsPage(View view) {
 
-      Bundle bundle = new Bundle();
-        bundle.putString("header_title", getString(R.string.menu_account_notifications));
-        bundle.putString("webkit_url", WebkitURL.notificationsUrl);
-        goToDtsPage(ApplicationData.SelectedFragment.Account_Notifications, bundle);
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Notifications;
+        goToFragmentPage(new NotificationsFragment());
+    }
+    private void goToFragmentPage(Fragment fragment) {
+        FragmentManager fragmentManager = getFragmentManager();
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
+        } else {
+        }
+
+        try {
+
+            fragmentManager.beginTransaction().replace(R.id.mainContent, fragment, "CURRENT_FRAGMENT").commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
     private void goToDtsPage(ApplicationData.SelectedFragment selectedFragment, Bundle bundle) {
         ApplicationData.getInstance().selectedFragment = selectedFragment;
