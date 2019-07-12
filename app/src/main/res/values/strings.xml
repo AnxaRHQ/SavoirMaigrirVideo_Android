@@ -2,9 +2,11 @@
     <string name="app_name">Dr. Jean-Michel Cohen</string>
     <string name="app_version">Version 1.0</string>
 
+    <string name="USER_AGENT_APP_NAME">Perdez vos kilos avec JM Cohen</string>
+
     <string name="header_right_button">Je m\'inscris</string>
 
-    <string name="menu_home">Accueil</string>
+    <string name="menu_home">ACCUEIL</string>
     <string name="menu_decouvrir">Découvrir</string>
     <string name="menu_bilan">Bilan minceur</string>
     <string name="menu_temoignages">Témoignages</string>
@@ -48,10 +50,14 @@
     <string name="menu_account_dieticienne">Diététicienne</string>
     <!--<string name="menu_account_conseils">Conseils</string>-->
     <string name="menu_account_nutrition">NUTRITION</string>
+    <string name="nav_account_nutrition">Nutrition</string>
     <string name="menu_account_coaching">COACHING</string>
-    <string name="menu_account_community">COMMUNAUTE</string>
-    <string name="menu_account_webinars">Conferences</string>
-    <string name="menu_account_videos">VIDÉOS</string>
+    <string name="nav_account_coaching">Coaching</string>
+    <string name="menu_account_webinars">CONSULTATIONS</string>
+    <string name="nav_account_webinars">Consultations en direct</string>
+    <string name="menu_account_videos">500+ VIDÉOS</string>
+    <string name="nav_account_videos">500+ vidéos</string>
+    <string name="left_nav_account_videos">VIDÉOS</string>
     <string name="menu_account_exercices">Exercices</string>
     <string name="menu_account_boutique">Boutique</string>
     <string name="menu_account_espacevip">Espace VIP</string>
@@ -64,13 +70,24 @@
     <string name="menu_account_messages">Messagerie Diététique</string>
     <string name="menu_account_carnet">Carnet Minceur</string>
     <string name="menu_account_session">Session du jour</string>
-    <string name="menu_account_communaute">Community</string>
-    <string name="menu_account_fiches">Fiches Pratiques</string>
-    <string name="menu_account_ambassadrice">Ambassadrice</string>
+    <string name="menu_account_communaute">COMMUNAUTE</string>
+    <string name="nav_account_communaute">Communaute</string>
+    <string name="menu_account_fiches">FICHES PRATIQUES</string>
+    <string name="nav_account_fiches">Fiches Pratiques</string>
+    <string name="menu_account_ambassadrice">AMBASSADRICE</string>
+    <string name="nav_account_ambassadrice">Ambassadrice</string>
+
+    <string name="nav_account_weight">Poids</string>
+    <string name="nav_account_steps">Pas</string>
+    <string name="nav_account_biceps">Biceps</string>
+    <string name="nav_account_poitrine">Poitrine</string>
+    <string name="nav_account_taille">Tour de taille</string>
+    <string name="nav_account_hanches">Hanches</string>
+    <string name="nav_account_cuisse">Cuisse</string>
 
     <string name="lost_weight_text">Vous avez perdu </string>
 
-    <string name="coaching_header">Coaching - Semaine %d</string>
+    <string name="coaching_header">Semaine %d</string>
     <string name="coaching_archive_week">Semaine %d</string>
     <string name="coaching_header_right">Archive</string>
     <string name="coaching_broadcast_string">Archive_week_selected</string>
@@ -79,6 +96,9 @@
     <string name="conseils_header_right">Voir tout</string>
 
     <!--account mon compte-->
+    <string name="button_account_alertes">ALERTES SMARTPHONE</string>
+    <string name="nav_account_alertes">Alertes</string>
+
     <string name="mon_compte_profil">PROFIL</string>
     <string name="mon_compte_objectif">OBJECTIF</string>
     <string name="mon_compte_programme">PROGRAMME</string>
@@ -135,8 +155,8 @@
     <string name="mon_compte_disconnect">Deconnexion</string>
 
     <!--Repas-->
-    <string name="repas_header_meal_plans">Plan de repas</string>
-    <string name="repas_header_shopping_list">Liste de courses</string>
+    <string name="repas_header_meal_plans">Repas</string>
+    <string name="repas_header_shopping_list">Courses</string>
     <string name="repas_header_recettes">Recettes</string>
     <string name="repas_header_meal_plan">Vous suivez actuellement le programme \n#program à #calorie/jour</string>
     <string name="repas_breakfast">Petit-Déjeuner</string>
@@ -1231,6 +1251,9 @@
     <string name="WELCOME_POST_PREMIUM_DESCRIPTION">Allez sur votre tableau de bord et enregistrez le dernier repas que vous avez pris en cliquant sur\n"Repas en photos".\n\nSi vous n\'avez pas encore pris de photos de vos plats, contentez-vous de le décrire.</string>
     <string name="WELCOME_LETS_MOVE_ON">Mon tableau de bord</string>
     <string name="ERROR">Erreur</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

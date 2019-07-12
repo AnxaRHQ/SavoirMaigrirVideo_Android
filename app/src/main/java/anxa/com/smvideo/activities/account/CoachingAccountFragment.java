@@ -9,10 +9,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -52,7 +54,7 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
     private List<CoachingVideosContract> videosList_all;
     private List<CoachingVideosContract> videosList;
     private CustomListView coachingListView;
-    private TextView header_right;
+    private Button header_right;
 
     private YouTubePlayerFragment playerFragment;
 
@@ -86,11 +88,13 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
         headerTitle = getString(R.string.coaching_header);
         headerTitle.replace("%d", Integer.toString(currentCoachingWeekNumber));
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(headerTitle.replace("%d", Integer.toString(currentCoachingWeekNumber)));
-     /*   header_right = (TextView) (mView.findViewById(R.id.header_right_tv));
+        header_right = (Button) (mView.findViewById(R.id.header_menu_iv));
+        header_right.setBackgroundResource(0);
         header_right.setText(getString(R.string.coaching_header_right));
-        header_right.setOnClickListener(this);*/
+        header_right.setTextColor(getResources().getColor(R.color.text_orange));
+        header_right.setOnClickListener(this);
 
-        backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_menu_back);
+        backButton = (ImageView) (mView.findViewById(R.id.header_menu_back));
         backButton.setOnClickListener(this);
 
         coachingListView = (CustomListView) mView.findViewById(R.id.coachingListView);

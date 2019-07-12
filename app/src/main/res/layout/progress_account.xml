@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/white">
+
+        <include
+            android:id="@+id/headermenu"
+            layout="@layout/header_menu"
+            android:layout_width="match_parent"
+            android:layout_height="44dp" />
+
+        <HorizontalScrollView
+            android:id="@+id/progress_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:animateLayoutChanges="true"
+            android:scrollbars="none"
+            android:layout_below="@+id/headermenu"
+            android:background="@color/dark_gray_bg_bilan">
+
+            <LinearLayout
+                android:id="@+id/progress_tab"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/headermenu">
+
+                <Button
+                    android:id="@+id/weight_button"
+                    style="@style/whiteNormalRepas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_weight_graph_bg"
+                    android:text="@string/nav_account_weight" />
+
+                <Button
+                    android:id="@+id/steps_button"
+                    style="@style/whiteNormalRepas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_weight_graph_bg"
+                    android:text="@string/nav_account_steps" />
+
+                <Button
+                    android:id="@+id/biceps_button"
+                    style="@style/whiteNormalRepas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_weight_graph_bg"
+                    android:text="@string/nav_account_biceps" />
+
+                <Button
+                    android:id="@+id/poitrine_button"
+                    style="@style/whiteNormalRepas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_weight_graph_bg"
+                    android:text="@string/nav_account_poitrine" />
+
+                <Button
+                    android:id="@+id/taille_button"
+                    style="@style/whiteNormalRepas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_weight_graph_bg"
+                    android:text="@string/nav_account_taille" />
+
+                <Button
+                    android:id="@+id/hanches_button"
+                    style="@style/whiteNormalRepas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_weight_graph_bg"
+                    android:text="@string/nav_account_hanches" />
+
+                <Button
+                    android:id="@+id/cuisse_button"
+                    style="@style/whiteNormalRepas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_weight_graph_bg"
+                    android:text="@string/nav_account_cuisse" />
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <RelativeLayout
+            android:id="@+id/graphContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/progress_horizontal">
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

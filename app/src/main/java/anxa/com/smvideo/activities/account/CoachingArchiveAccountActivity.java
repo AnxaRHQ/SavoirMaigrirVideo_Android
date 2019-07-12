@@ -3,10 +3,12 @@ package anxa.com.smvideo.activities.account;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Button;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
@@ -21,7 +23,7 @@ public class CoachingArchiveAccountActivity extends Activity implements View.OnC
 
     CustomListView weekListView;
     CoachingArchiveListAdapter adapter;
-    private TextView header_right;
+    private Button header_right;
 
 
     @Override
@@ -32,13 +34,13 @@ public class CoachingArchiveAccountActivity extends Activity implements View.OnC
         setContentView(R.layout.coaching_archive_account);
 
         ((TextView) findViewById(R.id.header_title_tv)).setText(getString(R.string.coaching_header_right));
-        ((ImageView) findViewById(R.id.header_menu_iv)).setVisibility(View.GONE);
+        ((ImageView) findViewById(R.id.header_menu_back)).setVisibility(View.GONE);
 
-        header_right = (TextView) findViewById(R.id.header_right_tv);
-        header_right.setVisibility(View.VISIBLE);
+        header_right = (Button) findViewById(R.id.header_menu_iv);
+        header_right.setBackgroundResource(0);
         header_right.setText("Annuler");
+        header_right.setTextColor(getResources().getColor(R.color.text_orange));
         header_right.setOnClickListener(this);
-
 
         weekListView = (CustomListView) findViewById(R.id.archiveListView);
 
@@ -50,11 +52,11 @@ public class CoachingArchiveAccountActivity extends Activity implements View.OnC
     }
 
     @Override
-    public void onClick(View v) {
-
-        if (v==header_right){
+    public void onClick(View v)
+    {
+        if (v==header_right) {
             finish();
-        }else {
+        } else {
             int weekId = (Integer) v.getTag(R.id.week_id);
             ApplicationData.getInstance().selectedWeekNumber = weekId;
             ApplicationData.getInstance().fromArchive = true;

@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.compat.BuildConfig;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Button;
 
 import com.google.android.youtube.player.YouTubePlayerFragment;
 
@@ -37,8 +39,6 @@ import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.customview.VideoEnabledWebChromeClient;
 import anxa.com.smvideo.customview.VideoEnabledWebView;
 import anxa.com.smvideo.util.AppUtil;
-
-
 
 public class WebkitFragment extends BaseFragment implements View.OnClickListener {
 
@@ -64,6 +64,24 @@ public class WebkitFragment extends BaseFragment implements View.OnClickListener
         String headerTitle = getArguments().getString("header_title");
         String webkitBaseUrl =  getArguments().getString("webkit_url");
         ((TextView) mView.findViewById(R.id.header_title_tv)).setText(headerTitle);
+
+        Log.w("headerTitle",headerTitle);
+
+        if (getArguments().get("isHideHeader") != null)
+        {
+            ((View) mView.findViewById(R.id.header_menu_webinar)).setVisibility(View.GONE);
+        }
+
+        if (getArguments().get("isHideRightNav") != null)
+        {
+            ((Button) mView.findViewById(R.id.header_menu_iv)).setVisibility(View.GONE);
+        }
+        else {
+            backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.header_menu_webinar)).findViewById(R.id.header_menu_back);
+            backButton.setVisibility(View.VISIBLE);
+            backButton.setOnClickListener(this);
+        }
+
 
 //        ((ImageView) mView.findViewById(R.id.header_menu_iv)).setVisibility(View.VISIBLE);
 
@@ -100,9 +118,7 @@ public class WebkitFragment extends BaseFragment implements View.OnClickListener
                 mainContentWebView.reload();
             }
         });
-        backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.header_menu_webinar)).findViewById(R.id.header_menu_back);
-        backButton.setVisibility(View.VISIBLE);
-        backButton.setOnClickListener(this);
+
         // Initialized progress bar
         myProgressBar = (ProgressBar) mView.findViewById(R.id.progressbar);
 
@@ -234,8 +250,10 @@ public class WebkitFragment extends BaseFragment implements View.OnClickListener
     }
 
     @Override
-    public void onClick(View v) {
-        if (v == backButton) {
+    public void onClick(View v)
+    {
+        if (v == backButton)
+        {
             removeFragment();
         }
     }

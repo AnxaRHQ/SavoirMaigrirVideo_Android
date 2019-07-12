@@ -98,7 +98,7 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
         caller = new ApiCaller();
 
         //header change
-        ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_account_messages));
+        ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_account_dieticienne));
 
 
         items = new ArrayList<>(ApplicationData.getInstance().messagesList);

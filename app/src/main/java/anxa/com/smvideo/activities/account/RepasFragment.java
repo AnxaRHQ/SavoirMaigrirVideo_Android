@@ -124,6 +124,7 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
     private RepasRelatedListAdapter repasListAdapter_related;
 
     private ImageView backButton;
+    private Button header_right;
 
     private boolean isUserWeek0 = false;
 
@@ -150,6 +151,10 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
 
         //header change
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_account_repas));
+
+        header_right = (Button) (mView.findViewById(R.id.header_menu_iv));
+        header_right.setBackgroundResource(R.drawable.ic_print);
+        header_right.setOnClickListener(this);
 
         backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_menu_back);
         backButton.setOnClickListener(this);
@@ -545,8 +550,11 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
             shoppingList_btn.setSelected(false);
             recettes_btn.setSelected(true);
             loadRecetteFragment();
-        }else if(v == backButton) {
+        } else if (v == backButton) {
             super.removeFragment();
+        } else if (v == header_right)
+        {
+
         }
         else {
             int recipeId = (Integer) v.getTag(R.id.recipe_id);

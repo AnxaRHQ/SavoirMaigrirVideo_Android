@@ -70,7 +70,7 @@ public class AppUtil {
 
     public static String getDefaultUserAgent(Context context) {
         StringBuilder result = new StringBuilder(64);
-        result.append(context.getString(R.string.app_name));
+        result.append(context.getString(R.string.USER_AGENT_APP_NAME));
         result.append(" ");
         result.append(context.getString(R.string.app_version));
         result.append(" Dalvik/");

@@ -57,7 +57,7 @@ public class VideosFragment extends Fragment implements View.OnClickListener {
         caller = new ApiCaller();
 
         //header change
-        ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_account_videos));
+        ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.nav_account_videos));
         ((TextView) (mView.findViewById(R.id.header_right_tv))).setVisibility(View.INVISIBLE);
 
         coachingListView = (CustomListView) mView.findViewById(R.id.coachingListView);

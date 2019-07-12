@@ -58,7 +58,7 @@ public class AmbassadriceFragment extends Fragment {
         this.context = getActivity();
         mView = inflater.inflate(R.layout.webinar, null);
 
-        ((TextView) mView.findViewById(R.id.header_title_tv)).setText(getString(R.string.menu_account_ambassadrice));
+        ((TextView) mView.findViewById(R.id.header_title_tv)).setText(getString(R.string.nav_account_ambassadrice));
         ((TextView) mView.findViewById(R.id.header_right_tv)).setVisibility(View.GONE);
 //        ((ImageView) mView.findViewById(R.id.header_menu_iv)).setVisibility(View.VISIBLE);
 

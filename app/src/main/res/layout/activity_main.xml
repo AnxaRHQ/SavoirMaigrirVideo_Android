@@ -29,18 +29,17 @@
         <RelativeLayout
             android:id="@+id/profileBox"
             android:layout_width="match_parent"
-            android:layout_height="110dp"
+            android:layout_height="50dp"
             android:background="@android:color/transparent">
 
             <ImageView
                 android:id="@+id/avatar_header"
-                android:layout_width="123dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleType="centerInside"
+                android:layout_centerInParent="true"
                 android:src="@drawable/nav_logo" />
-
-
 
             <View
                 android:layout_width="match_parent"
@@ -60,38 +59,38 @@
             android:divider="@android:color/transparent"
             android:layout_above="@+id/apropos_ll"/>
 
-        <LinearLayout
-            android:id="@+id/apropos_ll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="15dp"
-            android:clickable="true"
-            android:onClick="goToAproposPage"
-            android:paddingLeft="10dp">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/apropos_ll"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_marginBottom="15dp"-->
+            <!--android:clickable="true"-->
+            <!--android:onClick="goToAproposPage"-->
+            <!--android:paddingLeft="10dp">-->
 
-            <ImageView
-                android:id="@+id/icon_info"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:src="@drawable/ic_info_outline_white_24dp" />
+            <!--<ImageView-->
+                <!--android:id="@+id/icon_info"-->
+                <!--android:layout_width="26dp"-->
+                <!--android:layout_height="26dp"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:src="@drawable/ic_info_outline_white_24dp" />-->
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/icon"
-                android:layout_toRightOf="@+id/icon"
-                android:gravity="center_vertical"
-                android:text="@string/apropos_menu_title"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:layout_marginLeft="10dp"/>
+            <!--<TextView-->
+                <!--android:id="@+id/title"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_toEndOf="@+id/icon"-->
+                <!--android:layout_toRightOf="@+id/icon"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:text="@string/apropos_menu_title"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="18sp"-->
+                <!--android:layout_marginLeft="10dp"/>-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
     </RelativeLayout>
 

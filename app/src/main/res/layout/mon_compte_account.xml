@@ -15,11 +15,32 @@
         android:layout_height="match_parent"
         android:background="@android:color/white">
 
+        <RelativeLayout
+            android:id="@+id/alertesContent"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@android:color/white">
+
+            <Button
+                android:id="@+id/alertesButton"
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:clickable="true"
+                style="@style/whiteNormalMedium"
+                android:text="@string/button_account_alertes"
+                android:textStyle="bold"
+                android:background="@drawable/button_orange_bilanminceur"/>
+
+        </RelativeLayout>
+
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            android:layout_below="@+id/alertesContent">
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -293,28 +314,28 @@
                         android:text="Classique pour les femmes" />
 
                 </TableRow>
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="10dp">
+                <!--<TableRow-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:padding="10dp">-->
 
-                    <TextView
-                        style="@style/MonCompteHeader"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="" />
-                </TableRow>
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="10dp">
+                    <!--<TextView-->
+                        <!--style="@style/MonCompteHeader"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="" />-->
+                <!--</TableRow>-->
+                <!--<TableRow-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:padding="10dp">-->
 
-                    <TextView
-                        style="@style/MonCompteHeader"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="" />
-                </TableRow>
+                    <!--<TextView-->
+                        <!--style="@style/MonCompteHeader"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="" />-->
+                <!--</TableRow>-->
 
                 <!--<TableRow-->
                     <!--android:layout_width="match_parent"-->

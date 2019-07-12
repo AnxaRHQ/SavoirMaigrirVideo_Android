@@ -58,7 +58,7 @@ public class RecipesActivity extends Fragment implements View.OnClickListener {
 
         //header change
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_recettes));
-        header_right = (TextView) (mView.findViewById(R.id.header_right_tv));
+        header_right = (TextView) (mView.findViewById(R.id.header_menu_iv));
         header_right.setOnClickListener(this);
 
 

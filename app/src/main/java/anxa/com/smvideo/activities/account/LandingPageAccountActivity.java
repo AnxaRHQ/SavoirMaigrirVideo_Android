@@ -160,9 +160,9 @@ public class LandingPageAccountActivity extends Fragment implements View.OnClick
 
 
 
-        contact_btn = (Button) mView.findViewById(R.id.contact_account);
-        contact_btn.setPaintFlags(contact_btn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        contact_btn.setOnClickListener(this);
+        //contact_btn = (Button) mView.findViewById(R.id.contact_account);
+        //contact_btn.setPaintFlags(contact_btn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        //contact_btn.setOnClickListener(this);
 
 //((TextView) (this.mView.findViewById(R.id.registrationform2_headerTitle))).setText(R.string.inscription_headerTitle);
         String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlQ6C20yTohzxhmSNwK01P9ipib2U60vnqYaozFYTJnMsl3zUBHivPo8F5+nIPJNwqYLTuBcGF93hObY5KGp+aPCWvH2s3XHwQoHwgVhreHevlv60qj3i/74yzFude4WhKstESBO3zyQC2SKa8dHqz7gdakfPukI44ZAzykr4eqfJG4UCppcVyxBLE3piKyC+6Y63w34Ljy96NvxLoCUKRNWwp8FoutOOpidisLxtBfxDT3MKzcMAUYbD954kZ+COkvqHXg9eb9eiuclPE9eirhReigSUySQEUsJrA37z/XJflGaA3btf8FxLwOLU3VHVMKif06Yfoj93focRy2KJNwIDAQAB";
@@ -340,7 +340,6 @@ public class LandingPageAccountActivity extends Fragment implements View.OnClick
         } 
     }
 
-
     public void goToCoachingPage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_CoachingNative;
         goToFragmentPage(new CoachingAccountFragment());
@@ -351,7 +350,6 @@ public class LandingPageAccountActivity extends Fragment implements View.OnClick
         goToFragmentPage(new RepasFragment());
     }
 
-
     public void goToMessagesPage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Messages;
         goToFragmentPage(new MessagesAccountFragment());
@@ -361,39 +359,40 @@ public class LandingPageAccountActivity extends Fragment implements View.OnClick
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
         Intent mainIntent = new Intent(context, MainActivity.class);
         startActivity(mainIntent);
-
     }
 
     public void goToVideosPage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Videos;
         Bundle bundle = new Bundle();
-        bundle.putString("header_title", getString(R.string.menu_account_videos));
+        bundle.putString("header_title", getString(R.string.nav_account_videos));
         bundle.putString("webkit_url", WebkitURL.videosWebkitUrl);
         goToWebkitPage(ApplicationData.SelectedFragment.Account_Videos, bundle);
     }
     public void goToWeightPage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Weight;
-        goToFragmentPage(new WeightGraphFragment());
-
+        goToFragmentPage(new ProgressFragment());
     }
+
     public void goToCommunityPage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Communaute;
         Bundle bundle = new Bundle();
-        bundle.putString("header_title", getString(R.string.menu_account_communaute));
+        bundle.putString("header_title", getString(R.string.nav_account_communaute));
         bundle.putString("webkit_url", WebkitURL.communityWebkitUrl);
         goToWebkitPage(ApplicationData.SelectedFragment.Account_Videos, bundle);
     }
+
     public void goToAmbassadricePage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Ambassadrice;
         Bundle bundle = new Bundle();
-        bundle.putString("header_title", getString(R.string.menu_account_ambassadrice));
+        bundle.putString("header_title", getString(R.string.nav_account_ambassadrice));
         bundle.putString("webkit_url", WebkitURL.ambassadriceWebkitUrl);
         goToWebkitPage(ApplicationData.SelectedFragment.Account_Ambassadrice, bundle);
     }
+
     public void goToFichesPage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Fiches;
         Bundle bundle = new Bundle();
-        bundle.putString("header_title", getString(R.string.menu_account_fiches));
+        bundle.putString("header_title", getString(R.string.nav_account_fiches));
         bundle.putString("webkit_url", WebkitURL.fichesWebkitUrl);
         goToWebkitPage(ApplicationData.SelectedFragment.Account_Fiches, bundle);
     }
@@ -401,10 +400,11 @@ public class LandingPageAccountActivity extends Fragment implements View.OnClick
     public void goToConsultationPage() {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
         Bundle bundle = new Bundle();
-        bundle.putString("header_title", getString(R.string.menu_account_webinars));
+        bundle.putString("header_title", getString(R.string.nav_account_webinars));
         bundle.putString("webkit_url", WebkitURL.webinarWebkitUrl);
         goToWebkitPage(ApplicationData.SelectedFragment.Account_Consultation, bundle);
     }
+
     private void goToFragmentPage(Fragment fragment) {
        FragmentManager fragmentManager = getFragmentManager();
         if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
@@ -418,8 +418,8 @@ public class LandingPageAccountActivity extends Fragment implements View.OnClick
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
+
     private void goToWebkitPage(ApplicationData.SelectedFragment selectedFragment, Bundle bundle) {
         ApplicationData.getInstance().selectedFragment = selectedFragment;
 

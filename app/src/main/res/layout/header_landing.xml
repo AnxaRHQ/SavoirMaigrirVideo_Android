@@ -3,15 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black">
+
     <ImageView
         android:id="@+id/header_notif_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
         android:gravity="center"
-        android:src="@drawable/notif_icon_light"
-        android:onClick="goToNotificationsPage"/>
+        android:onClick="goToNotificationsPage"
+        android:src="@drawable/notif_icon_light" />
     <ImageView
         android:id="@+id/header_title_iv"
         android:layout_width="wrap_content"

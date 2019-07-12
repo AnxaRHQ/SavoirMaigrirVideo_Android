@@ -4,13 +4,8 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <include
-        android:id="@+id/headermenu"
-        layout="@layout/header_menu"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"/>
-
     <ScrollView
+        android:id="@+id/weight_scrollView"
         android:layout_below="@+id/headermenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

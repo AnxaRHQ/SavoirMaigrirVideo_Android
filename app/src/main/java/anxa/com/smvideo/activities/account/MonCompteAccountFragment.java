@@ -13,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import java.util.Date;
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.activities.LoginActivity;
+import anxa.com.smvideo.common.WebkitURL;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
 import anxa.com.smvideo.contracts.DietProfilesDataContract;
@@ -35,7 +38,7 @@ import anxa.com.smvideo.util.AppUtil;
  * Created by aprilanxa on 14/06/2017.
  */
 
-public class MonCompteAccountFragment extends Fragment implements View.OnClickListener {
+public class MonCompteAccountFragment extends BaseFragment implements View.OnClickListener {
 
     private Context context;
     protected ApiCaller caller;
@@ -52,6 +55,8 @@ public class MonCompteAccountFragment extends Fragment implements View.OnClickLi
     private TextView coaching_et;
     private EditText email_et;
     private ProgressBar savingProgressBar;
+    private ImageView backButton;
+    private Button alertesButton;
 
     private UserDataContract userDataContract;
     private DietProfilesDataContract dietProfilesDataContract;
@@ -72,7 +77,16 @@ public class MonCompteAccountFragment extends Fragment implements View.OnClickLi
                              Bundle savedInstanceState) {
 
         this.context = getActivity();
+
         mView = inflater.inflate(R.layout.mon_compte_account, null);
+
+        ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_account_compte));
+
+        backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_menu_back);
+        backButton.setOnClickListener(this);
+
+        alertesButton = (Button) mView.findViewById(R.id.alertesButton);
+        alertesButton.setOnClickListener(this);
 
         caller = new ApiCaller();
 
@@ -90,11 +104,9 @@ public class MonCompteAccountFragment extends Fragment implements View.OnClickLi
         coachingArray = new String[]{getString(R.string.mon_compte_coaching_classic_female), getString(R.string.mon_compte_coaching_overwhelmed), getString(R.string.mon_compte_coaching_difficult),
                 getString(R.string.mon_compte_coaching_menopause), getString(R.string.mon_compte_coaching_moderatemobility), getString(R.string.mon_compte_coaching_medication)};
         //header change
-        ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_account_compte));
-        ((TextView) (mView.findViewById(R.id.header_right_tv))).setVisibility(View.GONE);
-//        logout_btn = ((TextView) (mView.findViewById(R.id.header_right_tv)));
-//        logout_btn.setText(getString(R.string.mon_compte_disconnect));
-//        logout_btn.setOnClickListener(this);
+//       logout_btn = ((TextView) (mView.findViewById(R.id.header_right_tv)));
+//       logout_btn.setText(getString(R.string.mon_compte_disconnect));
+//       logout_btn.setOnClickListener(this);
 
         name_et = (EditText) (mView.findViewById(R.id.mon_name_et));
         sexe_et = (TextView) (mView.findViewById(R.id.mon_sexe_et));
@@ -130,8 +142,17 @@ public class MonCompteAccountFragment extends Fragment implements View.OnClickLi
     }
 
     @Override
-    public void onClick(final View v) {
-        if (v == saveButton) {
+    public void onClick(final View v)
+    {
+        if (v == backButton)
+        {
+            super.removeFragment();
+        }
+        else if (v == alertesButton)
+        {
+            goToAlertesPage();
+        }
+        else if (v == saveButton) {
             if (validateInput()) {
                 savingProgressBar.setVisibility(View.VISIBLE);
                 saveProfileToObject();
@@ -365,13 +386,22 @@ public class MonCompteAccountFragment extends Fragment implements View.OnClickLi
         goToLoginPage();
     }
 
-    private void goToLoginPage(){
+    private void goToLoginPage()
+    {
         Intent mainIntent = new Intent(context, LoginActivity.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(mainIntent);
     }
 
+    private void goToAlertesPage()
+    {
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_MonCompte;
 
-
+        Intent mainIntent = new Intent(context, WebkitActivity.class);
+        mainIntent.putExtra("isHideRightNav", "true");
+        mainIntent.putExtra("header_title", getString(R.string.nav_account_alertes));
+        mainIntent.putExtra("webkit_url", WebkitURL.alertesWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
+        startActivity(mainIntent);
+    }
 }

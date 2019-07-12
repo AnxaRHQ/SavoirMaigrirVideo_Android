@@ -85,7 +85,6 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
     private WeightGraphContract latestWeight;
     private TextView currentWeightTitle;
     private ProgressBar weightProgressBar;
-    private ImageView backButton;
     private TextView targetWeightValue_tv, lostWeightValue_tv, bmiValue_tv;
 
     private int selectedDateRange;
@@ -117,6 +116,7 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
                              Bundle savedInstanceState) {
 
         this.context = getActivity();
+
         mView = inflater.inflate(R.layout.weight_graph, null);
 
         caller = new ApiCaller();
@@ -127,9 +127,6 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
 
         context.getApplicationContext().registerReceiver(the_receiver, filter);
 
-
-        //header change
-        ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_account_poids));
 
         weightLineChart = (LineChart) mView.findViewById(R.id.viewcontentGraph);
         weightLineChart.setVisibility(View.VISIBLE);
@@ -173,8 +170,8 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
 
         getWeightGraphData();
 
-        backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_menu_back);
-        backButton.setOnClickListener(this);
+        ((ScrollView) mView.findViewById(R.id.weight_scrollView)).smoothScrollTo(0,0);
+
         return mView;
     }
 
@@ -293,8 +290,6 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
             }
         } else if (v.getId() == R.id.weight_data_rl) {
             dismissKeyboard();
-        }else if(v == backButton) {
-            super.removeFragment();
         }
     }
 

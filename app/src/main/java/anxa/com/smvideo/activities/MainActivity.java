@@ -28,6 +28,7 @@ import anxa.com.smvideo.activities.account.AproposFragment;
 import anxa.com.smvideo.activities.account.CarnetAccountFragment;
 import anxa.com.smvideo.activities.account.CoachingAccountFragment;
 import anxa.com.smvideo.activities.account.ConseilsFragment;
+import anxa.com.smvideo.activities.account.DietitianActivity;
 import anxa.com.smvideo.activities.account.DtsWebkitFragment;
 import anxa.com.smvideo.activities.account.ExerciceFragment;
 import anxa.com.smvideo.activities.account.FichesFragment;
@@ -68,7 +69,8 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
     ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -76,30 +78,26 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
         filter.addAction(this.getResources().getString(R.string.bilan_broadcast_subscribe));
         this.getApplicationContext().registerReceiver(the_receiver, filter);
 
-        apropos_ll = (LinearLayout)findViewById(R.id.apropos_ll);
+        //apropos_ll = (LinearLayout)findViewById(R.id.apropos_ll);
 
-
-
-        if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free")) {
-
+        if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free"))
+        {
             mNavItems.add(new NavItem(getString(R.string.menu_home), R.drawable.icon_home));
             mNavItems.add(new NavItem(getString(R.string.menu_decouvrir), R.drawable.decouvrez_ico));
             mNavItems.add(new NavItem(getString(R.string.menu_bilan), R.drawable.bilanminceur_ico));
             mNavItems.add(new NavItem(getString(R.string.menu_temoignages), R.drawable.temoignage_ico));
             mNavItems.add(new NavItem(getString(R.string.menu_recettes), R.drawable.recettes_ico));
             mNavItems.add(new NavItem(getString(R.string.menu_mon_compte), R.drawable.compte_ico));
-        } else {
-
+        }
+        else {
             String welcome_message;
-            if (ApplicationData.getInstance().userDataContract.FirstName != null) {
-//                welcome_message = getString(R.string.welcome_account_1).replace("%@", ApplicationData.getInstance().userDataContract.FirstName).concat(getString(R.string.welcome_account_2).replace("%d", Integer.toString(ApplicationData.getInstance().currentWeekNumber)));
+            if (ApplicationData.getInstance().userDataContract.FirstName != null)
+            {
                 welcome_message = getString(R.string.welcome_account_1).replace("%@", ApplicationData.getInstance().userDataContract.FirstName).concat(getString(R.string.welcome_account_2).replace("%f", AppUtil.getCurrentDayName(AppUtil.getCurrentDayNumber()))).concat(getString(R.string.welcome_account_3).replace("%d", Integer.toString(ApplicationData.getInstance().currentWeekNumber)));
                 System.out.println("welcome message: " + welcome_message);
-
             } else {
                 welcome_message = getString(R.string.welcome_account_1).replace("%@", ApplicationData.getInstance().userName).concat(getString(R.string.welcome_account_2).replace("%f", AppUtil.getCurrentDayName(AppUtil.getCurrentDayNumber()))).concat(getString(R.string.welcome_account_3).replace("%d", Integer.toString(ApplicationData.getInstance().currentWeekNumber)));
                 System.out.println("welcome message: " + welcome_message);
-
             }
 
             mNavItems.add(new NavItem(getString(R.string.menu_home)));
@@ -107,12 +105,13 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
             mNavItems.add(new NavItem(getString(R.string.menu_account_nutrition)));
             mNavItems.add(new NavItem(getString(R.string.menu_account_coaching)));
             mNavItems.add(new NavItem(getString(R.string.menu_account_communaute)));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_videos)));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_boutique)));
-            mNavItems.add(new NavItem(getString(R.string.menu_account_espacevip)));
+            mNavItems.add(new NavItem(getString(R.string.left_nav_account_videos)));
+            //mNavItems.add(new NavItem(getString(R.string.menu_account_boutique)));
+            //mNavItems.add(new NavItem(getString(R.string.menu_account_espacevip)));
             mNavItems.add(new NavItem(getString(R.string.menu_account_notifications)));
             mNavItems.add(new NavItem(getString(R.string.menu_account_invitations)));
             mNavItems.add(new NavItem(getString(R.string.menu_account_message)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_paramducompte)));
             mNavItems.add(new NavItem(getString(R.string.mon_compte_disconnect)));
         }
 
@@ -134,7 +133,7 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
         });
 
         //landing page on the first launch
-   /*     if (ApplicationData.getInstance().showLandingPage) {
+        /*if (ApplicationData.getInstance().showLandingPage) {
             if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free")) {
                 launchActivity(LandingPageActivity.class);
             } else {
@@ -144,9 +143,11 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
-        if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free")) {
+        if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free"))
+        {
             if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Home) {
                 goToHomePage();
             }else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_Apropos) {
@@ -162,6 +163,8 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                 goToAproposPage();
             } else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Home) {
                 goToHomePage();
+            } else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_MonCompte) {
+                selectItemFromDrawer(9);
             } else {
                 selectItemFromDrawer(ApplicationData.getInstance().selectedFragment.getNumVal() - 4);
             }
@@ -170,12 +173,14 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
 
     /*
  * Called when a particular item from the navigation drawer is selected.*/
-    private void selectItemFromDrawer(int position) {
-        Fragment fragment = new RecipesActivity();
+    private void selectItemFromDrawer(int position)
+    {
+        Fragment fragment = new LandingPageAccountActivity();
         Bundle bundle = new Bundle();
-        System.out.println("selectedrfrom drawer: " + position);
+        System.out.println("selected from drawer: " + position);
 
-        if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free")) {
+        if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free"))
+        {
             switch (position) {
                 case 0:
                     goToHomePage();
@@ -196,74 +201,76 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                     fragment = new MonCompteActivity();
                     break;
                 default:
-                    fragment = new RecipesActivity();
+                    fragment = new LandingPageAccountActivity();
+                    break;
             }
         } else {
             switch (position) {
                 case 0:
-                   goToHomePage();
+                    goToHomePage();
                     break;
                 case 1: //fiches
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Fiches;
                     fragment = new WebkitFragment();
 
-                    bundle.putString("header_title", getString(R.string.menu_account_fiches));
+                    bundle.putString("header_title", getString(R.string.nav_account_fiches));
                     bundle.putString("webkit_url", WebkitURL.fichesWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
                     fragment.setArguments(bundle);
                     break;
                 case 2: //nutrition
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Nutrition;
                     fragment = new WebkitFragment();
-                    bundle.putString("header_title", getString(R.string.menu_account_nutrition));
+                    bundle.putString("header_title", getString(R.string.nav_account_nutrition));
                     bundle.putString("webkit_url", WebkitURL.nutritionWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
                     fragment.setArguments(bundle);
                     break;
                 case 3: //coaching
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Coaching;
                     fragment = new WebkitFragment();
-                    bundle.putString("header_title", getString(R.string.menu_account_coaching));
+                    bundle.putString("header_title", getString(R.string.nav_account_coaching));
                     bundle.putString("webkit_url", WebkitURL.coachingWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
                     fragment.setArguments(bundle);
                     break;
                 case 4: //community
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Communaute;
                     fragment = new WebkitFragment();
-                    bundle.putString("header_title", getString(R.string.menu_account_community));
+                    bundle.putString("header_title", getString(R.string.nav_account_communaute));
                     bundle.putString("webkit_url", WebkitURL.communityWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
                     fragment.setArguments(bundle);
                     break;
                 case 5: //500 videos
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Videos;
                     fragment = new WebkitFragment();
-                    bundle.putString("header_title", getString(R.string.menu_account_videos));
+                    bundle.putString("header_title", getString(R.string.nav_account_videos));
                     bundle.putString("webkit_url", WebkitURL.videosWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
                     fragment.setArguments(bundle);
                     break;
-                case 6: //boutique
-                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Boutique;
+                case 6: //notifications
+
+                    break;
+                case 7: //invitations
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Invitations;
                     fragment = new WebkitFragment();
-                    bundle.putString("header_title", getString(R.string.menu_account_boutique));
-                    bundle.putString("webkit_url", WebkitURL.boutiqueWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
+                    bundle.putString("header_title", getString(R.string.menu_account_invitations));
+                    bundle.putString("webkit_url", WebkitURL.invitationsWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
                     fragment.setArguments(bundle);
                     break;
-                case 7: //devenir vip
+                case 8: //messages
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Messages;
+                    fragment = new MessagesAccountFragment();
 
                     break;
-                case 8: //notifications
+                case 9: //parameters du compte
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_MonCompte;
+                    fragment = new MonCompteAccountFragment();
 
                     break;
-                case 9: //invitations
-
-                    break;
-                case 10: //messages
-
-                    break;
-                case 11: //logout
+                case 10: //deconnection
                     logoutUser();
                     break;
                 default:
                     fragment = new CoachingAccountFragment();
-
+                    break;
             }
         }
 
@@ -377,11 +384,12 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
             //mDrawerLayout.closeDrawer(mDrawerPane);
         }
     }
-    public void goToNotificationsPage(View view) {
-
+    public void goToNotificationsPage(View view)
+    {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Notifications;
         goToFragmentPage(new NotificationsFragment());
     }
+
     private void goToFragmentPage(Fragment fragment) {
         FragmentManager fragmentManager = getFragmentManager();
         if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
