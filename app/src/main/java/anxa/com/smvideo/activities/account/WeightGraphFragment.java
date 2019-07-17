@@ -70,8 +70,6 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
     private Context context;
     protected ApiCaller caller;
 
-    private View mView;
-
     private LineChart weightLineChart;
     private TextView dateRange_tv;
     private Button date_left_btn;
@@ -171,7 +169,7 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
         getWeightGraphData();
 
         ((ScrollView) mView.findViewById(R.id.weight_scrollView)).smoothScrollTo(0,0);
-
+        super.onCreateView(inflater, container, savedInstanceState);
         return mView;
     }
 

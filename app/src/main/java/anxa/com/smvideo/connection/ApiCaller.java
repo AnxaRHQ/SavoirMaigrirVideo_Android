@@ -30,6 +30,7 @@ import anxa.com.smvideo.contracts.Carnet.MealPlanForDayResponseContract;
 import anxa.com.smvideo.contracts.Carnet.UploadMealsDataContract;
 import anxa.com.smvideo.contracts.Carnet.UploadMealsDataResponseContract;
 import anxa.com.smvideo.contracts.CoachingVideosResponseContract;
+import anxa.com.smvideo.contracts.GetAlertsResponseContract;
 import anxa.com.smvideo.contracts.LoginContract;
 import anxa.com.smvideo.contracts.MessageRatingContract;
 import anxa.com.smvideo.contracts.MessagesResponseContract;
@@ -536,5 +537,12 @@ public class ApiCaller {
 
         apiClient.PostAsync(asyncResponse, "accesscode", command, json.toString(), RegisterUserResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);;
     }
+    public void GetUserAlerts(AsyncResponse asyncResponse, int userId) {
 
+        MasterCommand command = new MasterCommand();
+        command.RegId = userId;
+        command.Command = "alert-with-webinars";
+
+        apiClient.GetAsync(asyncResponse, "alert", command, GetAlertsResponseContract.class);
+    }
 }

@@ -47,6 +47,7 @@ public class MonCompteActivity extends Fragment implements View.OnClickListener 
         });
         header_right = (TextView) (mView.findViewById(R.id.header_right_tv));
         header_right.setOnClickListener(this);
+
         return mView;
     }
     @Override

@@ -69,8 +69,6 @@ public class MonCompteAccountFragment extends BaseFragment implements View.OnCli
     String[] caloriesArray = new String[]{};
     String[] coachingArray = new String[]{};
 
-    View mView;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -137,7 +135,7 @@ public class MonCompteAccountFragment extends BaseFragment implements View.OnCli
         builder.setCancelable(false);
 
         updateUserProfile();
-
+        super.onCreateView(inflater, container, savedInstanceState);
         return mView;
     }
 

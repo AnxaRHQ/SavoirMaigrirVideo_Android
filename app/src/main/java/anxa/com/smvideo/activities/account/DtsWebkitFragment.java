@@ -48,7 +48,6 @@ public class DtsWebkitFragment extends BaseFragment implements View.OnClickListe
 
     ProgressBar myProgressBar;
 
-    View mView;
     private Context context;
     protected ApiCaller caller;
     private ImageView backButton;
@@ -243,7 +242,7 @@ public class DtsWebkitFragment extends BaseFragment implements View.OnClickListe
         webSettings.setBlockNetworkImage(false);
         webSettings.setGeolocationEnabled(true);
         webSettings.setLoadWithOverviewMode(true);
-
+        super.onCreateView(inflater, container, savedInstanceState);
         return mView;
 
     }

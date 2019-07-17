@@ -85,7 +85,6 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
 
     public Context context;
     protected ApiCaller caller;
-    View mView;
 
 
     @Override
@@ -131,6 +130,7 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
 
         backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_menu_back);
         backButton.setOnClickListener(this);
+        super.onCreateView(inflater, container, savedInstanceState);
         return mView;
     }
 

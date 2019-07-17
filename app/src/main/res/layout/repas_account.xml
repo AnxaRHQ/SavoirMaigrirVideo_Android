@@ -9,7 +9,7 @@
         android:id="@+id/headermenu"
         layout="@layout/header_menu"
         android:layout_width="match_parent"
-        android:layout_height="44dp" />
+        android:layout_height="wrap_content" />
 
 
     <LinearLayout

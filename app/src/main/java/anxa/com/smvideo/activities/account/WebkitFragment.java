@@ -48,7 +48,7 @@ public class WebkitFragment extends BaseFragment implements View.OnClickListener
 
     ProgressBar myProgressBar;
 
-    View mView;
+
     private Context context;
     protected ApiCaller caller;
     private ImageView backButton;
@@ -245,6 +245,7 @@ public class WebkitFragment extends BaseFragment implements View.OnClickListener
         webSettings.setGeolocationEnabled(true);
         webSettings.setLoadWithOverviewMode(true);
 
+        super.onCreateView(inflater, container, savedInstanceState);
         return mView;
 
     }

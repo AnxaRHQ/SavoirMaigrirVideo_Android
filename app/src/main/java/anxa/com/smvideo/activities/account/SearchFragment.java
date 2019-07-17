@@ -56,7 +56,6 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
 
     ProgressBar myProgressBar;
 
-    View mView;
     private Context context;
     protected ApiCaller caller;
     private ImageView backButton, clearButton;
@@ -138,7 +137,7 @@ public class SearchFragment extends BaseFragment implements View.OnClickListener
         /* Annuler Button */
 
         cancelButton.setOnClickListener(this);
-
+        super.onCreateView(inflater, container, savedInstanceState);
         return mView;
     }
 

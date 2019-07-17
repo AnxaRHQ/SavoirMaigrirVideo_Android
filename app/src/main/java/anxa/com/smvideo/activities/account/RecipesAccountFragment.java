@@ -32,7 +32,7 @@ import anxa.com.smvideo.ui.RecipesListAdapter;
  * Created by aprilanxa on 13/07/2017.
  */
 
-public class RecipesAccountFragment extends Fragment implements View.OnClickListener {
+public class RecipesAccountFragment extends BaseFragment implements View.OnClickListener {
 
     private Context context;
     protected ApiCaller caller;
@@ -43,7 +43,6 @@ public class RecipesAccountFragment extends Fragment implements View.OnClickList
 
     CustomListView recipesListView;
 
-    View mView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,7 +70,7 @@ public class RecipesAccountFragment extends Fragment implements View.OnClickList
         }
 
         populateList();
-
+        super.onCreateView(inflater, container, savedInstanceState);
         return mView;
     }
 

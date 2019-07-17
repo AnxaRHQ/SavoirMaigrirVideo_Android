@@ -19,6 +19,7 @@ import anxa.com.smvideo.contracts.CoachingVideosContract;
 import anxa.com.smvideo.contracts.DietProfilesDataContract;
 import anxa.com.smvideo.contracts.MessagesContract;
 import anxa.com.smvideo.contracts.MessagesResponseContract;
+import anxa.com.smvideo.contracts.NotificationsContract;
 import anxa.com.smvideo.contracts.QuestionsContract;
 import anxa.com.smvideo.contracts.RepasContract;
 import anxa.com.smvideo.contracts.ResultsResponseDataContract;
@@ -42,6 +43,8 @@ import anxa.com.smvideo.contracts.RecipeContract;
  */
 
 public class ApplicationData extends Application {
+
+    public String currentLiveWebinar;
 
     public enum SelectedFragment{
         Decouvir(0),
@@ -144,6 +147,7 @@ public class ApplicationData extends Application {
     public List<WaterContract> waterList = new ArrayList<>();
     public Hashtable<String, Bitmap> coachCommentsPhotosList = new Hashtable<String, Bitmap>();
     public Hashtable<String, MealContract> tempList = new Hashtable<String, MealContract>();
+    public List<NotificationsContract> alertsDataArrayList = new ArrayList<>();
 
     public WeightHistoryContract currentWeight;
     public WeightHistoryContract initialWeightContract;

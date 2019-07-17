@@ -1252,6 +1252,12 @@
     <string name="WELCOME_LETS_MOVE_ON">Mon tableau de bord</string>
     <string name="ERROR">Erreur</string>
 
+    <string name="banner_webinar_lapause"><![CDATA[La consultation en direct : La Pause Café  c\'est maintenant ! Cliquez-ici pour y participer !]]></string>
+    <string name="banner_webinar_jmc"><![CDATA[Rendez-vous tous les mercredis à 8h pour participer à la Consultation en Direct intitulée : <b>Jean-Michel Cohen en Direct</b>]]></string>
+    <string name="banner_webinar_kilosemotionnels"><![CDATA[Rendez-vous tous les mercredis à 8h pour participer à la Consultation en Direct intitulée : <b>Kilos Emotionnels</b>]]></string>
+    <string name="banner_webinar_consultationdietetique"><![CDATA[La consultation diétetique en direct c\'est maintenant : Cliquez-ici pour y participer !]]></string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

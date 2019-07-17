@@ -55,7 +55,7 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
     private Context context;
     protected ApiCaller caller;
 
-    View mView;
+
 
     private TextView repasProgram_tv;
     private TextView shoppingList_recipe_tv;
@@ -243,7 +243,7 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
         System.out.println("REpas weeknumber 2: " + weekNumber);
 
         getMealOfTheDay();
-
+        super.onCreateView(inflater, container, savedInstanceState);
         return mView;
     }
 

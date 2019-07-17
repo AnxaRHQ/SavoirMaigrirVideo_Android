@@ -23,7 +23,7 @@ android {
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "anxa.com.smvideo"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 41
         versionName "2.2"

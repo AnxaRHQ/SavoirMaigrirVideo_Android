@@ -53,7 +53,7 @@ import anxa.com.smvideo.util.Purchase;
  * Created by aprilanxa on 14/06/2017.
  */
 
-public class LandingPageAccountActivity extends Fragment implements View.OnClickListener , IabBroadcastReceiver.IabBroadcastListener {
+public class LandingPageAccountActivity extends BaseFragment implements View.OnClickListener , IabBroadcastReceiver.IabBroadcastListener {
 
     protected ApiCaller caller;
     String userName = "";
@@ -73,7 +73,7 @@ public class LandingPageAccountActivity extends Fragment implements View.OnClick
     boolean mSubscribedTo = false;
     private PaymentOrderGoogleContract paymentOrderGoogleContract;
     private Context context;
-    View mView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -208,6 +208,7 @@ public class LandingPageAccountActivity extends Fragment implements View.OnClick
                 }
             }
         });
+        super.onCreateView(inflater, container, savedInstanceState);
         return mView;
     }
     IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
@@ -536,6 +537,30 @@ public class LandingPageAccountActivity extends Fragment implements View.OnClick
         if (mHelper != null) {
             mHelper.disposeWhenFinished();
             mHelper = null;
+        }
+    }
+
+    public void goToWebinarPage(View view) {
+
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
+        Bundle bundle = new Bundle();
+        bundle.putString("header_title", getString(R.string.nav_account_webinars));
+        bundle.putString("webkit_url", WebkitURL.webinarWebkitUrl);
+
+        Fragment fragment = new WebkitFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragment.setArguments(bundle);
+
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
+        } else {
+        }
+
+        try {
+
+            fragmentManager.beginTransaction().replace(R.id.mainContent, fragment, "CURRENT_FRAGMENT").commit();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

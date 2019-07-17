@@ -4,37 +4,55 @@
     android:layout_height="match_parent"
     android:background="@android:color/black">
 
-    <Button
-        android:id="@+id/header_menu_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
-        android:clickable="true"
-        android:onClick="onClick"
-        android:background="@drawable/ic_menu_white_24dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:id="@+id/header">
+        <Button
+            android:id="@+id/header_menu_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:background="@drawable/ic_menu_white_24dp" />
 
-    <ImageView
-        android:id="@+id/header_menu_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
-        android:src="@drawable/ic_chevron_left_white_24dp" />
+        <ImageView
+            android:id="@+id/header_menu_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ic_chevron_left_white_24dp" />
 
-    <TextView
-        android:id="@+id/header_title_tv"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/header_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/menu_decouvrir"
+            android:textColor="@android:color/white"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:text="@string/menu_decouvrir"
-        android:textColor="@android:color/white"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        android:id="@+id/bannerWebinar"
+        android:layout_below="@+id/header"
+        android:visibility="gone">
+        <include
+
+            layout="@layout/banner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
 
 
 

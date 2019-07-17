@@ -51,7 +51,7 @@ import anxa.com.smvideo.util.AppUtil;
  * Created by aprilanxa on 29/03/2018.
  */
 
-public class CarnetAccountFragment extends Fragment implements View.OnClickListener, DateChangeListener{
+public class CarnetAccountFragment extends BaseFragment implements View.OnClickListener, DateChangeListener{
 
     private DatePagerLayout dateC;
     private int selectedDayIndex = 0;
@@ -96,7 +96,6 @@ public class CarnetAccountFragment extends Fragment implements View.OnClickListe
 
     private Context context;
     protected ApiCaller caller;
-    View mView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

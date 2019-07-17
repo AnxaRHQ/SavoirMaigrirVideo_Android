@@ -2237,5 +2237,32 @@ public class AppUtil {
         return inSampleSize;
 
     }
+    public static long getDateInLongUtc(Calendar calendar, String time) {
+        calendar.setTimeZone(TimeZone.getDefault());
+        String DATE_FORMAT = "dd-M-yyyy hh:mm:ss a";
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+        formatter.setTimeZone(TimeZone.getDefault());
+        SimpleDateFormat sdfUtc = new SimpleDateFormat(DATE_FORMAT);
+        TimeZone tzInUtc = TimeZone.getTimeZone("UTC");
+        sdfUtc.setTimeZone(tzInUtc);
 
+        String sDateInUtc = sdfUtc.format(calendar.getTime()); // Convert to String first
+        try {
+            Date dateInUtc = formatter.parse(sDateInUtc); // Create a new Date object
+            return dateInUtc.getTime() / 1000L;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return Long.parseLong(null);
+    }
+    public static long getDateInLong(Calendar calendar, String time) {
+        calendar.setTimeZone(TimeZone.getDefault());
+
+        long unixtime = calendar.getTime().getTime() / 1000L;
+
+//        System.out.println("AppUtil time: " + time);
+//        System.out.println("AppUtil CurrentDateinTime: " + unixtime);
+
+        return unixtime;
+    }
 }

@@ -1,14 +1,18 @@
 package anxa.com.smvideo.activities;
 
+import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,10 +22,15 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
+import anxa.com.smvideo.AlarmReceiver;
 import anxa.com.smvideo.ApplicationData;
+import anxa.com.smvideo.BuildConfig;
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.activities.account.AmbassadriceFragment;
 import anxa.com.smvideo.activities.account.AproposFragment;
@@ -51,6 +60,10 @@ import anxa.com.smvideo.activities.free.MonCompteActivity;
 import anxa.com.smvideo.activities.free.RecipesActivity;
 import anxa.com.smvideo.activities.free.TemoignagesActivity;
 import anxa.com.smvideo.common.WebkitURL;
+import anxa.com.smvideo.connection.http.AsyncResponse;
+import anxa.com.smvideo.contracts.AlertsContract;
+import anxa.com.smvideo.contracts.GetAlertsResponseContract;
+import anxa.com.smvideo.contracts.NotificationsContract;
 import anxa.com.smvideo.models.NavItem;
 import anxa.com.smvideo.ui.DrawerListAdapter;
 import anxa.com.smvideo.util.AppUtil;
@@ -146,6 +159,7 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
     public void onResume()
     {
         super.onResume();
+
         if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free"))
         {
             if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Home) {
@@ -156,6 +170,7 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                 selectItemFromDrawer(ApplicationData.getInstance().selectedFragment.getNumVal()+1);
             }
         } else {
+            getUserAlerts();
             //initial
             if (ApplicationData.getInstance().selectedFragment.getNumVal() < 5) {
                 ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Coaching;
@@ -366,7 +381,7 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
             startActivity(mainIntent);
         }else{
             Fragment fragment = new LandingPageAccountActivity();
-
+            getUserAlerts();
             ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Home;
             FragmentManager fragmentManager = getFragmentManager();
             if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
@@ -389,7 +404,29 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Notifications;
         goToFragmentPage(new NotificationsFragment());
     }
+    public void goToWebinarPage(View view) {
 
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
+        Bundle bundle = new Bundle();
+        bundle.putString("header_title", getString(R.string.nav_account_webinars));
+        bundle.putString("webkit_url", WebkitURL.webinarWebkitUrl);
+
+        Fragment fragment = new WebkitFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragment.setArguments(bundle);
+
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
+        } else {
+        }
+
+        try {
+
+            fragmentManager.beginTransaction().replace(R.id.mainContent, fragment, "CURRENT_FRAGMENT").commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     private void goToFragmentPage(Fragment fragment) {
         FragmentManager fragmentManager = getFragmentManager();
         if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
@@ -448,5 +485,177 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
 
         mDrawerLayout.closeDrawer(mDrawerPane);
 
+    }
+
+    public void getUserAlerts() {
+
+
+        caller.GetUserAlerts(new AsyncResponse() {
+            @Override
+            public void processFinish(Object output) {
+                AlertsContract Alert;
+
+                GetAlertsResponseContract response = output != null ? (GetAlertsResponseContract) output : new GetAlertsResponseContract();
+                Log.d("UserAlerts", "");
+
+                if (response != null && response.Data != null && response.Data.Alerts != null) {
+
+                    System.out.println("check if there is content: " + ApplicationData.getInstance().alertsDataArrayList.size());
+                    ApplicationData.getInstance().alertsDataArrayList.clear();
+//                    ApplicationData.getInstance().alertsDataArrayList.clear();
+                    for (int i = 0; i < response.Data.Alerts.size(); i++) {
+                        if (i < response.Data.Alerts.size()) {
+                            Alert = response.Data.Alerts.get(i);
+//                      Log.d("UserAlerts", Alert.Message );
+                            StartNotification(Alert, i);
+                        }
+                    }
+                }
+
+            }
+        }, ApplicationData.getInstance().regId);
+
+
+    }
+    private void StartNotification(AlertsContract AlertsData, int NotificationID) {
+
+        System.out.println("startnotification: " + AlertsData.Message);
+        System.out.println("NotificationID: " + NotificationID);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeZone(TimeZone.getDefault());
+        Calendar calCurr = Calendar.getInstance();
+        calCurr.setTimeZone(TimeZone.getDefault());
+
+        Intent notificationIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        notificationIntent.addCategory("android.intent.category.DEFAULT");
+        notificationIntent.putExtra("Title", getResources().getString(R.string.app_name));
+        notificationIntent.putExtra("Ticker", AlertsData.Message);
+        notificationIntent.putExtra("Message", AlertsData.Message);
+        notificationIntent.putExtra("NotificationID", NotificationID + (2 * 100));
+        notificationIntent.setPackage(BuildConfig.APPLICATION_ID);
+
+        PendingIntent broadcast = PendingIntent.getBroadcast(this, NotificationID + (2 * 100), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+//        Log.d("Notification", "Do I need a notification? " + AlertsData.IsRemind );
+        if (AlertsData.IsRemind == true) {
+            // Uncomment only when debugging
+            //cal.add(Calendar.SECOND, 5);
+            //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, broadcast);
+
+//            Log.d("Notification", "Notification Time should be " + AlertsData.starttime);
+            cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(AlertsData.starttime.substring(0, 2)));
+            cal.set(Calendar.MINUTE, Integer.parseInt(AlertsData.starttime.substring(3)));
+            cal.set(Calendar.SECOND, 0);
+            cal.setFirstDayOfWeek(Calendar.MONDAY);
+
+            if (AlertsData.DaysOfWeek != null) {
+                for (char ch: AlertsData.DaysOfWeek.toCharArray()) {
+                    if (AlertsData.DaysOfWeek.equalsIgnoreCase("7")) {
+                        cal.set(Calendar.DAY_OF_WEEK, 1);
+                    } else {
+                        cal.set(Calendar.DAY_OF_WEEK, Integer.parseInt(String.valueOf(ch)) + 1);
+                    }
+                }
+            }
+
+
+            //add local notifications
+            NotificationsContract contractData = new NotificationsContract();
+            contractData.ErrorCount = AlertsData.starttime;
+            contractData.notification_text = AlertsData.Message;
+            contractData.coach_profile_picture = "coachPicture";
+            contractData.is_read = false;
+            contractData.date_created_utc = calCurr.getTimeInMillis();
+
+            contractData.notification_id = NotificationID;
+
+
+            System.out.println("AppUtil display_date: " + AppUtil.getDateInLongUtc(cal, AlertsData.starttime));
+
+
+            Date date1 = cal.getTime();
+            Date date2 = calCurr.getTime();
+            SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy hh:mm");
+            Log.d("Notification 1", "Daily notif set dt" + df.format(cal.getTime()));
+            switch (AlertsData.AlertType) {
+                case 1: //Daily
+
+
+                    if( date1.compareTo(date2) < 0) {
+                        cal.add(Calendar.HOUR, 24);
+                    }
+                    //alarmManager.cancel(broadcast);
+
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,  cal.getTimeInMillis(), broadcast);
+                    } else if (Build.VERSION.SDK_INT >= 19) {
+                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+                    } else {
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+                    }
+                    //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, broadcast);
+                    //alarmManager.set(AlarmManager.RTC_WAKEUP, AppUtil.getDateInLong(cal, AlertsData.starttime), broadcast);
+                    Log.d("Notification", "Daily notif set" + cal.getTimeInMillis());
+                    contractData.display_date = cal.getTimeInMillis()/1000L;
+                    contractData.toolaction_id = "daily";
+                    contractData.tooltype_id = AlertsData.AlertItem;
+                    break;
+                case 2: //Weekly
+                    if( date1.compareTo(date2) < 0) {
+                        cal.add(Calendar.WEEK_OF_YEAR, 1);
+                    }
+                    //alarmManager.cancel(broadcast);
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+                    } else if (Build.VERSION.SDK_INT >= 19) {
+                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+                    } else {
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+                    }
+                    // if(AppUtil.getDateInLong(cal, AlertsData.starttime) > calCurr.getTime().getTime() / 1000L){
+                    //alarmManager.set(AlarmManager.RTC_WAKEUP, AppUtil.getDateInMillisUtc(cal, AlertsData.starttime), broadcast);
+                    //}
+                    //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 7, broadcast);
+                    contractData.display_date = cal.getTimeInMillis()/1000L;
+                    contractData.toolaction_id = "weekly";
+                    contractData.tooltype_id = AlertsData.AlertItem;
+                    break;
+                case 3: //Monthly
+                    if( date1.compareTo(date2) < 0) {
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, AppUtil.getDateInLong(cal, AlertsData.starttime), broadcast);
+                    }
+                    //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 31, broadcast);
+                    //alarmManager.set(AlarmManager.RTC_WAKEUP, AppUtil.getDateInLong(cal, AlertsData.starttime), broadcast);
+                    contractData.display_date = cal.getTimeInMillis();
+                    contractData.toolaction_id = "monthly";
+                    contractData.tooltype_id = AlertsData.AlertItem;
+                    break;
+                case 4: //Yearly
+                    if( date1.compareTo(date2) < 0) {
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, AppUtil.getDateInLong(cal, AlertsData.starttime), broadcast);
+                    }
+                    //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY * 365, broadcast);
+                    //alarmManager.set(AlarmManager.RTC_WAKEUP, AppUtil.getDateInLong(cal, AlertsData.starttime), broadcast);
+                    contractData.display_date = cal.getTimeInMillis();
+                    contractData.toolaction_id = "yearly";
+                    contractData.tooltype_id = AlertsData.AlertItem;
+                    break;
+
+            }
+            if(!ApplicationData.getInstance().alertsDataArrayList.contains(contractData)){
+                ApplicationData.getInstance().alertsDataArrayList.add(contractData);
+            }
+
+            //}
+
+
+
+
+//            Log.d("Notification", "Creating notification #" + NotificationID + " for " + cal.getTime());
+        }
     }
 }

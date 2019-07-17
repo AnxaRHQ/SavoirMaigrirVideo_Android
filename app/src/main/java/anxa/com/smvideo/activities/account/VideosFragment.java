@@ -34,7 +34,7 @@ import anxa.com.smvideo.util.VideoHelper;
  * Created by aprilanxa on 14/06/2017.
  */
 
-public class VideosFragment extends Fragment implements View.OnClickListener {
+public class VideosFragment extends BaseFragment implements View.OnClickListener {
 
     private Context context;
     protected ApiCaller caller;
@@ -45,7 +45,7 @@ public class VideosFragment extends Fragment implements View.OnClickListener {
     private CustomListView coachingListView;
 
     private YouTubePlayerFragment playerFragment;
-    View mView;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,7 +83,7 @@ public class VideosFragment extends Fragment implements View.OnClickListener {
 
         getVideosFromAPI();
 //        getVideosFromAPI2/();
-
+        super.onCreateView(inflater, container, savedInstanceState);
         return mView;
     }
 

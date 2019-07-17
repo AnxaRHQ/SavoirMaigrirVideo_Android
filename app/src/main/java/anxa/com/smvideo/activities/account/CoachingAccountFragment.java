@@ -65,7 +65,6 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
     private boolean fromArchive;
     String headerTitle;
 
-    View mView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -128,6 +127,7 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
         } else {
             getCoachingVideosFromAPI();
         }
+        super.onCreateView(inflater, container, savedInstanceState);
         return mView;
     }
 

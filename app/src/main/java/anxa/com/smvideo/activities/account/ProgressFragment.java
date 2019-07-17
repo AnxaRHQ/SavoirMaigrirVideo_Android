@@ -23,8 +23,6 @@ import anxa.com.smvideo.common.WebkitURL;
 public class ProgressFragment extends BaseFragment implements View.OnClickListener
 {
     private Context context;
-    private View mView;
-
     private ImageView backButton;
     private Button weightButton, stepsButton, bicepsButton, poitrineButton, tailleButton, hanchesButton, cuisseButton;
 
@@ -63,7 +61,7 @@ public class ProgressFragment extends BaseFragment implements View.OnClickListen
 
         weightButton.setSelected(true);
         loadWeightFragment();
-
+        super.onCreateView(inflater, container, savedInstanceState);
         return mView;
     }
 
