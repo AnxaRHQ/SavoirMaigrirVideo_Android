@@ -53,8 +53,8 @@ import anxa.com.smvideo.util.Purchase;
  * Created by aprilanxa on 14/06/2017.
  */
 
-public class LandingPageAccountActivity extends BaseFragment implements View.OnClickListener , IabBroadcastReceiver.IabBroadcastListener {
-
+public class LandingPageAccountActivity extends BaseFragment implements View.OnClickListener , IabBroadcastReceiver.IabBroadcastListener
+{
     protected ApiCaller caller;
     String userName = "";
     TextView initial_weight_tv, target_weight_tv, lost_weight_tv;
@@ -76,7 +76,8 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         this.context = getActivity();
         caller = new ApiCaller();
         mView = inflater.inflate(R.layout.menu_page_account, null);
@@ -92,7 +93,6 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
       /*  header_info_iv = (ImageView) mView.findViewById(R.id.header_info_iv);
         header_info_iv.setOnClickListener(this);*/
 // DrawerLayout
-
 
         caller = new ApiCaller();
 
@@ -158,7 +158,7 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         ((ImageView) mView.findViewById(R.id.LandingImage8_account)).setOnClickListener(this);
         ((ImageView) mView.findViewById(R.id.LandingImage9_account)).setOnClickListener(this);
 
-
+        updateBadgeNotif();
 
         //contact_btn = (Button) mView.findViewById(R.id.contact_account);
         //contact_btn.setPaintFlags(contact_btn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -211,6 +211,7 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         super.onCreateView(inflater, container, savedInstanceState);
         return mView;
     }
+
     IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
         public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
             Log.d(TAG, "Query inventory finished.");
@@ -283,10 +284,12 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
             Log.d(TAG, "Initial inventory query finished; enabling main UI.");
         }
     };
+
     /**
      * Verifies the developer payload of a purchase.
      */
-    boolean verifyDeveloperPayload(Purchase p) {
+    boolean verifyDeveloperPayload(Purchase p)
+    {
         String payload = p.getDeveloperPayload();
 
         /*
@@ -314,8 +317,10 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
 
         return true;
     }
+
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         if (v.getId() == R.id.LandingRepasButton || v.getId() == R.id.LandingImage1_account) {
             goToRepasPage();
         } else if (v.getId() == R.id.LandingConsultationButton || v.getId() == R.id.LandingImage2_account) {
@@ -341,40 +346,54 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         } 
     }
 
-    public void goToCoachingPage() {
+    public void goToCoachingPage()
+    {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_CoachingNative;
         goToFragmentPage(new CoachingAccountFragment());
     }
 
-    public void goToRepasPage() {
+    public void goToRepasPage()
+    {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Repas;
         goToFragmentPage(new RepasFragment());
     }
 
-    public void goToMessagesPage() {
+    public void goToMessagesPage()
+    {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Messages;
-        goToFragmentPage(new MessagesAccountFragment());
+
+        MessagesAccountFragment messagesAccountFragment = new MessagesAccountFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("fromNotifications", false);
+        messagesAccountFragment.setArguments(bundle);
+
+        goToFragmentPage(messagesAccountFragment);
     }
 
-    public void goToConseilsPage() {
+    public void goToConseilsPage()
+    {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
         Intent mainIntent = new Intent(context, MainActivity.class);
         startActivity(mainIntent);
     }
 
-    public void goToVideosPage() {
+    public void goToVideosPage()
+    {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Videos;
         Bundle bundle = new Bundle();
         bundle.putString("header_title", getString(R.string.nav_account_videos));
         bundle.putString("webkit_url", WebkitURL.videosWebkitUrl);
         goToWebkitPage(ApplicationData.SelectedFragment.Account_Videos, bundle);
     }
-    public void goToWeightPage() {
+
+    public void goToWeightPage()
+    {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Weight;
         goToFragmentPage(new ProgressFragment());
     }
 
-    public void goToCommunityPage() {
+    public void goToCommunityPage()
+    {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Communaute;
         Bundle bundle = new Bundle();
         bundle.putString("header_title", getString(R.string.nav_account_communaute));
@@ -382,7 +401,8 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         goToWebkitPage(ApplicationData.SelectedFragment.Account_Videos, bundle);
     }
 
-    public void goToAmbassadricePage() {
+    public void goToAmbassadricePage()
+    {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Ambassadrice;
         Bundle bundle = new Bundle();
         bundle.putString("header_title", getString(R.string.nav_account_ambassadrice));
@@ -390,7 +410,8 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         goToWebkitPage(ApplicationData.SelectedFragment.Account_Ambassadrice, bundle);
     }
 
-    public void goToFichesPage() {
+    public void goToFichesPage()
+    {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Fiches;
         Bundle bundle = new Bundle();
         bundle.putString("header_title", getString(R.string.nav_account_fiches));
@@ -398,7 +419,8 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         goToWebkitPage(ApplicationData.SelectedFragment.Account_Fiches, bundle);
     }
 
-    public void goToConsultationPage() {
+    public void goToConsultationPage()
+    {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
         Bundle bundle = new Bundle();
         bundle.putString("header_title", getString(R.string.nav_account_webinars));
@@ -406,7 +428,8 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         goToWebkitPage(ApplicationData.SelectedFragment.Account_Consultation, bundle);
     }
 
-    private void goToFragmentPage(Fragment fragment) {
+    private void goToFragmentPage(Fragment fragment)
+    {
        FragmentManager fragmentManager = getFragmentManager();
         if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
             fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
@@ -421,7 +444,8 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         }
     }
 
-    private void goToWebkitPage(ApplicationData.SelectedFragment selectedFragment, Bundle bundle) {
+    private void goToWebkitPage(ApplicationData.SelectedFragment selectedFragment, Bundle bundle)
+    {
         ApplicationData.getInstance().selectedFragment = selectedFragment;
 
         Fragment fragment = new WebkitFragment();
@@ -439,10 +463,10 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
-     private void goToDtsPage(ApplicationData.SelectedFragment selectedFragment, Bundle bundle) {
+
+    private void goToDtsPage(ApplicationData.SelectedFragment selectedFragment, Bundle bundle)
+    {
         ApplicationData.getInstance().selectedFragment = selectedFragment;
 
         Fragment fragment = new DtsWebkitFragment();
@@ -460,11 +484,10 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
     }
-    private void updateProgressBar() {
+
+    private void updateProgressBar()
+    {
         initial_weight_tv.setText(Float.toString(ApplicationData.getInstance().dietProfilesDataContract.StartWeightInKg) + " kg");
         target_weight_tv.setText(Float.toString(ApplicationData.getInstance().dietProfilesDataContract.TargetWeightInKg) + " kg");
 
@@ -477,19 +500,23 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         weightProgressBar.setProgress((int) lost_percentage);
     }
 
-    private void goToAproposPage() {
+    private void goToAproposPage()
+    {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Apropos;
         Intent mainIntent = new Intent(context, MainActivity.class);
         startActivity(mainIntent);
     }
 
-    private void goToConditionsPage() {
+    private void goToConditionsPage()
+    {
         Intent mainContentBrowser = new Intent(context, BrowserActivity.class);
         mainContentBrowser.putExtra("HEADER_TITLE", getResources().getString(R.string.apropos_menu2));
         mainContentBrowser.putExtra("URL_PATH", WebkitURL.conditionsURL);
         startActivity(mainContentBrowser);
     }
-    private void goToContactPage() {
+
+    private void goToContactPage()
+    {
         Intent mainContentBrowser = new Intent(context, BrowserActivity.class);
         mainContentBrowser.putExtra("HEADER_TITLE", getResources().getString(R.string.contact));
 
@@ -497,6 +524,7 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
 
         startActivity(mainContentBrowser);
     }
+
     private void updateGoogleOrder()
     {
         caller.PostGoogleOrderUpdate(new AsyncResponse() {
@@ -506,8 +534,6 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
                 if (output != null) {
                     System.out.println("submitOrderToAPI: " + output);
                     PaymentOrderResponseContract responseContract = (PaymentOrderResponseContract) output;
-
-
                 }
 
             }
@@ -515,7 +541,8 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
     }
 
     @Override
-    public void receivedBroadcast() {
+    public void receivedBroadcast()
+    {
         Log.d("SMVideo", "Received broadcast notification. Querying inventory.");
         try {
             mHelper.queryInventoryAsync(mGotInventoryListener);
@@ -523,8 +550,10 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
             //complain("Error querying inventory. Another async operation in progress.");
         }
     }
+
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
 
         // very important:
@@ -540,8 +569,8 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         }
     }
 
-    public void goToWebinarPage(View view) {
-
+    public void goToWebinarPage(View view)
+    {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
         Bundle bundle = new Bundle();
         bundle.putString("header_title", getString(R.string.nav_account_webinars));
@@ -561,6 +590,20 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
             fragmentManager.beginTransaction().replace(R.id.mainContent, fragment, "CURRENT_FRAGMENT").commit();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void updateBadgeNotif()
+    {
+        if (ApplicationData.getInstance().unreadNotifications > 0)
+        {
+            TextView textCount = (TextView) mView.findViewById(R.id.notif_count);
+            textCount.setText("" + ApplicationData.getInstance().unreadNotifications);
+
+            mView.findViewById(R.id.badge_notif).setVisibility(View.VISIBLE);
+        }
+        else {
+            mView.findViewById(R.id.badge_notif).setVisibility(View.GONE);
         }
     }
 }

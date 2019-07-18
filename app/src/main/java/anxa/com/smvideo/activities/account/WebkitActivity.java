@@ -33,7 +33,7 @@ public class WebkitActivity extends Activity implements View.OnClickListener
 
         String isHideRightNav = getIntent().getStringExtra("isHideRightNav");
         String header_title = getIntent().getStringExtra("header_title");
-        String  webkit_url = getIntent().getStringExtra("webkit_url");
+        String webkit_url = getIntent().getStringExtra("webkit_url");
 
         bundle.putString("isHideRightNav", isHideRightNav );
         bundle.putString("header_title", header_title);

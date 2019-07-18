@@ -19,7 +19,6 @@ import anxa.com.smvideo.contracts.CoachingVideosContract;
 import anxa.com.smvideo.contracts.DietProfilesDataContract;
 import anxa.com.smvideo.contracts.MessagesContract;
 import anxa.com.smvideo.contracts.MessagesResponseContract;
-import anxa.com.smvideo.contracts.NotificationsContract;
 import anxa.com.smvideo.contracts.QuestionsContract;
 import anxa.com.smvideo.contracts.RepasContract;
 import anxa.com.smvideo.contracts.ResultsResponseDataContract;
@@ -28,6 +27,7 @@ import anxa.com.smvideo.contracts.UserDataContract;
 import anxa.com.smvideo.contracts.VideoContract;
 import anxa.com.smvideo.contracts.WeightGraphContract;
 import anxa.com.smvideo.contracts.WeightHistoryContract;
+import anxa.com.smvideo.contracts.Notifications.NotificationsContract;
 import anxa.com.smvideo.models.RegUserProfile;
 import anxa.com.smvideo.util.AppUtil;
 import io.fabric.sdk.android.Fabric;
@@ -42,11 +42,12 @@ import anxa.com.smvideo.contracts.RecipeContract;
  * Created by aprilanxa on 19/05/2017.
  */
 
-public class ApplicationData extends Application {
-
+public class ApplicationData extends Application
+{
     public String currentLiveWebinar;
 
-    public enum SelectedFragment{
+    public enum SelectedFragment
+    {
         Decouvir(0),
         Bilan(1),
         Temoignages(2),
@@ -147,7 +148,9 @@ public class ApplicationData extends Application {
     public List<WaterContract> waterList = new ArrayList<>();
     public Hashtable<String, Bitmap> coachCommentsPhotosList = new Hashtable<String, Bitmap>();
     public Hashtable<String, MealContract> tempList = new Hashtable<String, MealContract>();
-    public List<NotificationsContract> alertsDataArrayList = new ArrayList<>();
+    public List<NotificationsContract> alertsDataArrayList = new ArrayList<NotificationsContract>();
+    public Hashtable<String, NotificationsContract> notificationList = new Hashtable<String, NotificationsContract>();
+    public int unreadNotifications = 0;
 
     public WeightHistoryContract currentWeight;
     public WeightHistoryContract initialWeightContract;
@@ -286,36 +289,40 @@ public class ApplicationData extends Application {
         editor.commit();
     }
 
-    public long getBeforeDate(){
+    public long getBeforeDate()
+    {
         final SharedPreferences prefs = getGCMPreferences(context);
         return prefs.getLong(PROPERTY_APP_CURSOR_BEFORE, 0);
     }
 
-    public void setBeforeDate(long beforeDate){
+    public void setBeforeDate(long beforeDate)
+    {
         final SharedPreferences prefs = getGCMPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putLong(PROPERTY_APP_CURSOR_BEFORE, beforeDate);
         editor.commit();
     }
 
-    public long getPreviousDate(){
+    public long getPreviousDate()
+    {
         final SharedPreferences prefs = getGCMPreferences(context);
         return prefs.getLong(PROPERTY_APP_CURSOR_PREVIOUS, 0);
     }
 
-    public void setPreviousDate(long previousDate){
+    public void setPreviousDate(long previousDate)
+    {
         final SharedPreferences prefs = getGCMPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putLong(PROPERTY_APP_CURSOR_PREVIOUS, previousDate);
         editor.commit();
     }
 
-
     public Bitmap getUserProfilePhoto() {
         return userProfilePhoto;
     }
 
-    public void setUserProfilePhoto(Bitmap userProfilePhoto) {
+    public void setUserProfilePhoto(Bitmap userProfilePhoto)
+    {
         this.userProfilePhoto = userProfilePhoto;
     }
 
@@ -350,10 +357,24 @@ public class ApplicationData extends Application {
         return AppUtil.getCurrentDateinDate();
     }
 
-    public Date fromDate(Context context) {
-
+    public Date fromDate(Context context)
+    {
         final SharedPreferences prefs = getGCMPreferences(context);
         int addDays = -7; //get the first 7 days
         return AppUtil.getCurrentDate(addDays);
+    }
+
+    public void setNotificationsCount(int notificationsCount)
+    {
+        final SharedPreferences prefs = getGCMPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("notificationsCount", notificationsCount);
+        editor.commit();
+    }
+
+    public int getNotificationsCount()
+    {
+        final SharedPreferences prefs = getGCMPreferences(context);
+        return prefs.getInt("notificationsCount", 0);
     }
 }

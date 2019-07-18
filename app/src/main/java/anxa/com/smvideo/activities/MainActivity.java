@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import anxa.com.smvideo.BuildConfig;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -20,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,29 +30,16 @@ import java.util.TimeZone;
 
 import anxa.com.smvideo.AlarmReceiver;
 import anxa.com.smvideo.ApplicationData;
-import anxa.com.smvideo.BuildConfig;
 import anxa.com.smvideo.R;
-import anxa.com.smvideo.activities.account.AmbassadriceFragment;
 import anxa.com.smvideo.activities.account.AproposFragment;
-import anxa.com.smvideo.activities.account.CarnetAccountFragment;
 import anxa.com.smvideo.activities.account.CoachingAccountFragment;
-import anxa.com.smvideo.activities.account.ConseilsFragment;
-import anxa.com.smvideo.activities.account.DietitianActivity;
 import anxa.com.smvideo.activities.account.DtsWebkitFragment;
-import anxa.com.smvideo.activities.account.ExerciceFragment;
-import anxa.com.smvideo.activities.account.FichesFragment;
 import anxa.com.smvideo.activities.account.LandingPageAccountActivity;
 import anxa.com.smvideo.activities.account.MessagesAccountFragment;
 import anxa.com.smvideo.activities.account.MonCompteAccountFragment;
-import anxa.com.smvideo.activities.account.NotificationsFragment;
-import anxa.com.smvideo.activities.account.NutritionFragment;
-import anxa.com.smvideo.activities.account.RecipesAccountFragment;
-import anxa.com.smvideo.activities.account.RepasFragment;
+import anxa.com.smvideo.activities.account.NotificationsActivity;
 import anxa.com.smvideo.activities.account.SearchFragment;
-import anxa.com.smvideo.activities.account.VideosFragment;
-import anxa.com.smvideo.activities.account.WebinarFragment;
 import anxa.com.smvideo.activities.account.WebkitFragment;
-import anxa.com.smvideo.activities.account.WeightGraphFragment;
 import anxa.com.smvideo.activities.free.BilanMinceurActivity;
 import anxa.com.smvideo.activities.free.DiscoverActivity;
 import anxa.com.smvideo.activities.free.LandingPageActivity;
@@ -63,7 +50,7 @@ import anxa.com.smvideo.common.WebkitURL;
 import anxa.com.smvideo.connection.http.AsyncResponse;
 import anxa.com.smvideo.contracts.AlertsContract;
 import anxa.com.smvideo.contracts.GetAlertsResponseContract;
-import anxa.com.smvideo.contracts.NotificationsContract;
+import anxa.com.smvideo.contracts.Notifications.NotificationsContract;
 import anxa.com.smvideo.models.NavItem;
 import anxa.com.smvideo.ui.DrawerListAdapter;
 import anxa.com.smvideo.util.AppUtil;
@@ -178,6 +165,11 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                 goToAproposPage();
             } else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Home) {
                 goToHomePage();
+            } else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_CoachingNative) {
+
+                ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_CoachingNative;
+                goToFragmentPage(new CoachingAccountFragment());
+
             } else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_MonCompte) {
                 selectItemFromDrawer(9);
             } else {
@@ -262,6 +254,10 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                     break;
                 case 6: //notifications
 
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Home;
+                    Intent intent = new Intent(this, NotificationsActivity.class);
+                    startActivity(intent);
+
                     break;
                 case 7: //invitations
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Invitations;
@@ -272,7 +268,9 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                     break;
                 case 8: //messages
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Messages;
+                    bundle.putBoolean("fromNotifications", false);
                     fragment = new MessagesAccountFragment();
+                    fragment.setArguments(bundle);
 
                     break;
                 case 9: //parameters du compte
@@ -284,7 +282,7 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                     logoutUser();
                     break;
                 default:
-                    fragment = new CoachingAccountFragment();
+                    fragment = new LandingPageAccountActivity();
                     break;
             }
         }
@@ -374,16 +372,21 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
 
     }
 
-    private void goToHomePage() {
-        if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free")) {
+    private void goToHomePage()
+    {
+        if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free"))
+        {
             ApplicationData.getInstance().accountType = "free";
             Intent mainIntent = new Intent(this, LandingPageActivity.class);
             startActivity(mainIntent);
-        }else{
+        }
+        else
+        {
             Fragment fragment = new LandingPageAccountActivity();
             getUserAlerts();
             ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Home;
             FragmentManager fragmentManager = getFragmentManager();
+
             if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
                 fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
             } else {
@@ -399,13 +402,15 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
             //mDrawerLayout.closeDrawer(mDrawerPane);
         }
     }
+
     public void goToNotificationsPage(View view)
     {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Notifications;
-        goToFragmentPage(new NotificationsFragment());
+        Intent intent = new Intent(this, NotificationsActivity.class);
+        startActivity(intent);
     }
-    public void goToWebinarPage(View view) {
 
+    public void goToWebinarPage(View view)
+    {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
         Bundle bundle = new Bundle();
         bundle.putString("header_title", getString(R.string.nav_account_webinars));
@@ -427,8 +432,11 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
             e.printStackTrace();
         }
     }
-    private void goToFragmentPage(Fragment fragment) {
+
+    private void goToFragmentPage(Fragment fragment)
+    {
         FragmentManager fragmentManager = getFragmentManager();
+
         if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
             fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
         } else {
@@ -440,9 +448,10 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-    private void goToDtsPage(ApplicationData.SelectedFragment selectedFragment, Bundle bundle) {
+
+    private void goToDtsPage(ApplicationData.SelectedFragment selectedFragment, Bundle bundle)
+    {
         ApplicationData.getInstance().selectedFragment = selectedFragment;
 
         Fragment fragment = new DtsWebkitFragment();
@@ -462,10 +471,10 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
         }
 
         mDrawerLayout.closeDrawer(mDrawerPane);
-
     }
 
-    private void goToSearchPage() {
+    private void goToSearchPage()
+    {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Search;
 
         Fragment fragment = new SearchFragment();
@@ -484,12 +493,10 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
         }
 
         mDrawerLayout.closeDrawer(mDrawerPane);
-
     }
 
-    public void getUserAlerts() {
-
-
+    public void getUserAlerts()
+    {
         caller.GetUserAlerts(new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
@@ -514,11 +521,10 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
 
             }
         }, ApplicationData.getInstance().regId);
-
-
     }
-    private void StartNotification(AlertsContract AlertsData, int NotificationID) {
 
+    private void StartNotification(AlertsContract AlertsData, int NotificationID)
+    {
         System.out.println("startnotification: " + AlertsData.Message);
         System.out.println("NotificationID: " + NotificationID);
 
@@ -538,7 +544,6 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
         notificationIntent.setPackage(BuildConfig.APPLICATION_ID);
 
         PendingIntent broadcast = PendingIntent.getBroadcast(this, NotificationID + (2 * 100), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
 
 //        Log.d("Notification", "Do I need a notification? " + AlertsData.IsRemind );
         if (AlertsData.IsRemind == true) {
@@ -562,7 +567,6 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                 }
             }
 
-
             //add local notifications
             NotificationsContract contractData = new NotificationsContract();
             contractData.ErrorCount = AlertsData.starttime;
@@ -581,6 +585,7 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
             Date date2 = calCurr.getTime();
             SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy hh:mm");
             Log.d("Notification 1", "Daily notif set dt" + df.format(cal.getTime()));
+
             switch (AlertsData.AlertType) {
                 case 1: //Daily
 
@@ -652,10 +657,7 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
 
             //}
 
-
-
-
-//            Log.d("Notification", "Creating notification #" + NotificationID + " for " + cal.getTime());
+            //Log.d("Notification", "Creating notification #" + NotificationID + " for " + cal.getTime());
         }
     }
 }

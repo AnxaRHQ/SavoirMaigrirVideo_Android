@@ -85,6 +85,9 @@
     <string name="nav_account_hanches">Hanches</string>
     <string name="nav_account_cuisse">Cuisse</string>
 
+    <string name="NOTIFICATIONS_TITLE">Réponses du Coach</string>
+    <string name="NOTIFICATIONS_TIME_AT"> à </string>
+
     <string name="lost_weight_text">Vous avez perdu </string>
 
     <string name="coaching_header">Semaine %d</string>

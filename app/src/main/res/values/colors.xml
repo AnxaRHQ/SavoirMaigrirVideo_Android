@@ -62,4 +62,7 @@
     <color name="header_text_color">#4B4D4E</color>
     <color name="header_bg">#EBEBEB</color>
     <color name="gray_bg_reg_code">#EDEDED</color>
+
+    <color name="header_lefttext_title">#000000</color>
+    <color name="notif_title">#FFFFFF</color>
 </resources>

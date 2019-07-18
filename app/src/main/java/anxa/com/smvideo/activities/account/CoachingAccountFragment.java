@@ -232,11 +232,14 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
         });
     }
 
-    private void proceedToArchivePage() {
-        Intent mainIntent = new Intent(this.getActivity(), CoachingArchiveAccountActivity.class);
+    private void proceedToArchivePage()
+    {
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_CoachingNative;
+
+        Intent mainIntent = new Intent(this.context, CoachingArchiveAccountActivity.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getActivity().startActivity(mainIntent);
+        startActivity(mainIntent);
     }
 
     @Override

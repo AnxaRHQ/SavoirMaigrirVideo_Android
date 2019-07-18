@@ -19,11 +19,13 @@
         <HorizontalScrollView
             android:id="@+id/progress_horizontal"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="45dp"
             android:animateLayoutChanges="true"
             android:scrollbars="none"
             android:layout_below="@+id/headermenu"
-            android:background="@color/dark_gray_bg_bilan">
+            android:background="@color/dark_gray_bg_bilan"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
 
             <LinearLayout
                 android:id="@+id/progress_tab"
@@ -38,8 +40,9 @@
                     android:id="@+id/weight_button"
                     style="@style/whiteNormalRepas"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_weight_graph_bg"
                     android:text="@string/nav_account_weight" />
@@ -48,8 +51,9 @@
                     android:id="@+id/steps_button"
                     style="@style/whiteNormalRepas"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_weight_graph_bg"
                     android:text="@string/nav_account_steps" />
@@ -58,8 +62,9 @@
                     android:id="@+id/biceps_button"
                     style="@style/whiteNormalRepas"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_weight_graph_bg"
                     android:text="@string/nav_account_biceps" />
@@ -68,8 +73,9 @@
                     android:id="@+id/poitrine_button"
                     style="@style/whiteNormalRepas"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_weight_graph_bg"
                     android:text="@string/nav_account_poitrine" />
@@ -78,8 +84,9 @@
                     android:id="@+id/taille_button"
                     style="@style/whiteNormalRepas"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_weight_graph_bg"
                     android:text="@string/nav_account_taille" />
@@ -88,8 +95,9 @@
                     android:id="@+id/hanches_button"
                     style="@style/whiteNormalRepas"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_weight_graph_bg"
                     android:text="@string/nav_account_hanches" />
@@ -98,8 +106,9 @@
                     android:id="@+id/cuisse_button"
                     style="@style/whiteNormalRepas"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_weight_graph_bg"
                     android:text="@string/nav_account_cuisse" />

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -15,7 +14,6 @@ import org.joda.time.DateTime;
 import org.joda.time.Weeks;
 
 import java.io.UnsupportedEncodingException;
-import java.net.ConnectException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
@@ -1341,6 +1339,20 @@ public class AppUtil {
         return temp;
     }
 
+    public static String getTimeOnly(long millisec)
+    {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(millisec);
+        c.setTimeZone(TimeZone.getDefault());
+
+        String temp = ((c.get(Calendar.HOUR) < 10) ? ("0" + c.get(Calendar.HOUR)) : c.get(Calendar.HOUR))
+                + ":"
+                + ((c.get(Calendar.MINUTE) < 10) ? ("0" + c.get(Calendar.MINUTE)) : c.get(Calendar.MINUTE))
+                + " " + (c.get(Calendar.AM_PM) == 0 ? "AM" : "PM");
+
+        return temp;
+    }
+
     public static long getCurrentDateinLongGMT() {
         Calendar calendar = Calendar.getInstance();
         long unixtime = calendar.getTime().getTime() / 1000L;
@@ -2255,6 +2267,7 @@ public class AppUtil {
         }
         return Long.parseLong(null);
     }
+
     public static long getDateInLong(Calendar calendar, String time) {
         calendar.setTimeZone(TimeZone.getDefault());
 
@@ -2264,5 +2277,25 @@ public class AppUtil {
 //        System.out.println("AppUtil CurrentDateinTime: " + unixtime);
 
         return unixtime;
+    }
+
+    public static String getDateFormatNotifications(Date date)
+    {
+        String localTime;
+        try {
+
+            Calendar cal = Calendar.getInstance();
+            TimeZone tz = cal.getTimeZone();
+
+            /* date formatter in local timezone */
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.FRENCH);
+            sdf.setTimeZone(tz);
+            localTime = sdf.format(date);
+
+        } catch (NullPointerException e) {
+            return "";
+        }
+
+        return localTime;
     }
 }

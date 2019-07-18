@@ -1,8 +1,14 @@
-package anxa.com.smvideo.contracts;
+package anxa.com.smvideo.contracts.Notifications;
+
+/**
+ * Created by elaineanxa on 15/07/2019
+ */
 
 import com.google.gson.annotations.SerializedName;
+import anxa.com.smvideo.contracts.BaseContract;
 
-public class NotificationsContract extends BaseContract {
+public class NotificationsContract extends BaseContract
+{
     /**<notification_id>1167231</notification_id>
      <tooltype_id>OneToOneCoaching</tooltype_id>
      <toolaction_id>Commented</toolaction_id>
@@ -21,28 +27,40 @@ public class NotificationsContract extends BaseContract {
      </MobileNotificationContract>**/
     @SerializedName("notification_id")
     public int notification_id ;
+
     @SerializedName("tooltype_id")
     public String tooltype_id;
+
     @SerializedName("toolaction_id")
     public String toolaction_id;
+
     @SerializedName("tool_id")
     public int tool_id ;
+
     @SerializedName("toolextra_id1")
     public int toolextra_id1;
+
     @SerializedName("tool_content_title")
     public String tool_content_title ;
+
     @SerializedName("is_read")
     public boolean is_read ;
+
     @SerializedName("is_deleted")
     public boolean is_deleted;
+
     @SerializedName("date_created_utc")
     public long date_created_utc;
+
     @SerializedName("display_date")
     public long display_date;
+
     @SerializedName("notification_text")
     public String notification_text;
+
     @SerializedName("coach_profile_picture")
     public String coach_profile_picture;
+
     @SerializedName("ErrorCount")
     public String ErrorCount;
 }

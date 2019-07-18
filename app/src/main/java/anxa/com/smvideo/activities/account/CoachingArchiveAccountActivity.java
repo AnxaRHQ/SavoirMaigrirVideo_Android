@@ -54,7 +54,8 @@ public class CoachingArchiveAccountActivity extends Activity implements View.OnC
     @Override
     public void onClick(View v)
     {
-        if (v==header_right) {
+        if (v==header_right)
+        {
             finish();
         } else {
             int weekId = (Integer) v.getTag(R.id.week_id);

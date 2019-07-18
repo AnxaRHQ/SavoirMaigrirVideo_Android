@@ -53,8 +53,8 @@ import anxa.com.smvideo.util.AppUtil;
  * Created by aprilanxa on 22/03/2018.
  */
 
-public class MessagesAccountFragment extends BaseFragment implements View.OnClickListener {
-
+public class MessagesAccountFragment extends BaseFragment implements View.OnClickListener
+{
     MessagesListLayout commentList;
     ProgressBar progressBar;
     TextView submit_tv;
@@ -70,6 +70,7 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
     List<MessagesContract> items;
     Button messages_btn;
     Button carnet_btn;
+    Button menu_button;
     private ImageView backButton;
 
     long previousDate;
@@ -86,11 +87,10 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
     public Context context;
     protected ApiCaller caller;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+                             Bundle savedInstanceState)
+    {
         this.context = getActivity();
         mView = inflater.inflate(R.layout.messages_account, null);
 
@@ -99,8 +99,9 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
         //header change
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_account_dieticienne));
 
-
         items = new ArrayList<>(ApplicationData.getInstance().messagesList);
+
+        menu_button = (Button) mView.findViewById(R.id.header_menu_iv);
 
         submit_tv = (TextView) mView.findViewById(R.id.btnSubmit);
         submit_tv.setOnClickListener(this);
@@ -118,7 +119,6 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
         messages_btn = (Button) mView.findViewById(R.id.messages_button);
         carnet_btn = (Button) mView.findViewById(R.id.carnet_button);
 
-        messages_btn.setSelected(true);
         messages_btn.setOnClickListener(this);
         carnet_btn.setOnClickListener(this);
         progressBar.setVisibility(View.VISIBLE);
@@ -129,12 +129,44 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
         commentList.initData(items, context, null);
 
         backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_menu_back);
-        backButton.setOnClickListener(this);
+
+        /* Notifications Conditions */
+
+        if (getArguments().getBoolean("fromNotifications") == true)
+        {
+            if (getArguments().get("selectedButton") == getString(R.string.menu_account_messages))
+            {
+                messages_btn.setSelected(true);
+            }
+            else if (getArguments().get("selectedButton") == getString(R.string.menu_account_carnet))
+            {
+                messages_btn.setSelected(false);
+                carnet_btn.setSelected(true);
+                messagesContent.setVisibility(View.GONE);
+                carnetContent.setVisibility(View.VISIBLE);
+                loadCarnetFragment();
+            }
+
+            menu_button.setVisibility(View.GONE);
+            backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MessagesAccountFragment.super.goBackToNotifications();
+                }
+            });
+        }
+        else
+        {
+            messages_btn.setSelected(true);
+            backButton.setOnClickListener(this);
+        }
+
         super.onCreateView(inflater, container, savedInstanceState);
         return mView;
     }
 
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
 
         IntentFilter filter = new IntentFilter();
@@ -154,19 +186,22 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
         getPreviousQuestionsThread();
     }
 
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
         context.getApplicationContext().unregisterReceiver(the_receiver);
     }
 
-    public void postComment(View view) {
+    public void postComment(View view)
+    {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(comment_et.getWindowToken(), 0);
 
         // check if the text view has something
-        if (comment_et != null && comment_et.getText() != null) {
-            if (comment_et.getText().toString().trim().length() > 0) {
-
+        if (comment_et != null && comment_et.getText() != null)
+        {
+            if (comment_et.getText().toString().trim().length() > 0)
+            {
                 progressBar.setVisibility(View.VISIBLE);
 
                 newPostMessageContract.MessageChat = comment_et.getText().toString();
@@ -178,7 +213,8 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
         }
     }
 
-    public void loadMoreMessages(View view) {
+    public void loadMoreMessages(View view)
+    {
         loadPrevious = true;
         startProgressBar();
         getPreviousQuestionsThread();
@@ -187,175 +223,185 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
     /**
      * Private Methods
      **/
-    private void getLatestQuestionsThread() {
-
+    private void getLatestQuestionsThread()
+    {
         caller.GetLatestMessagesThread(new AsyncResponse() {
-                                           @Override
-                                           public void processFinish(Object output) {
-                                               MessagesContract questions;
 
-                                               response = output != null ? (MessagesResponseContract) output : new MessagesResponseContract();
+            @Override
+            public void processFinish(Object output)
+            {
+                MessagesContract questions;
 
-                                               if (response != null && response.Data != null && response.Data.Messages != null && response.Cursor != null) {
-                                                   ApplicationData.getInstance().setBeforeDate(response.Cursor.before);
-                                                   ApplicationData.getInstance().setPreviousDate(response.Cursor.previous);
-                                                   previousDate = response.Cursor.previous;
+                response = output != null ? (MessagesResponseContract) output : new MessagesResponseContract();
 
-                                                   //do whatever
-                                                   items.addAll(response.Data.Messages);
+                if (response != null && response.Data != null && response.Data.Messages != null && response.Cursor != null)
+                {
+                    ApplicationData.getInstance().setBeforeDate(response.Cursor.before);
+                    ApplicationData.getInstance().setPreviousDate(response.Cursor.previous);
+                    previousDate = response.Cursor.previous;
 
-                                                   ApplicationData.getInstance().messagesResponseContract = response;
-                                                   ApplicationData.getInstance().messagesList.clear();
-                                                   ApplicationData.getInstance().messagesList.addAll(items);
+                    //do whatever
+                    items.addAll(response.Data.Messages);
 
-                                                   updateUI(items);
+                    ApplicationData.getInstance().messagesResponseContract = response;
+                    ApplicationData.getInstance().messagesList.clear();
+                    ApplicationData.getInstance().messagesList.addAll(items);
 
-                                                   progressBar.setVisibility(View.GONE);
+                    updateUI(items);
 
-                                                   if (loadPrevious) {
-                                                       loadMore_layout.setVisibility(View.GONE);
-                                                       loadMore_btn.setVisibility(View.GONE);
-                                                   } else {
-                                                       loadMore_layout.setVisibility(View.VISIBLE);
-                                                       loadMore_btn.setVisibility(View.VISIBLE);
-                                                       loadMore_btn.setText(getResources().getString(R.string.messages_load_more));
-                                                   }
-                                               }
-                                           }
-                                       }
-                , ApplicationData.getInstance().userDataContract.Id, (int) (System.currentTimeMillis() / 1000L));
+                    progressBar.setVisibility(View.GONE);
+
+                    if (loadPrevious) {
+                        loadMore_layout.setVisibility(View.GONE);
+                        loadMore_btn.setVisibility(View.GONE);
+                    } else {
+                        loadMore_layout.setVisibility(View.VISIBLE);
+                        loadMore_btn.setVisibility(View.VISIBLE);
+                        loadMore_btn.setText(getResources().getString(R.string.messages_load_more));
+                    }
+                }
+            }
+
+        }, ApplicationData.getInstance().userDataContract.Id, (int) (System.currentTimeMillis() / 1000L));
     }
 
-    private void getPreviousQuestionsThread() {
+    private void getPreviousQuestionsThread()
+    {
         caller.GetPreviousMessagesThread(new AsyncResponse() {
-                                             @Override
-                                             public void processFinish(Object output) {
 
-                                                 response = output != null ? (MessagesResponseContract) output : new MessagesResponseContract();
-                                                 if (response != null && response.Data != null && response.Data.Messages != null && response.Cursor != null) {
-                                                     ApplicationData.getInstance().setBeforeDate(response.Cursor.before);
-                                                     ApplicationData.getInstance().setPreviousDate(response.Cursor.previous);
-                                                     previousDate = response.Cursor.previous;
+            @Override
+            public void processFinish(Object output)
+            {
+                response = output != null ? (MessagesResponseContract) output : new MessagesResponseContract();
 
-                                                     ApplicationData.getInstance().messagesResponseContract = response;
-                                                     boolean firstIteration = false;
-                                                     if (items.size() == 0) {
-                                                         firstIteration = true;
-                                                     }
+                if (response != null && response.Data != null && response.Data.Messages != null && response.Cursor != null)
+                {
+                    ApplicationData.getInstance().setBeforeDate(response.Cursor.before);
+                    ApplicationData.getInstance().setPreviousDate(response.Cursor.previous);
+                    previousDate = response.Cursor.previous;
 
-                                                     items.addAll(response.Data.Messages);
-                                                     sort(items);
+                    ApplicationData.getInstance().messagesResponseContract = response;
+                    boolean firstIteration = false;
+                    if (items.size() == 0) {
+                        firstIteration = true;
+                    }
 
-                                                     commentList.updateData(items);
+                    items.addAll(response.Data.Messages);
+                    sort(items);
 
-                                                     //save to database
-//                                                      MessageDAO msgDao = new MessageDAO(context, null);
-//                                                      DaoImplementer implDao = new DaoImplementer(msgDao, context);
+                    commentList.updateData(items);
 
-                                                     MessagesContract message;
-                                                     for (int i = 0; i < items.size(); i++) {
-                                                         message = items.get(i);
-                                                         if (message.CoachIdLiked > 0) {
-                                                             String likeString = getResources().getString(R.string.messages_liked);
-                                                             likeString = likeString.replace("%@", message.CoachLikedName);
-                                                             message.MessageChat = message.MessageChat.replace("<br><br><i>" + likeString + "</i>", "");
-                                                             message.MessageChat = message.MessageChat + "<br><br><i>" + likeString + "</i>";
-                                                         }
-//                                                          implDao.add(message);
-                                                     }
-                                                     if (firstIteration) {
-                                                         if (items.size() > 1) {
-                                                             if (items.get(items.size() - 1).CoachId > 0) {
-                                                                 allowedQuestionsToAsk = 2;
-                                                             }
-                                                             if (items.get(items.size() - 2).CoachId > 0) {
-                                                                 allowedQuestionsToAsk++;
-                                                             }
-                                                         } else if (items.size() == 1) {
-                                                             if (items.get(items.size() - 1).CoachId > 0) {
-                                                                 allowedQuestionsToAsk++;
-                                                             }
-                                                         } else if (items.size() == 0) {
-                                                             allowedQuestionsToAsk = 2;
-                                                         }
+                    //save to database
+                    //                                                      MessageDAO msgDao = new MessageDAO(context, null);
+                    //                                                      DaoImplementer implDao = new DaoImplementer(msgDao, context);
 
-                                                         if (allowedQuestionsToAsk > 2) {
-                                                             allowedQuestionsToAsk = 2;
-                                                         }
-                                                         if (allowedQuestionsToAsk == 0) {
-                                                             ((TextView) mView.findViewById(R.id.messageLimit)).setVisibility(View.VISIBLE);
-                                                             ((RelativeLayout) mView.findViewById(R.id.questionsAskContainer)).setVisibility(View.GONE);
-                                                         }
-                                                     }
-                                                     ApplicationData.getInstance().messagesResponseContract = response;
-                                                     ApplicationData.getInstance().messagesList.clear();
-                                                     ApplicationData.getInstance().messagesList.addAll(response.Data.Messages);
+                    MessagesContract message;
+                    for (int i = 0; i < items.size(); i++) {
+                        message = items.get(i);
+                        if (message.CoachIdLiked > 0) {
+                            String likeString = getResources().getString(R.string.messages_liked);
+                            likeString = likeString.replace("%@", message.CoachLikedName);
+                            message.MessageChat = message.MessageChat.replace("<br><br><i>" + likeString + "</i>", "");
+                            message.MessageChat = message.MessageChat + "<br><br><i>" + likeString + "</i>";
+                        }
+                        //                                                          implDao.add(message);
+                    }
+                    if (firstIteration)
+                    {
+                        if (items.size() > 1) {
+                            if (items.get(items.size() - 1).CoachId > 0) {
+                                allowedQuestionsToAsk = 2;
+                            }
+                            if (items.get(items.size() - 2).CoachId > 0) {
+                                allowedQuestionsToAsk++;
+                            }
+                        } else if (items.size() == 1) {
+                            if (items.get(items.size() - 1).CoachId > 0) {
+                                allowedQuestionsToAsk++;
+                            }
+                        } else if (items.size() == 0) {
+                            allowedQuestionsToAsk = 2;
+                        }
 
-                                                     progressBar.setVisibility(View.GONE);
+                        if (allowedQuestionsToAsk > 2) {
+                            allowedQuestionsToAsk = 2;
+                        }
+                        if (allowedQuestionsToAsk == 0) {
+                            ((TextView) mView.findViewById(R.id.messageLimit)).setVisibility(View.VISIBLE);
+                            ((RelativeLayout) mView.findViewById(R.id.questionsAskContainer)).setVisibility(View.GONE);
+                        }
+                    }
 
-                                                     if (loadPrevious) {
-                                                         loadMore_layout.setVisibility(View.GONE);
-                                                         loadMore_btn.setVisibility(View.GONE);
-                                                     } else {
-                                                         loadMore_layout.setVisibility(View.VISIBLE);
-                                                         loadMore_btn.setVisibility(View.VISIBLE);
-                                                         Activity activity = getActivity();
-                                                         if(activity != null){
-                                                             loadMore_btn.setText(getResources().getString(R.string.messages_load_more));
-                                                         }
-                                                     }
-                                                 }
-                                             }
-                                         }
-                , (int) previousDate);
+                    ApplicationData.getInstance().messagesResponseContract = response;
+                    ApplicationData.getInstance().messagesList.clear();
+                    ApplicationData.getInstance().messagesList.addAll(response.Data.Messages);
+
+                    progressBar.setVisibility(View.GONE);
+
+                    if (loadPrevious) {
+                        loadMore_layout.setVisibility(View.GONE);
+                        loadMore_btn.setVisibility(View.GONE);
+                    } else {
+                        loadMore_layout.setVisibility(View.VISIBLE);
+                        loadMore_btn.setVisibility(View.VISIBLE);
+                        Activity activity = getActivity();
+                        if(activity != null){
+                            loadMore_btn.setText(getResources().getString(R.string.messages_load_more));
+                        }
+                    }
+                }
+            }
+         }, (int) previousDate);
     }
 
-    private void postQuestionsThread() {
+    private void postQuestionsThread()
+    {
         caller.PostMessage(new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
 
-                //successful post of message
-                if (output != null) {
-                    //do whatever
-                    MessagesContract newQuestionsContract = new MessagesContract();
-                    newQuestionsContract.MessageChat = newPostMessageContract.MessageChat;
-                    newQuestionsContract.CoachId = 0;
-                    newQuestionsContract.DateCreated = AppUtil.getCreatedDateForDisplay(newPostMessageContract.CreatedDate);
-                    newQuestionsContract.RegId = newPostMessageContract.RegId;
+            //successful post of message
+            if (output != null) {
+                //do whatever
+                MessagesContract newQuestionsContract = new MessagesContract();
+                newQuestionsContract.MessageChat = newPostMessageContract.MessageChat;
+                newQuestionsContract.CoachId = 0;
+                newQuestionsContract.DateCreated = AppUtil.getCreatedDateForDisplay(newPostMessageContract.CreatedDate);
+                newQuestionsContract.RegId = newPostMessageContract.RegId;
 
-                    items.add(newQuestionsContract);
+                items.add(newQuestionsContract);
 
 //                    DaoImplementer implDao = new DaoImplementer(new MessageDAO(context, null), context);
 //                    implDao.add(newQuestionsContract);
-                    sort(items);
-                    progressBar.setVisibility(View.GONE);
+                sort(items);
+                progressBar.setVisibility(View.GONE);
 
-                    ApplicationData.getInstance().messagesList.add(newQuestionsContract);
+                ApplicationData.getInstance().messagesList.add(newQuestionsContract);
 
-                    clearNewCommentUI();
+                clearNewCommentUI();
 
-                    allowedQuestionsToAsk--;
-                    if (allowedQuestionsToAsk <= 0) {
-                        ((TextView) mView.findViewById(R.id.messageLimit)).setVisibility(View.VISIBLE);
-                        ((RelativeLayout) mView.findViewById(R.id.questionsAskContainer)).setVisibility(View.GONE);
-                    }
+                allowedQuestionsToAsk--;
 
-                } else {
-
-                    progressBar.setVisibility(View.GONE);
-
-                    final String messageDialog = getResources().getString(R.string.ALERTMESSAGE_OFFLINE);
-
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            comment_et.setText(newPostMessageContract.MessageChat);
-                            showCustomDialog(messageDialog);
-                        }
-                    });
+                if (allowedQuestionsToAsk <= 0) {
+                    ((TextView) mView.findViewById(R.id.messageLimit)).setVisibility(View.VISIBLE);
+                    ((RelativeLayout) mView.findViewById(R.id.questionsAskContainer)).setVisibility(View.GONE);
                 }
+
+            } else {
+
+                progressBar.setVisibility(View.GONE);
+
+                final String messageDialog = getResources().getString(R.string.ALERTMESSAGE_OFFLINE);
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        comment_et.setText(newPostMessageContract.MessageChat);
+                        showCustomDialog(messageDialog);
+                    }
+                });
+            }
             }
         }, newPostMessageContract);
     }
@@ -363,41 +409,46 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
     private BroadcastReceiver the_receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction() == "TOP_OF_LINE") {
-                if (previousDate < 1) {
-                    hideLoadMoreButton();
-                } else {
-                    showLoadMoreButton();
-                }
-            } else if (intent.getAction() == "SCROLL_STARTED") {
-            } else if (intent.getAction() == "URL_LOAD") {
-                loadURL(ApplicationData.getInstance().urlClicked);
+        if (intent.getAction() == "TOP_OF_LINE") {
+            if (previousDate < 1) {
+                hideLoadMoreButton();
+            } else {
+                showLoadMoreButton();
             }
+        } else if (intent.getAction() == "SCROLL_STARTED") {
+        } else if (intent.getAction() == "URL_LOAD") {
+            loadURL(ApplicationData.getInstance().urlClicked);
+        }
         }
     };
 
-    private void hideLoadMoreButton() {
+    private void hideLoadMoreButton()
+    {
         loadMore_layout.setVisibility(View.GONE);
         loadMore_btn.setVisibility(View.GONE);
     }
 
-    private void showLoadMoreButton() {
+    private void showLoadMoreButton()
+    {
         loadMore_layout.setVisibility(View.VISIBLE);
         loadMore_btn.setVisibility(View.VISIBLE);
         loadMore_btn.setText(getResources().getString(R.string.messages_load_more));
     }
 
-    private void updateUI(List<MessagesContract> updateItems) {
+    private void updateUI(List<MessagesContract> updateItems)
+    {
         sort(updateItems);
         commentList.updateData(updateItems);
     }
 
-    private void clearNewCommentUI() {
+    private void clearNewCommentUI()
+    {
         comment_et.setText("");
         updateUI(items);
     }
 
-    private void sort(final List<MessagesContract> questionsItems) {
+    private void sort(final List<MessagesContract> questionsItems)
+    {
         if (questionsItems != null && questionsItems.size() > 0) {
 
             Collections.sort(questionsItems, new Comparator<Object>() {
@@ -416,7 +467,8 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
         progressBar.setVisibility(View.GONE);
     }
 
-    private void loadURL(String url) {
+    private void loadURL(String url)
+    {
         Intent mainContentBrowser = new Intent(this.getActivity(), BrowserActivity.class);
         mainContentBrowser.putExtra("HEADER_TITLE", getResources().getString(R.string.menu_account_messages));
         mainContentBrowser.putExtra("URL_PATH", url);
@@ -445,34 +497,41 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
 //    }
 
     @Override
-    public void onClick(View v) {
-//        if (v.getId() == R.id.CloseButton) {
-//            if (dialog != null)
-//                dialog.dismiss();
-//        }
-        if (v == loadMore_btn) {
+    public void onClick(View v)
+    {
+        if (v == loadMore_btn)
+        {
             loadMoreMessages(v);
-        }else if (v == submit_tv){
-
+        }
+        else if (v == submit_tv)
+        {
             System.out.println("postComment");
             postComment(v);
-        }else if (v == messages_btn){
+        }
+        else if (v == messages_btn)
+        {
             messages_btn.setSelected(true);
             carnet_btn.setSelected(false);
             messagesContent.setVisibility(View.VISIBLE);
             carnetContent.setVisibility(View.GONE);
             removeFragment();
-        }else if(v == carnet_btn){
+        }
+        else if(v == carnet_btn)
+        {
             messages_btn.setSelected(false);
             carnet_btn.setSelected(true);
             loadCarnetFragment();
-        }else if(v == backButton) {
+        }
+        else if(v == backButton)
+        {
             super.removeFragment();
         }
     }
+
     private void loadCarnetFragment()
     {
         FragmentManager fragmentManager = getFragmentManager();
+
         if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_DIETITIAN") != null) {
             fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_DIETITIAN")).commit();
         } else {
@@ -489,10 +548,10 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
         }
     }
 
-
-    private void showCustomDialog(String message) {
-//
-//        dialog = new CustomDialog(context, null, null, null, true, message, null, this);
-//        dialog.show();
+    private void showCustomDialog(String message)
+    {
+    //
+    //        dialog = new CustomDialog(context, null, null, null, true, message, null, this);
+    //        dialog.show();
     }
 }

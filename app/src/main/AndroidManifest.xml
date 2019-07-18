@@ -68,6 +68,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.account.NotificationsActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activities.account.CoachingArchiveAccountActivity"
             android:launchMode="singleInstance"
             android:theme="@android:style/Theme.NoTitleBar"

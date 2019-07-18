@@ -3,70 +3,81 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/header">
-    <ImageView
-        android:id="@+id/header_notif_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:gravity="center"
-        android:onClick="goToNotificationsPage"
-        android:src="@drawable/notif_icon_light" />
-    <ImageView
-        android:id="@+id/header_title_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:src="@drawable/nav_logo"/>
-    <ImageView
-        android:id="@+id/header_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/header_menu_iv"
-        android:paddingRight="5dp"
-        android:clickable="true"
-        android:onClick="onClick"
-        android:src="@drawable/baseline_search_white_36" />
-    <ImageView
-        android:id="@+id/header_menu_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:paddingRight="5dp"
-        android:clickable="true"
-        android:onClick="onClick"
-        android:src="@drawable/ic_menu_white_24dp" />
+
+        <ImageView
+            android:id="@+id/header_notif_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:clickable="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:visibility="visible"
+            android:gravity="center"
+            android:onClick="goToNotificationsPage"
+            android:tint="@color/notif_title"
+            android:src="@drawable/notif_icon_light" />
+
+        <include
+            android:id="@+id/badge_notif"
+            layout="@layout/badge_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:clickable="true"
+            android:onClick="goToNotificationsPage"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/header_title_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:src="@drawable/nav_logo"/>
+
+        <ImageView
+            android:id="@+id/header_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/header_menu_iv"
+            android:paddingRight="5dp"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:src="@drawable/baseline_search_white_36" />
+
+        <ImageView
+            android:id="@+id/header_menu_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="5dp"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:src="@drawable/ic_menu_white_24dp" />
+
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bannerWebinar"
         android:layout_below="@+id/header"
         android:visibility="gone">
-        <include
 
+        <include
             layout="@layout/banner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"/>
     </RelativeLayout>
-
-<!--    <ImageView
-        android:id="@+id/header_info_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:paddingRight="10dp"
-        android:src="@drawable/ic_info_outline_white_24dp"/>-->
 
 </RelativeLayout>
