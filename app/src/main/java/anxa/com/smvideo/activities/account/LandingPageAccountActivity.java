@@ -61,6 +61,7 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
     ProgressBar weightProgressBar, landingProgressBar;
     private ImageView header_info_iv;
     private Button contact_btn;
+    private ImageView logo_navbar;
 
     IabHelper mHelper;
     IabBroadcastReceiver mBroadcastReceiver;
@@ -89,6 +90,12 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         landingProgressBar = (ProgressBar) mView.findViewById(R.id.landing_account_progressBar);
         landingProgressBar.setVisibility(View.VISIBLE);
 
+        logo_navbar = mView.findViewById(R.id.header_title_iv);
+        if(ApplicationData.getInstance().userDataContract.IsAnyVip)
+        {
+            logo_navbar.setImageResource(R.drawable.logo_navbar_vip);
+
+        }
       /*  header_info_iv = (ImageView) mView.findViewById(R.id.header_info_iv);
         header_info_iv.setOnClickListener(this);*/
 // DrawerLayout

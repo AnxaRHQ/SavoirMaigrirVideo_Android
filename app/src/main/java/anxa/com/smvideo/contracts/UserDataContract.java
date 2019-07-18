@@ -2,6 +2,8 @@ package anxa.com.smvideo.contracts;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 /**
@@ -65,5 +67,17 @@ public class UserDataContract extends BaseContract{
 
     @SerializedName("CreatedDate")
     public String createdDate;
+
+    @SerializedName("IsAnyVip")
+    public boolean IsAnyVip;
+
+    @SerializedName("SubscriptionType")
+    public byte SubscriptionType;
+
+    @SerializedName("IsVip")
+    public boolean IsVip;
+
+    @SerializedName("DateRegistered")
+    public String DateRegistered;
 
 }

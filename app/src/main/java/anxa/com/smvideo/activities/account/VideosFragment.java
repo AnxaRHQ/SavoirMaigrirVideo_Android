@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -45,7 +47,7 @@ public class VideosFragment extends BaseFragment implements View.OnClickListener
     private CustomListView coachingListView;
 
     private YouTubePlayerFragment playerFragment;
-
+    private ImageView backButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,9 +58,12 @@ public class VideosFragment extends BaseFragment implements View.OnClickListener
 
         caller = new ApiCaller();
 
+        backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_menu_back);
+        backButton.setOnClickListener(this);
+
         //header change
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.nav_account_videos));
-        ((TextView) (mView.findViewById(R.id.header_right_tv))).setVisibility(View.INVISIBLE);
+//        ((TextView) (mView.findViewById(R.id.header_right_tv))).setVisibility(View.INVISIBLE);
 
         coachingListView = (CustomListView) mView.findViewById(R.id.coachingListView);
 

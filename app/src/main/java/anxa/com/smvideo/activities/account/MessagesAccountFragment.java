@@ -8,6 +8,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
@@ -32,9 +33,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import anxa.com.smvideo.ApplicationData;
@@ -82,6 +87,7 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
     private static final int BROWSERTAB_ACTIVITY = 1011;
     String intentExtra;
     private int allowedQuestionsToAsk = 0;
+    private int totalCreditsWeek = 0;
 
     public Context context;
     protected ApiCaller caller;
@@ -130,6 +136,14 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
 
         backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_menu_back);
         backButton.setOnClickListener(this);
+
+        if ((ApplicationData.getInstance().userDataContract.SubscriptionType == 65
+                || ApplicationData.getInstance().userDataContract.SubscriptionType == 66
+                || ApplicationData.getInstance().userDataContract.SubscriptionType == 67
+                || ApplicationData.getInstance().userDataContract.SubscriptionType == 68
+                || ApplicationData.getInstance().userDataContract.SubscriptionType == 95) && !ApplicationData.getInstance().userDataContract.IsVip) {
+            showSubTypeCannotAskDialog();
+        }
         super.onCreateView(inflater, container, savedInstanceState);
         return mView;
     }
@@ -176,6 +190,21 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
                 postQuestionsThread();
             }
         }
+    }
+
+    private void showSubTypeCannotAskDialog() {
+
+        AlertDialog alertDialog = new AlertDialog.Builder(context)
+                .setMessage(getResources().getString(R.string.message_cannotaskquesetionbecauseofsubtype))
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        submit_tv.setEnabled(false);
+                    }
+                })
+                .show();
+
     }
 
     public void loadMoreMessages(View view) {
@@ -263,28 +292,129 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
                                                          }
 //                                                          implDao.add(message);
                                                      }
+                                                     totalCreditsWeek = response.Data.CreditsUsedWeek;
                                                      if (firstIteration) {
-                                                         if (items.size() > 1) {
-                                                             if (items.get(items.size() - 1).CoachId > 0) {
-                                                                 allowedQuestionsToAsk = 2;
-                                                             }
-                                                             if (items.get(items.size() - 2).CoachId > 0) {
-                                                                 allowedQuestionsToAsk++;
-                                                             }
-                                                         } else if (items.size() == 1) {
-                                                             if (items.get(items.size() - 1).CoachId > 0) {
-                                                                 allowedQuestionsToAsk++;
-                                                             }
-                                                         } else if (items.size() == 0) {
-                                                             allowedQuestionsToAsk = 2;
-                                                         }
 
-                                                         if (allowedQuestionsToAsk > 2) {
-                                                             allowedQuestionsToAsk = 2;
-                                                         }
-                                                         if (allowedQuestionsToAsk == 0) {
-                                                             ((TextView) mView.findViewById(R.id.messageLimit)).setVisibility(View.VISIBLE);
-                                                             ((RelativeLayout) mView.findViewById(R.id.questionsAskContainer)).setVisibility(View.GONE);
+
+                                                         try {
+                                                             DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                                                             Date date1 = format.parse("05/11/2018");
+                                                             Date date2 = format.parse("04/02/2019");
+                                                             Date dateRegistered =  format.parse(ApplicationData.getInstance().userDataContract.DateRegistered);
+
+                                                             if(!ApplicationData.getInstance().userDataContract.IsVip && dateRegistered.compareTo(date1) >= 0 && dateRegistered.compareTo(date2) < 0  && firstIteration) {
+                                                                 if( response.Data.CreditsUsedWeek  >= 2){
+                                                                     ((TextView)mView.findViewById(R.id.messageLimit)).setVisibility(View.VISIBLE);
+                                                                     ((RelativeLayout)mView.findViewById(R.id.questionsAskContainer)).setVisibility(View.GONE);
+                                                                 }
+                                                                 else{
+                                                                     if (items.size() > 1) {
+                                                                         if (items.get(items.size() - 1).CoachId > 0) {
+                                                                             allowedQuestionsToAsk = 2;
+                                                                         }
+                                                                         if (items.get(items.size() - 2).CoachId > 0) {
+                                                                             allowedQuestionsToAsk++;
+                                                                         }
+                                                                     }
+                                                                     else if(items.size() == 1){
+                                                                         if (items.get(items.size() - 1).CoachId > 0) {
+                                                                             allowedQuestionsToAsk = 2;
+                                                                         }
+                                                                     }
+                                                                     else if(items.size() == 0) {
+                                                                         allowedQuestionsToAsk = 2;
+                                                                     }
+
+                                                                     if(allowedQuestionsToAsk > 2)
+                                                                     {
+                                                                         allowedQuestionsToAsk = 2;
+                                                                     }
+                                                                     if(response != null && response.Data != null && response.Data.IsLastMessageArchivedByCoach)
+                                                                     {
+                                                                         allowedQuestionsToAsk = 2;
+                                                                     }
+                                                                     if(allowedQuestionsToAsk == 0)
+                                                                     {
+                                                                         ((TextView)mView.findViewById(R.id.messageLimit)).setVisibility(View.VISIBLE);
+                                                                         ((RelativeLayout)mView.findViewById(R.id.questionsAskContainer)).setVisibility(View.GONE);
+                                                                     }
+                                                                 }
+                                                             }
+                                                             else if(!ApplicationData.getInstance().userDataContract.IsVip && dateRegistered.compareTo(date2) >= 0) {
+                                                                 if( response.Data.CreditsUsedWeek  >= 1){
+                                                                     ((TextView)mView.findViewById(R.id.messageLimit)).setVisibility(View.VISIBLE);
+                                                                     ((RelativeLayout)mView.findViewById(R.id.questionsAskContainer)).setVisibility(View.GONE);
+                                                                 }
+                                                                 else{
+                                                                     if (items.size() > 1) {
+                                                                         if (items.get(items.size() - 1).CoachId > 0) {
+                                                                             allowedQuestionsToAsk = 1;
+                                                                         }
+                                                                         if (items.get(items.size() - 2).CoachId > 0) {
+                                                                             allowedQuestionsToAsk++;
+                                                                         }
+                                                                     }
+                                                                     else if(items.size() == 1){
+                                                                         if (items.get(items.size() - 1).CoachId > 0) {
+                                                                             allowedQuestionsToAsk++;
+                                                                         }
+                                                                     }
+                                                                     else if(items.size() == 0) {
+                                                                         allowedQuestionsToAsk = 1;
+                                                                     }
+
+                                                                     if(allowedQuestionsToAsk > 1)
+                                                                     {
+                                                                         allowedQuestionsToAsk = 1;
+                                                                     }
+                                                                     if(response != null && response.Data != null && response.Data.IsLastMessageArchivedByCoach)
+                                                                     {
+                                                                         allowedQuestionsToAsk = 1;
+                                                                     }
+                                                                     if(allowedQuestionsToAsk == 0)
+                                                                     {
+                                                                         ((TextView)mView.findViewById(R.id.messageLimit)).setVisibility(View.VISIBLE);
+                                                                         ((RelativeLayout)mView.findViewById(R.id.questionsAskContainer)).setVisibility(View.GONE);
+                                                                     }
+                                                                 }
+                                                             }else{
+                                                                 if(ApplicationData.getInstance().userDataContract.IsVip) {
+                                                                     allowedQuestionsToAsk = 10;
+                                                                 }else{
+                                                                     if (items.size() > 1) {
+                                                                         if (items.get(items.size() - 1).CoachId > 0) {
+                                                                             allowedQuestionsToAsk = 1;
+                                                                         }
+                                                                         if (items.get(items.size() - 2).CoachId > 0) {
+                                                                             allowedQuestionsToAsk++;
+                                                                         }
+                                                                     }
+                                                                     else if(items.size() == 1){
+                                                                         if (items.get(items.size() - 1).CoachId > 0) {
+                                                                             allowedQuestionsToAsk++;
+                                                                         }
+                                                                     }
+                                                                     else if(items.size() == 0) {
+                                                                         allowedQuestionsToAsk = 1;
+                                                                     }
+
+                                                                     if(allowedQuestionsToAsk > 1)
+                                                                     {
+                                                                         allowedQuestionsToAsk = 1;
+                                                                     }
+                                                                     if(response != null && response.Data != null && response.Data.IsLastMessageArchivedByCoach)
+                                                                     {
+                                                                         allowedQuestionsToAsk = 1;
+                                                                     }
+                                                                     if(allowedQuestionsToAsk == 0)
+                                                                     {
+                                                                         ((TextView)mView.findViewById(R.id.messageLimit)).setVisibility(View.VISIBLE);
+                                                                         ((RelativeLayout)mView.findViewById(R.id.questionsAskContainer)).setVisibility(View.GONE);
+                                                                     }
+                                                                 }
+                                                             }
+                                                         } catch (ParseException e) {
+                                                             e.printStackTrace();
                                                          }
                                                      }
                                                      ApplicationData.getInstance().messagesResponseContract = response;
@@ -334,13 +464,15 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
                     ApplicationData.getInstance().messagesList.add(newQuestionsContract);
 
                     clearNewCommentUI();
+                    if(!ApplicationData.getInstance().userDataContract.IsVip) {
+                        allowedQuestionsToAsk--;
 
-                    allowedQuestionsToAsk--;
-                    if (allowedQuestionsToAsk <= 0) {
-                        ((TextView) mView.findViewById(R.id.messageLimit)).setVisibility(View.VISIBLE);
-                        ((RelativeLayout) mView.findViewById(R.id.questionsAskContainer)).setVisibility(View.GONE);
+                        allowedQuestionsToAsk--;
+                        if (allowedQuestionsToAsk <= 0) {
+                            ((TextView) mView.findViewById(R.id.messageLimit)).setVisibility(View.VISIBLE);
+                            ((RelativeLayout) mView.findViewById(R.id.questionsAskContainer)).setVisibility(View.GONE);
+                        }
                     }
-
                 } else {
 
                     progressBar.setVisibility(View.GONE);

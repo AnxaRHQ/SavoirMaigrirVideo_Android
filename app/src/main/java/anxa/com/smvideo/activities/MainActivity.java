@@ -255,10 +255,8 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                     break;
                 case 5: //500 videos
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Videos;
-                    fragment = new WebkitFragment();
-                    bundle.putString("header_title", getString(R.string.nav_account_videos));
-                    bundle.putString("webkit_url", WebkitURL.videosWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
-                    fragment.setArguments(bundle);
+                    fragment = new VideosFragment();
+
                     break;
                 case 6: //notifications
 

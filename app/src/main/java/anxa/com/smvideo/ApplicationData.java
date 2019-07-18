@@ -356,4 +356,5 @@ public class ApplicationData extends Application {
         int addDays = -7; //get the first 7 days
         return AppUtil.getCurrentDate(addDays);
     }
+
 }

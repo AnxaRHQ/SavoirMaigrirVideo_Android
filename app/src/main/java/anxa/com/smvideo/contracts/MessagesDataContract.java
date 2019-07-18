@@ -16,4 +16,10 @@ public class MessagesDataContract {
 
     @SerializedName("messages")
     public List<MessagesContract> Messages;
+
+    @SerializedName("isLastMessageArchivedByCoach")
+    public boolean  IsLastMessageArchivedByCoach;
+
+    @SerializedName("creditsUsedWeek")
+    public int  CreditsUsedWeek;
 }
