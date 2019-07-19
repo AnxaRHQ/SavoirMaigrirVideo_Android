@@ -152,12 +152,12 @@ public class ProgressFragment extends BaseFragment implements View.OnClickListen
         } else {
         }
 
-        /*try {
+        try {
             Fragment fragment = new StepsGraphFragment();
             fragmentManager.beginTransaction().replace(R.id.graphContent, fragment, "CURRENT_FRAGMENT_IN_PROGRESS").commit();
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     private void loadBicepsFragment()

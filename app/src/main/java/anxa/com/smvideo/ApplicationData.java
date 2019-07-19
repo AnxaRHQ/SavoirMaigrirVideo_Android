@@ -17,6 +17,7 @@ import anxa.com.smvideo.contracts.Carnet.MoodContract;
 import anxa.com.smvideo.contracts.Carnet.WaterContract;
 import anxa.com.smvideo.contracts.CoachingVideosContract;
 import anxa.com.smvideo.contracts.DietProfilesDataContract;
+import anxa.com.smvideo.contracts.Graph.StepDataContract;
 import anxa.com.smvideo.contracts.MessagesContract;
 import anxa.com.smvideo.contracts.MessagesResponseContract;
 import anxa.com.smvideo.contracts.Notifications.NotificationsContract;
@@ -42,11 +43,11 @@ import anxa.com.smvideo.contracts.RecipeContract;
  * Created by aprilanxa on 19/05/2017.
  */
 
-public class ApplicationData extends Application {
-
+public class ApplicationData extends Application
+{
     public String currentLiveWebinar;
 
-    public enum SelectedFragment{
+    public enum SelectedFragment {
         Decouvir(0),
         Bilan(1),
         Temoignages(2),
@@ -107,8 +108,8 @@ public class ApplicationData extends Application {
     public static long minimumAnxamatsSessionTime = 3000; //3 seconds
     public static long maximumAnxamatsSessionTime = 45000; //45 seconds
     public static long maximSessionTime = 300000; //300 seconds
-    public static  float minWeight = 40;
-    public static  float maxWeight = 200;
+    public static float minWeight = 40;
+    public static float maxWeight = 200;
 
     private static final String PROPERTY_APP_LOGIN = "isLogin";
     private static final String PROPERTY_APP_LOGIN_USERNAME = "userName";
@@ -130,7 +131,9 @@ public class ApplicationData extends Application {
     public List<VideoContract> testimonialVideoList = new ArrayList<>();
     public List<MessagesContract> messagesList = new ArrayList<>();
 
-    /** account **/
+    /**
+     * account
+     **/
     public UserDataContract userDataContract = null;
     public DietProfilesDataContract dietProfilesDataContract = null;
 
@@ -153,10 +156,16 @@ public class ApplicationData extends Application {
 
     public WeightHistoryContract currentWeight;
     public WeightHistoryContract initialWeightContract;
+    public StepDataContract currentSteps;
     public WaterContract currentWater;
     public MoodContract currentMood;
     public ExerciseContract currentWorkOut;
     public MealContract currentMealView;
+    public double currentTotalSteps;
+    public double currentTotalCalories;
+    public double currentKmTravelled;
+
+    public List<StepDataContract> stepsList = new ArrayList<>();
 
     public String currentSelectedCategory;
 
@@ -179,8 +188,6 @@ public class ApplicationData extends Application {
     public String urlClicked;
     public Hashtable<String, Bitmap> coachPhotosList = new Hashtable<String, Bitmap>();
     public BitmapFactory.Options options_Avatar = new BitmapFactory.Options();
-
-
     //Carnet
     public Date toDateCurrent;
     public Date fromDateCurrent;
@@ -288,30 +295,29 @@ public class ApplicationData extends Application {
         editor.commit();
     }
 
-    public long getBeforeDate(){
+    public long getBeforeDate() {
         final SharedPreferences prefs = getGCMPreferences(context);
         return prefs.getLong(PROPERTY_APP_CURSOR_BEFORE, 0);
     }
 
-    public void setBeforeDate(long beforeDate){
+    public void setBeforeDate(long beforeDate) {
         final SharedPreferences prefs = getGCMPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putLong(PROPERTY_APP_CURSOR_BEFORE, beforeDate);
         editor.commit();
     }
 
-    public long getPreviousDate(){
+    public long getPreviousDate() {
         final SharedPreferences prefs = getGCMPreferences(context);
         return prefs.getLong(PROPERTY_APP_CURSOR_PREVIOUS, 0);
     }
 
-    public void setPreviousDate(long previousDate){
+    public void setPreviousDate(long previousDate) {
         final SharedPreferences prefs = getGCMPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putLong(PROPERTY_APP_CURSOR_PREVIOUS, previousDate);
         editor.commit();
     }
-
 
     public Bitmap getUserProfilePhoto() {
         return userProfilePhoto;
@@ -353,22 +359,19 @@ public class ApplicationData extends Application {
     }
 
     public Date fromDate(Context context) {
-
         final SharedPreferences prefs = getGCMPreferences(context);
         int addDays = -7; //get the first 7 days
         return AppUtil.getCurrentDate(addDays);
     }
 
-    public void setNotificationsCount(int notificationsCount)
-    {
+    public void setNotificationsCount(int notificationsCount) {
         final SharedPreferences prefs = getGCMPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("notificationsCount", notificationsCount);
         editor.commit();
     }
 
-    public int getNotificationsCount()
-    {
+    public int getNotificationsCount() {
         final SharedPreferences prefs = getGCMPreferences(context);
         return prefs.getInt("notificationsCount", 0);
     }

@@ -387,10 +387,7 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
     public void goToVideosPage()
     {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Videos;
-        Bundle bundle = new Bundle();
-        bundle.putString("header_title", getString(R.string.nav_account_videos));
-        bundle.putString("webkit_url", WebkitURL.videosWebkitUrl);
-        goToWebkitPage(ApplicationData.SelectedFragment.Account_Videos, bundle);
+        goToFragmentPage(new VideosFragment());
     }
 
     public void goToWeightPage()

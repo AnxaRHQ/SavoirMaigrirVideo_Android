@@ -138,6 +138,59 @@ public class AppUtil {
         return stringDisplay;
     }
 
+    private static boolean fromInitDate = false;
+
+    public static String get1WDateRangeDisplay(boolean initDate, boolean previous)
+    {
+
+        String stringDisplay = "";
+        Calendar cal = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+
+        if (ApplicationData.getInstance().currentDateRangeDisplay_date == null || initDate)
+        {
+            fromInitDate = true;
+            cal.setTime(new Date());
+            cal.add(Calendar.DAY_OF_YEAR, -6);
+
+            stringDisplay = new SimpleDateFormat("MMM dd").format(cal.getTime()) + " - " + new SimpleDateFormat("MMM dd").format(new Date());
+            //store previous month
+            ApplicationData.getInstance().currentDateRangeDisplay_date = cal.getTime();
+            ApplicationData.getInstance().currentDateRangeDisplay_date2 = new Date();
+        }
+        else
+        {
+            cal.setTime(ApplicationData.getInstance().currentDateRangeDisplay_date);
+            cal2.setTime(ApplicationData.getInstance().currentDateRangeDisplay_date2);
+
+            if (previous)
+            {
+                if (!fromInitDate) {
+                    cal.add(Calendar.WEEK_OF_YEAR, -1);
+                    cal2.add(Calendar.WEEK_OF_YEAR, -1);
+                } else {
+                    fromInitDate = false;
+                }
+            } else {
+                cal.add(Calendar.WEEK_OF_YEAR, +1);
+                cal2.add(Calendar.WEEK_OF_YEAR, +1);
+            }
+
+            cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+            cal2.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+
+            stringDisplay = new SimpleDateFormat("MMM dd").format(cal2.getTime());
+            stringDisplay = new SimpleDateFormat("MMM dd").format(cal.getTime()) + " - " + stringDisplay;
+
+            //store previous month
+            ApplicationData.getInstance().currentDateRangeDisplay_date = cal.getTime();
+            ApplicationData.getInstance().currentDateRangeDisplay_date2 = cal2.getTime();
+        }
+        ApplicationData.getInstance().currentDateRangeDisplay = stringDisplay;
+
+        return stringDisplay;
+    }
+
     public static String get3MDateRangeDisplay(boolean initDate, boolean previous, int index) {
         String stringDisplay = "";
         Calendar cal = Calendar.getInstance();
@@ -2007,6 +2060,13 @@ public class AppUtil {
         }
 
         return localTime;
+    }
+
+    public static String getDateinStringWeight(Date dateRaw)
+    {
+        String strDateFormat = "yyyy-MM-dd";
+        SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+        return sdf.format(dateRaw);
     }
 
     public static String getMealTip(Context context, int dayIndex, int mealtype) {

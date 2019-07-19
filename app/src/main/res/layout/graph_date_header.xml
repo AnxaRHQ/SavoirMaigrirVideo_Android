@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/steps_graph_date_ll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:background="@color/gray_background"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:visibility="visible">
+
+    <LinearLayout
+        android:id="@+id/steps_graph_date_btn_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <Button
+            android:id="@+id/steps_1w_btn"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/button_weight_graph_bg"
+            android:clickable="true"
+            android:text="@string/GRAPH_1W_LABEL"
+            android:textColor="@drawable/button_weight_graph_text"
+            android:textSize="16sp"/>
+
+        <Button
+            android:id="@+id/steps_1m_btn"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/button_weight_graph_bg"
+            android:clickable="true"
+            android:text="@string/GRAPH_1M_LABEL"
+            android:textColor="@drawable/button_weight_graph_text"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/steps_3m_btn"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/button_weight_graph_bg"
+            android:clickable="true"
+            android:text="@string/GRAPH_3M_LABEL"
+            android:textColor="@drawable/button_weight_graph_text"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/steps_1y_btn"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/button_weight_graph_bg"
+            android:clickable="true"
+            android:text="@string/GRAPH_1Y_LABEL"
+            android:textColor="@drawable/button_weight_graph_text"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/steps_graph_date_range_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/tw__transparent"
+        android:gravity="center"
+        android:visibility="visible">
+
+        <Button
+            android:id="@+id/steps_date_left_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:layout_toLeftOf="@+id/steps_date_range"
+            android:background="@color/tw__transparent"
+            android:clickable="true"
+            android:text="‹"
+            android:textColor="@color/text_orangedark"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/steps_date_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            android:textColor="@color/text_darkgray"
+            android:textSize="12dp"/>
+
+        <Button
+            android:id="@+id/steps_date_right_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@+id/steps_date_range"
+            android:background="@color/tw__transparent"
+            android:clickable="true"
+            android:text="›"
+            android:textColor="@color/text_darkgray"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</LinearLayout>

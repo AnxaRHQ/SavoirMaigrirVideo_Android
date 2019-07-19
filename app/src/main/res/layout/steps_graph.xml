@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <ScrollView
+        android:id="@+id/steps_graph_scrollview"
+        android:layout_below="@+id/headermenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include
+                android:id="@+id/steps_graph_date_ll"
+                layout="@layout/graph_date_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:visibility="visible"
+                android:layout_alignParentTop="true" />
+
+            <TextView
+                android:id="@+id/currentSteps_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/steps_graph_date_ll"
+                android:layout_centerHorizontal="true"
+                android:padding="10dp"
+                android:text="@string/LAST_RECORDED_STEPS_NO_DATA"
+                android:textColor="@color/text_darkgray" />
+
+            <ImageView
+                android:id="@+id/viewcontent"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/viewcontentBarGraph"
+                setVisibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@+id/currentSteps_tv"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
+
+            <RelativeLayout
+                android:id="@+id/steps_data_rl"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@id/viewcontentBarGraph"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:id="@+id/enterCurrentSteps_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/gray_background"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/enterCurrentSteps"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:paddingTop="10dp"
+                        android:text="@string/ENTER_YOUR_CURRENT_STEPS"
+                        android:textColor="@color/text_darkgray"
+                        android:textSize="16dp" />
+
+                    <LinearLayout
+                        android:id="@+id/enterFieldCurrentSteps"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingTop="10dp">
+
+                        <LinearLayout
+                            android:id="@+id/enterCurrentSteps_tb_ll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_margin="5dp"
+                            android:background="@drawable/rounded_button_white_borderorange"
+                            android:orientation="vertical">
+
+                            <EditText
+                                android:id="@+id/steps_enter_et"
+                                android:layout_width="105dp"
+                                android:layout_height="30dp"
+                                android:background="@color/tw__transparent"
+                                android:gravity="center"
+                                android:hint=" (ex. 5426)"
+                                android:imeOptions="actionSend"
+                                android:inputType="number"
+                                android:textColor="@color/text_darkgray"
+                                android:textColorHint="@color/text_lightgray" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/steps_unit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="10dp"
+                            android:text="@string/STEPS"
+                            android:textColor="@color/text_darkgray"
+                            android:textSize="16dp" />
+
+                        <Button
+                            android:id="@+id/steps_submitButton"
+                            style="@style/btnStyleOrangeSmall"
+                            android:layout_width="100dp"
+                            android:layout_height="35dp"
+                            android:clickable="true"
+                            android:text="@string/btn_submit" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="2px"
+                    android:layout_below="@id/enterCurrentSteps_ll"
+                    android:background="@color/common_gray_separator" />
+
+                <LinearLayout
+                    android:id="@+id/latestStepsData_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/enterCurrentSteps_ll"
+                    android:orientation="horizontal"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:weightSum="3">
+
+                    <LinearLayout
+                        android:id="@+id/steps_taken_ll"
+                        android:layout_width="0dp"
+                        android:layout_height="90dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:background="@drawable/rounded_background_gray"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/steps_taken_value_tv"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/text_blackgray"
+                                android:textSize="20dp" />
+
+                            <TextView
+                                android:id="@+id/steps_taken_tv"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:paddingTop="5dp"
+                                android:text="@string/STEPS_TAKEN"
+                                android:textColor="@color/text_darkgray"
+                                android:textSize="12dp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/km_travelled_ll"
+                        android:layout_width="0dp"
+                        android:layout_height="90dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:background="@drawable/rounded_background_gray"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/km_travelled_value_tv"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/text_blackgray"
+                                android:textSize="20dp" />
+
+                            <TextView
+                                android:id="@+id/km_travelled_tv"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:paddingTop="5dp"
+                                android:text="@string/KM_TRAVELLED"
+                                android:textColor="@color/text_darkgray"
+                                android:textSize="12dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/weight_lost_ll"
+                        android:layout_width="0dp"
+                        android:layout_height="90dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:background="@drawable/rounded_background_gray"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/calories_burned_value_tv"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/text_blackgray"
+                                android:textSize="20dp" />
+
+                            <TextView
+                                android:id="@+id/calories_burned_tv"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:paddingTop="5dp"
+                                android:text="@string/CALORIES_BURNED"
+                                android:textColor="@color/text_darkgray"
+                                android:textSize="12dp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="2px"
+                    android:layout_below="@id/latestStepsData_ll"
+                    android:background="@color/common_gray_separator" />
+
+
+            </RelativeLayout>
+
+            <ProgressBar
+                android:id="@+id/steps_graph_progressBar"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
+                android:indeterminateDrawable="@drawable/animateprogress"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/steps_log_ll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/steps_data_rl"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/steps_log_tv"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:text="@string/WEIGHT_GRAPH_STEPS_LOG"
+                    android:textColor="@color/text_orange"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/steps_log_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:weightSum="4">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:paddingLeft="10dp"
+                        android:text="@string/WEIGHT_GRAPH_DATE"
+                        android:textColor="@color/text_darkgray"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:paddingLeft="10dp"
+                        android:text="@string/STEPS_GRAPH_LOGS_STEPS"
+                        android:textColor="@color/text_darkgray"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="left"
+                        android:paddingLeft="10dp"
+                        android:text="@string/WEIGHT_GRAPH_DEVICE"
+                        android:textColor="@color/text_darkgray"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="2px"
+                    android:layout_below="@id/latestStepsData_ll"
+                    android:background="@color/common_gray_separator" />
+
+                <ListView
+                    android:id="@+id/steps_graph_listView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"
+                    android:drawSelectorOnTop="false"
+                    android:listSelector="@android:color/transparent" />
+
+                <LinearLayout android:id="@+id/steps_graph_seeMoreLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:visibility="visible"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="@android:color/white">
+
+                    <ProgressBar
+                        android:id="@+id/steps_graph_seemore_progressBar"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_centerHorizontal="true"
+                        android:indeterminateDrawable="@drawable/animateprogress"
+                        android:visibility="visible"
+                        android:layout_marginBottom="20dp" />
+
+                    <Button
+                        android:id="@+id/steps_graph_seeMoreButton"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="true"
+                        android:text="@string/SEE_MORE_BTN"
+                        android:textColor="@color/common_button_blue"
+                        android:visibility="visible"
+                        android:clickable="true"
+                        android:textSize="18sp"
+                        android:background="@android:color/transparent"
+                        android:layout_marginBottom="20dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+        
+    </ScrollView>
+
+</RelativeLayout>

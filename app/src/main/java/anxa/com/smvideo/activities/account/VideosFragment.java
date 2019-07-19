@@ -58,7 +58,7 @@ public class VideosFragment extends BaseFragment implements View.OnClickListener
 
         caller = new ApiCaller();
 
-        backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_menu_back);
+        backButton = (ImageView) mView.findViewById(R.id.header_menu_back);
         backButton.setOnClickListener(this);
 
         //header change
@@ -93,30 +93,37 @@ public class VideosFragment extends BaseFragment implements View.OnClickListener
     }
 
     @Override
-    public void onClick(final View v) {
-
-        FragmentManager fm = getFragmentManager();
-        String tag = YouTubePlayerFragment.class.getSimpleName();
-        playerFragment = (YouTubePlayerFragment) fm.findFragmentByTag(tag);
-        if (playerFragment != null) {
-            FragmentTransaction ft = fm.beginTransaction();
-            playerFragment = YouTubePlayerFragment.newInstance();
-            ft.replace(R.id.youtube_layout, playerFragment, tag);
-            ft.commit();
+    public void onClick(final View v)
+    {
+        if (v == backButton)
+        {
+            super.removeFragment();
         }
-
-        final String videoId = (String) v.getTag(R.id.video_id);
-
-        for (int i = 0; i < videosList.size(); i++) {
-            VideoContract temp = new VideoContract();
-            if (videosList.get(i).VideoUrl == videoId) {
-                RefreshPlayer(v, videosList.get(i));
-                videosList.get(i).IsSelected = true;
-            } else {
-                videosList.get(i).IsSelected = false;
+        else
+        {
+            FragmentManager fm = getFragmentManager();
+            String tag = YouTubePlayerFragment.class.getSimpleName();
+            playerFragment = (YouTubePlayerFragment) fm.findFragmentByTag(tag);
+            if (playerFragment != null) {
+                FragmentTransaction ft = fm.beginTransaction();
+                playerFragment = YouTubePlayerFragment.newInstance();
+                ft.replace(R.id.youtube_layout, playerFragment, tag);
+                ft.commit();
             }
+
+            final String videoId = (String) v.getTag(R.id.video_id);
+
+            for (int i = 0; i < videosList.size(); i++) {
+                VideoContract temp = new VideoContract();
+                if (videosList.get(i).VideoUrl == videoId) {
+                    RefreshPlayer(v, videosList.get(i));
+                    videosList.get(i).IsSelected = true;
+                } else {
+                    videosList.get(i).IsSelected = false;
+                }
+            }
+            adapter.updateItems(videosList);
         }
-        adapter.updateItems(videosList);
     }
 
     private void getVideosFromAPI(){

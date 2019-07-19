@@ -29,6 +29,8 @@ import anxa.com.smvideo.contracts.Carnet.UploadMealsDataContract;
 import anxa.com.smvideo.contracts.Carnet.UploadMealsDataResponseContract;
 import anxa.com.smvideo.contracts.CoachingVideosResponseContract;
 import anxa.com.smvideo.contracts.GetAlertsResponseContract;
+import anxa.com.smvideo.contracts.Graph.GetStepDataResponseContract;
+import anxa.com.smvideo.contracts.Graph.StepDataContract;
 import anxa.com.smvideo.contracts.LoginContract;
 import anxa.com.smvideo.contracts.MessageRatingContract;
 import anxa.com.smvideo.contracts.MessagesResponseContract;
@@ -371,6 +373,45 @@ public class ApiCaller
         command.ApplicationId = ApplicationData.getInstance().applicationId;
 
         apiClient.PostAsync(asyncResponse, CommandConstants.API_TV, command, gson.toJson(weightGraphContract), WeightHistoryResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void GetAllSteps(AsyncResponse asyncResponse, int userId, String dateFrom, String dateTo)
+    {
+        MasterCommand command = new MasterCommand();
+        command.RegId = ApplicationData.getInstance().regId;
+
+        Hashtable params = new Hashtable();
+        params.put("from", dateFrom);
+        params.put("to", dateTo);
+
+        apiClient.GetAsync(asyncResponse, CommandConstants.ACCOUNT_GETALLSTEPS, command, params, GetStepDataResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void PostAddSteps(AsyncResponse asyncResponse, int userId, String deviceType, StepDataContract contract)
+    {
+        MasterCommand command = new MasterCommand();
+        command.RegId = userId;
+        command.DeviceType = deviceType;
+
+        apiClient.PostAsync(asyncResponse, CommandConstants.ACCOUNT_POST_STEP, command, gson.toJson(contract), StepDataContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void PostEditSteps(AsyncResponse asyncResponse, int userId, StepDataContract contract)
+    {
+        MasterCommand command = new MasterCommand();
+        command.RegId = userId;
+        command.Command = CommandConstants.ACCOUNT_EDIT_STEP;
+
+        apiClient.PostAsync(asyncResponse, CommandConstants.ACCOUNT_POST_STEP, command, gson.toJson(contract), StepDataContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void PostDeleteSteps(AsyncResponse asyncResponse, int userId, StepDataContract contract)
+    {
+        MasterCommand command = new MasterCommand();
+        command.RegId = userId;
+        command.Command = CommandConstants.ACCOUNT_DELETE_STEP;
+
+        apiClient.PostAsync(asyncResponse, CommandConstants.ACCOUNT_POST_STEP, command, gson.toJson(contract), StepDataContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void PostGoogleOrder(AsyncResponse asyncResponse, TVPaymentOrderContract tvPaymentOrderContract)

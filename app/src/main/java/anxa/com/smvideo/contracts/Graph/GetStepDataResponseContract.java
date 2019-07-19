@@ -6,9 +6,8 @@ import java.util.List;
 
 import anxa.com.smvideo.contracts.BaseContract;
 
-
-public class GetStepDataResponseContract extends BaseContract {
+public class GetStepDataResponseContract extends BaseContract
+{
     @SerializedName("data")
     public List<StepDataContract> Data;
-
 }

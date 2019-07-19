@@ -31,10 +31,17 @@ public class CommandConstants
     public static String ACCOUNT_SHOPPING_LIST          = "mealplan/shopping-list-week";
     public static String ACCOUNT_RECIPE_CTID            = "recipe";
     public static String ACCOUNT_RECIPES                = "popular";
+
     public static String ACCOUNT_GRAPH_DATA             = "weight/graphData";
     public static String ACCOUNT_GRAPH_HISTORY          = "weight/historyData";
     public static String ACCOUNT_POST_WEIGHT            = "weight/add";
     public static String ACCOUNT_EDIT_WEIGHT            = "weight/edit";
+
+    public static String ACCOUNT_GETALLSTEPS            = "step/all";
+    public static String ACCOUNT_POST_STEP              = "step";
+    public static String ACCOUNT_EDIT_STEP              = "edit";
+    public static String ACCOUNT_DELETE_STEP            = "delete";
+
     public static String ACCOUNT_EDIT_PROFILE           = "updateBasicInfo";
     public static String ACCOUNT_MESSAGES               = "message/questionsThreadCursor";
 

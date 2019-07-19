@@ -65,11 +65,12 @@ import anxa.com.smvideo.util.AppUtil;
  * Created by aprilanxa on 28/06/2017.
  */
 
-public class WeightGraphFragment extends BaseFragment implements View.OnClickListener, View.OnKeyListener, OnChartGestureListener{
-
+public class WeightGraphFragment extends BaseFragment implements View.OnClickListener, View.OnKeyListener, OnChartGestureListener
+{
     private Context context;
     protected ApiCaller caller;
 
+    private ScrollView weight_scrollView;
     private LineChart weightLineChart;
     private TextView dateRange_tv;
     private Button date_left_btn;
@@ -111,8 +112,8 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+                             Bundle savedInstanceState)
+    {
         this.context = getActivity();
 
         mView = inflater.inflate(R.layout.weight_graph, null);
@@ -125,6 +126,7 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
 
         context.getApplicationContext().registerReceiver(the_receiver, filter);
 
+        weight_scrollView = (ScrollView) mView.findViewById(R.id.weight_scrollView);
 
         weightLineChart = (LineChart) mView.findViewById(R.id.viewcontentGraph);
         weightLineChart.setVisibility(View.VISIBLE);
@@ -168,8 +170,8 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
 
         getWeightGraphData();
 
-        ((ScrollView) mView.findViewById(R.id.weight_scrollView)).smoothScrollTo(0,0);
         super.onCreateView(inflater, container, savedInstanceState);
+
         return mView;
     }
 
@@ -178,133 +180,203 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
         super.onResume();
     }
 
-    @Override
-    public void onClick(final View v) {
-        fromSubmitWeight = false;
-
-        if (v.getId() == R.id.weight_1m_btn) {
-            selectedDateRange = DATE_RANGE_1M;
-            weight_1m.setSelected(true);
-            weight_3m.setSelected(false);
-            weight_1y.setSelected(false);
-            weight_all.setSelected(false);
-            dateRange_tv.setText(AppUtil.get1MDateRangeDisplay(true, true, dateRangeIndex));
-            dateRangeIndex = 0;
-            date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
-            updateWeightGraph(DATE_RANGE_1M);
-        } else if (v.getId() == R.id.weight_3m_btn) {
-            selectedDateRange = DATE_RANGE_3M;
-            weight_3m.setSelected(true);
-            weight_1m.setSelected(false);
-            weight_1y.setSelected(false);
-            weight_all.setSelected(false);
-            dateRange_tv.setText(AppUtil.get3MDateRangeDisplay(true, true, dateRangeIndex));
-            date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
-
-            dateRangeIndex = 0;
-            updateWeightGraph(DATE_RANGE_3M);
-        } else if (v.getId() == R.id.weight_1y_btn) {
-            selectedDateRange = DATE_RANGE_1Y;
-            weight_1y.setSelected(true);
-            weight_1m.setSelected(false);
-            weight_all.setSelected(false);
-            weight_3m.setSelected(false);
-            dateRange_tv.setText(AppUtil.get1YDateRangeDisplay(true, false));
-            dateRangeIndex = 0;
-            date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
-            updateWeightGraph(DATE_RANGE_1Y);
-        } else if (v.getId() == R.id.weight_all_btn) {
-            selectedDateRange = DATE_RANGE_ALL;
-            weight_all.setSelected(true);
-            weight_1m.setSelected(false);
-            weight_3m.setSelected(false);
-            weight_1y.setSelected(false);
-            date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
-            dateRange_tv.setText(AppUtil.get1YDateRangeDisplay(true, false));
-            dateRangeIndex = 0;
-            updateWeightGraph(DATE_RANGE_ALL);
-        } else if (v.getId() == R.id.weight_submitButton) {
-            postWeightData();
-        } else if (v == date_left_btn) {
-            if (selectedDateRange == DATE_RANGE_1M) {
-                dateRangeIndex++;
-                dateRange_tv.setText(AppUtil.get1MDateRangeDisplay(false, true, dateRangeIndex));
-
-                weightGraphDataArrayList = AppUtil.get1MWeightList(false, dateRangeIndex);
-                populateData();
-
-            } else if (selectedDateRange == DATE_RANGE_3M) {
-                dateRangeIndex++;
-                dateRange_tv.setText(AppUtil.get3MDateRangeDisplay(false, true, dateRangeIndex));
-                weightGraphDataArrayList = AppUtil.get3MWeightList(false);
-                populateData();
-            } else if (selectedDateRange == DATE_RANGE_1Y || selectedDateRange == DATE_RANGE_ALL) {
-                dateRangeIndex++;
-                dateRange_tv.setText(AppUtil.get1YDateRangeDisplay(false, true));
-
-                weightGraphDataArrayList = AppUtil.get1YWeightList(false, dateRangeIndex);
-                populateData();
+    private final BroadcastReceiver the_receiver = new BroadcastReceiver()
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            if (intent.getAction().equalsIgnoreCase(context.getString(R.string.WEIGHT_GRAPH_BROADCAST_DELETE))) {
+                deleteWeightData(ApplicationData.getInstance().currentWeight);
+            } else if (intent.getAction().equalsIgnoreCase(context.getString(R.string.WEIGHT_GRAPH_BROADCAST_EDIT))) {
+                updateWeightData(ApplicationData.getInstance().currentWeight);
             }
-            date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_orangedark));
+        }
+    };
 
-        } else if (v == date_right_btn) {
-            if (selectedDateRange == DATE_RANGE_1M) {
-                if (dateRangeIndex > 0) {
-                    dateRangeIndex--;
-                    dateRange_tv.setText(AppUtil.get1MDateRangeDisplay(false, false, dateRangeIndex));
-                    weightGraphDataArrayList = AppUtil.get1MWeightList(false, dateRangeIndex);
-                    populateData();
-                    if (dateRangeIndex <= 0) {
-                        date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
-                    }
-                } else {
-                    date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
-                }
-            } else if (selectedDateRange == DATE_RANGE_3M) {
-                if (dateRangeIndex > 0) {
-                    dateRangeIndex--;
-                    dateRange_tv.setText(AppUtil.get3MDateRangeDisplay(false, false, dateRangeIndex));
-                    weightGraphDataArrayList = AppUtil.get3MWeightList(false);
-                    populateData();
+    private void postWeightData()
+    {
+        dismissKeyboard();
 
-                    if (dateRangeIndex <= 0) {
-                        date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
-                    }
-                } else {
-                    date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
-                }
-            } else if (selectedDateRange == DATE_RANGE_1Y || selectedDateRange == DATE_RANGE_ALL) {
-                if (dateRangeIndex > 0) {
-                    dateRangeIndex--;
-                    dateRange_tv.setText(AppUtil.get1YDateRangeDisplay(false, false));
-                    weightGraphDataArrayList = AppUtil.get1YWeightList(false, dateRangeIndex);
-                    populateData();
-                    if (dateRangeIndex <= 0) {
-                        date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
-                    }
-                } else {
-                    date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
-                }
+        String weightInput_tv = weight_enter_et.getText().toString();
+
+        if (weightInput_tv.length() > 0) {
+            if (weightInput_tv.contains(",")) {
+                weightInput_tv.replace(",", ".");
             }
-        } else if (v.getId() == R.id.weight_data_rl) {
-            dismissKeyboard();
+        } else {
+            return;
+        }
+
+        Float weightInput = Float.parseFloat(weightInput_tv);
+
+        if (weightInput >= ApplicationData.getInstance().minWeight && weightInput <= ApplicationData.getInstance().maxWeight)
+        {
+            long unixTime = System.currentTimeMillis() / 1000L;
+            final String toDate = String.valueOf(unixTime);
+
+            WeightHistoryContract weightToPost = new WeightHistoryContract();
+            weightToPost.Date = unixTime;
+            weightToPost.WeightKg = weightInput;
+            weightToPost.Deleted = false;
+            weightToPost.UserId = ApplicationData.getInstance().regId;
+
+            weight_enter_et.setText("");
+            weightProgressBar.setVisibility(View.VISIBLE);
+
+            caller.PostWeight(new AsyncResponse()
+            {
+                @Override
+                public void processFinish(Object output)
+                {
+                    //INITIALIZE ALL ONCLICK AND API RELATED PROCESS HERE TO AVOID CRASHES
+                    if (output != null)
+                    {
+                        System.out.println("PostWeight: " + output);
+
+                        getWeightHistoryAPI();
+                    }
+                }
+            }, weightToPost);
+        }
+        else
+        {
+            AlertDialog.Builder builder;
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)
+            {
+                builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
+            } else {
+                builder = new AlertDialog.Builder(context);
+            }
+            builder.setMessage(context.getResources().getString(R.string.ALERTMESSAGE_ERRORWEIGHT_RANGE)).setPositiveButton(context.getResources().getString(R.string.btn_ok),
+                    new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog,
+                                            int which) {
+                            dialog.cancel();
+                        }
+                    }).show();
         }
     }
 
-    @Override
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-        // If the event is a key-down event on the "enter" button
-        if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-            postWeightData();
-            // Perform action on key press
-            return true;
-        }
-        return false;
+    private void deleteWeightData(final WeightHistoryContract weightToDelete)
+    {
+        dismissKeyboard();
+        weightProgressBar.setVisibility(View.VISIBLE);
+
+        weightToDelete.Deleted = true;
+
+        caller.EditWeight(new AsyncResponse()
+        {
+            @Override
+            public void processFinish(Object output)
+            {
+                //INITIALIZE ALL ONCLICK AND API RELATED PROCESS HERE TO AVOID CRASHES
+                if (output != null)
+                {
+                    getWeightHistoryAPI();
+                }
+            }
+        }, weightToDelete);
     }
 
+    private void updateWeightData(WeightHistoryContract weightToUpdate)
+    {
+        dismissKeyboard();
+        weightProgressBar.setVisibility(View.VISIBLE);
 
-    private void updateWeightGraphUI() {
+        caller.EditWeight(new AsyncResponse()
+        {
+            @Override
+            public void processFinish(Object output)
+            {
+                //INITIALIZE ALL ONCLICK AND API RELATED PROCESS HERE TO AVOID CRASHES
+                if (output != null)
+                {
+                    System.out.println("GetAccountGraphHistory: " + output);
+                    getWeightHistoryAPI();
+                }
+            }
+        }, weightToUpdate);
+    }
 
+    private void getWeightGraphData()
+    {
+        caller.GetAccountGraphData(new AsyncResponse()
+        {
+            @Override
+            public void processFinish(Object output)
+            {
+                //INITIALIZE ALL ONCLICK AND API RELATED PROCESS HERE TO AVOID CRASHES
+                if (output != null)
+                {
+                    WeightGraphResponseContract c = (WeightGraphResponseContract) output;
+
+                    if (c != null && c.Data != null && c.Data.Weights != null)
+                    {
+                        ApplicationData.getInstance().weightGraphContractList = new ArrayList<WeightGraphContract>();
+
+                        for (WeightGraphContract weightGraphContract : c.Data.Weights) {
+                            if (weightGraphContract.ConfirmedData.equalsIgnoreCase("true")) {
+                                ApplicationData.getInstance().weightGraphContractList.add(weightGraphContract);
+                            }
+                        }
+                        updateWeightGraphUI();
+                    }
+                }
+            }
+        });
+
+        getWeightHistoryAPI();
+    }
+
+    private void getWeightHistoryAPI()
+    {
+        caller.GetAccountGraphHistory(new AsyncResponse()
+        {
+            @Override
+            public void processFinish(Object output)
+            {
+                //INITIALIZE ALL ONCLICK AND API RELATED PROCESS HERE TO AVOID CRASHES
+                if (output != null)
+                {
+                    WeightHistoryResponseContract c = (WeightHistoryResponseContract) output;
+
+                    if (c != null && c.Data != null)
+                    {
+                        initialWeight = c.Data.InitialWeightModel.WeightKg;
+
+                        if (c.Data.HistoryModel != null)
+                        {
+                            weightGraphHistoryDataList.clear();
+                            for (WeightHistoryContract weightHistoryContract : c.Data.HistoryModel) {
+                                if (weightHistoryContract.ConfirmedData.equalsIgnoreCase("true")) {
+                                    weightGraphHistoryDataList.add(weightHistoryContract);
+                                }
+                            }
+                        }
+                        ApplicationData.getInstance().initialWeightContract = c.Data.InitialWeightModel;
+
+                        weightProgressBar.setVisibility(View.GONE);
+
+                        updateWeightHistoryList();
+                    }
+                }
+            }
+        });
+    }
+
+    private void populateData()
+    {
+        lowestWeight = AppUtil.getLowestWeight(weightGraphDataArrayList);
+        heighestWeight = AppUtil.getHeighestWeight(weightGraphDataArrayList);
+
+        createGraph(weightGraphDataArrayList);
+    }
+
+    private void updateWeightGraphUI()
+    {
         dateRange_tv.setText(AppUtil.get1MDateRangeDisplay(true, true, 1));
 
         Collections.sort(ApplicationData.getInstance().weightGraphContractList, new Comparator<WeightGraphContract>() {
@@ -368,16 +440,12 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
             }
             updateWeightGraph(selectedDateRange);
         }
-
     }
 
-    private void dismissKeyboard() {
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(weight_enter_et.getWindowToken(), 0);
-    }
-
-    private void updateWeightGraph(int range) {
-        switch (range) {
+    private void updateWeightGraph(int range)
+    {
+        switch (range)
+        {
             case DATE_RANGE_1M:
                 weightGraphDataArrayList = AppUtil.get1MWeightList(true, 0);
                 break;
@@ -388,7 +456,6 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
                 weightGraphDataArrayList = AppUtil.get1YWeightList(true, 0);
                 break;
             case DATE_RANGE_ALL:
-//                weightGraphDataArrayList = AppUtil.getAllWeightList();
                 weightGraphDataArrayList = ApplicationData.getInstance().weightGraphContractList;
                 break;
             default:
@@ -404,22 +471,11 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
 
         System.out.println("sort weight data 2: " + weightGraphDataArrayList);
 
-
         populateData();
     }
 
-    /**
-     * Weightloss Graph
-     **/
-    private void populateData() {
-        lowestWeight = AppUtil.getLowestWeight(weightGraphDataArrayList);
-        heighestWeight = AppUtil.getHeighestWeight(weightGraphDataArrayList);
-
-        createGraph(weightGraphDataArrayList);
-    }
-
-    private void createGraph(List<WeightGraphContract> graphMealList) {
-
+    private void createGraph(List<WeightGraphContract> graphMealList)
+    {
         weightLineChart.clear();
 
         weightLineChart.setOnChartGestureListener(this);
@@ -429,10 +485,10 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
         weightLineChart.setDescription("");
         weightLineChart.setNoDataTextDescription(getResources().getString(R.string.WEIGHT_GRAPH_NO_DATA));
 
-//        dataToGraphArray(graphMealList);
+        // dataToGraphArray(graphMealList);
 
         // enable value highlighting
-//        weightLineChart.setHighlightEnabled(true);
+        // weightLineChart.setHighlightEnabled(true);
 
         // enable touch gestures
         weightLineChart.setTouchEnabled(false);
@@ -466,7 +522,7 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
         xAxis.setDrawAxisLine(true);
         xAxis.setGridLineWidth(0.5f);
         xAxis.setAxisLineColor(Color.LTGRAY);
-//        xAxis.setSpaceBetweenLabels(1);
+        // xAxis.setSpaceBetweenLabels(1);
 
         YAxis rightAxis = weightLineChart.getAxisRight();
         rightAxis.setEnabled(false);
@@ -483,7 +539,8 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
         List<String> dayArray = new ArrayList<>();
         ArrayList<Entry> valsList = new ArrayList<>();
 
-        for (int i = 0; i < graphMealList.size(); i++) {
+        for (int i = 0; i < graphMealList.size(); i++)
+        {
             if (graphMealList.get(i).WeightKg > 0) {
                 Entry c1e1 = new Entry((float) graphMealList.get(i).WeightKg, i);
                 valsList.add(c1e1);
@@ -546,63 +603,227 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
         weightLineChart.invalidate();
     }
 
-
-    private void getWeightGraphData() {
-        caller.GetAccountGraphData(new AsyncResponse() {
-            @Override
-            public void processFinish(Object output) {
-
-                //INITIALIZE ALL ONCLICK AND API RELATED PROCESS HERE TO AVOID CRASHES
-                if (output != null) {
-                    WeightGraphResponseContract c = (WeightGraphResponseContract) output;
-
-                    if (c != null && c.Data != null && c.Data.Weights != null) {
-                        ApplicationData.getInstance().weightGraphContractList = new ArrayList<WeightGraphContract>();
-
-                        for (WeightGraphContract weightGraphContract : c.Data.Weights) {
-                            if (weightGraphContract.ConfirmedData.equalsIgnoreCase("true")) {
-                                ApplicationData.getInstance().weightGraphContractList.add(weightGraphContract);
-                            }
-                        }
-                        updateWeightGraphUI();
-                    }
-                }
+    private void updateWeightHistoryList()
+    {
+        Collections.sort(weightGraphHistoryDataList, new Comparator<WeightHistoryContract>() {
+            public int compare(WeightHistoryContract o1, WeightHistoryContract o2) {
+                return AppUtil.toDate(o2.Date).compareTo(AppUtil.toDate(o1.Date));
             }
         });
 
-        getWeightHistoryAPI();
+        if (fromSubmitWeight) {
+            weightLogsListCurrentDisplay.clear();
+            selectedDateRange = DATE_RANGE_1M;
+            weight_1m.setSelected(true);
+            weight_3m.setSelected(false);
+            weight_1y.setSelected(false);
+            weight_all.setSelected(false);
+
+            dateRange_tv.setText(AppUtil.get1MDateRangeDisplay(true, true, dateRangeIndex));
+            dateRangeIndex = 0;
+            date_right_btn.setTextColor(getResources().getColor(R.color.text_darkgray));
+
+            updateWeightGraph(DATE_RANGE_1M);
+        }
+
+        if (weightGraphHistoryDataList.size() > 7) {
+            weightLogsListCurrentDisplay.clear();
+            for (int i = 0; i < 7; i++) {
+                weightLogsListCurrentDisplay.add(weightGraphHistoryDataList.get(i));
+            }
+
+        } else {
+//            hideSeeMoreButton(weightLogsListView);
+            weightLogsListCurrentDisplay = weightGraphHistoryDataList;
+        }
+
+        if (weightLogsListView.getAdapter() == null)
+        {
+            weightLogsListAdapter = new WeightLogsListAdapter(context, weightLogsListCurrentDisplay);
+            weightLogsListAdapter.notifyDataSetChanged();
+            weightLogsListView.invalidateViews();
+            weightLogsListView.refreshDrawableState();
+            weightLogsListView.setAdapter(weightLogsListAdapter);
+        } else {
+            weightLogsListAdapter.updateItems(weightLogsListCurrentDisplay);
+        }
+        AppUtil.setListViewHeightBasedOnChildren(weightLogsListView);
+
+        weightLogsListView.setFocusable(false);
+        weight_scrollView.fullScroll(ScrollView.FOCUS_UP);
     }
 
-    private void getWeightHistoryAPI() {
-        caller.GetAccountGraphHistory(new AsyncResponse() {
-            @Override
-            public void processFinish(Object output) {
+    private void dismissKeyboard()
+    {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(weight_enter_et.getWindowToken(), 0);
+    }
 
-                //INITIALIZE ALL ONCLICK AND API RELATED PROCESS HERE TO AVOID CRASHES
-                if (output != null) {
-                    WeightHistoryResponseContract c = (WeightHistoryResponseContract) output;
+    @Override
+    public void onClick(final View v)
+    {
+        fromSubmitWeight = false;
 
-                    if (c != null && c.Data != null) {
-                        initialWeight = c.Data.InitialWeightModel.WeightKg;
+        if (v.getId() == R.id.weight_1m_btn)
+        {
+            selectedDateRange = DATE_RANGE_1M;
+            weight_1m.setSelected(true);
+            weight_3m.setSelected(false);
+            weight_1y.setSelected(false);
+            weight_all.setSelected(false);
+            dateRange_tv.setText(AppUtil.get1MDateRangeDisplay(true, true, dateRangeIndex));
+            dateRangeIndex = 0;
+            date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
+            updateWeightGraph(DATE_RANGE_1M);
+        }
+        else if (v.getId() == R.id.weight_3m_btn)
+        {
+            selectedDateRange = DATE_RANGE_3M;
+            weight_3m.setSelected(true);
+            weight_1m.setSelected(false);
+            weight_1y.setSelected(false);
+            weight_all.setSelected(false);
+            dateRange_tv.setText(AppUtil.get3MDateRangeDisplay(true, true, dateRangeIndex));
+            date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
 
-                        if (c.Data.HistoryModel != null) {
-                            weightGraphHistoryDataList.clear();
-                            for (WeightHistoryContract weightHistoryContract : c.Data.HistoryModel) {
-                                if (weightHistoryContract.ConfirmedData.equalsIgnoreCase("true")) {
-                                    weightGraphHistoryDataList.add(weightHistoryContract);
-                                }
-                            }
-                        }
-                        ApplicationData.getInstance().initialWeightContract = c.Data.InitialWeightModel;
+            dateRangeIndex = 0;
+            updateWeightGraph(DATE_RANGE_3M);
+        }
+        else if (v.getId() == R.id.weight_1y_btn)
+        {
+            selectedDateRange = DATE_RANGE_1Y;
+            weight_1y.setSelected(true);
+            weight_1m.setSelected(false);
+            weight_all.setSelected(false);
+            weight_3m.setSelected(false);
+            dateRange_tv.setText(AppUtil.get1YDateRangeDisplay(true, false));
+            dateRangeIndex = 0;
+            date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
+            updateWeightGraph(DATE_RANGE_1Y);
+        }
+        else if (v.getId() == R.id.weight_all_btn)
+        {
+            selectedDateRange = DATE_RANGE_ALL;
+            weight_all.setSelected(true);
+            weight_1m.setSelected(false);
+            weight_3m.setSelected(false);
+            weight_1y.setSelected(false);
+            date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
+            dateRange_tv.setText(AppUtil.get1YDateRangeDisplay(true, false));
+            dateRangeIndex = 0;
+            updateWeightGraph(DATE_RANGE_ALL);
+        }
+        else if (v.getId() == R.id.weight_submitButton)
+        {
+            postWeightData();
+        }
+        else if (v == date_left_btn)
+        {
+            if (selectedDateRange == DATE_RANGE_1M)
+            {
+                dateRangeIndex++;
+                dateRange_tv.setText(AppUtil.get1MDateRangeDisplay(false, true, dateRangeIndex));
 
-                        weightProgressBar.setVisibility(View.GONE);
+                weightGraphDataArrayList = AppUtil.get1MWeightList(false, dateRangeIndex);
+                populateData();
+            }
+            else if (selectedDateRange == DATE_RANGE_3M)
+            {
+                dateRangeIndex++;
+                dateRange_tv.setText(AppUtil.get3MDateRangeDisplay(false, true, dateRangeIndex));
+                weightGraphDataArrayList = AppUtil.get3MWeightList(false);
+                populateData();
+            }
+            else if (selectedDateRange == DATE_RANGE_1Y || selectedDateRange == DATE_RANGE_ALL)
+            {
+                dateRangeIndex++;
+                dateRange_tv.setText(AppUtil.get1YDateRangeDisplay(false, true));
 
-                        updateWeightHistoryList();
+                weightGraphDataArrayList = AppUtil.get1YWeightList(false, dateRangeIndex);
+                populateData();
+            }
+            date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_orangedark));
+        }
+        else if (v == date_right_btn)
+        {
+            if (selectedDateRange == DATE_RANGE_1M)
+            {
+                if (dateRangeIndex > 0)
+                {
+                    dateRangeIndex--;
+                    dateRange_tv.setText(AppUtil.get1MDateRangeDisplay(false, false, dateRangeIndex));
+                    weightGraphDataArrayList = AppUtil.get1MWeightList(false, dateRangeIndex);
+                    populateData();
+                    if (dateRangeIndex <= 0)
+                    {
+                        date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
                     }
                 }
+                else
+                {
+                    date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
+                }
             }
-        });
+            else if (selectedDateRange == DATE_RANGE_3M)
+            {
+                if (dateRangeIndex > 0)
+                {
+                    dateRangeIndex--;
+                    dateRange_tv.setText(AppUtil.get3MDateRangeDisplay(false, false, dateRangeIndex));
+                    weightGraphDataArrayList = AppUtil.get3MWeightList(false);
+                    populateData();
+
+                    if (dateRangeIndex <= 0)
+                    {
+                        date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
+                    }
+                }
+                else
+                {
+                    date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
+                }
+            }
+            else if (selectedDateRange == DATE_RANGE_1Y || selectedDateRange == DATE_RANGE_ALL)
+            {
+                if (dateRangeIndex > 0)
+                {
+                    dateRangeIndex--;
+                    dateRange_tv.setText(AppUtil.get1YDateRangeDisplay(false, false));
+                    weightGraphDataArrayList = AppUtil.get1YWeightList(false, dateRangeIndex);
+                    populateData();
+                    if (dateRangeIndex <= 0)
+                    {
+                        date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
+                    }
+                }
+                else
+                {
+                    date_right_btn.setTextColor(ContextCompat.getColor(context, R.color.text_darkgray));
+                }
+            }
+        }
+        else if (v.getId() == R.id.weight_data_rl)
+        {
+            dismissKeyboard();
+        }
     }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event)
+    {
+        // If the event is a key-down event on the "enter" button
+        if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER))
+        {
+            postWeightData();
+            // Perform action on key press
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * start of OnChartGestureListener
+     **/
 
     @Override
     public void onChartGestureStart(MotionEvent me,
@@ -655,165 +876,7 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
 
     }
 
-    private void updateWeightHistoryList() {
-        Collections.sort(weightGraphHistoryDataList, new Comparator<WeightHistoryContract>() {
-            public int compare(WeightHistoryContract o1, WeightHistoryContract o2) {
-                return AppUtil.toDate(o2.Date).compareTo(AppUtil.toDate(o1.Date));
-            }
-        });
-
-        if (fromSubmitWeight) {
-            weightLogsListCurrentDisplay.clear();
-            selectedDateRange = DATE_RANGE_1M;
-            weight_1m.setSelected(true);
-            weight_3m.setSelected(false);
-            weight_1y.setSelected(false);
-            weight_all.setSelected(false);
-
-            dateRange_tv.setText(AppUtil.get1MDateRangeDisplay(true, true, dateRangeIndex));
-            dateRangeIndex = 0;
-            date_right_btn.setTextColor(getResources().getColor(R.color.text_darkgray));
-
-            updateWeightGraph(DATE_RANGE_1M);
-        }
-
-        if (weightGraphHistoryDataList.size() > 7) {
-            weightLogsListCurrentDisplay.clear();
-            for (int i = 0; i < 7; i++) {
-                weightLogsListCurrentDisplay.add(weightGraphHistoryDataList.get(i));
-            }
-
-        } else {
-//            hideSeeMoreButton(weightLogsListView);
-            weightLogsListCurrentDisplay = weightGraphHistoryDataList;
-        }
-
-        if (weightLogsListView.getAdapter() == null) {
-            weightLogsListAdapter = new WeightLogsListAdapter(context, weightLogsListCurrentDisplay);
-            weightLogsListAdapter.notifyDataSetChanged();
-            weightLogsListView.invalidateViews();
-            weightLogsListView.refreshDrawableState();
-            weightLogsListView.setAdapter(weightLogsListAdapter);
-        } else {
-            weightLogsListAdapter.updateItems(weightLogsListCurrentDisplay);
-        }
-        AppUtil.setListViewHeightBasedOnChildren(weightLogsListView);
-    }
-
-    private final BroadcastReceiver the_receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equalsIgnoreCase(context.getString(R.string.WEIGHT_GRAPH_BROADCAST_DELETE))) {
-                deleteWeightData(ApplicationData.getInstance().currentWeight);
-            } else if (intent.getAction().equalsIgnoreCase(context.getString(R.string.WEIGHT_GRAPH_BROADCAST_EDIT))) {
-                updateWeightData(ApplicationData.getInstance().currentWeight);
-            }
-        }
-    };
-
-
-    private void deleteWeightData(final WeightHistoryContract weightToDelete) {
-        dismissKeyboard();
-        weightProgressBar.setVisibility(View.VISIBLE);
-
-        weightToDelete.Deleted = true;
-
-        caller.EditWeight(new AsyncResponse() {
-            @Override
-            public void processFinish(Object output) {
-
-                //INITIALIZE ALL ONCLICK AND API RELATED PROCESS HERE TO AVOID CRASHES
-                if (output != null) {
-                    getWeightHistoryAPI();
-                }
-            }
-        }, weightToDelete);
-    }
-
-
-    private void updateWeightData(WeightHistoryContract weightToUpdate) {
-
-        dismissKeyboard();
-        weightProgressBar.setVisibility(View.VISIBLE);
-
-        caller.EditWeight(new AsyncResponse() {
-            @Override
-            public void processFinish(Object output) {
-
-                //INITIALIZE ALL ONCLICK AND API RELATED PROCESS HERE TO AVOID CRASHES
-                if (output != null) {
-                    System.out.println("GetAccountGraphHistory: " + output);
-                    getWeightHistoryAPI();
-                }
-            }
-        }, weightToUpdate);
-    }
-
-
-    private void postWeightData() {
-
-        dismissKeyboard();
-
-        String weightInput_tv = weight_enter_et.getText().toString();
-
-        if (weightInput_tv.length() > 0) {
-            if (weightInput_tv.contains(",")) {
-                weightInput_tv.replace(",", ".");
-            }
-        } else {
-            return;
-        }
-
-        Float weightInput = Float.parseFloat(weightInput_tv);
-
-        if(weightInput >= ApplicationData.getInstance().minWeight && weightInput <= ApplicationData.getInstance().maxWeight){
-            long unixTime = System.currentTimeMillis() / 1000L;
-            final String toDate = String.valueOf(unixTime);
-
-            WeightHistoryContract weightToPost = new WeightHistoryContract();
-            weightToPost.Date = unixTime;
-            weightToPost.WeightKg = weightInput;
-            weightToPost.Deleted = false;
-            weightToPost.UserId = ApplicationData.getInstance().regId;
-
-            weight_enter_et.setText("");
-            weightProgressBar.setVisibility(View.VISIBLE);
-
-            caller.PostWeight(new AsyncResponse() {
-                @Override
-                public void processFinish(Object output) {
-
-                    //INITIALIZE ALL ONCLICK AND API RELATED PROCESS HERE TO AVOID CRASHES
-                    if (output != null) {
-
-                        System.out.println("PostWeight: " + output);
-
-                        getWeightHistoryAPI();
-
-                    }
-                }
-            }, weightToPost);
-        }else
-        {
-            AlertDialog.Builder builder;
-
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-                builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_Dialog_Alert);
-            }else{
-                builder = new AlertDialog.Builder(context);
-            }
-            builder.setMessage(context.getResources().getString(R.string.ALERTMESSAGE_ERRORWEIGHT_RANGE)).setPositiveButton(context.getResources().getString(R.string.btn_ok),
-                new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog,
-                                        int which) {
-                        dialog.cancel();
-                    }
-                }).show();
-        }
-
-
-    }
-
+    /**
+     * end of OnChartGestureListener
+     **/
 }

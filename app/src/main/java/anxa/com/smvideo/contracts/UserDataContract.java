@@ -2,15 +2,14 @@ package anxa.com.smvideo.contracts;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.joda.time.DateTime;
-
 import java.util.List;
 
 /**
  * Created by aprilanxa on 29/06/2017.
  */
 
-public class UserDataContract extends BaseContract{
+public class UserDataContract extends BaseContract
+{
     @SerializedName("Id")
     public int Id;
 
@@ -53,20 +52,26 @@ public class UserDataContract extends BaseContract{
     @SerializedName("AlertContact")
     public String AlertContact;
 
+    @SerializedName("PayoutCompleted")
+    public boolean PayoutCompleted;
+
     @SerializedName("Activities")
     public List<ActivitiesDataContract> Activities;
 
     @SerializedName("DietProfiles")
     public List<DietProfilesDataContract> DietProfiles;
 
-    @SerializedName("Deleted")
-    public Boolean deleted;
+    @SerializedName("IsBlackOut")
+    public boolean IsBlackOut;
 
-    @SerializedName("ModifiedDate")
-    public String modifiedDate;
+    @SerializedName("AjRegNo")
+    public int AjRegNo;
 
-    @SerializedName("CreatedDate")
-    public String createdDate;
+    @SerializedName("WeekNumber")
+    public int WeekNumber;
+
+    @SerializedName("DayNumber")
+    public int DayNumber;
 
     @SerializedName("IsAnyVip")
     public boolean IsAnyVip;
@@ -74,10 +79,18 @@ public class UserDataContract extends BaseContract{
     @SerializedName("SubscriptionType")
     public byte SubscriptionType;
 
-    @SerializedName("IsVip")
-    public boolean IsVip;
-
     @SerializedName("DateRegistered")
     public String DateRegistered;
 
+    @SerializedName("IsVip")
+    public boolean IsVip;
+
+    @SerializedName("Deleted")
+    public boolean deleted;
+
+    @SerializedName("ModifiedDate")
+    public String modifiedDate;
+
+    @SerializedName("CreatedDate")
+    public String createdDate;
 }

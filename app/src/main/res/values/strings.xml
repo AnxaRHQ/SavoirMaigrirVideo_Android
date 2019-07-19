@@ -192,6 +192,35 @@
     <string name="btn_delete">Supprimer</string>
     <string name="WEIGHT_GRAPH_BROADCAST_DELETE">WEIGHT_GRAPH_DELETE</string>
     <string name="WEIGHT_GRAPH_BROADCAST_EDIT">WEIGHT_GRAPH_EDIT</string>
+
+    <!--Steps Graph-->
+
+    <string name="GRAPH_1W_LABEL">1S</string>
+    <string name="GRAPH_1M_LABEL">1M</string>
+    <string name="GRAPH_3M_LABEL">3M</string>
+    <string name="GRAPH_1Y_LABEL">1A</string>
+    <string name="GRAPH_ALL_LABEL">Tout</string>
+
+    <string name="EDIT_STEPS">Editer de Pas</string>
+
+    <string name="LAST_RECORDED_STEPS">Dernier enregistrement : %d pas le "</string>
+    <string name="LAST_RECORDED_STEPS_NO_DATA">Dernier enregistrement : aucune donnée"</string>
+    <string name="NO_STEPS_DATA">aucune donnée</string>
+    <string name="ENTER_YOUR_CURRENT_STEPS">Entrez votre nombre de pas</string>
+    <string name="STEPS_TAKEN">Nombre de pas</string>
+    <string name="KM_TRAVELLED">Distance (Km)</string>
+    <string name="CALORIES_BURNED">Calories brûlées</string>
+
+    <string name="STEPS_GRAPH_LOGS_STEPS">Pas</string>
+    <string name="SEE_MORE_BTN">Voir plus</string>
+
+    <string name="STEPS_GRAPH_BROADCAST_DELETE" translatable="false">STEPS_GRAPH_DELETE</string>
+    <string name="STEPS_GRAPH_BROADCAST_EDIT" translatable="false">STEPS_GRAPH_EDIT</string>
+    <string name="progress_refresh" translatable="false">PROGRESS_REFRESH</string>
+
+    <string name="GRAPH_MANUAL_INPUT">Ajout manuel</string>
+    <string name="STEPS_BUTTON">Courbe de Pas</string>
+
     <string name="ALERTMESSAGE_DELETE_MEAL">Voulez-vous vraiment supprimer cette entrée ?</string>
     <string name="btn_no">Non</string>
     <string name="btn_yes">Oui</string>

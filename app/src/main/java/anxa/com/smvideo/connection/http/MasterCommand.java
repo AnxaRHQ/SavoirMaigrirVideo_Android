@@ -14,4 +14,6 @@ public class MasterCommand
     public int ApplicationId;
     public String RegEmail;
     public boolean IncludeData;
+
+    public String DeviceType;
 }

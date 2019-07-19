@@ -52,14 +52,25 @@ public class SavoirMaigrirVideoApiClient {
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("http").encodedAuthority(WebkitURL.domainURL.replace("https://", ""));
         builder.appendPath(SavoirMaigrirVideoConstants.SM_VIDEO_API_PATH);
+
         if(apiName != null && !apiName.isEmpty())
         {
             builder.appendPath(apiName);
         }
+
         if(command.Command != null && !command.Command.isEmpty())
         {
             builder.appendPath(command.Command);
+
+            if (command.Command.equalsIgnoreCase(CommandConstants.ACCOUNT_LOGIN)) {
+                if (command.IncludeData) {
+                    builder.appendQueryParameter("includeData", "true");
+                } else {
+                    builder.appendQueryParameter("includeData", "false");
+                }
+            }
         }
+
         if(command.RegId > 0)
         {
             builder.appendQueryParameter("regId", String.valueOf(command.RegId));
@@ -75,14 +86,10 @@ public class SavoirMaigrirVideoApiClient {
             builder.appendQueryParameter("regEmail", command.RegEmail);
         }
 
-        if (command.Command.equalsIgnoreCase(CommandConstants.ACCOUNT_LOGIN)) {
-            if (command.IncludeData) {
-                builder.appendQueryParameter("includeData", "true");
-            } else {
-                builder.appendQueryParameter("includeData", "false");
-            }
+        if(command.DeviceType != null && command.DeviceType != "")
+        {
+            builder.appendQueryParameter("deviceType", String.valueOf(command.DeviceType));
         }
-
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(httpMethod);

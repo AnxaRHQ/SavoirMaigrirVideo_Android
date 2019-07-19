@@ -39,6 +39,7 @@ import anxa.com.smvideo.activities.account.MessagesAccountFragment;
 import anxa.com.smvideo.activities.account.MonCompteAccountFragment;
 import anxa.com.smvideo.activities.account.NotificationsActivity;
 import anxa.com.smvideo.activities.account.SearchFragment;
+import anxa.com.smvideo.activities.account.VideosFragment;
 import anxa.com.smvideo.activities.account.WebkitFragment;
 import anxa.com.smvideo.activities.free.BilanMinceurActivity;
 import anxa.com.smvideo.activities.free.DiscoverActivity;
