@@ -8,6 +8,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
@@ -32,9 +33,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import anxa.com.smvideo.ApplicationData;
@@ -70,6 +75,7 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
     List<MessagesContract> items;
     Button messages_btn;
     Button carnet_btn;
+    Button menu_button;
     private ImageView backButton;
 
     long previousDate;
@@ -82,6 +88,7 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
     private static final int BROWSERTAB_ACTIVITY = 1011;
     String intentExtra;
     private int allowedQuestionsToAsk = 0;
+    private int totalCreditsWeek = 0;
 
     public Context context;
     protected ApiCaller caller;

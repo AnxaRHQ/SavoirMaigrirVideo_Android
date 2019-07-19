@@ -19,7 +19,7 @@ import anxa.com.smvideo.contracts.CoachingVideosContract;
 import anxa.com.smvideo.contracts.DietProfilesDataContract;
 import anxa.com.smvideo.contracts.MessagesContract;
 import anxa.com.smvideo.contracts.MessagesResponseContract;
-import anxa.com.smvideo.contracts.NotificationsContract;
+import anxa.com.smvideo.contracts.Notifications.NotificationsContract;
 import anxa.com.smvideo.contracts.QuestionsContract;
 import anxa.com.smvideo.contracts.RepasContract;
 import anxa.com.smvideo.contracts.ResultsResponseDataContract;
