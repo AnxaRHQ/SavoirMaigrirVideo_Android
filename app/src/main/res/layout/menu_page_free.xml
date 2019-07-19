@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/landingheader"
-        layout="@layout/header_landing"
+        layout="@layout/header_landingfree"
         android:layout_width="match_parent"
         android:layout_height="44dp" />
 

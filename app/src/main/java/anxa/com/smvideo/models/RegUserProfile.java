@@ -1,6 +1,7 @@
 package anxa.com.smvideo.models;
 
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 
 /**
  * Created by angelaanxa on 10/17/2017.
@@ -13,8 +14,8 @@ public class RegUserProfile {
     private String password;
     private String gender;
     private String country;
-    private float initialWeight;
-    private float targetWeight;
+    private String initialWeight;
+    private String targetWeight;
     private String objective;
     private String motivation;
     private String minutesSpent;
@@ -136,19 +137,27 @@ public class RegUserProfile {
     }
 
     public float getInitialWeight() {
-        return initialWeight;
+       if(TextUtils.isEmpty(initialWeight))
+       {
+           return Float.valueOf(0);
+       }
+        return Float.valueOf(initialWeight);
     }
 
     public void setInitialWeight(float initialWeight) {
-        this.initialWeight = initialWeight;
+        this.initialWeight = String.valueOf(initialWeight);
     }
 
     public float getTargetWeight() {
-        return targetWeight;
+        if(TextUtils.isEmpty(targetWeight))
+        {
+            return Float.valueOf(0);
+        }
+        return Float.valueOf(targetWeight);
     }
 
     public void setTargetWeight(float targetWeight) {
-        this.targetWeight = targetWeight;
+        this.targetWeight = String.valueOf(targetWeight);
     }
 
     public String getObjective() {

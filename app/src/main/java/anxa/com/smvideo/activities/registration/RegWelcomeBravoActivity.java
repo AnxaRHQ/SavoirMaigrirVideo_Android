@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
+import anxa.com.smvideo.activities.LoginActivity;
+import anxa.com.smvideo.activities.MainActivity;
 import anxa.com.smvideo.activities.NpnaActivity;
 import anxa.com.smvideo.activities.account.LandingPageAccountActivity;
 import anxa.com.smvideo.connection.ApiCaller;
@@ -104,8 +106,10 @@ public class RegWelcomeBravoActivity extends Activity  {
 
     private void goToAccountLandingPage(){
         ApplicationData.getInstance().accountType = "account";
-        Intent mainIntent = new Intent(this, LandingPageAccountActivity.class);
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Home;
+        Intent mainIntent = new Intent(RegWelcomeBravoActivity.this, MainActivity.class);
         startActivity(mainIntent);
+        finish();
     }
     private void goToNpnaPage()
     {
