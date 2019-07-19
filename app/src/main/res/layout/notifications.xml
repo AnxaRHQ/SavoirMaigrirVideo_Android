@@ -15,53 +15,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/headermenu">
-        <com.anxa.ui.CustomListView
-            android:id="@+id/listview"
+
+        <anxa.com.smvideo.ui.CustomListView
+            android:id="@+id/notifListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/navView"
             android:cacheColorHint="#00000000"
             android:divider="@android:color/darker_gray"
             android:dividerHeight="1dp" />
+
     </RelativeLayout>
-
-
-    <!--<RelativeLayout-->
-    <!--android:id="@+id/loadMoreLayout_notif"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="20dp"-->
-    <!--android:visibility="visible"-->
-    <!--android:layout_below="@id/listview"-->
-    <!--android:layout_alignParentBottom="true">-->
-
-    <!--<Button-->
-    <!--android:id="@+id/loadMoreButton"-->
-    <!--style="@android:style/Theme.Holo.Light"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentTop="true"-->
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:background="@android:color/transparent"-->
-    <!--android:clickable="true"-->
-    <!--android:enabled="true"-->
-    <!--android:text="@string/messages_load_more"-->
-    <!--android:textColor="@color/common_button_blue"-->
-    <!--android:visibility="visible"-->
-    <!--android:onClick="loadMoreMessages"/>-->
-
-    <!--<ProgressBar-->
-    <!--android:id="@+id/progressBar"-->
-    <!--android:layout_width="20dp"-->
-    <!--android:layout_height="20dp"-->
-    <!--android:layout_centerVertical="true"-->
-    <!--android:layout_gravity="center_vertical"-->
-    <!--android:layout_marginLeft="10dp"-->
-    <!--android:layout_toEndOf="@+id/loadMoreButton"-->
-    <!--android:layout_toRightOf="@+id/loadMoreButton"-->
-    <!--android:indeterminateDrawable="@drawable/animateprogress"-->
-    <!--android:visibility="visible" />-->
-
-    <!--</RelativeLayout>-->
 
     <RelativeLayout
         android:id="@+id/dummy_view_notif"
@@ -73,7 +36,7 @@
         android:clickable="true">
 
         <ProgressBar
-            android:id="@+id/notificatios_progressBar"
+            android:id="@+id/notifications_progressBar"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_centerHorizontal="true"

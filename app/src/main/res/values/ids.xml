@@ -7,4 +7,7 @@
 
     <item name="datepage1" type="id" />
 
+    <item name="notif_id" type="id" />
+    <item name="notif_refid" type="id" />
+    <item name="notif_pos" type="id" />
 </resources>

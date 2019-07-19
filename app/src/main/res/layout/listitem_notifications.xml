@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/listNotifications"
+    android:background="#fffdba"
+    android:paddingBottom="5dp">
+
+    <anxa.com.smvideo.ui.RoundedImageView
+        android:id="@+id/imgCoachAvatar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        android:contentDescription="Coach"
+        android:src="@drawable/profile_default_avatar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/imgCoachAvatar"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/imgNotifIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Icon"
+            android:paddingLeft="10dp"
+            android:src="@drawable/meal_commented_icon" />
+
+        <TextView
+            android:id="@+id/txtNotifMessage"
+            style="@style/blackNormal.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imgNotifIcon"
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:text="Your coach commented on your Monday dinner"></TextView>
+
+        <TextView
+            android:id="@+id/txtTimestamp"
+            style="@style/grayNormal.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/txtNotifMessage"
+            android:layout_alignStart="@+id/txtNotifMessage"
+            android:layout_below="@+id/txtNotifMessage"
+
+            android:layout_gravity="center"
+            android:paddingLeft="5dp"
+            android:text="2 hours ago"
+            android:textColor="#707070"></TextView>
+    </RelativeLayout>
+
+</RelativeLayout>

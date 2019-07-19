@@ -44,9 +44,9 @@ public class VideoDownloadImageAsync extends AsyncTask<String, Void, Bitmap> {
 
                 ApplicationData.getInstance().videoPhotoList.put(Id, mIcon11);
             }
-else{
-                    mIcon11 = VideoHelper.GetVideoImage(String.valueOf(Id));
-                }
+            else {
+                mIcon11 = VideoHelper.GetVideoImage(String.valueOf(Id));
+            }
 
 
         } catch (Exception e) {

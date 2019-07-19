@@ -22,14 +22,17 @@ import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.common.WebkitURL;
 
-public class BaseFragment extends Fragment {
+public class BaseFragment extends Fragment
+{
     View mView;
+
     protected void removeFragment()
     {
         Fragment fragment = new LandingPageAccountActivity();
 
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Home;
         FragmentManager fragmentManager = getFragmentManager();
+
         if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
             fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
         } else {
@@ -43,13 +46,35 @@ public class BaseFragment extends Fragment {
         }
     }
 
+    protected void goBackToNotifications()
+    {
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Notifications;
+
+        FragmentManager fragmentManager = getFragmentManager();
+
+        if(fragmentManager.findFragmentById(R.id.notificationsview) != null)
+        {
+            fragmentManager
+                    .beginTransaction().
+                    remove(fragmentManager.findFragmentById(R.id.notificationsview)).commit();
+        }
+
+        try {
+
+            fragmentManager.beginTransaction().replace(R.id.notificationsview, new Fragment(), "CURRENT_FRAGMENT").commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState)
+    {
         ApplicationData.getInstance().currentLiveWebinar = "";
 
         RelativeLayout banner = (RelativeLayout) mView.findViewById(R.id.bannerWebinar);
+
         if (banner != null) {
             (banner).setVisibility(View.GONE);
            /* if ((TextView) mView.findViewById(R.id.textLive) != null) {
@@ -160,6 +185,4 @@ public class BaseFragment extends Fragment {
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
-
-
 }

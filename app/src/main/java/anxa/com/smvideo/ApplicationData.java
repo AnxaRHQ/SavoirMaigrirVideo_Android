@@ -147,7 +147,9 @@ public class ApplicationData extends Application {
     public List<WaterContract> waterList = new ArrayList<>();
     public Hashtable<String, Bitmap> coachCommentsPhotosList = new Hashtable<String, Bitmap>();
     public Hashtable<String, MealContract> tempList = new Hashtable<String, MealContract>();
-    public List<NotificationsContract> alertsDataArrayList = new ArrayList<>();
+    public List<NotificationsContract> alertsDataArrayList = new ArrayList<NotificationsContract>();
+    public Hashtable<String, NotificationsContract> notificationList = new Hashtable<String, NotificationsContract>();
+    public int unreadNotifications = 0;
 
     public WeightHistoryContract currentWeight;
     public WeightHistoryContract initialWeightContract;
@@ -357,4 +359,17 @@ public class ApplicationData extends Application {
         return AppUtil.getCurrentDate(addDays);
     }
 
+    public void setNotificationsCount(int notificationsCount)
+    {
+        final SharedPreferences prefs = getGCMPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("notificationsCount", notificationsCount);
+        editor.commit();
+    }
+
+    public int getNotificationsCount()
+    {
+        final SharedPreferences prefs = getGCMPreferences(context);
+        return prefs.getInt("notificationsCount", 0);
+    }
 }

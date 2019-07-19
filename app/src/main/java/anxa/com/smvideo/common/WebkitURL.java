@@ -49,7 +49,7 @@ public class WebkitURL
     public static String hipsWebkitUrl          = "/5minparjour/Mobile/graph/WeightGraph/?regId=%regId&gt=hips&sig=%sig#";
     public static String thighsWebkitUrl        = "/5minparjour/Mobile/graph/WeightGraph/?regId=%regId&gt=thighs&sig=%sig#";
 
-    public static String notificationsUrl       = "/5minparjour/coaching/coachresponse";
     public static String searchUrl              = "/5minparjour/Search?keyword=%s";
+
     public static final String ANXAMATS_URL     = "http://api.anxa.com/anxamats";
 }

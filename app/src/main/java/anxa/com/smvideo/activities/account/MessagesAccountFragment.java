@@ -8,7 +8,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
@@ -33,13 +32,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import anxa.com.smvideo.ApplicationData;
@@ -87,7 +82,6 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
     private static final int BROWSERTAB_ACTIVITY = 1011;
     String intentExtra;
     private int allowedQuestionsToAsk = 0;
-    private int totalCreditsWeek = 0;
 
     public Context context;
     protected ApiCaller caller;
@@ -144,6 +138,38 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
                 || ApplicationData.getInstance().userDataContract.SubscriptionType == 95) && !ApplicationData.getInstance().userDataContract.IsVip) {
             showSubTypeCannotAskDialog();
         }
+
+        /* Notifications Conditions */
+
+        if (getArguments().getBoolean("fromNotifications") == true)
+        {
+            if (getArguments().get("selectedButton") == getString(R.string.menu_account_messages))
+            {
+                messages_btn.setSelected(true);
+            }
+            else if (getArguments().get("selectedButton") == getString(R.string.menu_account_carnet))
+            {
+                messages_btn.setSelected(false);
+                carnet_btn.setSelected(true);
+                messagesContent.setVisibility(View.GONE);
+                carnetContent.setVisibility(View.VISIBLE);
+                loadCarnetFragment();
+            }
+
+            menu_button.setVisibility(View.GONE);
+            backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MessagesAccountFragment.super.goBackToNotifications();
+                }
+            });
+        }
+        else
+        {
+            messages_btn.setSelected(true);
+            backButton.setOnClickListener(this);
+        }
+
         super.onCreateView(inflater, container, savedInstanceState);
         return mView;
     }
