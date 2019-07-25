@@ -84,6 +84,10 @@ public class BaseFragment extends Fragment
         if (CheckFreeUser(false))
         {
             (banner).setVisibility(View.GONE);
+            if ((TextView) mView.findViewById(R.id.textLive) != null) {
+                ((TextView) mView.findViewById(R.id.textLive)).setVisibility(View.GONE);
+
+            }
         }
         else
         {
