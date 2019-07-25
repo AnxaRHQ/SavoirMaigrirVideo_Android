@@ -42,8 +42,8 @@ import anxa.com.smvideo.util.MovementCheck;
  * Created by aprilanxa on 23/01/2017.
  */
 
-public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract> implements View.OnClickListener {
-
+public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract> implements View.OnClickListener
+{
     private Context context;
     private List<MealCommentContract> items;
     private LayoutInflater layoutInflater;
@@ -65,7 +65,8 @@ public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract>
 
     public CarnetCommentsViewAdapter(Context context,
                                      List<MealCommentContract> items,
-                                     MainActivityCallBack MainListener) {
+                                     MainActivityCallBack MainListener)
+    {
         super(context, R.layout.comment_item, items);
         layoutInflater = (LayoutInflater) context.getSystemService(inflater);
         this.context = context;
@@ -73,15 +74,16 @@ public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract>
         this.MainListener = MainListener;
     }
 
-    public void update(List<MealCommentContract> items) {
+    public void update(List<MealCommentContract> items)
+    {
         this.items = items;
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-
+    public View getView(int position, View convertView, @NonNull ViewGroup parent)
+    {
         View row = convertView;
 
         ViewHolder viewHolder = null;
@@ -105,12 +107,12 @@ public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract>
         if (items != null && items.size() > 0 && getCount() > 0) {
             MealCommentContract message = items.get(position);
 
-            String proFileImageURL = AppUtil.BuildProfilePicUrl(context.getResources().getString(R.string.profile_pic_url), ApplicationData.getInstance().regUserProfile.getProfileimageurl());
+            String proFileImageURL = AppUtil.BuildProfilePicUrl(context.getResources().getString(R.string.profile_pic_url), Integer.toString(ApplicationData.getInstance().regId));
 
             Bitmap avatar = null;
 
             viewHolder.imageView.setTag(message.Timestamp);
-            viewHolder.audioMessage_layout.setVisibility(View.GONE);
+            //viewHolder.audioMessage_layout.setVisibility(View.GONE);
 
             String date = AppUtil.getMonthDay(AppUtil.toDate(message.Timestamp));
             String time = AppUtil.getTimeOnly24Comments(AppUtil.toDate(message.Timestamp).getTime());
@@ -202,7 +204,7 @@ public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract>
                 avatar = getAvatar(0);
                 viewHolder.chatMessage.setVisibility(View.GONE);
                 viewHolder.chatMessage_user.setVisibility(View.VISIBLE);
-                viewHolder.audioMessage_layout.setVisibility(View.GONE);
+                //viewHolder.audioMessage_layout.setVisibility(View.GONE);
 
                 RelativeLayout.LayoutParams params1 = (RelativeLayout.LayoutParams) row.findViewById(R.id.chat_avatar).getLayoutParams();
                 params1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);

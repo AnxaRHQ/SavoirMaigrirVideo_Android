@@ -465,7 +465,7 @@
                     android:id="@+id/submitButton"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/btn_save"
+                    android:text="@string/SAVE_BTN"
                     style="@style/btnStyleOrange"
                     android:clickable="true"
                     android:layout_margin="40dp" />

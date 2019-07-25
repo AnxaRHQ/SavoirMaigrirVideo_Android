@@ -59,7 +59,7 @@ public class ApplicationData extends Application
         Account_Videos(9),
         Account_Messages(7),
         Account_Consultation(6),
-        Account_Weight(10),
+        Account_Graphs(10),
         Account_Fiches(12),
         Account_Communaute(11),
         Account_Apropos(14),
@@ -69,9 +69,9 @@ public class ApplicationData extends Application
         Account_Notifications(18),
         Account_Invitations(19),
         Account_MonCompte(20),
-        Account_Alertes(21),
-        Account_Search(22),
-        Account_CoachingNative(23);
+        Account_Search(21),
+        Account_CoachingNative(22),
+        Account_Carnet(23);
 
 
         private int numVal;

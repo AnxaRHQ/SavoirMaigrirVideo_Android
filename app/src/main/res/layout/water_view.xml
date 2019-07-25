@@ -373,7 +373,7 @@
             android:layout_gravity="bottom|center_horizontal"
             android:clickable="true"
             android:onClick="saveWaterEntry"
-            android:text="@string/btn_save" />
+            android:text="@string/SAVE_BTN" />
     </LinearLayout>
 
 </RelativeLayout>

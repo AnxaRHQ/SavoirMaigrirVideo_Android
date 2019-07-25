@@ -32,9 +32,11 @@ public class NpnaActivity extends BaseVideoActivity {
         ((TextView) findViewById(R.id.npna_intro2)).setText(Html.fromHtml(getResources().getString(R.string.npna_intro2)));
         //ClearCookies();
     }
+
     public void goToPremiumPayment(View view)
     {
         Intent mainContentBrowser = new Intent(getApplicationContext(), NpnaOfferActivity.class);
+        mainContentBrowser.putExtra("UPGRADE_PAYMENT", false);
         startActivityForResult(mainContentBrowser, NPNA_OFFERACTIVITY);
     }
 }

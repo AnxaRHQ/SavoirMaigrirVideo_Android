@@ -1,18 +1,24 @@
 package anxa.com.smvideo.activities.account;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -22,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import anxa.com.smvideo.ApplicationData;
+import anxa.com.smvideo.activities.NpnaOfferActivity;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
 import anxa.com.smvideo.contracts.Carnet.UploadMealsDataContract;
@@ -33,7 +40,10 @@ import anxa.com.smvideo.R;
 /**
  * Created by aprilanxa on 20/09/2016.
  */
-public class WaterViewActivity extends Activity implements SeekBar.OnSeekBarChangeListener {
+
+public class WaterViewActivity extends Activity implements SeekBar.OnSeekBarChangeListener, View.OnClickListener
+{
+    ImageView backButton;
 
     int FONT_SIZE = 18;
     String waterStatus;
@@ -51,11 +61,12 @@ public class WaterViewActivity extends Activity implements SeekBar.OnSeekBarChan
 
     protected ApiCaller caller;
 
-
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         setContentView(R.layout.water_view);
 
         waterStatus = getIntent().getStringExtra("WATER_STATUS");
@@ -63,6 +74,12 @@ public class WaterViewActivity extends Activity implements SeekBar.OnSeekBarChan
         caller = new ApiCaller();
 
         System.out.println("add water waterStatus: " + waterStatus);
+
+        ((TextView) findViewById(R.id.header_title_tv)).setText(getString(R.string.MEALTYPE_WATER));
+        backButton = (ImageView) findViewById(R.id.header_menu_back);
+        backButton.setOnClickListener(this);
+
+        ((Button) findViewById(R.id.header_menu_iv)).setVisibility(View.GONE);
 
         glassSeekBar = (SeekBar) findViewById(R.id.seekBar_water);
         glassSeekBar.setOnSeekBarChangeListener(this);
@@ -72,54 +89,66 @@ public class WaterViewActivity extends Activity implements SeekBar.OnSeekBarChan
 
         waterDate = (TextView) findViewById(R.id.waterViewTitle);
 
-        if (waterStatus.equalsIgnoreCase("view")) {
+        if (waterStatus.equalsIgnoreCase("view"))
+        {
             currentWater = ApplicationData.getInstance().currentWater;
             refreshUI();
-        } else {
+        }
+        else
+        {
             waterDate.setText(AppUtil.getDateinString(ApplicationData.getInstance().currentSelectedDate));
             glassSeekBar.setProgress(0);
             bubbleSeekBar.setProgress(0);
             updateWaterThumb(0);
         }
-
     }
 
-    public void saveWaterEntry(View v) {
+    public void saveWaterEntry(View v)
+    {
+        if (!CheckFreeUser(true))
+        {
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    waterProgressBar.setVisibility(View.VISIBLE);
+                }
+            });
 
-        this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                waterProgressBar.setVisibility(View.VISIBLE);
+            if (waterStatus.equalsIgnoreCase("add")) {
+                addWaterToAPI();
+            } else {
+                updateWaterToAPI();
             }
-        });
-
-        if (waterStatus.equalsIgnoreCase("add")) {
-            addWaterToAPI();
-        } else {
-            updateWaterToAPI();
         }
     }
 
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
+        if (v == backButton)
+        {
+            finish();
+        }
     }
-
 
     /**
      * SeekBar Listener
      **/
     @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
+    public void onStopTrackingTouch(SeekBar seekBar)
+    {
         // TODO Auto-generated method stub
     }
 
     @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
+    public void onStartTrackingTouch(SeekBar seekBar)
+    {
         // TODO Auto-generated method stub
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress,
-                                  boolean fromUser) {
+                                  boolean fromUser)
+    {
         if (seekBar == bubbleSeekBar) {
             glassSeekBar.setProgress(progress);
         } else if (seekBar == glassSeekBar) {
@@ -132,7 +161,8 @@ public class WaterViewActivity extends Activity implements SeekBar.OnSeekBarChan
     /**
      * Private Methods
      **/
-    private void refreshUI() {
+    private void refreshUI()
+    {
         int currentProgress = currentWater.NumberOfGlasses;
         glassSeekBar.setProgress(currentProgress);
         bubbleSeekBar.setProgress(currentProgress);
@@ -142,8 +172,8 @@ public class WaterViewActivity extends Activity implements SeekBar.OnSeekBarChan
         waterDate.setText(AppUtil.getDateinString(AppUtil.toDateGMT(currentWater.CreationDate)));
     }
 
-
-    private void addWaterToAPI() {
+    private void addWaterToAPI()
+    {
 
         waterEntryToUpload = new WaterContract();
         waterEntryToUpload.NumberOfGlasses = glassSeekBar.getProgress();
@@ -151,7 +181,8 @@ public class WaterViewActivity extends Activity implements SeekBar.OnSeekBarChan
         sendWaterToAPI(COMMAND_ADDED);
     }
 
-    private void updateWaterToAPI() {
+    private void updateWaterToAPI()
+    {
         waterEntryToUpload = currentWater;
         waterEntryToUpload.NumberOfGlasses = glassSeekBar.getProgress();
 
@@ -165,17 +196,18 @@ public class WaterViewActivity extends Activity implements SeekBar.OnSeekBarChan
                 break;
             }
         }
-        if (index > -1) {
+        if (index > -1)
+        {
             ApplicationData.getInstance().waterList.set(index, waterEntryToUpload);
         }
 
         sendWaterToAPI(COMMAND_UPDATED);
-
     }
 
-    private void sendWaterToAPI(String command) {
-        try {
-
+    private void sendWaterToAPI(String command)
+    {
+        try
+        {
             if (command.equalsIgnoreCase(COMMAND_ADDED))
                 waterEntryToUpload.CreationDate = AppUtil.dateToUnixTimestamp(ApplicationData.getInstance().currentSelectedDate);
 
@@ -184,9 +216,11 @@ public class WaterViewActivity extends Activity implements SeekBar.OnSeekBarChan
             waterEntryToUpload.Command = command;
             contract.Water.add(waterEntryToUpload);
 
-            caller.PostCarnetSync(new AsyncResponse() {
+            caller.PostCarnetSync(new AsyncResponse()
+            {
                 @Override
-                public void processFinish(Object output) {
+                public void processFinish(Object output)
+                {
                     Log.d("PostWater", output.toString());
 
                     //broadcast the update
@@ -203,8 +237,8 @@ public class WaterViewActivity extends Activity implements SeekBar.OnSeekBarChan
         }
     }
 
-    private void updateWaterThumb(int waterProgress) {
-
+    private void updateWaterThumb(int waterProgress)
+    {
         glassSeekBar.setProgress(waterProgress);
 
         Bitmap bitmap;
@@ -242,7 +276,54 @@ public class WaterViewActivity extends Activity implements SeekBar.OnSeekBarChan
 //        glassSeekBar.setPadding(i, 0, i, 0);
     }
 
-    public void goBackToMain(View view) {
-        finish();
+    /* Free Users */
+
+    public boolean CheckFreeUser(boolean withDialog)
+    {
+        if (ApplicationData.getInstance().userDataContract.MembershipType == 0 && ApplicationData.getInstance().userDataContract.WeekNumber > 1)
+        {
+            if (withDialog)
+            {
+                showFreeExpiredDialog();
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private void showFreeExpiredDialog()
+    {
+        final Dialog freeExpiredDialog = new Dialog(this);
+        freeExpiredDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        freeExpiredDialog.setContentView(R.layout.free_expired_dialog);
+        freeExpiredDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        ((TextView) freeExpiredDialog.findViewById(R.id.dialog_content)).setText(getString(R.string.FREE_1WEEKTRIAL_EXPIRED));
+
+        ((Button) freeExpiredDialog.findViewById(R.id.dialog_cancel)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                freeExpiredDialog.dismiss();
+            }
+        });
+
+        ((Button) freeExpiredDialog.findViewById(R.id.dialog_payment)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                freeExpiredDialog.dismiss();
+                goToPremiumPayment();
+            }
+        });
+
+        freeExpiredDialog.show();
+    }
+
+    private void goToPremiumPayment()
+    {
+        Intent mainContentBrowser = new Intent(this, NpnaOfferActivity.class);
+        mainContentBrowser.putExtra("UPGRADE_PAYMENT", true);
+        startActivity(mainContentBrowser);
     }
 }

@@ -993,21 +993,36 @@ public class AppUtil {
     }
 
 
-    public static String getRepasDateHeader(Date date, boolean init) {
+    public static String getRepasDateHeader(Date date, boolean init)
+    {
         String stringHeader;
-        if (init) {
-            stringHeader = " (semaine " + Long.toString(getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), new Date())) + ")";
-            stringHeader = getCurrentDayName(getCurrentDayNumber()) + " " + stringHeader;
 
-        } else {
-            stringHeader = " (semaine " + Long.toString(getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), date)) + ")";
-            stringHeader = getGivenDayName(date) + " " + stringHeader;
+        if (ApplicationData.getInstance().userDataContract.MembershipType == 0 && ApplicationData.getInstance().userDataContract.WeekNumber > 1)
+        {
+            if (init) {
+                stringHeader = " (semaine " + 1 + ")";
+                stringHeader = getCurrentDayName(getCurrentDayNumber()) + " " + stringHeader;
+            } else {
+                stringHeader = " (semaine " + 1 + ")";
+                stringHeader = getGivenDayName(date) + " " + stringHeader;
+            }
+        }
+        else
+        {
+            if (init) {
+                stringHeader = " (semaine " + ApplicationData.getInstance().userDataContract.WeekNumber + ")";
+                stringHeader = getCurrentDayName(getCurrentDayNumber()) + " " + stringHeader;
+            } else {
+                stringHeader = " (semaine " + Long.toString(getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), date)) + ")";
+                stringHeader = getGivenDayName(date) + " " + stringHeader;
+            }
         }
 
         return stringHeader;
     }
 
-    public static String getRepasDateHeaderWeekDay(int week, int day) {
+    public static String getRepasDateHeaderWeekDay(int week, int day)
+    {
         String stringHeader;
         stringHeader = " (semaine " + week + ")";
         stringHeader = getStringDayName(day) + " " + stringHeader;
@@ -1015,19 +1030,13 @@ public class AppUtil {
         return stringHeader;
     }
 
-    public static String getShoppingListDateHeader(Date date, boolean init) {
-        String stringHeader;
-        if (init) {
-            stringHeader = " Semaine " + Long.toString(getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), new Date()));
-        } else {
-            stringHeader = " Semaine " + Long.toString(getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), date));
-        }
-
-        return stringHeader;
+    public static String getShoppingListDateHeader(int weekNumber)
+    {
+        return " Semaine " + weekNumber;
     }
 
-    public static String getCurrentDayName(int i) {
-
+    public static String getCurrentDayName(int i)
+    {
         String weekDay;
         SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.FRANCE);
 
@@ -1037,8 +1046,8 @@ public class AppUtil {
         return weekDay;
     }
 
-    public static String getStringDayName(int i) {
-
+    public static String getStringDayName(int i)
+    {
         String weekDay;
         SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE", Locale.FRANCE);
 
@@ -1357,19 +1366,43 @@ public class AppUtil {
         return format.replace("%@/", "male_");
     }
 
-    public static String getMonthDay(Date date) {
+    public static String getMonthDay(Date date)
+    {
         String localTime;
-        try {
+
+        try
+        {
             Calendar cal = Calendar.getInstance();
             TimeZone tz = cal.getTimeZone();
 
-        /* date formatter in local timezone */
+            /* date formatter in local timezone */
             SimpleDateFormat sdf = new SimpleDateFormat("dd MMM");
 
             sdf.setTimeZone(tz);
             localTime = sdf.format(date);
 
-//        Log.d("Month+Day: ", localTime);
+        } catch (NullPointerException e) {
+            return "";
+        }
+
+        return localTime;
+    }
+
+    public static String getFRMonthDay(Date date)
+    {
+        String localTime;
+
+        try
+        {
+            Calendar cal = Calendar.getInstance();
+            TimeZone tz = cal.getTimeZone();
+
+            /* date formatter in local timezone */
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM", Locale.FRENCH);
+
+            sdf.setTimeZone(tz);
+            localTime = sdf.format(date);
+
         } catch (NullPointerException e) {
             return "";
         }

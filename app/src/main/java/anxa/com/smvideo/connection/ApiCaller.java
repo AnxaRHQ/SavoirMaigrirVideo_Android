@@ -513,12 +513,10 @@ public class ApiCaller
         command.RegId = ApplicationData.getInstance().regId;
 
         Hashtable params = new Hashtable();
-        params.put("regId", userId);
-        params.put("command", CommandConstants.COMMAND_CARNETMEALPLANFORDAY);
         params.put("sel", selectedDate);
         params.put("mType", mealType);
 
-        apiClient.GetAsync(asyncResponse, "meal", command, params, MealPlanForDayResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
+        apiClient.GetAsync(asyncResponse, CommandConstants.COMMAND_CARNETMEALPLANFORDAY, command, params, MealPlanForDayResponseContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void CheckRegistration(AsyncResponse asyncResponse, UserDataContract contract)

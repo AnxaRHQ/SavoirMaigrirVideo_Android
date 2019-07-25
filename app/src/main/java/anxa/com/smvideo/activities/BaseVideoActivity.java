@@ -15,7 +15,8 @@ import anxa.com.smvideo.contracts.UserDataContract;
  * Created by angelaanxa on 5/23/2017.
  */
 
-public class BaseVideoActivity extends Activity{
+public class BaseVideoActivity extends Activity
+{
     protected ApiCaller caller;
 
     public BaseVideoActivity() {
@@ -28,7 +29,8 @@ public class BaseVideoActivity extends Activity{
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         UserDataContract up = ApplicationData.getInstance().userDataContract;
         if (up != null && up.Id>0 ) {
             ApplicationData.getInstance().setAnxamatsSessionStart(this, System.currentTimeMillis());
@@ -46,6 +48,7 @@ public class BaseVideoActivity extends Activity{
 
         super.onResume();
     }
+
     @Override
     protected void onPause()
     {
@@ -73,7 +76,9 @@ public class BaseVideoActivity extends Activity{
         ApplicationData.getInstance().setAnxamatsSessionStart(this, 0);
         super.onPause();
     }
-    protected void logoutUser() {
+
+    protected void logoutUser()
+    {
         UserDataContract up = ApplicationData.getInstance().userDataContract;
 
         long activeTimeMilliseconds = System.currentTimeMillis() - ApplicationData.getInstance().getAnxamatsSessionStart();
@@ -108,7 +113,8 @@ public class BaseVideoActivity extends Activity{
         goToLoginPage();
     }
 
-    private void goToLoginPage(){
+    private void goToLoginPage()
+    {
         Intent mainIntent = new Intent(this, LoginActivity.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

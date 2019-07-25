@@ -1,11 +1,10 @@
 package anxa.com.smvideo.activities.account;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,8 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-
-import java.util.Date;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
@@ -38,8 +35,8 @@ import anxa.com.smvideo.util.AppUtil;
  * Created by aprilanxa on 14/06/2017.
  */
 
-public class MonCompteAccountFragment extends BaseFragment implements View.OnClickListener {
-
+public class MonCompteAccountFragment extends BaseFragment implements View.OnClickListener
+{
     private Context context;
     protected ApiCaller caller;
 
@@ -63,17 +60,17 @@ public class MonCompteAccountFragment extends BaseFragment implements View.OnCli
 
     AlertDialog.Builder builder;
     AlertDialog genericDialog;
+    Dialog freeDialog;
 
     String[] genderArray = new String[]{};
     String[] plansArray = new String[]{};
     String[] caloriesArray = new String[]{};
     String[] coachingArray = new String[]{};
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+                             Bundle savedInstanceState)
+    {
         this.context = getActivity();
 
         mView = inflater.inflate(R.layout.mon_compte_account, null);
@@ -150,63 +147,72 @@ public class MonCompteAccountFragment extends BaseFragment implements View.OnCli
         {
             goToAlertesPage();
         }
-        else if (v == saveButton) {
-            if (validateInput()) {
+        else if (v == saveButton)
+        {
+            if (validateInput())
+            {
                 savingProgressBar.setVisibility(View.VISIBLE);
                 saveProfileToObject();
             }
-        } else if (v == sexe_et) {
+        }
+        else if (v == sexe_et)
+        {
             builder.setItems(genderArray,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int item) {
-                            String[] arr = genderArray;
-                            sexe_et.setText(arr[item]);
-                            dietProfilesDataContract.Gender = item;
-                            if(item == 1)
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item)
+                    {
+                        String[] arr = genderArray;
+                        sexe_et.setText(arr[item]);
+                        dietProfilesDataContract.Gender = item;
+
+                        if(item == 1)
+                        {
+                            coaching_et.setText(getString(R.string.mon_compte_coaching_classic_male));
+                        } else {
+                            if(coaching_et.getText().toString() == getString(R.string.mon_compte_coaching_classic_male))
                             {
-                                coaching_et.setText(getString(R.string.mon_compte_coaching_classic_male));
-
-                            }else{
-                                if(coaching_et.getText().toString() == getString(R.string.mon_compte_coaching_classic_male))
-                                {
-                                    coaching_et.setText(getString(R.string.mon_compte_coaching_classic_female));
-                                }
-
+                                coaching_et.setText(getString(R.string.mon_compte_coaching_classic_female));
                             }
-                        }
-                    });
 
-            genericDialog = builder.create();
-            genericDialog.show();
-        } else if (v == plan_et) {
-            builder.setItems(plansArray,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int item) {
-                            String[] arr = plansArray;
-                            plan_et.setText(arr[item]);
-                            dietProfilesDataContract.MealPlanType = item;
                         }
-                    });
-
-            genericDialog = builder.create();
-            genericDialog.show();
-        } else if (v == niveau_calorique_et) {
-            builder.setItems(caloriesArray,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int item) {
-                            String[] arr = caloriesArray;
-                            niveau_calorique_et.setText(arr[item]);
-                            dietProfilesDataContract.CalorieType = item;
-                        }
-                    });
+                    }
+                });
 
             genericDialog = builder.create();
             genericDialog.show();
         }
-        else if (v == coaching_et) {
-            if (sexe_et.getText().toString() != getString(R.string.mon_compte_sexe_masc)) {
+        else if (v == plan_et)
+        {
+            builder.setItems(plansArray,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        String[] arr = plansArray;
+                        plan_et.setText(arr[item]);
+                        dietProfilesDataContract.MealPlanType = item;
+                    }
+                });
 
+            genericDialog = builder.create();
+            genericDialog.show();
+        }
+        else if (v == niveau_calorique_et)
+        {
+            builder.setItems(caloriesArray,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        String[] arr = caloriesArray;
+                        niveau_calorique_et.setText(arr[item]);
+                        dietProfilesDataContract.CalorieType = item;
+                    }
+                });
 
+            genericDialog = builder.create();
+            genericDialog.show();
+        }
+        else if (v == coaching_et)
+        {
+            if (sexe_et.getText().toString() != getString(R.string.mon_compte_sexe_masc))
+            {
                 builder.setItems(coachingArray,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int item) {
@@ -225,12 +231,15 @@ public class MonCompteAccountFragment extends BaseFragment implements View.OnCli
 //        }
     }
 
-    private void updateUserProfile() {
-        if (userDataContract != null) {
+    private void updateUserProfile()
+    {
+        if (userDataContract != null)
+        {
             name_et.setText(userDataContract.FirstName);
 //            email_et.setText(userDataContract.Email);
 
-            if (dietProfilesDataContract != null) {
+            if (dietProfilesDataContract != null)
+            {
                 //diet profile
                 weight_init_et.setText(AppUtil.convertToFrenchDecimal(dietProfilesDataContract.StartWeightInKg));
                 weight_target_et.setText(AppUtil.convertToFrenchDecimal(dietProfilesDataContract.TargetWeightInKg));
@@ -240,13 +249,12 @@ public class MonCompteAccountFragment extends BaseFragment implements View.OnCli
                 niveau_calorique_et.setText(AppUtil.getCalorieType(dietProfilesDataContract.CalorieType, context));
                 coaching_et.setText(AppUtil.getCoaching(dietProfilesDataContract.CoachingProfile, context));
                 sexe_et.setText(genderArray[dietProfilesDataContract.Gender]);
-
-
             }
         }
     }
 
-    private boolean validateInput() {
+    private boolean validateInput()
+    {
         if (name_et.getText() == null || name_et.getText().length() <= 0) {
             displayToastMessage(getString(R.string.ALERTMESSAGE_FIRSTNAME_EMPTY));
             return false;
@@ -270,7 +278,8 @@ public class MonCompteAccountFragment extends BaseFragment implements View.OnCli
         return true;
     }
 
-    private void saveProfileToObject() {
+    private void saveProfileToObject()
+    {
         Gson gson = new Gson();
 
         userDataContract.FirstName = name_et.getText().toString();
@@ -289,8 +298,10 @@ public class MonCompteAccountFragment extends BaseFragment implements View.OnCli
         dietProfilesDataContract.CoachingProfile = AppUtil.getCoachingIndex(coaching_et.getText().toString(), context);
        dietProfilesDataContract.Gender = AppUtil.getGenderIndex(sexe_et.getText().toString(), context);
 
-        if (userDataContract.DietProfiles != null) {
-            for (DietProfilesDataContract dietProfile : userDataContract.DietProfiles) {
+        if (userDataContract.DietProfiles != null)
+        {
+            for (DietProfilesDataContract dietProfile : userDataContract.DietProfiles)
+            {
                 if (dietProfile.Id == dietProfilesDataContract.Id) {
                     userDataContract.DietProfiles.remove(dietProfile);
                     userDataContract.DietProfiles.add(dietProfilesDataContract);
@@ -304,19 +315,21 @@ public class MonCompteAccountFragment extends BaseFragment implements View.OnCli
         saveProfileToAPI();
     }
 
-    private void saveProfileToAPI() {
+    private void saveProfileToAPI()
+    {
         caller.PostUpdateAccountUserData(new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
                 savingProgressBar.setVisibility(View.GONE);
                 UserDataResponseContract c = (UserDataResponseContract) output;
 
-                if (c != null && c.Data != null) {
+                if (c != null && c.Data != null)
+                {
                     ApplicationData.getInstance().userDataContract = c.Data;
                     System.out.println("PostUpdateAccountUserData: " + output);
 
-
-                    if (c.Data.DietProfiles != null) {
+                    if (c.Data.DietProfiles != null)
+                    {
                         for (DietProfilesDataContract dietProfilesDataContract : c.Data.DietProfiles) {
                             if (dietProfilesDataContract.CoachingStartDate != null && !dietProfilesDataContract.CoachingStartDate.equalsIgnoreCase("null")) {
                                 ApplicationData.getInstance().dietProfilesDataContract = dietProfilesDataContract;
@@ -331,12 +344,12 @@ public class MonCompteAccountFragment extends BaseFragment implements View.OnCli
                     updateUserProfile();
                 }
 
-
             }
         }, userDataContract);
     }
 
-    public void displayToastMessage(final String message) {
+    public void displayToastMessage(final String message)
+    {
         getActivity().runOnUiThread(new Runnable() {
 
             @Override
@@ -348,8 +361,8 @@ public class MonCompteAccountFragment extends BaseFragment implements View.OnCli
         });
     }
 
-    public void logout(){
-
+    public void logout()
+    {
         UserDataContract up = ApplicationData.getInstance().userDataContract;
 
         long activeTimeMilliseconds = System.currentTimeMillis() - ApplicationData.getInstance().getAnxamatsSessionStart();
@@ -359,6 +372,7 @@ public class MonCompteAccountFragment extends BaseFragment implements View.OnCli
         }
         final long activeTimeFinal = activeTimeMilliseconds;
         Log.d("sessionstartvalue", String.valueOf(ApplicationData.getInstance().getAnxamatsSessionStart()));
+
         if (up != null && up.Id>0 ) {
             if ((ApplicationData.getInstance().getAnxamatsSessionStart() > 0) &&
                     (activeTimeFinal > ApplicationData.minimumAnxamatsSessionTime)) {
@@ -369,9 +383,9 @@ public class MonCompteAccountFragment extends BaseFragment implements View.OnCli
 
                     }
                 }, activeTimeFinal, up.Id);
-
             }
         }
+
         ApplicationData.getInstance().setAnxamatsSessionStart(context, 0);
         //clear login details
         ApplicationData.getInstance().userDataContract = new UserDataContract();
@@ -394,12 +408,16 @@ public class MonCompteAccountFragment extends BaseFragment implements View.OnCli
 
     private void goToAlertesPage()
     {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_MonCompte;
+        if (!CheckFreeUser(true))
+        {
+            ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_MonCompte;
 
-        Intent mainIntent = new Intent(context, WebkitActivity.class);
-        mainIntent.putExtra("isHideRightNav", "true");
-        mainIntent.putExtra("header_title", getString(R.string.nav_account_alertes));
-        mainIntent.putExtra("webkit_url", WebkitURL.alertesWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
-        startActivity(mainIntent);
+            Intent mainIntent = new Intent(context, WebkitActivity.class);
+            mainIntent.putExtra("isHideRightNav", "true");
+            mainIntent.putExtra("header_title", getString(R.string.nav_account_alertes));
+            mainIntent.putExtra("webkit_url", WebkitURL.alertesWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
+
+            startActivity(mainIntent);
+        }
     }
 }

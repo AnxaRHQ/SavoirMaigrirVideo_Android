@@ -488,7 +488,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40dp"
                         android:layout_marginRight="40dp"
-                        android:text="@string/btn_save"
+                        android:text="@string/POST_BTN"
                         style="@style/btnStyleOrange"/>
 
                 </LinearLayout>

@@ -1,16 +1,21 @@
 package anxa.com.smvideo.activities.account;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -18,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import anxa.com.smvideo.ApplicationData;
+import anxa.com.smvideo.activities.NpnaOfferActivity;
 import anxa.com.smvideo.common.CommonConstants;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
@@ -25,11 +31,12 @@ import anxa.com.smvideo.contracts.Carnet.MoodContract;
 import anxa.com.smvideo.contracts.Carnet.UploadMealsDataContract;
 import anxa.com.smvideo.contracts.Carnet.UploadMealsDataResponseContract;
 import anxa.com.smvideo.R;
+import anxa.com.smvideo.util.AppUtil;
 
+public class MoodAddActivity extends Activity implements View.OnClickListener
+{
+    ImageView backButton;
 
-public class MoodAddActivity extends Activity implements View.OnClickListener {
-    TextView headerTitle;
-    View header;
     Button isHungryYes;
     Button isHungryNo;
     TextView descriptionCount;
@@ -46,18 +53,21 @@ public class MoodAddActivity extends Activity implements View.OnClickListener {
     private ApiCaller apiCaller;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         System.out.println("MoodAddActivity onCreate:");
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         setContentView(R.layout.mood_add);
 
-//        header = (View) findViewById(R.id.navView);
-//
-//        headerTitle = (TextView) header.findViewById(R.id.header_title);
-//        headerTitle.setText(R.string.MEALTYPE_HAPIMOMENT);
+        ((TextView) findViewById(R.id.header_title_tv)).setText(String.format(getString(R.string.HAPIMOMENT_TITLE), AppUtil.getFRMonthDay(ApplicationData.getInstance().currentSelectedDate)));
+        backButton = (ImageView) findViewById(R.id.header_menu_back);
+        backButton.setOnClickListener(this);
+
+        ((Button) findViewById(R.id.header_menu_iv)).setVisibility(View.GONE);
 
         apiCaller = new ApiCaller();
 
@@ -85,42 +95,52 @@ public class MoodAddActivity extends Activity implements View.OnClickListener {
 
         desc = ((EditText) findViewById(R.id.desc));
         descriptionCount = ((TextView) findViewById(R.id.descCount));
-        updateMealDescCount();
+        updateMoodDescCount();
 
-        desc.addTextChangedListener(new TextWatcher() {
-
+        desc.addTextChangedListener(new TextWatcher()
+        {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
                 // TODO Auto-generated method stub
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
+                                          int after)
+            {
                 // TODO Auto-generated method stub
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable s)
+            {
                 // TODO Auto-generated method stub
                 descRemainCount = MAX_DESC - s.length();
-                updateMealDescCount();
+                updateMoodDescCount();
             }
         });
+
         submitButton = (Button) findViewById(R.id.submitButton);
         submitButton.setOnClickListener(this);
 
         moodStatus = getIntent().getStringExtra("MOOD_STATUS");
-        if (moodStatus.equalsIgnoreCase(CommonConstants.COMMAND_ADDED)) {
+
+        if (moodStatus.equalsIgnoreCase(CommonConstants.COMMAND_ADDED))
+        {
             currentMood = new MoodContract();
             currentMood.CreationDate = ApplicationData.getInstance().currentSelectedDate.getTime() / 1000;
             currentMood.MoodType = 1;
             currentMood.Command = CommonConstants.COMMAND_ADDED;
-            if(currentMood.IsHungry == null){
+
+            if (currentMood.IsHungry == null)
+            {
                 currentMood.IsHungry = false;
             }
         }
-        if (moodStatus.equalsIgnoreCase(CommonConstants.COMMAND_UPDATED)) {
+
+        if (moodStatus.equalsIgnoreCase(CommonConstants.COMMAND_UPDATED))
+        {
             currentMood = new MoodContract();
             currentMood = ApplicationData.getInstance().currentMood;
             currentMood.Command = CommonConstants.COMMAND_UPDATED;
@@ -130,36 +150,63 @@ public class MoodAddActivity extends Activity implements View.OnClickListener {
         }
     }
 
-
     @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.mood1) {
+    public void onClick(View v)
+    {
+        if (v == backButton)
+        {
+            finish();
+        }
+        else if (v.getId() == R.id.mood1)
+        {
             updateMood(1);
-        } else if (v.getId() == R.id.mood2) {
+        }
+        else if (v.getId() == R.id.mood2)
+        {
             updateMood(2);
-        } else if (v.getId() == R.id.mood3) {
+        }
+        else if (v.getId() == R.id.mood3)
+        {
             updateMood(3);
-        } else if (v.getId() == R.id.mood4) {
+        }
+        else if (v.getId() == R.id.mood4)
+        {
             updateMood(4);
-        } else if (v.getId() == R.id.mood5) {
+        }
+        else if (v.getId() == R.id.mood5)
+        {
             updateMood(5);
-        } else if (v.getId() == R.id.hungryYes) {
+        }
+        else if (v.getId() == R.id.hungryYes)
+        {
             updateIsHungryButton(true);
-        } else if (v.getId() == R.id.hungryNo) {
+        }
+        else if (v.getId() == R.id.hungryNo)
+        {
             updateIsHungryButton(false);
-        } else if (v == submitButton) {
-            //submit button
-            processSubmit();
+        }
+        else if (v == submitButton)
+        {
+            if (!CheckFreeUser(true))
+            {
+                //submit button
+                processSubmit();
+            }
         }
     }
 
-    public void updateMood(int moodValue) {
-        for (int i = 1; i <= 5; i++) {
-            if (i == moodValue) {
+    public void updateMood(int moodValue)
+    {
+        for (int i = 1; i <= 5; i++)
+        {
+            if (i == moodValue)
+            {
                 moodList.get(i - 1).setSelected(true);
                 moodList.get(i - 1).setBackgroundResource(R.drawable.rounded_button_orange_withborder);
                 currentMood.MoodType = moodValue;
-            } else {
+            }
+            else
+            {
                 moodList.get(i - 1).setSelected(false);
                 moodList.get(i - 1).setBackgroundResource(0);
                 currentMood.MoodType = moodValue;
@@ -167,27 +214,33 @@ public class MoodAddActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    public void updateIsHungryButton(boolean isHungry) {
-        if (isHungry) {
+    public void updateIsHungryButton(boolean isHungry)
+    {
+        if (isHungry)
+        {
             isHungryYes.setBackgroundResource(R.drawable.rounded_button_orange_withborder);
             isHungryNo.setBackgroundResource(R.drawable.rounded_button_white_orangeborder);
             currentMood.IsHungry = true;
-        } else {
+        }
+        else
+        {
             isHungryNo.setBackgroundResource(R.drawable.rounded_button_orange_withborder);
             isHungryYes.setBackgroundResource(R.drawable.rounded_button_white_orangeborder);
             currentMood.IsHungry = false;
         }
-
     }
 
-    private void processSubmit() {
-        if (desc.getText() != null) {
+    private void processSubmit()
+    {
+        if (desc.getText() != null)
+        {
             currentMood.Message = desc.getText().toString();
         }
 
         ApplicationData.getInstance().currentMood = currentMood;
         UploadMealsDataContract contract = new UploadMealsDataContract();
         contract.Mood.add(currentMood);
+
         apiCaller.PostCarnetSync(new AsyncResponse() {
             @Override
             public void processFinish(Object output) {
@@ -204,14 +257,61 @@ public class MoodAddActivity extends Activity implements View.OnClickListener {
                 finish();
             }
         }, ApplicationData.getInstance().regId, contract);
-
     }
 
-    private void updateMealDescCount() {
+    private void updateMoodDescCount()
+    {
         descriptionCount.setText(descRemainCount + "/" + MAX_DESC);
     }
 
-    public void goBackToMain(View view) {
-        finish();
+    /* Free Users */
+
+    public boolean CheckFreeUser(boolean withDialog)
+    {
+        if (ApplicationData.getInstance().userDataContract.MembershipType == 0 && ApplicationData.getInstance().userDataContract.WeekNumber > 1)
+        {
+            if (withDialog)
+            {
+                showFreeExpiredDialog();
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private void showFreeExpiredDialog()
+    {
+        final Dialog freeExpiredDialog = new Dialog(this);
+        freeExpiredDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        freeExpiredDialog.setContentView(R.layout.free_expired_dialog);
+        freeExpiredDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        ((TextView) freeExpiredDialog.findViewById(R.id.dialog_content)).setText(getString(R.string.FREE_1WEEKTRIAL_EXPIRED));
+
+        ((Button) freeExpiredDialog.findViewById(R.id.dialog_cancel)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                freeExpiredDialog.dismiss();
+            }
+        });
+
+        ((Button) freeExpiredDialog.findViewById(R.id.dialog_payment)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                freeExpiredDialog.dismiss();
+                goToPremiumPayment();
+            }
+        });
+
+        freeExpiredDialog.show();
+    }
+
+    private void goToPremiumPayment()
+    {
+        Intent mainContentBrowser = new Intent(this, NpnaOfferActivity.class);
+        mainContentBrowser.putExtra("UPGRADE_PAYMENT", true);
+        startActivity(mainContentBrowser);
     }
 }

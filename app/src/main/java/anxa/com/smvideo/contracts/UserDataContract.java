@@ -44,7 +44,7 @@ public class UserDataContract extends BaseContract
     public String PictureUrl;
 
     @SerializedName("MembershipType")
-    public String MembershipType;
+    public int MembershipType;
 
     @SerializedName("AlertType")
     public String AlertType;

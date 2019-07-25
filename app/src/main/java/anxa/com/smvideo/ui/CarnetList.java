@@ -582,7 +582,10 @@ public class CarnetList extends ScrollView {
     }
 
     //EXERCISE
-    private void addExercise(View v) {
+    private void addExercise(View v)
+    {
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Carnet;
+
         Intent exerciseIntent = new Intent(v.getContext(), ExerciseActivity.class);
         exerciseIntent.putExtra("EXERCISE_STATUS", CommonConstants.COMMAND_ADDED);
         v.getContext().startActivity(exerciseIntent);
@@ -603,25 +606,37 @@ public class CarnetList extends ScrollView {
     }
 
 
-    private void addNewMood(View v) {
+    private void addNewMood(View v)
+    {
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Carnet;
+
         Intent mainIntent = new Intent(v.getContext(), MoodAddActivity.class);
         mainIntent.putExtra("MOOD_STATUS", CommonConstants.COMMAND_ADDED);
         v.getContext().startActivity(mainIntent);
     }
 
-    private void editMood(View v) {
+    private void editMood(View v)
+    {
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Carnet;
+
         Intent mainIntent = new Intent(v.getContext(), MoodAddActivity.class);
         mainIntent.putExtra("MOOD_STATUS", CommonConstants.COMMAND_UPDATED);
         v.getContext().startActivity(mainIntent);
     }
 
-    private void addWater(View v) {
+    private void addWater(View v)
+    {
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Carnet;
+
         Intent mainIntent = new Intent(v.getContext(), WaterViewActivity.class);
         mainIntent.putExtra("WATER_STATUS", "add");
         v.getContext().startActivity(mainIntent);
     }
 
-    private void viewWater(View v, WaterContract water) {
+    private void viewWater(View v, WaterContract water)
+    {
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Carnet;
+
         ApplicationData.getInstance().currentWater = water;
         Intent mainIntent = new Intent(v.getContext(), WaterViewActivity.class);
         mainIntent.putExtra("WATER_STATUS", "view");

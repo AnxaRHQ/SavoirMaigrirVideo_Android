@@ -7,10 +7,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,6 +30,7 @@ import java.util.Date;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
+import anxa.com.smvideo.activities.NpnaOfferActivity;
 import anxa.com.smvideo.common.CommonConstants;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
@@ -41,9 +45,11 @@ import anxa.com.smvideo.util.AppUtil;
  * Created by ivanaanxa on 1/13/2017.
  */
 
-public class ExerciseActivity extends Activity implements View.OnClickListener, TimePicker.OnTimeChangedListener {
-
+public class ExerciseActivity extends Activity implements View.OnClickListener, TimePicker.OnTimeChangedListener
+{
     final int MAX_DESC = 250;
+
+    ImageView backButton;
 
     RelativeLayout exerciseOption, exerciseTimeContainer;
 
@@ -66,7 +72,6 @@ public class ExerciseActivity extends Activity implements View.OnClickListener, 
     String exerciseStatus;
     Integer workoutid;
 
-
     int DATE_YEAR;
     int DATE_MONTH;
     int DATE_DAY;
@@ -74,13 +79,20 @@ public class ExerciseActivity extends Activity implements View.OnClickListener, 
     private final String COMMAND_ADDED = "Added";
     private final String COMMAND_UPDATED = "Updated";
 
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.exercise);
+
+        ((TextView) findViewById(R.id.header_title_tv)).setText(R.string.EXERCISE);
+
+        backButton = (ImageView) findViewById(R.id.header_menu_back);
+        backButton.setOnClickListener(this);
+
+        ((Button) findViewById(R.id.header_menu_iv)).setVisibility(View.GONE);
 
         UIInitialize();
 
@@ -120,7 +132,8 @@ public class ExerciseActivity extends Activity implements View.OnClickListener, 
         }
     }
 
-    private void updateUI() {
+    private void updateUI()
+    {
         String time = AppUtil.getTimeOnly12(currentWorkOut.CreationDate);
 
         switch (currentWorkOut.ExerciseType) {
@@ -186,9 +199,8 @@ public class ExerciseActivity extends Activity implements View.OnClickListener, 
         durationSeekBar.setProgress(currentWorkOut.Duration / 5);
     }
 
-
-    private void UIInitialize() {
-
+    private void UIInitialize()
+    {
         //exercise button
         exerciseWalkButton = (ImageView) findViewById(R.id.exercise_walk_button);
         exerciseRunButton = (ImageView) findViewById(R.id.exercise_run_button);
@@ -196,7 +208,7 @@ public class ExerciseActivity extends Activity implements View.OnClickListener, 
         exerciseSwimButton = (ImageView) findViewById(R.id.exercise_swim_button);
         exerciseWorkOutButton = (ImageView) findViewById(R.id.exercise_workout_button);
         exerciseOtherButton = (ImageView) findViewById(R.id.exercise_other_button);
-        exercisebackButton = (ImageView) findViewById(R.id.backButton);
+        //exercisebackButton = (ImageView) findViewById(R.id.backButton);
 
         exerciseWalkButton.setOnClickListener(this);
         exerciseRunButton.setOnClickListener(this);
@@ -204,7 +216,7 @@ public class ExerciseActivity extends Activity implements View.OnClickListener, 
         exerciseSwimButton.setOnClickListener(this);
         exerciseWorkOutButton.setOnClickListener(this);
         exerciseOtherButton.setOnClickListener(this);
-        exercisebackButton.setOnClickListener(this);
+        //exercisebackButton.setOnClickListener(this);
 
         //other
         exerciseOption = (RelativeLayout) findViewById(R.id.exercise_otheroption);
@@ -251,11 +263,11 @@ public class ExerciseActivity extends Activity implements View.OnClickListener, 
         //save
         saveButton = (Button) findViewById(R.id.submitButton);
         saveButton.setOnClickListener(this);
-
     }
 
     //EXERCISE
-    private void exerciseSelect(ImageView buttonSelect) {
+    private void exerciseSelect(ImageView buttonSelect)
+    {
         exerciseWalkButton.setSelected(false);
         exerciseRunButton.setSelected(false);
         exerciseBikeButton.setSelected(false);
@@ -269,13 +281,15 @@ public class ExerciseActivity extends Activity implements View.OnClickListener, 
             exerciseOption.setVisibility(View.VISIBLE);
     }
 
-    private void exerciseDeselect(ImageView buttonDeselect) {
+    private void exerciseDeselect(ImageView buttonDeselect)
+    {
         buttonDeselect.setSelected(false);
         exerciseOption.setVisibility(View.GONE);
         selectedExerciseType = null;
     }
 
-    public void showOtherExerciseOptions(View view) {
+    public void showOtherExerciseOptions(View view)
+    {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Other");
         builder.setItems(exerciseOtherArray, new DialogInterface.OnClickListener() {
@@ -286,16 +300,16 @@ public class ExerciseActivity extends Activity implements View.OnClickListener, 
         });
         Dialog genericDialog = builder.create();
         genericDialog.show();
-
     }
 
-
     //DESCRIPTION
-    private void updateExerciseDescCount() {
+    private void updateExerciseDescCount()
+    {
         exerciseDescCount.setText(descRemainCount + "/" + MAX_DESC);
     }
 
-    private void exerciseDescritionTextChange() {
+    private void exerciseDescritionTextChange()
+    {
         exerciseDescription.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -316,9 +330,9 @@ public class ExerciseActivity extends Activity implements View.OnClickListener, 
         });
     }
 
-
     //TIME PICKER
-    private void setTimerPicker(Boolean isPickerShown) {
+    private void setTimerPicker(Boolean isPickerShown)
+    {
         if (isPickerShown) {
             //need to update with the current time on the time selected
             done_picker.setVisibility(View.VISIBLE);
@@ -332,7 +346,8 @@ public class ExerciseActivity extends Activity implements View.OnClickListener, 
     }
 
     @Override
-    public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+    public void onTimeChanged(TimePicker view, int hourOfDay, int minute)
+    {
         Date date = AppUtil.formatDate(view, DATE_MONTH, DATE_DAY, DATE_YEAR);
 
         String time = AppUtil.getTimeOnlyMeals(date.getTime() / 1000);//get current time
@@ -348,9 +363,9 @@ public class ExerciseActivity extends Activity implements View.OnClickListener, 
         System.out.println("exercise onTimeChanged time: " + time);
     }
 
-
     //DURATION
-    private void processTimeDuration() {
+    private void processTimeDuration()
+    {
         durationSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
@@ -370,9 +385,9 @@ public class ExerciseActivity extends Activity implements View.OnClickListener, 
         });
     }
 
-
     //SAVE
-    private boolean isFormCompleted() {
+    private boolean isFormCompleted()
+    {
         if (selectedExerciseType == null) {
             showCustomDialog();
             return false;
@@ -387,16 +402,21 @@ public class ExerciseActivity extends Activity implements View.OnClickListener, 
         return true;
     }
 
-    private void showCustomDialog() {
+    private void showCustomDialog()
+    {
         dialog = new CustomDialog(this, getResources().getString(R.string.btn_ok), null, null, false, getResources().getString(R.string.ALERTMESSAGE_EXERCISETYPE), null, this);
         dialog.show();
     }
 
-
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
+        if (v == backButton)
+        {
+            finish();
+        }
         //walk
-        if (v.getId() == R.id.exercise_walk_button) {
+        else if (v.getId() == R.id.exercise_walk_button) {
             currentWorkOut.ExerciseType = Workout.EXERCISE_TYPE.WALKING.getValue();
             selectedExerciseType = Workout.EXERCISE_TYPE.WALKING;
             if (exerciseWalkButton.isSelected()) exerciseDeselect(exerciseWalkButton);
@@ -460,14 +480,16 @@ public class ExerciseActivity extends Activity implements View.OnClickListener, 
 
     }
 
-    private void getValueOfWorkOut() {
+    private void getValueOfWorkOut()
+    {
         currentWorkOut.Message = exerciseDescription.getText().toString();
         //currentWorkOut.CreationDate = 0;
         currentWorkOut.Duration = Integer.valueOf(durationTime.getText().toString().replace("mins", "").replace(" ", ""));
         currentWorkOut.Distance = new Double(distanceET.getText().toString());
         currentWorkOut.Steps = Integer.valueOf(stepsET.getText().toString());
 
-        if (selectedExerciseType == Workout.EXERCISE_TYPE.OTHER) {
+        if (selectedExerciseType == Workout.EXERCISE_TYPE.OTHER)
+        {
             String answeSur = (String) (selectOtherExercise).getText().toString();
             indexType = Arrays.asList(exerciseOtherArray).indexOf(answeSur);
             switch (indexType) {
@@ -560,24 +582,31 @@ public class ExerciseActivity extends Activity implements View.OnClickListener, 
         System.out.println("currentWorkExerciseType: " + currentWorkOut.ExerciseType);
     }
 
-    private void postWorkout(View v) {
-        ApplicationData.getInstance().currentWorkOut = currentWorkOut;
-        //System.out.println("currentWorkOut: " + currentWorkOut);
+    private void postWorkout(View v)
+    {
+        if (!CheckFreeUser(true))
+        {
+            ApplicationData.getInstance().currentWorkOut = currentWorkOut;
+            //System.out.println("currentWorkOut: " + currentWorkOut);
 
-        getValueOfWorkOut();
+            getValueOfWorkOut();
 
-        if (exerciseStatus.equalsIgnoreCase(CommonConstants.COMMAND_ADDED)) {
-            if (currentWorkOut.CreationDate < 1) {
-                currentWorkOut.CreationDate = AppUtil.dateToTimestamp(ApplicationData.getInstance().currentSelectedDate);
-            }
-            saveExerciseToApi(COMMAND_ADDED);
-        }//end add
-        else { //update
-            saveExerciseToApi(COMMAND_UPDATED);
-        }//end update
+            if (exerciseStatus.equalsIgnoreCase(CommonConstants.COMMAND_ADDED))
+            {
+                if (currentWorkOut.CreationDate < 1) {
+                    currentWorkOut.CreationDate = AppUtil.dateToTimestamp(ApplicationData.getInstance().currentSelectedDate);
+                }
+                saveExerciseToApi(COMMAND_ADDED);
+            }//end add
+            else
+            { //update
+                saveExerciseToApi(COMMAND_UPDATED);
+            }//end update
+        }
     }
 
-    private void saveExerciseToApi(String command) {
+    private void saveExerciseToApi(String command)
+    {
         //showSavingLayout(true, false);
         UploadMealsDataContract contract = new UploadMealsDataContract();
         currentWorkOut.Command = command;
@@ -603,9 +632,54 @@ public class ExerciseActivity extends Activity implements View.OnClickListener, 
         }, ApplicationData.getInstance().userDataContract.Id, contract);
     }
 
+    /* Free Users */
 
-    public void goBackToMain(View view) {
+    public boolean CheckFreeUser(boolean withDialog)
+    {
+        if (ApplicationData.getInstance().userDataContract.MembershipType == 0 && ApplicationData.getInstance().userDataContract.WeekNumber > 1)
+        {
+            if (withDialog)
+            {
+                showFreeExpiredDialog();
+            }
 
-        finish();
+            return true;
+        }
+
+        return false;
+    }
+
+    private void showFreeExpiredDialog()
+    {
+        final Dialog freeExpiredDialog = new Dialog(this);
+        freeExpiredDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        freeExpiredDialog.setContentView(R.layout.free_expired_dialog);
+        freeExpiredDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        ((TextView) freeExpiredDialog.findViewById(R.id.dialog_content)).setText(getString(R.string.FREE_1WEEKTRIAL_EXPIRED));
+
+        ((Button) freeExpiredDialog.findViewById(R.id.dialog_cancel)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                freeExpiredDialog.dismiss();
+            }
+        });
+
+        ((Button) freeExpiredDialog.findViewById(R.id.dialog_payment)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                freeExpiredDialog.dismiss();
+                goToPremiumPayment();
+            }
+        });
+
+        freeExpiredDialog.show();
+    }
+
+    private void goToPremiumPayment()
+    {
+        Intent mainContentBrowser = new Intent(this, NpnaOfferActivity.class);
+        mainContentBrowser.putExtra("UPGRADE_PAYMENT", true);
+        startActivity(mainContentBrowser);
     }
 }

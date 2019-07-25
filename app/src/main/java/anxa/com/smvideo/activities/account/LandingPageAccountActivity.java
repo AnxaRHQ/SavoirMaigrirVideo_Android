@@ -1,35 +1,25 @@
 package anxa.com.smvideo.activities.account;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
-import anxa.com.smvideo.activities.BaseVideoActivity;
 import anxa.com.smvideo.activities.MainActivity;
-import anxa.com.smvideo.activities.registration.SelectRegistrationCuisinerActivity;
 import anxa.com.smvideo.common.SavoirMaigrirVideoConstants;
 import anxa.com.smvideo.common.WebkitURL;
 import anxa.com.smvideo.connection.ApiCaller;
@@ -37,12 +27,8 @@ import anxa.com.smvideo.connection.http.AsyncResponse;
 import anxa.com.smvideo.contracts.DietProfilesDataContract;
 import anxa.com.smvideo.contracts.PaymentOrderGoogleContract;
 import anxa.com.smvideo.contracts.PaymentOrderResponseContract;
-import anxa.com.smvideo.contracts.UserDataContract;
 import anxa.com.smvideo.contracts.UserDataResponseContract;
-import anxa.com.smvideo.models.NavItem;
-import anxa.com.smvideo.ui.DrawerListAdapter;
 import anxa.com.smvideo.util.AppUtil;
-import anxa.com.smvideo.util.CommonHelper;
 import anxa.com.smvideo.util.IabBroadcastReceiver;
 import anxa.com.smvideo.util.IabHelper;
 import anxa.com.smvideo.util.IabResult;
@@ -55,32 +41,35 @@ import anxa.com.smvideo.util.Purchase;
 
 public class LandingPageAccountActivity extends BaseFragment implements View.OnClickListener , IabBroadcastReceiver.IabBroadcastListener
 {
+    private Context context;
     protected ApiCaller caller;
+
     String userName = "";
     TextView initial_weight_tv, target_weight_tv, lost_weight_tv;
     ProgressBar weightProgressBar, landingProgressBar;
-    private ImageView header_info_iv;
-    private Button contact_btn;
     private ImageView logo_navbar;
 
     IabHelper mHelper;
     IabBroadcastReceiver mBroadcastReceiver;
     static final String TAG = "SMVideo";
+
     // Does the user have the premium upgrade?
     boolean mIsPremium = false;
+
     // Will the subscription auto-renew?
     boolean mAutoRenewEnabled = false;
     String mSubscribedSku = "";
     boolean mSubscribedTo = false;
     private PaymentOrderGoogleContract paymentOrderGoogleContract;
-    private Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         this.context = getActivity();
+
         caller = new ApiCaller();
+
         mView = inflater.inflate(R.layout.menu_page_account, null);
 
         initial_weight_tv = (TextView) mView.findViewById(R.id.initial_weight_tv);
@@ -92,26 +81,25 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         landingProgressBar.setVisibility(View.VISIBLE);
 
         logo_navbar = mView.findViewById(R.id.header_title_iv);
-        if(ApplicationData.getInstance().userDataContract.IsAnyVip)
+
+        if (ApplicationData.getInstance().userDataContract.IsAnyVip)
         {
             logo_navbar.setImageResource(R.drawable.logo_navbar_vip);
-
         }
-      /*  header_info_iv = (ImageView) mView.findViewById(R.id.header_info_iv);
-        header_info_iv.setOnClickListener(this);*/
-// DrawerLayout
 
         caller = new ApiCaller();
 
         caller.GetAccountUserData(new AsyncResponse() {
             @Override
-            public void processFinish(Object output) {
-                if (output != null) {
+            public void processFinish(Object output)
+            {
+                if (output != null)
+                {
                     UserDataResponseContract c = (UserDataResponseContract) output;
                     //INITIALIZE ALL ONCLICK AND API RELATED PROCESS HERE TO AVOID CRASHES
 
-                    if (c != null && c.Data != null) {
-
+                    if (c != null && c.Data != null)
+                    {
                         System.out.println("GetAccountUserData: " + c.Data);
                         ApplicationData.getInstance().userDataContract = c.Data;
 
@@ -120,8 +108,10 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
                         String welcome_message = getString(R.string.welcome_account_1).replace("%@", userName) + getString(R.string.welcome_account_2);
                         ((TextView) (mView.findViewById(R.id.welcome_message_account_tv))).setText(welcome_message);
 
-                        if (c.Data.DietProfiles != null) {
-                            for (DietProfilesDataContract dietProfilesDataContract : c.Data.DietProfiles) {
+                        if (c.Data.DietProfiles != null)
+                        {
+                            for (DietProfilesDataContract dietProfilesDataContract : c.Data.DietProfiles)
+                            {
                                 if (dietProfilesDataContract.CoachingStartDate != null && !dietProfilesDataContract.CoachingStartDate.equalsIgnoreCase("null")) {
                                     ApplicationData.getInstance().dietProfilesDataContract = dietProfilesDataContract;
                                     break;
@@ -165,13 +155,20 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         ((ImageView) mView.findViewById(R.id.LandingImage8_account)).setOnClickListener(this);
         ((ImageView) mView.findViewById(R.id.LandingImage9_account)).setOnClickListener(this);
 
-        updateBadgeNotif();
+        if (ApplicationData.getInstance().userDataContract.MembershipType == 0 && ApplicationData.getInstance().userDataContract.WeekNumber > 1)
+        {
+            mView.findViewById(R.id.badge_notif).setVisibility(View.GONE);
+        }
+        else
+        {
+            updateBadgeNotif();
+        }
 
         //contact_btn = (Button) mView.findViewById(R.id.contact_account);
         //contact_btn.setPaintFlags(contact_btn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         //contact_btn.setOnClickListener(this);
 
-//((TextView) (this.mView.findViewById(R.id.registrationform2_headerTitle))).setText(R.string.inscription_headerTitle);
+        //((TextView) (this.mView.findViewById(R.id.registrationform2_headerTitle))).setText(R.string.inscription_headerTitle);
         String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlQ6C20yTohzxhmSNwK01P9ipib2U60vnqYaozFYTJnMsl3zUBHivPo8F5+nIPJNwqYLTuBcGF93hObY5KGp+aPCWvH2s3XHwQoHwgVhreHevlv60qj3i/74yzFude4WhKstESBO3zyQC2SKa8dHqz7gdakfPukI44ZAzykr4eqfJG4UCppcVyxBLE3piKyC+6Y63w34Ljy96NvxLoCUKRNWwp8FoutOOpidisLxtBfxDT3MKzcMAUYbD954kZ+COkvqHXg9eb9eiuclPE9eirhReigSUySQEUsJrA37z/XJflGaA3btf8FxLwOLU3VHVMKif06Yfoj93focRy2KJNwIDAQAB";
 
         // compute your public key and store it in base64EncodedPublicKey
@@ -325,6 +322,21 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         return true;
     }
 
+    private void updateGoogleOrder()
+    {
+        caller.PostGoogleOrderUpdate(new AsyncResponse() {
+            @Override
+            public void processFinish(Object output) {
+                if (output != null)
+                {
+                    System.out.println("submitOrderToAPI: " + output);
+                    PaymentOrderResponseContract responseContract = (PaymentOrderResponseContract) output;
+                }
+
+            }
+        }, paymentOrderGoogleContract, ApplicationData.getInstance().regId);
+    }
+
     @Override
     public void onClick(View v)
     {
@@ -339,30 +351,67 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         } else if (v.getId() == R.id.LandingMessagesButton || v.getId() == R.id.LandingImage5_account) {
             goToVideosPage();
         } else if (v.getId() == R.id.LandingConseilsButton || v.getId() == R.id.LandingImage6_account) {
-            goToWeightPage();
+            goToGraphsPage();
         } else if (v.getId() == R.id.LandingExercicesButton || v.getId() == R.id.LandingImage7_account) {
             goToCommunityPage();
         } else if (v.getId() == R.id.LandingSuiviButton || v.getId() == R.id.LandingImage8_account) {
             goToFichesPage();
         } else if (v.getId() == R.id.LandingMonCompteButton || v.getId() == R.id.LandingImage9_account) {
             goToAmbassadricePage();
-        } else if (v == header_info_iv) {
+        }
+        /*else if (v == header_info_iv) {
             goToAproposPage();
         } else if (v == contact_btn) {
             goToContactPage();
-        } 
+        }*/
     }
 
-    public void goToCoachingPage()
+    private void updateBadgeNotif()
     {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_CoachingNative;
-        goToFragmentPage(new CoachingAccountFragment());
+        if (ApplicationData.getInstance().unreadNotifications > 0)
+        {
+            TextView textCount = (TextView) mView.findViewById(R.id.notif_count);
+            textCount.setText("" + ApplicationData.getInstance().unreadNotifications);
+
+            mView.findViewById(R.id.badge_notif).setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            mView.findViewById(R.id.badge_notif).setVisibility(View.GONE);
+        }
+    }
+
+    private void updateProgressBar()
+    {
+        initial_weight_tv.setText(Float.toString(ApplicationData.getInstance().dietProfilesDataContract.StartWeightInKg) + " kg");
+        target_weight_tv.setText(Float.toString(ApplicationData.getInstance().dietProfilesDataContract.TargetWeightInKg) + " kg");
+
+        float lost_weight = ApplicationData.getInstance().dietProfilesDataContract.StartWeightInKg - ApplicationData.getInstance().dietProfilesDataContract.CurrentWeightInKg;
+        float lost_percentage = (lost_weight / (ApplicationData.getInstance().dietProfilesDataContract.StartWeightInKg - ApplicationData.getInstance().dietProfilesDataContract.TargetWeightInKg)) * 100;
+        String lost_weight_message = getResources().getString(R.string.lost_weight_text) + " " + String.format("%.2f", lost_weight) + " kg (" + String.format("%.0f", lost_percentage) + "%)";
+        lost_weight_tv.setText(lost_weight_message);
+
+        weightProgressBar.setProgress((int) lost_percentage);
     }
 
     public void goToRepasPage()
     {
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Repas;
         goToFragmentPage(new RepasFragment());
+    }
+
+    public void goToConsultationPage()
+    {
+        if (!CheckFreeUser(true))
+        {
+            ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
+
+            Bundle bundle = new Bundle();
+            bundle.putString("header_title", getString(R.string.nav_account_webinars));
+            bundle.putString("webkit_url", WebkitURL.webinarWebkitUrl);
+
+            goToWebkitPage(ApplicationData.SelectedFragment.Account_Consultation, bundle);
+        }
     }
 
     public void goToMessagesPage()
@@ -377,71 +426,81 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         goToFragmentPage(messagesAccountFragment);
     }
 
-    public void goToConseilsPage()
+    public void goToCoachingPage()
     {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
-        Intent mainIntent = new Intent(context, MainActivity.class);
-        startActivity(mainIntent);
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_CoachingNative;
+        goToFragmentPage(new CoachingAccountFragment());
     }
 
     public void goToVideosPage()
     {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Videos;
-        goToFragmentPage(new VideosFragment());
+        if (!CheckFreeUser(true))
+        {
+            ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Videos;
+            goToFragmentPage(new VideosFragment());
+        }
     }
 
-    public void goToWeightPage()
+    public void goToGraphsPage()
     {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Weight;
-        goToFragmentPage(new ProgressFragment());
+        if (!CheckFreeUser(true))
+        {
+            ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Graphs;
+            goToFragmentPage(new ProgressFragment());
+        }
     }
 
     public void goToCommunityPage()
     {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Communaute;
-        Bundle bundle = new Bundle();
-        bundle.putString("header_title", getString(R.string.nav_account_communaute));
-        bundle.putString("webkit_url", WebkitURL.communityWebkitUrl);
-        goToWebkitPage(ApplicationData.SelectedFragment.Account_Videos, bundle);
-    }
+        if (!CheckFreeUser(true))
+        {
+            ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Communaute;
 
-    public void goToAmbassadricePage()
-    {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Ambassadrice;
-        Bundle bundle = new Bundle();
-        bundle.putString("header_title", getString(R.string.nav_account_ambassadrice));
-        bundle.putString("webkit_url", WebkitURL.ambassadriceWebkitUrl);
-        goToWebkitPage(ApplicationData.SelectedFragment.Account_Ambassadrice, bundle);
+            Bundle bundle = new Bundle();
+            bundle.putString("header_title", getString(R.string.nav_account_communaute));
+            bundle.putString("webkit_url", WebkitURL.communityWebkitUrl);
+
+            goToWebkitPage(ApplicationData.SelectedFragment.Account_Videos, bundle);
+        }
     }
 
     public void goToFichesPage()
     {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Fiches;
-        Bundle bundle = new Bundle();
-        bundle.putString("header_title", getString(R.string.nav_account_fiches));
-        bundle.putString("webkit_url", WebkitURL.fichesWebkitUrl);
-        goToWebkitPage(ApplicationData.SelectedFragment.Account_Fiches, bundle);
+        if (!CheckFreeUser(true))
+        {
+            ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Fiches;
+
+            Bundle bundle = new Bundle();
+            bundle.putString("header_title", getString(R.string.nav_account_fiches));
+            bundle.putString("webkit_url", WebkitURL.fichesWebkitUrl);
+
+            goToWebkitPage(ApplicationData.SelectedFragment.Account_Fiches, bundle);
+        }
     }
 
-    public void goToConsultationPage()
+    public void goToAmbassadricePage()
     {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
-        Bundle bundle = new Bundle();
-        bundle.putString("header_title", getString(R.string.nav_account_webinars));
-        bundle.putString("webkit_url", WebkitURL.webinarWebkitUrl);
-        goToWebkitPage(ApplicationData.SelectedFragment.Account_Consultation, bundle);
+        if (!CheckFreeUser(true))
+        {
+            ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Ambassadrice;
+
+            Bundle bundle = new Bundle();
+            bundle.putString("header_title", getString(R.string.nav_account_ambassadrice));
+            bundle.putString("webkit_url", WebkitURL.ambassadriceWebkitUrl);
+
+            goToWebkitPage(ApplicationData.SelectedFragment.Account_Ambassadrice, bundle);
+        }
     }
 
     private void goToFragmentPage(Fragment fragment)
     {
-       FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
+
         if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
             fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
-        } else {
-        }
+        } else { }
 
         try {
-
             fragmentManager.beginTransaction().replace(R.id.mainContent, fragment, "CURRENT_FRAGMENT").commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -458,11 +517,9 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
 
         if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
             fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
-        } else {
-        }
+        } else { }
 
         try {
-
             fragmentManager.beginTransaction().replace(R.id.mainContent, fragment, "CURRENT_FRAGMENT").commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -479,29 +536,13 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
 
         if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
             fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
-        } else {
-        }
+        } else { }
 
         try {
-
             fragmentManager.beginTransaction().replace(R.id.mainContent, fragment, "CURRENT_FRAGMENT").commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void updateProgressBar()
-    {
-        initial_weight_tv.setText(Float.toString(ApplicationData.getInstance().dietProfilesDataContract.StartWeightInKg) + " kg");
-        target_weight_tv.setText(Float.toString(ApplicationData.getInstance().dietProfilesDataContract.TargetWeightInKg) + " kg");
-
-        float lost_weight = ApplicationData.getInstance().dietProfilesDataContract.StartWeightInKg - ApplicationData.getInstance().dietProfilesDataContract.CurrentWeightInKg;
-        //(StartWeightInKg - CurrentWeightInKg) / (StartWeightInKg - TargetWeightInKg)) * 100
-        float lost_percentage = (lost_weight / (ApplicationData.getInstance().dietProfilesDataContract.StartWeightInKg - ApplicationData.getInstance().dietProfilesDataContract.TargetWeightInKg)) * 100;
-        String lost_weight_message = getResources().getString(R.string.lost_weight_text) + " " + String.format("%.2f", lost_weight) + " kg (" + String.format("%.0f", lost_percentage) + "%)";
-        lost_weight_tv.setText(lost_weight_message);
-
-        weightProgressBar.setProgress((int) lost_percentage);
     }
 
     private void goToAproposPage()
@@ -529,25 +570,33 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         startActivity(mainContentBrowser);
     }
 
-    private void updateGoogleOrder()
+    public void goToWebinarPage(View view)
     {
-        caller.PostGoogleOrderUpdate(new AsyncResponse() {
-            @Override
-            public void processFinish(Object output) {
+        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
+        Bundle bundle = new Bundle();
+        bundle.putString("header_title", getString(R.string.nav_account_webinars));
+        bundle.putString("webkit_url", WebkitURL.webinarWebkitUrl);
 
-                if (output != null) {
-                    System.out.println("submitOrderToAPI: " + output);
-                    PaymentOrderResponseContract responseContract = (PaymentOrderResponseContract) output;
-                }
+        Fragment fragment = new WebkitFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragment.setArguments(bundle);
 
-            }
-        }, paymentOrderGoogleContract, ApplicationData.getInstance().regId);
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
+        } else { }
+
+        try {
+            fragmentManager.beginTransaction().replace(R.id.mainContent, fragment, "CURRENT_FRAGMENT").commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void receivedBroadcast()
     {
         Log.d("SMVideo", "Received broadcast notification. Querying inventory.");
+
         try {
             mHelper.queryInventoryAsync(mGotInventoryListener);
         } catch (IabHelper.IabAsyncInProgressException e) {
@@ -567,47 +616,10 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
 
         // very important:
         Log.d(TAG, "Destroying helper.");
+
         if (mHelper != null) {
             mHelper.disposeWhenFinished();
             mHelper = null;
-        }
-    }
-
-    public void goToWebinarPage(View view)
-    {
-        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
-        Bundle bundle = new Bundle();
-        bundle.putString("header_title", getString(R.string.nav_account_webinars));
-        bundle.putString("webkit_url", WebkitURL.webinarWebkitUrl);
-
-        Fragment fragment = new WebkitFragment();
-        FragmentManager fragmentManager = getFragmentManager();
-        fragment.setArguments(bundle);
-
-        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
-            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
-        } else {
-        }
-
-        try {
-
-            fragmentManager.beginTransaction().replace(R.id.mainContent, fragment, "CURRENT_FRAGMENT").commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void updateBadgeNotif()
-    {
-        if (ApplicationData.getInstance().unreadNotifications > 0)
-        {
-            TextView textCount = (TextView) mView.findViewById(R.id.notif_count);
-            textCount.setText("" + ApplicationData.getInstance().unreadNotifications);
-
-            mView.findViewById(R.id.badge_notif).setVisibility(View.VISIBLE);
-        }
-        else {
-            mView.findViewById(R.id.badge_notif).setVisibility(View.GONE);
         }
     }
 }

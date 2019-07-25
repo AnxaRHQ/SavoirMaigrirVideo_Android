@@ -29,7 +29,6 @@ import java.util.List;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
-import anxa.com.smvideo.activities.free.RecipeActivity;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
 import anxa.com.smvideo.contracts.RecipeContract;
@@ -50,12 +49,10 @@ import anxa.com.smvideo.util.AppUtil;
  * Created by aprilanxa on 22/06/2017.
  */
 
-public class RepasFragment extends BaseFragment implements View.OnClickListener {
-
+public class RepasFragment extends BaseFragment implements View.OnClickListener
+{
     private Context context;
     protected ApiCaller caller;
-
-
 
     private TextView repasProgram_tv;
     private TextView shoppingList_recipe_tv;
@@ -142,8 +139,8 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+                             Bundle savedInstanceState)
+    {
         this.context = getActivity();
         mView = inflater.inflate(R.layout.repas_account, null);
 
@@ -216,12 +213,21 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
 
         repasProgram_tv.setText(programHeader);
 
-        weekNumber = AppUtil.getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), new Date());
-        dayNumber = AppUtil.getCurrentDayNumber();
+        if (CheckFreeUser(false))
+        {
+            weekNumber = 1;
+        }
+        else
+        {
+            weekNumber  = ApplicationData.getInstance().userDataContract.WeekNumber;
+        }
 
-        System.out.println("REpas weeknumber: " + weekNumber);
+        dayNumber   = ApplicationData.getInstance().userDataContract.DayNumber;
 
-        if (weekNumber == 0) {
+        System.out.println("Repas weeknumber: " + weekNumber);
+
+        if (weekNumber == 0)
+        {
             weekNumber = 1;
             dayNumber = 1;
             totalWeeksArchive = 2;
@@ -229,9 +235,10 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
             isUserWeek0 = true;
 
             repasDay_et.setText(AppUtil.getRepasDateHeaderWeekDay(weekNumber, dayNumber));
-
-        } else {
-            repasDay_et.setText(AppUtil.getRepasDateHeader(new Date(), true));
+        }
+        else
+        {
+            repasDay_et.setText(AppUtil.getRepasDateHeaderWeekDay(weekNumber, dayNumber));
 
             //applied latest rule - display two weeks after the current coaching week
             totalDaysArchive = AppUtil.getDaysDiffToCurrent(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate) + AppUtil.getAddDaysToCurrent());
@@ -240,14 +247,43 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
             totalWeeksArchive = weekNumber + 2;
         }
 
-        System.out.println("REpas weeknumber 2: " + weekNumber);
+        System.out.println("Repas weeknumber 2: " + weekNumber);
 
         getMealOfTheDay();
+
         super.onCreateView(inflater, container, savedInstanceState);
+
         return mView;
     }
 
-    private void updateRepasList() {
+    /* Repas */
+
+    private void getMealOfTheDay()
+    {
+        if (CheckFreeUser(false))
+        {
+            weekNumber = 1;
+        }
+
+        System.out.println("Repas getMealOfTheDay: " + weekNumber + " dayNumber: " + dayNumber);
+
+        caller.GetAccountRepas(new AsyncResponse() {
+            @Override
+            public void processFinish(Object output) {
+                //INITIALIZE ALL ONCLICK AND API RELATED PROCESS HERE TO AVOID CRASHES
+                if (output != null) {
+                    RepasResponseContract c = (RepasResponseContract) output;
+                    if (c != null && c.Data != null) {
+                        ApplicationData.getInstance().repasContractArrayList = c.Data.Repas;
+                        updateRepasList();
+                    }
+                }
+            }
+        }, weekNumber, dayNumber);
+    }
+
+    private void updateRepasList()
+    {
         if (repasListAdapter_bfast == null) {
             repasListAdapter_bfast = new RepasListAdapter(getActivity(), bfastList, this);
         }
@@ -261,13 +297,15 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
             repasListAdapter_related = new RepasRelatedListAdapter(getActivity(), repasRelatedContent, this);
         }
 
-        if (ApplicationData.getInstance().repasContractArrayList != null) {
+        if (ApplicationData.getInstance().repasContractArrayList != null)
+        {
             repasRelatedContent = new ArrayList<>();
             bfastList = new ArrayList<>();
             lunchList = new ArrayList<>();
             dinnerList = new ArrayList<>();
 
-            for (RepasContract repasContract : ApplicationData.getInstance().repasContractArrayList) {
+            for (RepasContract repasContract : ApplicationData.getInstance().repasContractArrayList)
+            {
                 switch (repasContract.mealType) {
                     case 1:
                         bfastList.add(repasContract);
@@ -301,7 +339,7 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
                 }
             }
 
-            System.out.println("REpas repasRelatedContent: " + repasRelatedContent);
+            System.out.println("Repas repasRelatedContent: " + repasRelatedContent);
 
             bfastListView.setAdapter(repasListAdapter_bfast);
             lunchListView.setAdapter(repasListAdapter_lunch);
@@ -318,33 +356,14 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
                     return v1.itemName.compareTo(v2.itemName);
                 }
             });
-
-
         }
     }
 
-    private void getMealOfTheDay() {
+    /* Courses */
 
-        System.out.println("REpas getMealOfTheDay: " + weekNumber + " dayNumber: " + dayNumber);
-
-        caller.GetAccountRepas(new AsyncResponse() {
-            @Override
-            public void processFinish(Object output) {
-                //INITIALIZE ALL ONCLICK AND API RELATED PROCESS HERE TO AVOID CRASHES
-                if (output != null) {
-                    RepasResponseContract c = (RepasResponseContract) output;
-                    if (c != null && c.Data != null) {
-                        ApplicationData.getInstance().repasContractArrayList = c.Data.Repas;
-                        updateRepasList();
-                    }
-                }
-            }
-        }, weekNumber, dayNumber);
-
-    }
-
-    private void getShoppingList() {
-        System.out.println("REpas weeknumber getShoppingList: " + weekNumber);
+    private void getShoppingList()
+    {
+        System.out.println("Repas weeknumber getShoppingList: " + weekNumber);
 
         //dayOffset = 0, today
         categoriesList = new ArrayList<String>();
@@ -352,7 +371,8 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
         shoppingListContractsAll = new ArrayList<>();
         shoppingListRecipeContractsAll = new ArrayList<>();
 
-        caller.GetAccountShoppingList(new AsyncResponse() {
+        caller.GetAccountShoppingList(new AsyncResponse()
+        {
             @Override
             public void processFinish(Object output) {
                 //INITIALIZE ALL ONCLICK AND API RELATED PROCESS HERE TO AVOID CRASHES
@@ -390,275 +410,10 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
                 }
             }
         }, weekNumber, dayNumber);
-
     }
 
-    @Override
-    public void onClick(final View v) {
-
-        System.out.println("onclick dayoffset: " + dayOffset + " totalDaysArchive: " + totalDaysArchive);
-        System.out.println("onclick weekNumber: " + weekNumber + " dayNumber: " + dayNumber);
-        System.out.println("onclick weekNumber: " + weekNumber + " totalWeeksArchive: " + totalWeeksArchive);
-        if (v == nextDay_btn) {
-            if (mealPlan_btn.isSelected()) {
-                if (isUserWeek0) {
-                    if(  weekNumber == 0){
-                        weekNumber = 1;
-                    }
-                    if (weekNumber == 1) {
-                        if (dayNumber == 7) {
-                            weekNumber++;
-                            dayNumber = 1;
-                        } else {
-                            weekOffset = 0;
-                            dayNumber++;
-                        }
-                        getDateString();
-                        getMealOfTheDay();
-                    } else if (weekNumber == 2) {
-                        if (dayNumber < 7) {
-                            dayNumber++;
-                        }
-                        getDateString();
-                        getMealOfTheDay();
-                    }
-                } else {
-
-                    if (weekNumber <= totalWeeksArchive && dayNumber <= 7) {
-                        if (weekNumber == totalWeeksArchive && dayNumber == 7) {
-                        } else {
-                            dayOffset++;
-                            getDateString();
-                            getMealOfTheDay();
-                        }
-                    }
-                }
-            } else {
-                if (isUserWeek0) {
-                    if (weekNumber == 1) {
-                        dayOffset_list = 1;
-                        hideCategories();
-                        getShoppingListDateString();
-                        getShoppingList();
-                    }
-                } else {
-                    if (dayOffset_list <= totalWeeksArchive - weekNumber) {
-                        dayOffset_list++;
-                        hideCategories();
-                        getShoppingListDateString();
-                        getShoppingList();
-                    }
-                }
-            }
-        } else if (v == previousDay_btn) {
-            if (mealPlan_btn.isSelected()) {
-                if (isUserWeek0) {
-                    if (weekNumber == 1) {
-                        if (dayNumber > 1) {
-                            dayNumber--;
-                            getDateString();
-                            getMealOfTheDay();
-                        }
-                    } else if (weekNumber == 2) {
-                        if (dayNumber == 1) {
-                            dayNumber = 7;
-                            weekNumber = 1;
-                        } else {
-                            dayNumber--;
-                        }
-                        getDateString();
-                        getMealOfTheDay();
-                    }
-                } else {
-                    if (totalDaysArchive + dayOffset > 0) {
-                        dayOffset--;
-                        getDateString();
-                        getMealOfTheDay();
-                    }
-                }
-            }else {
-                if (isUserWeek0) {
-                    if (weekNumber == 2) {
-                        dayOffset_list = -1;
-                        hideCategories();
-                        getShoppingListDateString();
-                        getShoppingList();
-                    }
-                } else {
-                    if (totalWeeksArchive + dayOffset_list - 2 > 1) {
-                        dayOffset_list--;
-                        hideCategories();
-                        getShoppingListDateString();
-                        getShoppingList();
-                    }
-                }
-            }
-        } else if (v == mealPlan_btn) {
-
-            repasHeader_ll.setVisibility(View.VISIBLE);
-            repasSearch_ll.setVisibility(View.VISIBLE);
-
-            if (isUserWeek0) {
-                weekNumber = 1;
-                dayNumber = 1;
-                weekOffset = 0;
-                repasDay_et.setText(AppUtil.getRepasDateHeaderWeekDay(weekNumber, dayNumber));
-
-            }else{
-                weekNumber = AppUtil.getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), new Date());
-                dayNumber = AppUtil.getCurrentDayNumber();
-            }
-
-
-            mealPlan_btn.setSelected(true);
-            shoppingList_btn.setSelected(false);
-            recettes_btn.setSelected(false);
-
-            repasScrollView.setVisibility(View.VISIBLE);
-            shoppingListScrollView.setVisibility(View.GONE);
-            removeRepasFragment();
-
-        } else if (v == shoppingList_btn) {
-            System.out.println("REpas weeknumber shoppingList_btn: " + weekNumber);
-
-
-            repasHeader_ll.setVisibility(View.VISIBLE);
-            repasSearch_ll.setVisibility(View.VISIBLE);
-
-            if (isUserWeek0) {
-                weekNumber = 1;
-                dayNumber = 1;
-                repasDay_et.setText("Semaine 1");
-            } else {
-                weekNumber = AppUtil.getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), new Date());
-                dayNumber = AppUtil.getCurrentDayNumber();
-                repasDay_et.setText(AppUtil.getShoppingListDateHeader(new Date(), true));
-
-            }
-            mealPlan_btn.setSelected(false);
-            shoppingList_btn.setSelected(true);
-            recettes_btn.setSelected(false);
-
-            repasScrollView.setVisibility(View.GONE);
-            shoppingListScrollView.setVisibility(View.VISIBLE);
-
-            getShoppingList();
-            removeRepasFragment();
-
-        } else if (v == recettes_btn){
-            mealPlan_btn.setSelected(false);
-            shoppingList_btn.setSelected(false);
-            recettes_btn.setSelected(true);
-            loadRecetteFragment();
-        } else if (v == backButton) {
-            super.removeFragment();
-        } else if (v == header_right)
-        {
-
-        }
-        else {
-            int recipeId = (Integer) v.getTag(R.id.recipe_id);
-            getSpecificRecipe(recipeId);
-        }
-    }
-
-    private void loadRecetteFragment()
+    private void getListPerCategory()
     {
-        FragmentManager fragmentManager = getFragmentManager();
-        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS") != null) {
-            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS")).commit();
-        } else {
-        }
-
-        try {
-            Fragment fragment = new RecipesAccountFragment();
-            fragmentManager.beginTransaction().replace(R.id.recettesContent, fragment, "CURRENT_FRAGMENT_IN_REPAS").commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        repasHeader_ll.setVisibility(View.GONE);
-        repasSearch_ll.setVisibility(View.GONE);
-    }
-
-    private void removeRepasFragment()
-    {
-        FragmentManager fragmentManager = getFragmentManager();
-        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS") != null) {
-            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS")).commit();
-        }
-    }
-
-
-    private void getSpecificRecipe(int recipeId) {
-        caller.GetAccountRecipeCtid(new AsyncResponse() {
-            @Override
-            public void processFinish(Object output) {
-                RecipeResponseContract c = (RecipeResponseContract) output;
-                if (c != null && c.Data != null && c.Data.Recipes != null) {
-                    proceedToRecipePage(c.Data.Recipes.get(0));
-                }
-            }
-        }, recipeId, dayNumber);
-    }
-
-    private void proceedToRecipePage(RecipeContract recipeContract) {
-        ApplicationData.getInstance().selectedRelatedRecipe = recipeContract;
-
-        Intent mainIntent = new Intent(this.getActivity(), RecipeAccountActivity.class);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getActivity().startActivity(mainIntent);
-
-    }
-
-    private void getDateString() {
-        if (isUserWeek0) {
-            repasDay_et.setText(AppUtil.getRepasDateHeaderWeekDay(weekNumber, dayNumber));
-
-        } else {
-            Calendar cal = GregorianCalendar.getInstance();
-            cal.add(Calendar.DAY_OF_YEAR, dayOffset);
-            Date displayDate = cal.getTime();
-
-            weekNumber = AppUtil.getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), displayDate);
-            if (weekNumber == 0)
-                weekNumber = 1;
-            dayNumber = AppUtil.getDayNumber(displayDate);
-
-            repasDay_et.setText(AppUtil.getRepasDateHeader(displayDate, false));
-        }
-    }
-
-    private void getShoppingListDateString() {
-        System.out.println("REpas weeknumber getShoppingListDateString: " + weekNumber + " dayoffsetlist:" + dayOffset_list);
-
-        Calendar cal = GregorianCalendar.getInstance();
-        cal.add(Calendar.WEEK_OF_YEAR, dayOffset_list);
-        Date displayDate = cal.getTime();
-
-        if (isUserWeek0) {
-            weekNumber = weekNumber + dayOffset_list;
-            repasDay_et.setText("Semaine " + weekNumber);
-
-        } else {
-            weekNumber = AppUtil.getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), displayDate);
-
-            System.out.println("REpas weeknumber getShoppingListDateString2: " + weekNumber);
-
-            if (weekNumber == 0)
-                weekNumber = 1;
-
-            dayNumber = AppUtil.getDayNumber(displayDate);
-
-            repasDay_et.setText(AppUtil.getShoppingListDateHeader(displayDate, false));
-        }
-        System.out.println("REpas weeknumber getShoppingListDateString3: " + weekNumber);
-
-
-    }
-
-    private void getListPerCategory() {
         for (String catPerShopping : categoriesList) {
 
             ArrayList<ShoppingListContract> shoppingListPerCat = new ArrayList<>();
@@ -782,7 +537,8 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
         shoppingListView_11.setAdapter(shoppingListAdapter_11);
     }
 
-    private void getListPerRecipe() {
+    private void getListPerRecipe()
+    {
         for (String recipe : recipeList) {
             ArrayList<String> shoppingListPerRecipe = new ArrayList<>();
             for (ShoppingListContract v : shoppingListRecipeContractsAll) {
@@ -871,7 +627,8 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
         return displayListItems;
     }
 
-    private void hideCategories() {
+    private void hideCategories()
+    {
         ((TextView) mView.findViewById(R.id.shopping_category_1)).setVisibility(View.GONE);
         ((TextView) mView.findViewById(R.id.shopping_category_2)).setVisibility(View.GONE);
         ((TextView) mView.findViewById(R.id.shopping_category_3)).setVisibility(View.GONE);
@@ -921,5 +678,389 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
         if (shoppingListAdapter_recipe != null) {
             shoppingListAdapter_recipe.clear();
         }
+    }
+
+    /* Recettes */
+
+    private void loadRecetteFragment()
+    {
+        FragmentManager fragmentManager = getFragmentManager();
+
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS") != null) {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS")).commit();
+        } else {
+        }
+
+        try {
+            Fragment fragment = new RecipesAccountFragment();
+            fragmentManager.beginTransaction().replace(R.id.recettesContent, fragment, "CURRENT_FRAGMENT_IN_REPAS").commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        repasHeader_ll.setVisibility(View.GONE);
+        repasSearch_ll.setVisibility(View.GONE);
+        repasScrollView.setVisibility(View.GONE);
+        shoppingListScrollView.setVisibility(View.GONE);
+    }
+
+    private void removeRepasFragment()
+    {
+        FragmentManager fragmentManager = getFragmentManager();
+
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS") != null)
+        {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS")).commit();
+        }
+    }
+
+    private void getSpecificRecipe(int recipeId)
+    {
+        caller.GetAccountRecipeCtid(new AsyncResponse()
+        {
+            @Override
+            public void processFinish(Object output)
+            {
+                RecipeResponseContract c = (RecipeResponseContract) output;
+                if (c != null && c.Data != null && c.Data.Recipes != null)
+                {
+                    proceedToRecipePage(c.Data.Recipes.get(0));
+                }
+            }
+        }, recipeId, dayNumber);
+    }
+
+    private void proceedToRecipePage(RecipeContract recipeContract)
+    {
+        ApplicationData.getInstance().selectedRelatedRecipe = recipeContract;
+
+        Intent mainIntent = new Intent(this.getActivity(), RecipeAccountActivity.class);
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getActivity().startActivity(mainIntent);
+    }
+
+    @Override
+    public void onClick(final View v)
+    {
+        System.out.println("onclick dayoffset: " + dayOffset + " totalDaysArchive: " + totalDaysArchive);
+        System.out.println("onclick weekNumber: " + weekNumber + " dayNumber: " + dayNumber);
+        System.out.println("onclick weekNumber: " + weekNumber + " totalWeeksArchive: " + totalWeeksArchive);
+
+        if (v == nextDay_btn)
+        {
+            /* Repas */
+
+            if (mealPlan_btn.isSelected())
+            {
+                if (isUserWeek0)
+                {
+                    isPreviousButtonDisabled(false);
+
+                    if (weekNumber == 1 && dayNumber != 7)
+                    {
+                        isNextButtonDisabled((dayNumber == 6) ? true : false);
+
+                        dayNumber++;
+                        getDateString();
+                        getMealOfTheDay();
+                    }
+                }
+                else
+                {
+                    isPreviousButtonDisabled(false);
+
+                    if (CheckFreeUser(false))
+                    {
+                        if (weekNumber == 1 && dayNumber != 7)
+                        {
+                            isNextButtonDisabled((dayNumber == 6) ? true : false);
+
+                            dayNumber++;
+                            getDateString();
+                            getMealOfTheDay();
+                        }
+                    }
+                    else
+                    {
+                        /* Limit up to +2 weeks only */
+
+                        if (weekNumber == (ApplicationData.getInstance().userDataContract.WeekNumber+2) && dayNumber == 7) { }
+                        else
+                        {
+                            isPreviousButtonDisabled(false);
+                            isNextButtonDisabled((weekNumber == (ApplicationData.getInstance().userDataContract.WeekNumber+2) && dayNumber == 6) ? true : false);
+
+                            if (dayNumber == 7)
+                            {
+                                weekNumber++;
+                                dayNumber = 1;
+                            }
+                            else
+                            {
+                                dayNumber++;
+                            }
+
+                            getDateString();
+                            getMealOfTheDay();
+                        }
+                    }
+                }
+            }
+
+            /* Courses */
+
+            else if (shoppingList_btn.isSelected())
+            {
+                if (isUserWeek0)
+                {
+                    isPreviousButtonDisabled(true);
+                    isNextButtonDisabled(true);
+                }
+                else
+                {
+                    if (!CheckFreeUser(false))
+                    {
+                        isPreviousButtonDisabled(false);
+
+                        /* Limit up to +2 weeks only */
+
+                        if (weekNumber != (ApplicationData.getInstance().userDataContract.WeekNumber+2))
+                        {
+                            weekNumber++;
+
+                            hideCategories();
+                            getShoppingListDateString();
+                            getShoppingList();
+
+                            isNextButtonDisabled((weekNumber == (ApplicationData.getInstance().userDataContract.WeekNumber+2)) ? true : false);
+                        }
+                    }
+                    else
+                    {
+                        isPreviousButtonDisabled(true);
+                        isNextButtonDisabled(true);
+                    }
+                }
+            }
+        }
+        else if (v == previousDay_btn)
+        {
+            /* Repas */
+
+            if (mealPlan_btn.isSelected())
+            {
+                if (isUserWeek0)
+                {
+                    isNextButtonDisabled(false);
+
+                    if (weekNumber == 1 && dayNumber != 1)
+                    {
+                        isPreviousButtonDisabled((dayNumber == 2) ? true : false);
+
+                        dayNumber--;
+                        getDateString();
+                        getMealOfTheDay();
+                    }
+                }
+                else
+                {
+                    isNextButtonDisabled(false);
+
+                    if (CheckFreeUser(false))
+                    {
+                        if (weekNumber == 1 && dayNumber != 1)
+                        {
+                            isPreviousButtonDisabled((dayNumber == 2) ? true : false);
+
+                            dayNumber--;
+                            getDateString();
+                            getMealOfTheDay();
+                        }
+                    }
+                    else
+                    {
+                        /* Limit up to +2 weeks only */
+
+                        if (weekNumber == 1 && dayNumber == 1) { }
+                        else
+                        {
+                            isPreviousButtonDisabled((weekNumber == 1 && dayNumber == 2) ? true : false);
+
+                            if (dayNumber == 1)
+                            {
+                                weekNumber--;
+                                dayNumber = 7;
+                            }
+                            else
+                            {
+                                dayNumber--;
+                            }
+
+                            getDateString();
+                            getMealOfTheDay();
+                        }
+                    }
+                }
+            }
+
+            /* Courses */
+
+            else if (shoppingList_btn.isSelected())
+            {
+                if (isUserWeek0)
+                {
+                    isPreviousButtonDisabled(true);
+                    isNextButtonDisabled(true);
+                }
+                else
+                {
+                    if (!CheckFreeUser(false))
+                    {
+                        isNextButtonDisabled(false);
+
+                        if (weekNumber != 1)
+                        {
+                            weekNumber--;
+
+                            hideCategories();
+                            getShoppingListDateString();
+                            getShoppingList();
+
+                            isPreviousButtonDisabled((weekNumber == 1) ? true : false);
+                        }
+                    }
+                    else
+                    {
+                        isPreviousButtonDisabled(true);
+                        isNextButtonDisabled(true);
+                    }
+                }
+            }
+        }
+        else if (v == mealPlan_btn)
+        {
+            repasHeader_ll.setVisibility(View.VISIBLE);
+            repasSearch_ll.setVisibility(View.VISIBLE);
+
+            if (isUserWeek0)
+            {
+                weekNumber  = 1;
+                dayNumber   = 1;
+            }
+            else
+            {
+                if (CheckFreeUser(false))
+                {
+                    weekNumber = 1;
+                }
+                else
+                {
+                    weekNumber  = ApplicationData.getInstance().userDataContract.WeekNumber;
+                }
+
+                dayNumber   = ApplicationData.getInstance().userDataContract.DayNumber;
+            }
+
+            isPreviousButtonDisabled(false);
+            isNextButtonDisabled(false);
+
+            repasDay_et.setText(AppUtil.getRepasDateHeaderWeekDay(weekNumber, dayNumber));
+
+            mealPlan_btn.setSelected(true);
+            shoppingList_btn.setSelected(false);
+            recettes_btn.setSelected(false);
+
+            repasScrollView.setVisibility(View.VISIBLE);
+            shoppingListScrollView.setVisibility(View.GONE);
+            removeRepasFragment();
+        }
+        else if (v == shoppingList_btn)
+        {
+            System.out.println("Repas weeknumber shoppingList_btn: " + weekNumber);
+
+            repasHeader_ll.setVisibility(View.VISIBLE);
+            repasSearch_ll.setVisibility(View.VISIBLE);
+
+            if (isUserWeek0)
+            {
+                weekNumber  = 1;
+                dayNumber   = 1;
+                repasDay_et.setText("Semaine 1");
+
+                isPreviousButtonDisabled(true);
+                isNextButtonDisabled(true);
+            }
+            else
+            {
+                if (CheckFreeUser(false))
+                {
+                    weekNumber = 1;
+
+                    isPreviousButtonDisabled(true);
+                    isNextButtonDisabled(true);
+                }
+                else
+                {
+                    weekNumber  = ApplicationData.getInstance().userDataContract.WeekNumber;
+
+                    isPreviousButtonDisabled(false);
+                    isNextButtonDisabled(false);
+                }
+
+                dayNumber   = ApplicationData.getInstance().userDataContract.DayNumber;
+                repasDay_et.setText(AppUtil.getShoppingListDateHeader(weekNumber));
+            }
+
+            mealPlan_btn.setSelected(false);
+            shoppingList_btn.setSelected(true);
+            recettes_btn.setSelected(false);
+
+            repasScrollView.setVisibility(View.GONE);
+            shoppingListScrollView.setVisibility(View.VISIBLE);
+
+            getShoppingList();
+            removeRepasFragment();
+        }
+        else if (v == recettes_btn)
+        {
+            mealPlan_btn.setSelected(false);
+            shoppingList_btn.setSelected(false);
+            recettes_btn.setSelected(true);
+
+            loadRecetteFragment();
+        }
+        else if (v == backButton)
+        {
+            super.removeFragment();
+        }
+        else if (v == header_right) { }
+        else
+        {
+            int recipeId = (Integer) v.getTag(R.id.recipe_id);
+            getSpecificRecipe(recipeId);
+        }
+    }
+
+    /* Date Headers */
+
+    private void getDateString()
+    {
+        repasDay_et.setText(AppUtil.getRepasDateHeaderWeekDay(weekNumber, dayNumber));
+    }
+
+    private void getShoppingListDateString()
+    {
+        repasDay_et.setText(AppUtil.getShoppingListDateHeader(weekNumber));
+    }
+
+    private void isPreviousButtonDisabled(boolean isDisabled)
+    {
+        previousDay_btn.setImageResource(isDisabled ? R.drawable.ic_chevron_left_gray : R.drawable.ic_chevron_left_white_24dp);
+    }
+
+    private void isNextButtonDisabled(boolean isDisabled)
+    {
+        nextDay_btn.setImageResource(isDisabled ? R.drawable.ic_chevron_right_gray : R.drawable.ic_chevron_right_white_24dp);
     }
 }

@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -50,6 +51,7 @@ import java.util.UUID;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
+import anxa.com.smvideo.activities.NpnaOfferActivity;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncBitmapResponse;
 import anxa.com.smvideo.connection.http.AsyncResponse;
@@ -67,8 +69,9 @@ import anxa.com.smvideo.util.ImageManager;
 import static anxa.com.smvideo.contracts.Carnet.PhotoContract.PHOTO_STATUS.ONGOING_UPLOADPHOTO;
 import static anxa.com.smvideo.contracts.Carnet.PhotoContract.PHOTO_STATUS.SYNC_UPLOADPHOTO;
 
-
-public class MealAddActivity extends Activity implements OnClickListener, OnTimeChangedListener {
+public class MealAddActivity extends Activity implements OnClickListener, OnTimeChangedListener
+{
+    ImageView backButton;
 
     final int MAX_DESC = 500;
     final int RESULTCODE_CRMDONE = 80;
@@ -130,7 +133,8 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
     private ApiCaller caller;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -139,7 +143,7 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
 
         caller = new ApiCaller();
 
-        if(ApplicationData.getInstance().userDataContract != null)
+        if (ApplicationData.getInstance().userDataContract != null)
         {
             caller.GetMealPlanForDay(new AsyncResponse() {
                 @Override
@@ -149,7 +153,6 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
                     //mealDesc.setText(mealToAdd.DefaultMealDescription);
                 }
             }, ApplicationData.getInstance().userDataContract.Id, AppUtil.getDateStringGetSync(ApplicationData.getInstance().currentSelectedDate), mealtype);
-
         }
 
         setContentView(R.layout.mymeals_add);
@@ -172,7 +175,6 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
 
         timepicker = (TimePicker) findViewById(R.id.TimePicker);
 
-
         timePickerContainer = (LinearLayout) findViewById(R.id.timepickercontainer);
 
         //retry saving layout
@@ -192,8 +194,8 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
         btn_later = (Button) findViewById(R.id.btn_later);
 
         mealDesc = ((EditText) findViewById(R.id.mealdesc));
-        mealDesc.addTextChangedListener(new TextWatcher() {
-
+        mealDesc.addTextChangedListener(new TextWatcher()
+        {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // TODO Auto-generated method stub
@@ -205,16 +207,16 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable s)  {
                 // TODO Auto-generated method stub
                 descRemainCount = MAX_DESC - s.length();
                 updateMealDescCount();
                 if (descRemainCount<MAX_DESC){
                     btn_submit.setEnabled(true);
-                }else{
+                } else {
                     if (mealToAdd.Album.Photos.size()==0){
                         btn_submit.setEnabled(false);
-                    }else{
+                    } else {
                         btn_submit.setEnabled(true);
                     }
                 }
@@ -249,7 +251,12 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
         DATE_DAY = AppUtil.getIntDayonDate(ApplicationData.getInstance().currentSelectedDate);
 
         //update header title
-        ((TextView) findViewById(R.id.header_title)).setText(AppUtil.getMonthDay(ApplicationData.getInstance().currentSelectedDate));
+        ((TextView) findViewById(R.id.header_title_tv)).setText(AppUtil.getFRMonthDay(ApplicationData.getInstance().currentSelectedDate));
+
+        backButton = (ImageView) findViewById(R.id.header_menu_back);
+        backButton.setOnClickListener(this);
+
+        ((TextView)findViewById(R.id.header_menu_iv)).setVisibility(View.GONE);
 
         //update meal title
         ((TextView) findViewById(R.id.mealtitle)).setText(AppUtil.getMealTitle(this, mealtype)); //imageview
@@ -284,8 +291,8 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
         });
     }
 
-
-    private void updateUI() {
+    private void updateUI()
+    {
         mealToAdd = ApplicationData.getInstance().currentMealView;
 
         String time = AppUtil.getTimeOnly12(mealToAdd.MealCreationDate);
@@ -314,11 +321,10 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
         if (mealToAdd.Album.Photos != null && mealToAdd.Album.PhotoCount > 0) {
             updatePhotoUI();
         }
-
     }
 
-    private void initFoodGroups() {
-
+    private void initFoodGroups()
+    {
         ((ImageButton) findViewById(R.id.fg_protein)).setOnClickListener(this);
         ((ImageButton) findViewById(R.id.fg_starch)).setOnClickListener(this);
         ((ImageButton) findViewById(R.id.fg_vegetable)).setOnClickListener(this);
@@ -333,11 +339,10 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
         foodGroups.add((ImageButton) findViewById(R.id.fg_fats));
         foodGroups.add((ImageButton) findViewById(R.id.fg_dairy));
         foodGroups.add((ImageButton) findViewById(R.id.fg_fruit));
-
     }
 
-    private void updateFoodGroup(int id) {
-
+    private void updateFoodGroup(int id)
+    {
         if (id == R.id.fg_protein || id == Meal.FOODGROUP.PROTEIN.getValue()) {
             if (foodGroups.get(0).isSelected())
                 foodGroups.get(0).setSelected(false);
@@ -371,88 +376,112 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
         }
     }
 
-
-    private void updateMealDescCount() {
+    private void updateMealDescCount()
+    {
         mealDescriptionCount.setText(descRemainCount + "/" + MAX_DESC);
     }
 
-
-    public String UniqueIDgen() {
+    public String UniqueIDgen()
+    {
         UUID uniqueKey = UUID.randomUUID();
         return uniqueKey.toString();
     }
 
     @Override
-    public void onBackPressed() {
-
+    public void onBackPressed()
+    {
         super.onBackPressed();
 
-        if (mealViewState == Meal.MEALSTATE_ADD) {
+        if (mealViewState == Meal.MEALSTATE_ADD)
+        {
             //delete meal if existing in core data
         }
-
     }
 
-    private void setTimerPicker(Boolean isPickerShown) {
-        if (isPickerShown) {
+    private void setTimerPicker(Boolean isPickerShown)
+    {
+        if (isPickerShown)
+        {
             //need to update with the current time on the time selected
             done_picker.setVisibility(View.VISIBLE);
             timePickerContainer.setVisibility(View.VISIBLE);
-
-        } else { //hide picker
+        }
+        else
+        {
+            //hide picker
             done_picker.setVisibility(View.GONE);
             timePickerContainer.setVisibility(View.GONE);
         }
         //set time
     }
 
-    private void showCustomDialog(String message, String title) {
-
+    private void showCustomDialog(String message, String title)
+    {
         dialog = new CustomDialog(this, null, null, null, true, message, title, this);
         dialog.show();
     }
 
-    private void galleryIntent() {
+    private void galleryIntent()
+    {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);//
         startActivityForResult(Intent.createChooser(intent, "Select File"), GALLERY_SELECT);
     }
 
-
-    private void cameraPage(int imageCode) {
-
+    private void cameraPage(int imageCode)
+    {
         Intent mainIntent = new Intent(this, Camera2Activity.class);
         mainIntent.putExtra("MEDIA_TYPE", imageCode);
         startActivityForResult(mainIntent, CAMERA_SELECT);
     }
 
     @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.fg_dairy || v.getId() == R.id.fg_fruit || v.getId() == R.id.fg_protein ||
-                v.getId() == R.id.fg_starch || v.getId() == R.id.fg_fats || v.getId() == R.id.fg_vegetable) {
+    public void onClick(View v)
+    {
+        if (v == backButton)
+        {
+            finish();
+        }
+        else if (v.getId() == R.id.fg_dairy || v.getId() == R.id.fg_fruit || v.getId() == R.id.fg_protein ||
+                v.getId() == R.id.fg_starch || v.getId() == R.id.fg_fats || v.getId() == R.id.fg_vegetable)
+        {
             updateFoodGroup(v.getId());
-        } else if (v.getId() == R.id.CloseButton) {
+        }
+        else if (v.getId() == R.id.CloseButton)
+        {
             if (dialogfoodGroupTips != null)
                 dialogfoodGroupTips.dismiss();
             if (dialog != null)
                 dialog.dismiss();
-        } else if (v.getId() == R.id.meal_time_container) {
+        }
+        else if (v.getId() == R.id.meal_time_container)
+        {
             //show time picker
             setTimerPicker(true);
-        } else if (v.getId() == R.id.date_save_tv) {
+        }
+        else if (v.getId() == R.id.date_save_tv)
+        {
             setTimerPicker(false);
-        } else if (v == btn_submit) {
-            //submit button
-            saveMeal();
-        } else if (v.getId() == R.id.btn_close_1 || v.getId() == R.id.btn_close_2 || v.getId() == R.id.btn_close_3 || v.getId() == R.id.btn_close_4 || v.getId() == R.id.btn_close_5) {
+        }
+        else if (v == btn_submit)
+        {
+            if (!CheckFreeUser(true))
+            {
+                //submit button
+                saveMeal();
+            }
+        }
+        else if (v.getId() == R.id.btn_close_1 || v.getId() == R.id.btn_close_2 || v.getId() == R.id.btn_close_3 || v.getId() == R.id.btn_close_4 || v.getId() == R.id.btn_close_5)
+        {
             //delete photo
             deleteImage((Integer) v.getTag());
         }
     }
 
     @Override
-    public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+    public void onTimeChanged(TimePicker view, int hourOfDay, int minute)
+    {
         Date date = AppUtil.formatDate(view, DATE_MONTH, DATE_DAY, DATE_YEAR);
 
         System.out.println("onTimeChanged: " + date);
@@ -464,20 +493,23 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
         mealToAdd.MealCreationDate = AppUtil.dateToLongFormat(date);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == RESULTCODE_CRMDONE) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == RESULTCODE_CRMDONE)
+        {
             if (resultCode == Activity.RESULT_OK) {
                 Intent intent = new Intent();
                 intent.putExtra("isAdd", true);
                 intent.putExtra("LOADCOACH", data.getBooleanExtra("LOADCOACH", false));
                 setResult(RESULT_OK, intent);
             }
-        } else if (requestCode == 999/*camera page*/) {
-            if (resultCode == RESULT_OK) {
-
-                if (data.getStringExtra("ACTIVITY_PHOTO") != null) {
-
+        }
+        else if (requestCode == 999/*camera page*/)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                if (data.getStringExtra("ACTIVITY_PHOTO") != null)
+                {
                     Boolean isGallery = data.getBooleanExtra("ACTIVITY_ISGALLERY", false);
                     int inSampleSize = data.getIntExtra("ACTIVITY_SAMPLESIZE", 2);
                     String selectedImageURI = data.getStringExtra("ACTIVITY_PHOTO");
@@ -489,22 +521,27 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
                     options.inJustDecodeBounds = true;
                     //options.inSampleSize = 2;
 
-                    try {
+                    try
+                    {
                         Bitmap b = null;
-                        if (isGallery) {
+
+                        if (isGallery)
+                        {
                             try {
                                 b = BitmapFactory.decodeFile(file.getPath(), options);
                             } catch (Exception e) {
                             }
-
-                        } else {
-
+                        }
+                        else
+                        {
                             System.out.println("camera");
                             ExifInterface ei = new ExifInterface(file.getPath());
                             int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
 
                             Matrix matrix = new Matrix();
-                            switch (orientation) {
+
+                            switch (orientation)
+                            {
                                 case ExifInterface.ORIENTATION_NORMAL:
 
                                 case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
@@ -532,20 +569,18 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
                                     matrix.setRotate(-90);
                                     break;
                                 default:
-
                             }
-
 
                             //options.inSampleSize = 2;
                             Bitmap btemp = BitmapFactory.decodeFile(Uri.fromFile(file).getPath(), options);
-
-
 
                             final int REQUIRED_SIZE = 1200;
 
                             int width_tmp = options.outWidth, height_tmp = options.outHeight;
                             int scale = 1;
-                            while (true) {
+
+                            while (true)
+                            {
                                 if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE) {
                                     break;
                                 }
@@ -560,6 +595,7 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
 
 
                             b = Bitmap.createBitmap(btemp2, 0, 0,width_tmp,height_tmp, matrix, true);
+
                             if (b.getWidth() > ApplicationData.getInstance().maxWidthCameraView || b.getHeight() > ApplicationData.getInstance().maxHeightCameraView) { //max w & h
                                 ByteArrayOutputStream bs = new ByteArrayOutputStream();
                                 options.inJustDecodeBounds = true; //4, 8, etc. the more value, the worst quality of image
@@ -575,8 +611,9 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-                } else if (data.getByteArrayExtra("ACTIVITY_PHOTO_BYTE") != null) {
+                }
+                else if (data.getByteArrayExtra("ACTIVITY_PHOTO_BYTE") != null)
+                {
                     BitmapFactory.Options options = new BitmapFactory.Options();
                     int inSampleSize = data.getIntExtra("ACTIVITY_SAMPLESIZE", 2);
                     options.inSampleSize = inSampleSize;
@@ -585,13 +622,16 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
 
                     b = null;
                 }
-
             }//result_ok
-        } else if (requestCode == GALLERY_SELECT) {
-            if (resultCode == Activity.RESULT_OK) {
+        }
+        else if (requestCode == GALLERY_SELECT)
+        {
+            if (resultCode == Activity.RESULT_OK)
+            {
                 Uri selectedImage = data.getData();
-                try {
 
+                try
+                {
                     ByteArrayOutputStream bs = new ByteArrayOutputStream();
 
                     Bitmap bitmap = decodeUri(selectedImage);
@@ -603,7 +643,9 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
                     e.printStackTrace();
                 }
             }
-        } else if (requestCode == MEAL_OPTIONS_CODE) {
+        }
+        else if (requestCode == MEAL_OPTIONS_CODE)
+        {
 //            if (ApplicationEx.getInstance().userRatingSetting) {
 //                mealRatingLayout.setVisibility(View.VISIBLE);
 //                mealFoodGroupLayout.setVisibility(View.GONE);
@@ -616,7 +658,8 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
         //onActivityResult
     }//end on activity
 
-    private Bitmap decodeUri(Uri selectedImage) throws FileNotFoundException {
+    private Bitmap decodeUri(Uri selectedImage) throws FileNotFoundException
+    {
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inSampleSize = 2;
         o.inJustDecodeBounds = true;
@@ -627,8 +670,11 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
 
         int width_tmp = o.outWidth, height_tmp = o.outHeight;
         int scale = 1;
-        while (true) {
-            if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE) {
+
+        while (true)
+        {
+            if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE)
+            {
                 break;
             }
             width_tmp /= 2;
@@ -646,7 +692,8 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
     }
 
     @SuppressWarnings("deprecation")
-    private void onSelectFromGalleryResult(Intent data) {
+    private void onSelectFromGalleryResult(Intent data)
+    {
         Bitmap bm = null;
         if (data != null) {
             try {
@@ -658,12 +705,14 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
         updateAlbum(bm);
     }
 
-    private void updateAlbum(Bitmap b) {
+    private void updateAlbum(Bitmap b)
+    {
         PhotoContract newPhoto = new PhotoContract();
         newPhoto.image = b;
         newPhoto.state = ONGOING_UPLOADPHOTO;
 
-        if (mealToAdd.Album.Photos == null) {
+        if (mealToAdd.Album.Photos == null)
+        {
             mealToAdd.Album.Photos = new ArrayList<PhotoContract>();
         }
 
@@ -680,7 +729,8 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
         galleryIntent();
     }
 
-    private void showFoodGroupDialog() {
+    private void showFoodGroupDialog()
+    {
         LayoutInflater inflater = getLayoutInflater();
 
         //location dialogs
@@ -704,8 +754,8 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
         finish();
     }
 
-    private void saveMeal() {
-
+    private void saveMeal()
+    {
         //Check completeness . It needs to have atleast one photo or a  text description
         if (mealDesc.getText() == null || mealDesc.getText().length() <= 0) {
             try {
@@ -783,21 +833,24 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
         }
     }
 
-    private void saveMealToApi(String command) {
-
+    private void saveMealToApi(String command)
+    {
         System.out.println("saveMealToAPI: " + command + " creationDate: " + mealToAdd.MealCreationDate);
         showSavingLayout(true, false);
 
-        if (mealToAdd.Album.Photos.size() > 0) {
-
+        if (mealToAdd.Album.Photos.size() > 0)
+        {
             mealToAdd.Command = command;
-            for (int i = 0; i < mealToAdd.Album.Photos.size(); i++) {
+            for (int i = 0; i < mealToAdd.Album.Photos.size(); i++)
+            {
                 uploadIndex = i;
-                if (i + 1 == mealToAdd.Album.Photos.size()) {
+                if (i + 1 == mealToAdd.Album.Photos.size())
+                {
                     forUpload = true;
                 }
-                if (mealToAdd.Album.Photos.get(i).state == ONGOING_UPLOADPHOTO) {
 
+                if (mealToAdd.Album.Photos.get(i).state == ONGOING_UPLOADPHOTO)
+                {
                     caller.PostUploadMealPhoto(new AsyncBitmapResponse() {
                         @Override
                         public void processFinish(Object output, int index, boolean forMealUpload) {
@@ -857,10 +910,10 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
                         }
                     }, ApplicationData.getInstance().userDataContract.Id, contract);
                 }
-
-
             }
-        } else {
+        }
+        else
+        {
             UploadMealsDataContract contract = new UploadMealsDataContract();
             mealToAdd.Command = command;
             contract.Meals.add(mealToAdd);
@@ -881,10 +934,11 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
         }
     }
 
-    private void showSavingLayout(boolean saving, boolean failed) {
-        if (saving) {
-
-            ((TextView) findViewById(R.id.header_title)).setText(AppUtil.getMonthDay(AppUtil.toDate(mealToAdd.MealCreationDate)));
+    private void showSavingLayout(boolean saving, boolean failed)
+    {
+        if (saving)
+        {
+            ((TextView) findViewById(R.id.header_title_tv)).setText(AppUtil.getFRMonthDay(AppUtil.toDate(mealToAdd.MealCreationDate)));
 
             savingLayout.setVisibility(View.VISIBLE);
             activeMealLayout.setEnabled(false);
@@ -910,7 +964,8 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
         }
     }
 
-    private void updatePhotoUI() {
+    private void updatePhotoUI()
+    {
         List<PhotoContract> photos = mealToAdd.Album.Photos;
 
         if (photos.size()==0 && mealDesc.getText().length()<1){
@@ -919,8 +974,8 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
             btn_submit.setEnabled(true);
         }
 
-        for (int i = 0; i < photos.size(); i++) {
-
+        for (int i = 0; i < photos.size(); i++)
+        {
             PhotoContract photo = photos.get(i);
 
             if (i == 0) { //display thumb at thumb 2
@@ -1014,11 +1069,14 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        switch (requestCode) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults)
+    {
+        switch (requestCode)
+        {
             case GALLERY_SELECT:
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
                     Intent intent = new Intent();
                     intent.setType("image/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);//
@@ -1031,18 +1089,18 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
         }
     }
 
-    private void deleteImage(int photoIndex) {
+    private void deleteImage(int photoIndex)
+    {
         ((RelativeLayout) findViewById(R.id.rl_imagethumb)).setVisibility(View.VISIBLE);
 
-        if (mealToAdd.Album.Photos == null) {
+        if (mealToAdd.Album.Photos == null)
+        {
             mealToAdd.Album.Photos = new ArrayList<PhotoContract>();
         }
 
         try {
             mealToAdd.Album.Photos.remove(photoIndex);
-        } catch (Exception e) {
-
-        }
+        } catch (Exception e) { }
 
         mealToAdd.Album.PhotoCount = mealToAdd.Album.Photos.size();
 
@@ -1052,12 +1110,63 @@ public class MealAddActivity extends Activity implements OnClickListener, OnTime
         updatePhotoUI();
     }
 
-    private void clearPhotoUI() {
+    private void clearPhotoUI()
+    {
         ((RelativeLayout) findViewById(R.id.ll_imagethumb2)).setVisibility(View.GONE);
         ((RelativeLayout) findViewById(R.id.ll_imagethumb3)).setVisibility(View.GONE);
         ((RelativeLayout) findViewById(R.id.ll_imagethumb4)).setVisibility(View.GONE);
         ((RelativeLayout) findViewById(R.id.ll_imagethumb5)).setVisibility(View.GONE);
         ((RelativeLayout) findViewById(R.id.ll_imagethumb1)).setVisibility(View.GONE);
+    }
 
+    /* Free Users */
+
+    public boolean CheckFreeUser(boolean withDialog)
+    {
+        if (ApplicationData.getInstance().userDataContract.MembershipType == 0 && ApplicationData.getInstance().userDataContract.WeekNumber > 1)
+        {
+            if (withDialog)
+            {
+                showFreeExpiredDialog();
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private void showFreeExpiredDialog()
+    {
+        final Dialog freeExpiredDialog = new Dialog(this);
+        freeExpiredDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        freeExpiredDialog.setContentView(R.layout.free_expired_dialog);
+        freeExpiredDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        ((TextView) freeExpiredDialog.findViewById(R.id.dialog_content)).setText(getString(R.string.FREE_1WEEKTRIAL_EXPIRED));
+
+        ((Button) freeExpiredDialog.findViewById(R.id.dialog_cancel)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                freeExpiredDialog.dismiss();
+            }
+        });
+
+        ((Button) freeExpiredDialog.findViewById(R.id.dialog_payment)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                freeExpiredDialog.dismiss();
+                goToPremiumPayment();
+            }
+        });
+
+        freeExpiredDialog.show();
+    }
+
+    private void goToPremiumPayment()
+    {
+        Intent mainContentBrowser = new Intent(this, NpnaOfferActivity.class);
+        mainContentBrowser.putExtra("UPGRADE_PAYMENT", true);
+        startActivity(mainContentBrowser);
     }
 }

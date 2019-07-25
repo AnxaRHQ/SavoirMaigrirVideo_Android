@@ -1,18 +1,23 @@
 package anxa.com.smvideo.activities.account;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -27,6 +32,7 @@ import java.util.List;
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.activities.MainActivity;
+import anxa.com.smvideo.activities.NpnaOfferActivity;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
 import anxa.com.smvideo.contracts.Carnet.CommentGroupContract;
@@ -44,10 +50,14 @@ import anxa.com.smvideo.util.ImageManager;
  * Created by aprilanxa on 18/01/2017.
  */
 
-public class MealViewActivity extends Activity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
-
+public class MealViewActivity extends Activity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener
+{
     MealContract currentMeal = new MealContract();
     CarnetCommentListLayout commentlist;
+
+    ImageView backButton;
+
+    TextView menuButton;
 
     TextView tv_desc;
     TextView tv_time;
@@ -82,7 +92,8 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
     private String intentExtra;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         currentMeal = ApplicationData.getInstance().currentMealView;
@@ -99,9 +110,10 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
 
         comment_et = (EditText) findViewById(R.id.comment_et);
 
-        if (currentMeal!=null) {
+        if (currentMeal!=null)
+        {
             //update header title
-            ((TextView) findViewById(R.id.header_title)).setText(AppUtil.getMonthDay(AppUtil.toDateGMT(currentMeal.MealCreationDate)));
+            ((TextView) findViewById(R.id.header_title_tv)).setText(AppUtil.getFRMonthDay(AppUtil.toDateGMT(currentMeal.MealCreationDate)));
         }
 
         progressBar = (ProgressBar)findViewById(R.id.progressBar_mealView);
@@ -115,12 +127,16 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
         initUI();
 
         addContent();
-
     }
 
     @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.header_right_tv) {
+    public void onClick(View v)
+    {
+        if (v == backButton)
+        {
+            finish();
+        }
+        if (v.getId() == R.id.header_menu_iv) {
             popupMenu.show();
         } else if (v.getId() == R.id.chat_status) {
             if (v.getTag() != null && v.getTag() instanceof CommentGroupContract) {
@@ -142,9 +158,13 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
         } else if (v == submit_tv) {
 //             check if the textview has something
             if (comment_et != null && comment_et.getText() != null && comment_et.getText().length() > 0) {
-                String comment_message = comment_et.getText().toString();
-                comment_et.setText("");
-                createNewComment(comment_message);
+
+                if (!CheckFreeUser(true))
+                {
+                    String comment_message = comment_et.getText().toString();
+                    comment_et.setText("");
+                    createNewComment(comment_message);
+                }
             }
         } else if (v.getId() == R.id.CloseButton) {
             dialog.dismiss();
@@ -214,7 +234,12 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
 
         tv_desc.setText(currentMeal.Description);
 
-        ((TextView)findViewById(R.id.header_right_tv)).setOnClickListener(this);
+        backButton = (ImageView) findViewById(R.id.header_menu_back);
+        backButton.setOnClickListener(this);
+
+        menuButton = (TextView)findViewById(R.id.header_menu_iv);
+        menuButton.setBackgroundResource(R.drawable.ic_edit);
+        menuButton.setOnClickListener(this);
 
         // check approved /commented UIedit
         if (currentMeal.IsApproved) {
@@ -372,7 +397,7 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
             iv_mainPhoto.setTag(selectedPhotoIndex);
         }
 
-        popupMenu = new PopupMenu(this, findViewById(R.id.header_right_tv));
+        popupMenu = new PopupMenu(this, findViewById(R.id.header_menu_iv));
         popupMenu.getMenu().add(Menu.NONE, MENU_EDIT_MEAL, Menu.NONE, getResources().getString(R.string.MENU_EDIT_MEAL));
         popupMenu.getMenu().add(Menu.NONE, MENU_DELETE_MEAL, Menu.NONE, getResources().getString(R.string.MENU_DELETE_MEAL));
         popupMenu.getMenu().add(Menu.NONE, MENU_CANCEL, Menu.NONE, getResources().getString(R.string.NOTIFICATIONS_CANCEL));
@@ -490,8 +515,8 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
             return;
     }
 
-    private void addContent() {
-
+    private void addContent()
+    {
         if (currentMeal.Album != null)
             iv_thumbnails = new ImageView[currentMeal.Album.Photos.size()];
 
@@ -511,8 +536,8 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
         }
     }
 
-    private void deleteMealToApi() {
-
+    private void deleteMealToApi()
+    {
         //pass a valid water data of the regid used
         UploadMealsDataContract contract = new UploadMealsDataContract();
         currentMeal.Command = COMMAND_DELETED;
@@ -533,18 +558,22 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
         }, ApplicationData.getInstance().regId,contract);
     }
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
+    {
         final ImageView bmImage;
         String photoid = "";
 
-        public DownloadImageTask(ImageView bmImage, int photoID) {
+        public DownloadImageTask(ImageView bmImage, int photoID)
+        {
             this.bmImage = bmImage;
             this.photoid = Integer.toString(photoID);
         }
 
-        protected Bitmap doInBackground(String... urls) {
+        protected Bitmap doInBackground(String... urls)
+        {
             String urlDisplay = urls[0];
             Bitmap mIcon11 = null;
+
             try {
                 InputStream in = new java.net.URL(urlDisplay).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);
@@ -558,11 +587,62 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
             return mIcon11;
         }
 
-        protected void onPostExecute(Bitmap result) {
+        protected void onPostExecute(Bitmap result)
+        {
             bmImage.setImageBitmap(result);
 
             ImageManager.getInstance().addImage(photoid, result);
-
         }
+    }
+
+    /* Free Users */
+
+    public boolean CheckFreeUser(boolean withDialog)
+    {
+        if (ApplicationData.getInstance().userDataContract.MembershipType == 0 && ApplicationData.getInstance().userDataContract.WeekNumber > 1)
+        {
+            if (withDialog)
+            {
+                showFreeExpiredDialog();
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private void showFreeExpiredDialog()
+    {
+        final Dialog freeExpiredDialog = new Dialog(this);
+        freeExpiredDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        freeExpiredDialog.setContentView(R.layout.free_expired_dialog);
+        freeExpiredDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        ((TextView) freeExpiredDialog.findViewById(R.id.dialog_content)).setText(getString(R.string.FREE_1WEEKTRIAL_EXPIRED));
+
+        ((Button) freeExpiredDialog.findViewById(R.id.dialog_cancel)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                freeExpiredDialog.dismiss();
+            }
+        });
+
+        ((Button) freeExpiredDialog.findViewById(R.id.dialog_payment)).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                freeExpiredDialog.dismiss();
+                goToPremiumPayment();
+            }
+        });
+
+        freeExpiredDialog.show();
+    }
+
+    private void goToPremiumPayment()
+    {
+        Intent mainContentBrowser = new Intent(this, NpnaOfferActivity.class);
+        mainContentBrowser.putExtra("UPGRADE_PAYMENT", true);
+        startActivity(mainContentBrowser);
     }
 }
