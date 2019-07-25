@@ -1,7 +1,6 @@
 package anxa.com.smvideo.activities;
 
 import android.app.AlarmManager;
-import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.PendingIntent;
@@ -9,8 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -19,14 +16,11 @@ import anxa.com.smvideo.BuildConfig;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,8 +56,9 @@ import anxa.com.smvideo.models.NavItem;
 import anxa.com.smvideo.ui.DrawerListAdapter;
 import anxa.com.smvideo.util.AppUtil;
 
-public class MainActivity extends BaseVideoActivity implements View.OnClickListener
-{
+
+public class MainActivity extends BaseVideoActivity implements View.OnClickListener {
+
     private static String TAG = MainActivity.class.getSimpleName();
 
     ListView mDrawerList;
@@ -73,8 +68,6 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
     private DrawerLayout mDrawerLayout;
     private ImageView notifHeader;
     ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
-
-    Dialog freeDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -242,87 +235,54 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                     goToHomePage();
                     break;
                 case 1: //fiches
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Fiches;
+                    fragment = new WebkitFragment();
 
-                    if (!CheckFreeUser(true))
-                    {
-                        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Fiches;
-                        fragment = new WebkitFragment();
-
-                        bundle.putString("header_title", getString(R.string.nav_account_fiches));
-                        bundle.putString("webkit_url", WebkitURL.fichesWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
-                        fragment.setArguments(bundle);
-                    }
-
+                    bundle.putString("header_title", getString(R.string.nav_account_fiches));
+                    bundle.putString("webkit_url", WebkitURL.fichesWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
+                    fragment.setArguments(bundle);
                     break;
                 case 2: //nutrition
-
-                    if (!CheckFreeUser(true))
-                    {
-                        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Nutrition;
-                        fragment = new WebkitFragment();
-                        bundle.putString("header_title", getString(R.string.nav_account_nutrition));
-                        bundle.putString("webkit_url", WebkitURL.nutritionWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
-                        fragment.setArguments(bundle);
-                    }
-
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Nutrition;
+                    fragment = new WebkitFragment();
+                    bundle.putString("header_title", getString(R.string.nav_account_nutrition));
+                    bundle.putString("webkit_url", WebkitURL.nutritionWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
+                    fragment.setArguments(bundle);
                     break;
                 case 3: //coaching
-
-                    if (!CheckFreeUser(true))
-                    {
-                        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Coaching;
-                        fragment = new WebkitFragment();
-                        bundle.putString("header_title", getString(R.string.nav_account_coaching));
-                        bundle.putString("webkit_url", WebkitURL.coachingWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
-                        fragment.setArguments(bundle);
-                    }
-
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Coaching;
+                    fragment = new WebkitFragment();
+                    bundle.putString("header_title", getString(R.string.nav_account_coaching));
+                    bundle.putString("webkit_url", WebkitURL.coachingWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
+                    fragment.setArguments(bundle);
                     break;
                 case 4: //community
-
-                    if (!CheckFreeUser(true))
-                    {
-                        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Communaute;
-                        fragment = new WebkitFragment();
-                        bundle.putString("header_title", getString(R.string.nav_account_communaute));
-                        bundle.putString("webkit_url", WebkitURL.communityWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
-                        fragment.setArguments(bundle);
-                    }
-
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Communaute;
+                    fragment = new WebkitFragment();
+                    bundle.putString("header_title", getString(R.string.nav_account_communaute));
+                    bundle.putString("webkit_url", WebkitURL.communityWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
+                    fragment.setArguments(bundle);
                     break;
                 case 5: //500 videos
-
-                    if (!CheckFreeUser(true))
-                    {
-                        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Videos;
-                        fragment = new VideosFragment();
-                    }
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Videos;
+                    fragment = new VideosFragment();
 
                     break;
                 case 6: //notifications
 
-                    if (!CheckFreeUser(true))
-                    {
-                        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Home;
-                        Intent intent = new Intent(this, NotificationsActivity.class);
-                        startActivity(intent);
-                    }
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Home;
+                    Intent intent = new Intent(this, NotificationsActivity.class);
+                    startActivity(intent);
 
                     break;
                 case 7: //invitations
-
-                    if (!CheckFreeUser(true))
-                    {
-                        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Invitations;
-                        fragment = new WebkitFragment();
-                        bundle.putString("header_title", getString(R.string.menu_account_invitations));
-                        bundle.putString("webkit_url", WebkitURL.invitationsWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
-                        fragment.setArguments(bundle);
-                    }
-
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Invitations;
+                    fragment = new WebkitFragment();
+                    bundle.putString("header_title", getString(R.string.menu_account_invitations));
+                    bundle.putString("webkit_url", WebkitURL.invitationsWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
+                    fragment.setArguments(bundle);
                     break;
                 case 8: //messages
-
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Messages;
                     bundle.putBoolean("fromNotifications", false);
                     fragment = new MessagesAccountFragment();
@@ -330,7 +290,6 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
 
                     break;
                 case 9: //parameters du compte
-
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_MonCompte;
                     fragment = new MonCompteAccountFragment();
 
@@ -364,15 +323,14 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
             setTitle(bundle.getString("header_title"));
         }
 
+
         // Close the drawer
         mDrawerLayout.closeDrawer(mDrawerPane);
     }
 
     @Override
-    public void onClick(View view)
-    {
-        if (view.getId() == R.id.header_menu_iv)
-        {
+    public void onClick(View view) {
+        if (view.getId() == R.id.header_menu_iv) {
             //burger menu
             ApplicationData.getInstance().fromArchive = false;
             ApplicationData.getInstance().fromArchiveConseils = false;
@@ -381,14 +339,9 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
             }
             mDrawerLayout.openDrawer(Gravity.LEFT);
         }
-        else if (view.getId() == R.id.header_search)
-        {
-
-            if (!CheckFreeUser(true))
-            {
-                //search menu
-                goToSearchPage();
-            }
+        else if (view.getId() == R.id.header_search) {
+            //search menu
+            goToSearchPage();
         }
     }
 
@@ -468,11 +421,8 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
 
     public void goToNotificationsPage(View view)
     {
-        if (!CheckFreeUser(true))
-        {
-            Intent intent = new Intent(this, NotificationsActivity.class);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(this, NotificationsActivity.class);
+        startActivity(intent);
     }
 
     public void goToWebinarPage(View view)
@@ -725,56 +675,5 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
 
             //Log.d("Notification", "Creating notification #" + NotificationID + " for " + cal.getTime());
         }
-    }
-
-    /* Free Users */
-
-    public boolean CheckFreeUser(boolean withDialog)
-    {
-        if (ApplicationData.getInstance().userDataContract.MembershipType == 0 && ApplicationData.getInstance().userDataContract.WeekNumber > 1)
-        {
-            if (withDialog)
-            {
-                showFreeExpiredDialog();
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
-    private void showFreeExpiredDialog()
-    {
-        final Dialog freeExpiredDialog = new Dialog(this);
-        freeExpiredDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        freeExpiredDialog.setContentView(R.layout.free_expired_dialog);
-        freeExpiredDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        ((TextView) freeExpiredDialog.findViewById(R.id.dialog_content)).setText(getString(R.string.FREE_1WEEKTRIAL_EXPIRED));
-
-        ((Button) freeExpiredDialog.findViewById(R.id.dialog_cancel)).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-
-                freeExpiredDialog.dismiss();
-            }
-        });
-
-        ((Button) freeExpiredDialog.findViewById(R.id.dialog_payment)).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-
-                freeExpiredDialog.dismiss();
-                goToPremiumPayment();
-            }
-        });
-
-        freeExpiredDialog.show();
-    }
-
-    private void goToPremiumPayment()
-    {
-        Intent mainContentBrowser = new Intent(this, NpnaOfferActivity.class);
-        mainContentBrowser.putExtra("UPGRADE_PAYMENT", true);
-        startActivity(mainContentBrowser);
     }
 }

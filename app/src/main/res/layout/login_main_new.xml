@@ -41,7 +41,9 @@
             android:background="@drawable/button_white_edittext_background"
             android:hint="@string/login_password_placeholder"
             android:paddingLeft="10dp"
-            android:layout_marginTop="-5dp" />
+            android:layout_marginTop="-5dp"
+            android:drawableRight="@drawable/password_visible"
+            android:tag="hidden"/>
 
         <RelativeLayout
             android:layout_width="260dp"

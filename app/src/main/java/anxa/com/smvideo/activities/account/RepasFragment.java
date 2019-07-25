@@ -1,10 +1,24 @@
 package anxa.com.smvideo.activities.account;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StrictMode;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +31,11 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -121,6 +140,7 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener
     private RepasRelatedListAdapter repasListAdapter_related;
 
     private ImageView backButton;
+    private Button shareButton;
     private Button header_right;
 
     private boolean isUserWeek0 = false;
@@ -137,6 +157,7 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener
     private int totalDaysArchive = 0;
     private int totalWeeksArchive = 0;
 
+    private static final String TAG = RepasFragment.class.getSimpleName();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -149,13 +170,17 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener
         //header change
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_account_repas));
 
-        header_right = (Button) (mView.findViewById(R.id.header_menu_iv));
+      /*  header_right = (Button) (mView.findViewById(R.id.header_menu_iv));
         header_right.setBackgroundResource(R.drawable.ic_print);
-        header_right.setOnClickListener(this);
+        header_right.setOnClickListener(this);*/
 
         backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_menu_back);
         backButton.setOnClickListener(this);
 
+
+        shareButton = (Button) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.shareButton);
+        shareButton.setOnClickListener(this);
+        shareButton.setVisibility(View.VISIBLE);
         repasProgram_tv = (TextView) (mView.findViewById(R.id.repasHeader_tv));
         shoppingList_recipe_tv = (TextView) (mView.findViewById(R.id.shoppingList_recipe_header));
         repasDay_et = (EditText) (mView.findViewById(R.id.repasDay_et));
@@ -411,9 +436,188 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener
             }
         }, weekNumber, dayNumber);
     }
+ /*   private void openScreenshot(File imageFile) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        Uri uri = Uri.fromFile(imageFile);
+        intent.setDataAndType(uri, "application/pdf");
+        startActivity(intent);
+    }*/
+    private  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v(TAG,"Permission is granted");
+                return true;
+            } else {
 
+                Log.v(TAG,"Permission is revoked");
+                ActivityCompat.requestPermissions((Activity)context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v(TAG,"Permission is granted");
+            return true;
+        }
+    }
+    private void loadRecetteFragment()
     private void getListPerCategory()
     {
+        FragmentManager fragmentManager = getFragmentManager();
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS") != null) {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS")).commit();
+        } else {
+        }
+
+        try {
+            Fragment fragment = new RecipesAccountFragment();
+            fragmentManager.beginTransaction().replace(R.id.recettesContent, fragment, "CURRENT_FRAGMENT_IN_REPAS").commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        repasHeader_ll.setVisibility(View.GONE);
+        repasSearch_ll.setVisibility(View.GONE);
+    }
+    private void generatePdf(ViewGroup v)
+    {
+        if (isStoragePermissionGranted()) {
+            try {
+                /*v.measure(View.MeasureSpec.makeMeasureSpec(
+                        View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
+                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                v.layout(0, 0, v.getMeasuredWidth(),
+                        v.getMeasuredHeight());
+                v.setDrawingCacheEnabled(true);
+                v.buildDrawingCache();*/
+
+
+                PdfDocument document = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                    document = new PdfDocument();
+
+                    int pageNumber = 1;
+                    PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(v.getChildAt(0).getWidth(),
+                            v.getChildAt(0).getHeight(), pageNumber).create();
+                    PdfDocument.Page page = document.startPage(pageInfo);
+                    //wb.draw(page.getCanvas());
+                    v.draw(page.getCanvas());
+                    document.finishPage(page);
+
+
+                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                    //bm.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                    String docName = "repas.pdf";
+                    if (shoppingList_btn.isSelected()) {
+                        docName = "shoppinglist.pdf";
+                    }
+                    if (recettes_btn.isSelected()) {
+                        docName = "recipe.pdf";
+                    }
+                    File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), docName);
+                    document.writeTo(new FileOutputStream(f));
+                    document.close();
+                    //openScreenshot(f);
+
+                    StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                    StrictMode.setVmPolicy(builder.build());
+
+                /*    Uri uri = Uri.fromFile(f);
+                    FileOutputStream fo = new FileOutputStream(f);
+                    fo.write(bytes.toByteArray());*/
+                    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    sharingIntent.setType("application/pdf");
+
+                    sharingIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+f));
+                    startActivity(Intent.createChooser(sharingIntent, "Share via"));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+    private void removeRepasFragment()
+    {
+        FragmentManager fragmentManager = getFragmentManager();
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS") != null) {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS")).commit();
+        }
+    }
+
+
+    private void getSpecificRecipe(int recipeId) {
+        caller.GetAccountRecipeCtid(new AsyncResponse() {
+            @Override
+            public void processFinish(Object output) {
+                RecipeResponseContract c = (RecipeResponseContract) output;
+                if (c != null && c.Data != null && c.Data.Recipes != null) {
+                    proceedToRecipePage(c.Data.Recipes.get(0));
+                }
+            }
+        }, recipeId, dayNumber);
+    }
+
+    private void proceedToRecipePage(RecipeContract recipeContract) {
+        ApplicationData.getInstance().selectedRelatedRecipe = recipeContract;
+
+        Intent mainIntent = new Intent(this.getActivity(), RecipeAccountActivity.class);
+        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getActivity().startActivity(mainIntent);
+
+
+
+    }
+
+    private void getDateString() {
+        if (isUserWeek0) {
+            repasDay_et.setText(AppUtil.getRepasDateHeaderWeekDay(weekNumber, dayNumber));
+
+        } else {
+            Calendar cal = GregorianCalendar.getInstance();
+            cal.add(Calendar.DAY_OF_YEAR, dayOffset);
+            Date displayDate = cal.getTime();
+
+            weekNumber = AppUtil.getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), displayDate);
+            if (weekNumber == 0)
+                weekNumber = 1;
+            dayNumber = AppUtil.getDayNumber(displayDate);
+
+            repasDay_et.setText(AppUtil.getRepasDateHeader(displayDate, false));
+        }
+    }
+
+    private void getShoppingListDateString() {
+        System.out.println("REpas weeknumber getShoppingListDateString: " + weekNumber + " dayoffsetlist:" + dayOffset_list);
+
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.add(Calendar.WEEK_OF_YEAR, dayOffset_list);
+        Date displayDate = cal.getTime();
+
+        if (isUserWeek0) {
+            weekNumber = weekNumber + dayOffset_list;
+            repasDay_et.setText("Semaine " + weekNumber);
+
+        } else {
+            weekNumber = AppUtil.getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), displayDate);
+
+            System.out.println("REpas weeknumber getShoppingListDateString2: " + weekNumber);
+
+            if (weekNumber == 0)
+                weekNumber = 1;
+
+            dayNumber = AppUtil.getDayNumber(displayDate);
+
+            repasDay_et.setText(AppUtil.getShoppingListDateHeader(displayDate, false));
+        }
+        System.out.println("REpas weeknumber getShoppingListDateString3: " + weekNumber);
+
+
+    }
+
+    private void getListPerCategory() {
         for (String catPerShopping : categoriesList) {
 
             ArrayList<ShoppingListContract> shoppingListPerCat = new ArrayList<>();

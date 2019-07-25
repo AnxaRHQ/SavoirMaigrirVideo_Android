@@ -194,6 +194,20 @@
                         android:layout_alignStart="@+id/LandingImage2_account"
                         android:layout_alignRight="@+id/LandingImage2_account"
                         android:layout_alignEnd="@+id/LandingImage2_account" />
+
+                    <TextView
+                        android:id="@+id/textLive"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"
+                        android:background="@color/text_red"
+                        android:text="• LIVE"
+
+                        android:textColor="@color/text_white"
+                        android:textSize="9sp"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="visible"
+                        android:includeFontPadding="false"/>
                 </RelativeLayout>
 
                 <RelativeLayout

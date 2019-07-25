@@ -1,5 +1,6 @@
 package anxa.com.smvideo.activities.account;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
@@ -27,6 +28,8 @@ import anxa.com.smvideo.contracts.RecipeContract;
 import anxa.com.smvideo.contracts.RecipeResponseContract;
 import anxa.com.smvideo.ui.CustomListView;
 import anxa.com.smvideo.ui.RecipesListAdapter;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by aprilanxa on 13/07/2017.
@@ -60,7 +63,7 @@ public class RecipesAccountFragment extends BaseFragment implements View.OnClick
         //hide header
         (mView.findViewById(R.id.headermenu)).setVisibility(View.GONE);
 
-        
+
         //ui
         recipesListView = (CustomListView) mView.findViewById(R.id.recipesListView);
         recipesList = new ArrayList<RecipeContract>();
@@ -254,10 +257,17 @@ public class RecipesAccountFragment extends BaseFragment implements View.OnClick
             }
         }
 
-        Intent mainIntent = new Intent(this.getActivity(), RecipeAccountActivity.class);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getActivity().startActivity(mainIntent);
+       // Intent mainIntent = new Intent(context, RecipeAccountActivity.class);
+        //mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //startActivityForResult(mainIntent, REQUEST_CODE_RECIPEVIEW);
+
+
+            Fragment fragment = new RecipeAccountActivity();
+            FragmentManager fragmentManager = getFragmentManager();
+
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS")).add(R.id.mainContent, fragment, "RECIPE_FRAGMENT").addToBackStack(null)
+                    .commit();
     }
 
     private void updateCategoryButtons(RecipeContract.RecipeTypeEnum enumVal) {
@@ -293,4 +303,13 @@ public class RecipesAccountFragment extends BaseFragment implements View.OnClick
             ((Button) mView.findViewById(R.id.button_soup)).setBackgroundColor(Color.TRANSPARENT);
         }
     }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        //finish
+    }
+
+
 }

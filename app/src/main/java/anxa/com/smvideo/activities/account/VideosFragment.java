@@ -58,7 +58,7 @@ public class VideosFragment extends BaseFragment implements View.OnClickListener
 
         caller = new ApiCaller();
 
-        backButton = (ImageView) mView.findViewById(R.id.header_menu_back);
+        backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.exercice_headermenu)).findViewById(R.id.header_menu_back);
         backButton.setOnClickListener(this);
 
         //header change

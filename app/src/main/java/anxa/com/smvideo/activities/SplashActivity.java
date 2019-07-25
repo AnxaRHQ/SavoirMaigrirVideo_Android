@@ -28,7 +28,7 @@ public class SplashActivity extends Activity {
     protected boolean _active = true;
     protected int _splashTime = 3000; // time to display the splash screen in ms
     boolean canTouch;
-
+    public static final int REQUEST_CODE_MAIN= 100;
 
     private ApiCaller apiCaller;
     private LoginContract loginContract;
@@ -131,7 +131,7 @@ public class SplashActivity extends Activity {
                     ApplicationData.getInstance().accountType = "account";
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Home;
                     Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(mainIntent);
+                    startActivityForResult(mainIntent, REQUEST_CODE_MAIN);
                 } else {
                     responseIntent = new Intent(SplashActivity.this, MainLandingPageActivity.class);
                 }
@@ -156,5 +156,14 @@ public class SplashActivity extends Activity {
 
             }
         });
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_CODE_MAIN)
+        {
+
+        }
     }
 }

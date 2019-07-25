@@ -41,6 +41,7 @@
     <color name="text_green">#00ff00</color>
     <color name="text_blue_comment">#399deb</color>
     <color name="text_white">#ffffff</color>
+    <color name="text_red">#ff0000</color>
     <color name="tw__transparent">#00000000</color>
     <color name="text_gray">#eaeaea</color>
     <color name="common_gray_light_separator">#cacaca</color>

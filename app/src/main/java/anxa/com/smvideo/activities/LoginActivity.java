@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Browser;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -58,6 +61,34 @@ public class LoginActivity extends Activity{
 
         email_et = (EditText)findViewById(R.id.login_email_et);
         password_et = (EditText)findViewById(R.id.login_password_et);
+        password_et.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getRawX() >= (password_et.getRight() - password_et.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        if(password_et.getTag().equals("hidden"))
+                        {
+                            password_et.setTransformationMethod(new HideReturnsTransformationMethod());
+                            password_et.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.password_hidden), null);
+                            password_et.setTag("show");
+                        }
+                        else
+                        {
+                            password_et.setTransformationMethod(new PasswordTransformationMethod());
+                            password_et.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.password_visible), null);
+                            password_et.setTag("hidden");
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
         loginProgressBar = (ProgressBar)findViewById(R.id.login_progressBar);
         loginProgressBar.setVisibility(View.GONE);
 

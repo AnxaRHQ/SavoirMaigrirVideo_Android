@@ -29,7 +29,17 @@
             android:textColor="@android:color/white"
             android:textSize="20dp"
             android:textStyle="bold" />
-
+        <Button
+            android:id="@+id/shareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+           android:layout_toLeftOf="@+id/header_menu_iv"
+            android:layout_marginLeft="5dp"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:background="@drawable/baseline_share_white"
+            android:visibility="gone"/>
         <Button
             android:id="@+id/header_menu_iv"
             android:layout_width="wrap_content"
