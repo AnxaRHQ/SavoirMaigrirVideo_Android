@@ -43,8 +43,7 @@ import java.util.List;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
-import anxa.com.smvideo.activities.registration.RegistrationActivity;
-import anxa.com.smvideo.activities.registration.RegistrationFormActivity;
+import anxa.com.smvideo.activities.registration.RegistrationMainObjectiveActivity;
 import anxa.com.smvideo.common.SavoirMaigrirVideoConstants;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
@@ -62,7 +61,8 @@ import anxa.com.smvideo.util.InputValidatorUtil;
  * Created by angelaanxa on 5/24/2017.
  */
 
-public class BilanMinceurActivity extends Fragment implements View.OnClickListener {
+public class BilanMinceurActivity extends Fragment implements View.OnClickListener
+{
     private WebView webViewResultsVideo;
     private WebView webViewTestimonials1Video;
     private WebView webViewTestimonials2Video;
@@ -95,8 +95,8 @@ public class BilanMinceurActivity extends Fragment implements View.OnClickListen
 
     private YouTubePlayer youTubePlayer;
 
-    private static final int BROWSERTAB_ACTIVITY = 1111;
-    private TextView header_right;
+    private ImageView backButton;
+    private Button header_right;
 
     Context context;
     ApiCaller caller;
@@ -104,18 +104,25 @@ public class BilanMinceurActivity extends Fragment implements View.OnClickListen
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+                             Bundle savedInstanceState)
+    {
         this.context = getActivity();
         mView = inflater.inflate(R.layout.bilan, null);
         caller = new ApiCaller();
 
         //header change
         ((TextView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_title_tv)).setText(getString(R.string.menu_bilan));
-        header_right = (TextView) (mView.findViewById(R.id.header_right_tv));
-        header_right.setVisibility(View.VISIBLE);
-        header_right.setOnClickListener(this);
 
+        backButton = (ImageView) mView.findViewById(R.id.header_menu_back);
+        backButton.setVisibility(View.VISIBLE);
+        backButton.setImageDrawable(null);
+        backButton.setBackground(context.getResources().getDrawable(R.drawable.ic_menu_white_24dp));
+
+        header_right = (Button) (mView.findViewById(R.id.header_menu_iv));
+        header_right.setBackgroundResource(0);
+        header_right.setText(R.string.login_registration_button);
+        header_right.setTextColor(getResources().getColor(R.color.text_orange));
+        header_right.setOnClickListener(this);
 
         dietProfileResultsPage1 = (RelativeLayout) mView.findViewById(R.id.dietProfileResultsPage1);
         dietProfileResultsPage2 = (RelativeLayout) mView.findViewById(R.id.dietProfileResultsPage2);
@@ -229,10 +236,14 @@ public class BilanMinceurActivity extends Fragment implements View.OnClickListen
     }
 
     @Override
-    public void onClick(View v) {
-        if(v==header_right){
+    public void onClick(View v)
+    {
+        if (v == header_right)
+        {
             goToRegistrationPage();
-        }else {
+        }
+        else
+        {
             String buttonTag = (String) v.getTag();
             switch (buttonTag) {
                 case "buttonReturnToResultsPage1":
@@ -320,7 +331,8 @@ public class BilanMinceurActivity extends Fragment implements View.OnClickListen
     }
 
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
         webViewResultsVideo.onPause();
         webViewTestimonials1Video.onPause();
@@ -328,8 +340,8 @@ public class BilanMinceurActivity extends Fragment implements View.OnClickListen
         webViewTestimonials3Video.onPause();
     }
 
-
-    private boolean validateVitalStats() {
+    private boolean validateVitalStats()
+    {
         EditText editHeight = (EditText) mView.findViewById(R.id.editHeight);
         EditText editCurrentWeight = (EditText) mView.findViewById(R.id.editCurrentWeight);
         EditText editIdealWeight = (EditText) mView.findViewById(R.id.editIdealWeight);
@@ -366,7 +378,8 @@ public class BilanMinceurActivity extends Fragment implements View.OnClickListen
         return true;
     }
 
-    private boolean validatePersonalInfo() {
+    private boolean validatePersonalInfo()
+    {
         EditText editEmailAddress = (EditText) mView.findViewById(R.id.editEmailAddress);
         EditText editFirstname = (EditText) mView.findViewById(R.id.editFirstname);
         EditText editSurname = (EditText) mView.findViewById(R.id.editSurname);
@@ -406,14 +419,16 @@ public class BilanMinceurActivity extends Fragment implements View.OnClickListen
         return true;
     }
 
-    private void configureGenderButton() {
+    private void configureGenderButton()
+    {
         ImageButton imgBtnFem = (ImageButton) mView.findViewById(R.id.imgBtnFem);
         ImageButton imgBtnMale = (ImageButton) mView.findViewById(R.id.imgBtnMale);
         imgBtnFem.setOnClickListener(this);
         imgBtnMale.setOnClickListener(this);
     }
 
-    private void getQuestions(String genderValue) {
+    private void getQuestions(String genderValue)
+    {
         questionsList = new ArrayList<QuestionsContract>();
 
         caller = new ApiCaller();
@@ -433,7 +448,8 @@ public class BilanMinceurActivity extends Fragment implements View.OnClickListen
         }, genderValue);
     }
 
-    private void createQuestionsList() {
+    private void createQuestionsList()
+    {
         final LinearLayout qLayout = (LinearLayout) mView.findViewById(R.id.lQuestionsList);
         List<AnswersContract> answersList = new ArrayList<AnswersContract>();
         String question;
@@ -531,7 +547,8 @@ public class BilanMinceurActivity extends Fragment implements View.OnClickListen
         questionIndex += 1;
     }
 
-    private void postResults() {
+    private void postResults()
+    {
         EditText editHeight = (EditText) mView.findViewById(R.id.editHeight);
         EditText editCurrentWeight = (EditText) mView.findViewById(R.id.editCurrentWeight);
         EditText editIdealWeight = (EditText) mView.findViewById(R.id.editIdealWeight);
@@ -575,7 +592,8 @@ public class BilanMinceurActivity extends Fragment implements View.OnClickListen
         }, bmContract);
     }
 
-    private void buildResultsPage(ResultsResponseDataContract resultsData) {
+    private void buildResultsPage(ResultsResponseDataContract resultsData)
+    {
         ApplicationData.getInstance().bilanminceurResults = resultsData;
 
         final LinearLayout dietProfileResultsLayout = (LinearLayout) mView.findViewById(R.id.dietProfileResultsLayout);
@@ -769,8 +787,8 @@ public class BilanMinceurActivity extends Fragment implements View.OnClickListen
         buttonSubscribe.setOnClickListener(this);
     }
 
-    private void viewResultPage(int pageNo) {
-
+    private void viewResultPage(int pageNo)
+    {
         persoHeaderLayout.setVisibility(View.GONE);
         sPersonalInfo.setVisibility(View.GONE);
         lVitalStats.setVisibility(View.GONE);
@@ -790,7 +808,8 @@ public class BilanMinceurActivity extends Fragment implements View.OnClickListen
         dietProfileResultsPage5.setVisibility(View.GONE);
         dietProfileResultsPage6.setVisibility(View.GONE);
 
-        switch (pageNo) {
+        switch (pageNo)
+        {
             case 1:
                 dietProfileResultsPage1.setVisibility(View.VISIBLE);
                 imageViewProgressBar.setImageResource(R.drawable.results_progress01);
@@ -839,8 +858,8 @@ public class BilanMinceurActivity extends Fragment implements View.OnClickListen
         }
     }
 
-    private void RefreshPlayer(final View v, final String videoId) {
-
+    private void RefreshPlayer(final View v, final String videoId)
+    {
         playerFragment.initialize(SavoirMaigrirVideoConstants.YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, final YouTubePlayer youTubePlayer, boolean b) {
@@ -892,11 +911,11 @@ public class BilanMinceurActivity extends Fragment implements View.OnClickListen
 
 
         });
-
     }
 
-    private void goToRegistrationPage() {
-        Intent mainIntent = new Intent(context, RegistrationFormActivity.class);
+    private void goToRegistrationPage()
+    {
+        Intent mainIntent = new Intent(context, RegistrationMainObjectiveActivity.class);
         startActivity(mainIntent);
     }
 

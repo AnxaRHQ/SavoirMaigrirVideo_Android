@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -30,20 +31,20 @@ import anxa.com.smvideo.contracts.UserDataContract;
  * Created by aprilanxa on 21/09/2017.
  */
 
-public class AproposFragment extends Fragment implements View.OnClickListener {
-
-
+public class AproposFragment extends Fragment implements View.OnClickListener
+{
     private Context context;
     protected ApiCaller caller;
     private View mView;
+    private ImageView backButton;
 
     private TextView version_tv;
     private TableRow apropos_row, conditions_row, privacy_row, contact_row, logout_row;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+                             Bundle savedInstanceState)
+    {
         this.context = getActivity();
         mView = inflater.inflate(R.layout.apropos_account, null);
 
@@ -51,34 +52,35 @@ public class AproposFragment extends Fragment implements View.OnClickListener {
 
         //header change
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.apropos_menu_title));
-        ((TextView) (mView.findViewById(R.id.header_right_tv))).setVisibility(View.GONE);
+
+        backButton = (ImageView) mView.findViewById(R.id.header_menu_back);
+        backButton.setVisibility(View.VISIBLE);
+        backButton.setImageDrawable(null);
+        backButton.setBackground(context.getResources().getDrawable(R.drawable.ic_menu_white_24dp));
+
+        ((TextView) (mView.findViewById(R.id.header_menu_iv))).setVisibility(View.GONE);
 
         version_tv = (TextView) (mView.findViewById(R.id.apropos_version_tv));
         version_tv.setText("Version " + BuildConfig.VERSION_NAME);
 
-//        apropos_row = (TableRow)(mView.findViewById(R.id.apropos_row));
         conditions_row = (TableRow)(mView.findViewById(R.id.conditions_row));
         privacy_row = (TableRow)(mView.findViewById(R.id.privacy_row));
         contact_row = (TableRow)(mView.findViewById(R.id.contact_row));
         logout_row = (TableRow)(mView.findViewById(R.id.logout_row));
 
-//        apropos_row.setOnClickListener(this);
         conditions_row.setOnClickListener(this);
         privacy_row.setOnClickListener(this);
         contact_row.setOnClickListener(this);
         logout_row.setOnClickListener(this);
 
-        if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free")) {
-            logout_row.setVisibility(View.GONE);
-        }else{
-            logout_row.setVisibility(View.VISIBLE);
-        }
+        logout_row.setVisibility(View.VISIBLE);
 
-            return mView;
+        return mView;
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
 //        if (v == apropos_row){
 //            goToAproposContentPage();
 //        }else
@@ -93,7 +95,8 @@ public class AproposFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void logoutUser() {
+    public void logoutUser()
+    {
         UserDataContract up = ApplicationData.getInstance().userDataContract;
 
         long activeTimeMilliseconds = System.currentTimeMillis() - ApplicationData.getInstance().getAnxamatsSessionStart();
@@ -128,12 +131,14 @@ public class AproposFragment extends Fragment implements View.OnClickListener {
         goToLoginPage();
     }
 
-    private void goToAproposContentPage() {
+    private void goToAproposContentPage()
+    {
         Intent mainIntent = new Intent(this.getActivity(), AproposContentActivity.class);
         getActivity().startActivity(mainIntent);
     }
 
-    private void goToConditionsPage() {
+    private void goToConditionsPage()
+    {
         Intent mainContentBrowser = new Intent(context, BrowserActivity.class);
         mainContentBrowser.putExtra("HEADER_TITLE", getResources().getString(R.string.apropos_menu2));
         if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free")) {
@@ -144,7 +149,8 @@ public class AproposFragment extends Fragment implements View.OnClickListener {
         startActivity(mainContentBrowser);
     }
 
-    private void goToPrivacyPage() {
+    private void goToPrivacyPage()
+    {
         Intent mainContentBrowser = new Intent(context, BrowserActivity.class);
         mainContentBrowser.putExtra("HEADER_TITLE", getResources().getString(R.string.apropos_menu3));
         if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free")) {
@@ -155,7 +161,8 @@ public class AproposFragment extends Fragment implements View.OnClickListener {
         startActivity(mainContentBrowser);
     }
 
-    private void goToContactPage() {
+    private void goToContactPage()
+    {
         Intent mainContentBrowser = new Intent(context, BrowserActivity.class);
         mainContentBrowser.putExtra("HEADER_TITLE", getResources().getString(R.string.apropos_menu4));
         if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free")) {
@@ -166,7 +173,8 @@ public class AproposFragment extends Fragment implements View.OnClickListener {
         startActivity(mainContentBrowser);
     }
 
-    private void goToLoginPage(){
+    private void goToLoginPage()
+    {
         Intent mainIntent = new Intent(context, LoginActivity.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

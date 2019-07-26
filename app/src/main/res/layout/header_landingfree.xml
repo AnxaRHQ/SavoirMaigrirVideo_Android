@@ -9,10 +9,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/header">
 
-
-
-
-
         <ImageView
             android:id="@+id/header_title_iv"
             android:layout_width="wrap_content"
@@ -21,9 +17,14 @@
             android:gravity="center"
             android:src="@drawable/nav_logo"/>
 
+        <ImageView
+            android:id="@+id/icon_info"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_info_outline_white_24dp" />
 
-
-    </RelativeLayout>
+</RelativeLayout>
 
 
 

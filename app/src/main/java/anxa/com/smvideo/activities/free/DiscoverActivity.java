@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,8 +27,7 @@ import java.util.List;
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.activities.LoginActivity;
-import anxa.com.smvideo.activities.registration.RegistrationActivity;
-import anxa.com.smvideo.activities.registration.RegistrationFormActivity;
+import anxa.com.smvideo.activities.registration.RegistrationMainObjectiveActivity;
 import anxa.com.smvideo.common.SavoirMaigrirVideoConstants;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
@@ -41,8 +42,8 @@ import anxa.com.smvideo.util.VideoHelper;
  * Created by angelaanxa on 5/23/2017.
  */
 
-public class DiscoverActivity extends Fragment implements View.OnClickListener {
-
+public class DiscoverActivity extends Fragment implements View.OnClickListener
+{
     private Context context;
     protected ApiCaller caller;
 
@@ -51,24 +52,34 @@ public class DiscoverActivity extends Fragment implements View.OnClickListener {
     private List<VideoContract> videosList;
 
     private YouTubePlayerFragment playerFragment;
-    private TextView header_right;
+    private ImageView backButton;
+    private Button header_right;
     View mView;
 
     private static final int RECOVERY_REQUEST = 1;
     private static final int BROWSERTAB_ACTIVITY = 1111;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+                             Bundle savedInstanceState)
+    {
         this.context = getActivity();
         mView = inflater.inflate(R.layout.discover, null);
 
         caller = new ApiCaller();
+
         //header change
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_decouvrir));
-        header_right = (TextView) (mView.findViewById(R.id.header_right_tv));
+
+        backButton = (ImageView) mView.findViewById(R.id.header_menu_back);
+        backButton.setVisibility(View.VISIBLE);
+        backButton.setImageDrawable(null);
+        backButton.setBackground(context.getResources().getDrawable(R.drawable.ic_menu_white_24dp));
+
+        header_right = (Button) (mView.findViewById(R.id.header_menu_iv));
+        header_right.setBackgroundResource(0);
+        header_right.setText(R.string.login_registration_button);
+        header_right.setTextColor(getResources().getColor(R.color.text_orange));
         header_right.setOnClickListener(this);
 
         ((LinearLayout)mView.findViewById(R.id.youtube_layout_caption)).setVisibility(View.VISIBLE);
@@ -76,7 +87,9 @@ public class DiscoverActivity extends Fragment implements View.OnClickListener {
         //ui
         discoverListView = (CustomListView) mView.findViewById(R.id.discoverListView);
         videosList = new ArrayList<VideoContract>();
-        if (adapter == null) {
+
+        if (adapter == null)
+        {
             adapter = new VideoListAdapter(context, videosList, this);
         }
 
@@ -91,7 +104,6 @@ public class DiscoverActivity extends Fragment implements View.OnClickListener {
         playerFragment = YouTubePlayerFragment.newInstance();
         ft.replace(R.id.youtube_layout, playerFragment, tag);
         ft.commit();
-
 
         caller.GetFreeDiscover(new AsyncResponse() {
             @Override
@@ -121,13 +133,15 @@ public class DiscoverActivity extends Fragment implements View.OnClickListener {
         return mView;
     }
 
-
     @Override
-    public void onClick(final View v) {
-
-        if(v==header_right){
+    public void onClick(final View v)
+    {
+        if (v == header_right)
+        {
             goToRegistrationPage();
-        }else {
+        }
+        else
+        {
             FragmentManager fm = getFragmentManager();
             String tag = YouTubePlayerFragment.class.getSimpleName();
             playerFragment = (YouTubePlayerFragment) fm.findFragmentByTag(tag);
@@ -153,13 +167,16 @@ public class DiscoverActivity extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void RefreshPlayer(final View v, final VideoContract video) {
+    private void RefreshPlayer(final View v, final VideoContract video)
+    {
         playerFragment.initialize(SavoirMaigrirVideoConstants.YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, final YouTubePlayer youTubePlayer, boolean wasRestored) {
-                if (video.VideoId != null) {
 
-                    if (!wasRestored) {
+                if (video.VideoId != null)
+                {
+                    if (!wasRestored)
+                    {
                         youTubePlayer.cueVideo(String.valueOf(video.VideoId));
 
                         ((TextView) (mView.findViewById(R.id.videoTitle))).setText(video.Title);
@@ -225,13 +242,15 @@ public class DiscoverActivity extends Fragment implements View.OnClickListener {
         });
     }
 
-    private void goToRegistrationPage() {
-        Intent mainIntent = new Intent(context, RegistrationFormActivity.class);
+    private void goToRegistrationPage()
+    {
+        Intent mainIntent = new Intent(context, RegistrationMainObjectiveActivity.class);
         startActivity(mainIntent);
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    public void onActivityResult(int requestCode, int resultCode, Intent intent)
+    {
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == BROWSERTAB_ACTIVITY) {
             if (intent != null) {
@@ -245,7 +264,8 @@ public class DiscoverActivity extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void goToLoginPage() {
+    private void goToLoginPage()
+    {
         Intent mainIntent = new Intent(context, LoginActivity.class);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

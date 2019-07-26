@@ -16,6 +16,7 @@ import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -75,9 +76,7 @@ public class BrowserActivity extends Activity implements View.OnClickListener{
         setContentView(R.layout.browser_layout);
 
         ((TextView) findViewById(R.id.header_title_tv)).setText(title);
-        ((TextView) findViewById(R.id.header_right_tv)).setVisibility(View.GONE);
-        ((ImageView) findViewById(R.id.header_menu_iv)).setVisibility(View.GONE);
-        ((ImageView) findViewById(R.id.header_menu_back)).setVisibility(View.VISIBLE);
+        ((Button) findViewById(R.id.header_menu_iv)).setVisibility(View.GONE);
 
         backButton = (ImageView) ((RelativeLayout) findViewById(R.id.headermenu)).findViewById(R.id.header_menu_back);
         backButton.setVisibility(View.VISIBLE);

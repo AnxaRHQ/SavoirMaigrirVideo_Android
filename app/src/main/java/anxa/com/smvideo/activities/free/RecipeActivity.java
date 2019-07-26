@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -32,23 +33,27 @@ import anxa.com.smvideo.util.UITagHandler;
  * Created by angelaanxa on 5/29/2017.
  */
 
-public class RecipeActivity extends Fragment implements View.OnClickListener {
+public class RecipeActivity extends Fragment implements View.OnClickListener
+{
     private List<RecipeContract> recipesList;
     View mView;
     private ImageView backButton;
-
+    private Button header_right;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         mView = inflater.inflate(R.layout.recipe, null);
-        ((TextView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_title_tv)).setText(getString(R.string.menu_recette));
-        ((ImageView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_menu_iv)).setVisibility(View.GONE);
 
+        ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_recette));
 
-        backButton = ((ImageView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_menu_back));
+        backButton = (ImageView) mView.findViewById(R.id.header_menu_back);
         backButton.setVisibility(View.VISIBLE);
         backButton.setOnClickListener(this);
+
+        header_right = (Button) (mView.findViewById(R.id.header_menu_iv));
+        header_right.setVisibility(View.GONE);
 
         String myValue = this.getArguments().getString("message");
         String source = this.getArguments().getString("SOURCE");
@@ -75,7 +80,8 @@ public class RecipeActivity extends Fragment implements View.OnClickListener {
         return mView;
     }
 
-    private void updateUI(RecipeContract recipeContract) {
+    private void updateUI(RecipeContract recipeContract)
+    {
         ((TextView) mView.findViewById(R.id.recipeTitle)).setText(recipeContract.Title);
         Bitmap avatar = null;
         avatar = RecipeHelper.GetRecipeImage(recipeContract.Id);
@@ -105,8 +111,8 @@ public class RecipeActivity extends Fragment implements View.OnClickListener {
         ((TextView) mView.findViewById(R.id.recipePreparation)).setText(Html.fromHtml(recipeContract.PreparationHtml, null, new UITagHandler()));
     }
 
-
-    private Bitmap getAvatar(int recipeId) {
+    private Bitmap getAvatar(int recipeId)
+    {
         Bitmap avatarBMP = null;
         if (recipeId > 0) {
             avatarBMP = ApplicationData.getInstance().recipePhotoList.get(String.valueOf(recipeId));
@@ -117,8 +123,10 @@ public class RecipeActivity extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(final View v) {
-        if (v==backButton){
+    public void onClick(final View v)
+    {
+        if (v == backButton)
+        {
             getFragmentManager().popBackStack();
         }
     }

@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -21,8 +23,8 @@ import java.util.List;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
-import anxa.com.smvideo.activities.registration.RegistrationActivity;
 import anxa.com.smvideo.activities.registration.RegistrationFormActivity;
+import anxa.com.smvideo.activities.registration.RegistrationMainObjectiveActivity;
 import anxa.com.smvideo.common.SavoirMaigrirVideoConstants;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
@@ -36,8 +38,8 @@ import anxa.com.smvideo.util.VideoHelper;
  * Created by angelaanxa on 5/24/2017.
  */
 
-public class TemoignagesActivity extends Fragment implements View.OnClickListener {
-
+public class TemoignagesActivity extends Fragment implements View.OnClickListener
+{
     private Context context;
     protected ApiCaller caller;
 
@@ -49,12 +51,13 @@ public class TemoignagesActivity extends Fragment implements View.OnClickListene
     View mView;
 
     private static final int BROWSERTAB_ACTIVITY = 1111;
-    private TextView header_right;
+    private ImageView backButton;
+    private Button header_right;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+                             Bundle savedInstanceState)
+    {
         this.context = getActivity();
 
         mView = inflater.inflate(R.layout.temoignages, null);
@@ -62,7 +65,16 @@ public class TemoignagesActivity extends Fragment implements View.OnClickListene
 
         //header change
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_temoignages));
-        header_right = (TextView) (mView.findViewById(R.id.header_right_tv));
+
+        backButton = (ImageView) mView.findViewById(R.id.header_menu_back);
+        backButton.setVisibility(View.VISIBLE);
+        backButton.setImageDrawable(null);
+        backButton.setBackground(context.getResources().getDrawable(R.drawable.ic_menu_white_24dp));
+
+        header_right = (Button) (mView.findViewById(R.id.header_menu_iv));
+        header_right.setBackgroundResource(0);
+        header_right.setText(R.string.login_registration_button);
+        header_right.setTextColor(getResources().getColor(R.color.text_orange));
         header_right.setOnClickListener(this);
 
         //ui
@@ -113,10 +125,14 @@ public class TemoignagesActivity extends Fragment implements View.OnClickListene
     }
 
     @Override
-    public void onClick(final View v) {
-        if(v==header_right){
+    public void onClick(final View v)
+    {
+        if (v == header_right)
+        {
             goToRegistrationPage();
-        }else {
+        }
+        else
+        {
             FragmentManager fm = getFragmentManager();
             String tag = YouTubePlayerFragment.class.getSimpleName();
             playerFragment = (YouTubePlayerFragment) fm.findFragmentByTag(tag);
@@ -142,7 +158,8 @@ public class TemoignagesActivity extends Fragment implements View.OnClickListene
         }
     }
 
-    private void RefreshPlayer(final View v, final VideoContract video) {
+    private void RefreshPlayer(final View v, final VideoContract video)
+    {
 
         playerFragment.initialize(SavoirMaigrirVideoConstants.YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
@@ -196,13 +213,12 @@ public class TemoignagesActivity extends Fragment implements View.OnClickListene
                 //Toast.makeText(YouTubePlayerFragmentActivity.this, "Error while initializing YouTubePlayer.", Toast.LENGTH_SHORT).show();
             }
 
-
         });
-
     }
 
-    private void goToRegistrationPage() {
-        Intent mainIntent = new Intent(context, RegistrationFormActivity.class);
+    private void goToRegistrationPage()
+    {
+        Intent mainIntent = new Intent(context, RegistrationMainObjectiveActivity.class);
         startActivity(mainIntent);
     }
 }

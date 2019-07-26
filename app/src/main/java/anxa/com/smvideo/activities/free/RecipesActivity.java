@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -20,8 +21,7 @@ import java.util.List;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
-import anxa.com.smvideo.activities.registration.RegistrationActivity;
-import anxa.com.smvideo.activities.registration.RegistrationFormActivity;
+import anxa.com.smvideo.activities.registration.RegistrationMainObjectiveActivity;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
 import anxa.com.smvideo.contracts.RecipeContract;
@@ -33,16 +33,16 @@ import anxa.com.smvideo.ui.RecipesListAdapter;
  * Created by angelaanxa on 5/24/2017.
  */
 
-public class RecipesActivity extends Fragment implements View.OnClickListener {
-
+public class RecipesActivity extends Fragment implements View.OnClickListener
+{
     private CustomListView recipesListView;
     private RecipesListAdapter adapter;
     private List<RecipeContract> recipesList;
 
     private Context context;
-    private static final int BROWSERTAB_ACTIVITY = 1111;
-    private TextView header_right;
 
+    private ImageView backButton;
+    private TextView header_right;
 
     protected ApiCaller caller;
 
@@ -50,17 +50,25 @@ public class RecipesActivity extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+                             Bundle savedInstanceState)
+    {
         this.context = getActivity();
         caller = new ApiCaller();
         mView = inflater.inflate(R.layout.recipes, null);
 
         //header change
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.menu_recettes));
-        header_right = (TextView) (mView.findViewById(R.id.header_menu_iv));
-        header_right.setOnClickListener(this);
 
+        backButton = (ImageView) mView.findViewById(R.id.header_menu_back);
+        backButton.setVisibility(View.VISIBLE);
+        backButton.setImageDrawable(null);
+        backButton.setBackground(context.getResources().getDrawable(R.drawable.ic_menu_white_24dp));
+
+        header_right = (Button) (mView.findViewById(R.id.header_menu_iv));
+        header_right.setBackgroundResource(0);
+        header_right.setText(R.string.login_registration_button);
+        header_right.setTextColor(getResources().getColor(R.color.text_orange));
+        header_right.setOnClickListener(this);
 
         //ui
         recipesListView = (CustomListView) mView.findViewById(R.id.recipesListView);
@@ -75,7 +83,8 @@ public class RecipesActivity extends Fragment implements View.OnClickListener {
         return mView;
     }
 
-    public void PopulateList() {
+    public void PopulateList()
+    {
         //ui
         if (ApplicationData.getInstance().recipeList != null && ApplicationData.getInstance().recipeList.size() > 0) {
             AddOnClickListener();
@@ -112,7 +121,8 @@ public class RecipesActivity extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void updateRecipesList() {
+    private void updateRecipesList()
+    {
         List<RecipeContract> currentViewRecipeList = new ArrayList<RecipeContract>();
         for (RecipeContract r : recipesList) {
             if (r.RecipeType == RecipeContract.RecipeTypeEnum.Entree.getNumVal()) {
@@ -125,15 +135,20 @@ public class RecipesActivity extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View v) {
-        if(v==header_right){
+    public void onClick(View v)
+    {
+        if (v == header_right)
+        {
             goToRegistrationPage();
-        }else {
+        }
+        else
+        {
             List<RecipeContract> currentViewRecipeList = new ArrayList<>();
 
             RecipeContract.RecipeTypeEnum recipeCategoryToSearch = RecipeContract.RecipeTypeEnum.Entree;
 
-            if (v.getId() == R.id.button_entree || v.getId() == R.id.button_salad || v.getId() == R.id.button_plat || v.getId() == R.id.button_dessert || v.getId() == R.id.button_soup) {
+            if (v.getId() == R.id.button_entree || v.getId() == R.id.button_salad || v.getId() == R.id.button_plat || v.getId() == R.id.button_dessert || v.getId() == R.id.button_soup)
+            {
                 recipesListView.setAdapter(null);
                 recipesListView.setAdapter(adapter);
                 if (Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -169,9 +184,9 @@ public class RecipesActivity extends Fragment implements View.OnClickListener {
                 }
                 adapter.updateItems(currentViewRecipeList);
                 recipesListView.setAdapter(adapter);
-
-
-            } else {
+            }
+            else
+            {
                 int recipeId = (Integer) v.getTag(R.id.recipe_id);
 
                 Fragment fragment = new RecipeActivity();
@@ -182,21 +197,19 @@ public class RecipesActivity extends Fragment implements View.OnClickListener {
                 fragment.setArguments(bundle);
                 fragmentManager.beginTransaction().add(R.id.mainContent, fragment, "RECIPE_FRAGMENT").addToBackStack(null)
                         .commit();
-
             }
         }
-
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         // Check which request we're responding to
-        if (requestCode == 1) {
-
-        }
+        if (requestCode == 1) { }
     }
 
-    private void AddOnClickListener() {
+    private void AddOnClickListener()
+    {
         ((Button) mView.findViewById(R.id.button_entree)).setOnClickListener(this);
         ((Button) mView.findViewById(R.id.button_salad)).setOnClickListener(this);
         ((Button) mView.findViewById(R.id.button_plat)).setOnClickListener(this);
@@ -204,7 +217,8 @@ public class RecipesActivity extends Fragment implements View.OnClickListener {
         ((Button) mView.findViewById(R.id.button_soup)).setOnClickListener(this);
     }
 
-    private void UpdateCategoryButtons(RecipeContract.RecipeTypeEnum enumVal) {
+    private void UpdateCategoryButtons(RecipeContract.RecipeTypeEnum enumVal)
+    {
         if (enumVal == RecipeContract.RecipeTypeEnum.Entree) {
 
             ((Button) mView.findViewById(R.id.button_salad)).setBackgroundColor(Color.TRANSPARENT);
@@ -242,8 +256,9 @@ public class RecipesActivity extends Fragment implements View.OnClickListener {
         gson = new Gson();
     }
 
-    private void goToRegistrationPage() {
-        Intent mainIntent = new Intent(context, RegistrationFormActivity.class);
+    private void goToRegistrationPage()
+    {
+        Intent mainIntent = new Intent(context, RegistrationMainObjectiveActivity.class);
         startActivity(mainIntent);
     }
 }

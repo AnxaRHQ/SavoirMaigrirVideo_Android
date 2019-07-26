@@ -89,7 +89,7 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
 
         if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free"))
         {
-            mNavItems.add(new NavItem(getString(R.string.menu_home), R.drawable.icon_home));
+            mNavItems.add(new NavItem(getString(R.string.menu_home_free), R.drawable.icon_home));
             mNavItems.add(new NavItem(getString(R.string.menu_decouvrir), R.drawable.decouvrez_ico));
             mNavItems.add(new NavItem(getString(R.string.menu_bilan), R.drawable.bilanminceur_ico));
             mNavItems.add(new NavItem(getString(R.string.menu_temoignages), R.drawable.temoignage_ico));
@@ -153,54 +153,54 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
     public void onResume()
     {
         super.onResume();
-        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
-            
-        }else{
-                if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free"))
-                {
-                    if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Home) {
-                        goToHomePage();
-                    }else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_Apropos) {
-                        goToAproposPage();
-                    }else {
-                        selectItemFromDrawer(ApplicationData.getInstance().selectedFragment.getNumVal()+1);
-                    }
+
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) { }
+        else
+        {
+            if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free"))
+            {
+                if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Home) {
+                    goToHomePage();
+                } else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_Apropos) {
+                    goToAproposPage();
                 } else {
-                    getUserAlerts();
-                    //initial
-                    if (ApplicationData.getInstance().selectedFragment.getNumVal() < 5) {
-                        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Coaching;
-                    } else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_Apropos) {
-                        goToAproposPage();
-                    } else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Home) {
-                        goToHomePage();
-                    } else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_CoachingNative) {
+                    selectItemFromDrawer(ApplicationData.getInstance().selectedFragment.getNumVal()+1);
+                }
+            } else {
+                getUserAlerts();
+                //initial
+                if (ApplicationData.getInstance().selectedFragment.getNumVal() < 5) {
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Coaching;
+                } else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_Apropos) {
+                    goToAproposPage();
+                } else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Home) {
+                    goToHomePage();
+                } else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_CoachingNative) {
 
-                        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_CoachingNative;
-                        goToFragmentPage(new CoachingAccountFragment());
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_CoachingNative;
+                    goToFragmentPage(new CoachingAccountFragment());
 
-                    } else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_Messages) {
-                        selectItemFromDrawer(8);
-                    } else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_Carnet) {
+                } else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_Messages) {
+                    selectItemFromDrawer(8);
+                } else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_Carnet) {
 
-                        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Carnet;
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Carnet;
 
-                        MessagesAccountFragment messagesAccountFragment = new MessagesAccountFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putBoolean("fromNotifications", false);
-                        bundle.putString("selectedButton", getString(R.string.menu_account_carnet));
-                        messagesAccountFragment.setArguments(bundle);
+                    MessagesAccountFragment messagesAccountFragment = new MessagesAccountFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("fromNotifications", false);
+                    bundle.putString("selectedButton", getString(R.string.menu_account_carnet));
+                    messagesAccountFragment.setArguments(bundle);
 
-                        goToFragmentPage(messagesAccountFragment);
+                    goToFragmentPage(messagesAccountFragment);
 
-                    } else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_MonCompte) {
-                        selectItemFromDrawer(9);
-                    } else {
-                        selectItemFromDrawer(ApplicationData.getInstance().selectedFragment.getNumVal() - 4);
-                    }
+                } else if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_MonCompte) {
+                    selectItemFromDrawer(9);
+                } else {
+                    selectItemFromDrawer(ApplicationData.getInstance().selectedFragment.getNumVal() - 4);
                 }
             }
-
+        }
     }
 
     /*
@@ -370,8 +370,20 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View view) {
-        if (view.getId() == R.id.header_menu_iv) {
+    public void onClick(View view)
+    {
+        if (view.getId() == R.id.header_menu_back)
+        {
+            if (ApplicationData.getInstance().accountType.equalsIgnoreCase("free"))
+            {
+                ApplicationData.getInstance().fromArchive = false;
+                ApplicationData.getInstance().fromArchiveConseils = false;
+
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+            }
+        }
+        else if (view.getId() == R.id.header_menu_iv)
+        {
             //burger menu
             ApplicationData.getInstance().fromArchive = false;
             ApplicationData.getInstance().fromArchiveConseils = false;
@@ -429,7 +441,6 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
         }
 
         mDrawerLayout.closeDrawer(mDrawerPane);
-
     }
 
     private void goToHomePage()

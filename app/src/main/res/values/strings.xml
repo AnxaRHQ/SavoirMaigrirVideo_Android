@@ -7,6 +7,7 @@
     <string name="header_right_button">Je m\'inscris</string>
 
     <string name="menu_home">ACCUEIL</string>
+    <string name="menu_home_free">Accueil</string>
     <string name="menu_decouvrir">Découvrir</string>
     <string name="menu_bilan">Bilan minceur</string>
     <string name="menu_temoignages">Témoignages</string>
