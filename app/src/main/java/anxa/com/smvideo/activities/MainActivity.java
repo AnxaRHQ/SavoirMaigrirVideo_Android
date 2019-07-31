@@ -129,10 +129,18 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
         mDrawerPane = (RelativeLayout) findViewById(R.id.drawerPane);
         mDrawerList = (ListView) findViewById(R.id.navList);
 
-        if (ApplicationData.getInstance().userDataContract.IsAnyVip)
+        if (!ApplicationData.getInstance().accountType.equalsIgnoreCase("free"))
         {
-            ((ImageView)findViewById(R.id.avatar_header)).setImageResource(R.drawable.logo_navbar_vip);
+            if (ApplicationData.getInstance().userDataContract.IsAnyVip)
+            {
+                ((ImageView)findViewById(R.id.avatar_header)).setImageResource(R.drawable.logo_navbar_vip);
+            }
+            else
+            {
+                ((ImageView)findViewById(R.id.avatar_header)).setImageResource(R.drawable.nav_logo);
+            }
         }
+
         DrawerListAdapter adapter = new DrawerListAdapter(this, mNavItems);
         mDrawerList.setAdapter(adapter);
 

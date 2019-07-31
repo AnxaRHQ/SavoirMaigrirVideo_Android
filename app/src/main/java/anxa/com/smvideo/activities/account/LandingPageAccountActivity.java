@@ -22,6 +22,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.Date;
+import java.util.List;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
@@ -32,6 +33,8 @@ import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
 import anxa.com.smvideo.contracts.CurrentBannerResponseContract;
 import anxa.com.smvideo.contracts.DietProfilesDataContract;
+import anxa.com.smvideo.contracts.Notifications.GetNotificationsContract;
+import anxa.com.smvideo.contracts.Notifications.NotificationsContract;
 import anxa.com.smvideo.contracts.PaymentOrderGoogleContract;
 import anxa.com.smvideo.contracts.PaymentOrderResponseContract;
 import anxa.com.smvideo.contracts.UserDataResponseContract;
@@ -52,10 +55,14 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
     private Context context;
     protected ApiCaller caller;
 
+    private GetNotificationsContract response;
+
     String userName = "";
     TextView initial_weight_tv, target_weight_tv, lost_weight_tv;
     ProgressBar weightProgressBar, landingProgressBar;
     private ImageView logo_navbar;
+
+    private long previousDate;
 
     IabHelper mHelper;
     IabBroadcastReceiver mBroadcastReceiver;
@@ -70,6 +77,7 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
     boolean mSubscribedTo = false;
     private PaymentOrderGoogleContract paymentOrderGoogleContract;
     Dialog bannerDialog;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -90,9 +98,12 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
 
         logo_navbar = mView.findViewById(R.id.header_title_iv);
 
-        if (ApplicationData.getInstance().userDataContract.IsAnyVip)
+        if (!ApplicationData.getInstance().accountType.equalsIgnoreCase("free"))
         {
-            logo_navbar.setImageResource(R.drawable.logo_navbar_vip);
+            if (ApplicationData.getInstance().userDataContract.IsAnyVip)
+            {
+                logo_navbar.setImageResource(R.drawable.logo_navbar_vip);
+            }
         }
 
         caller = new ApiCaller();
@@ -164,14 +175,7 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         ((ImageView) mView.findViewById(R.id.LandingImage8_account)).setOnClickListener(this);
         ((ImageView) mView.findViewById(R.id.LandingImage9_account)).setOnClickListener(this);
 
-        if (ApplicationData.getInstance().userDataContract.MembershipType == 0 && ApplicationData.getInstance().userDataContract.WeekNumber > 1)
-        {
-            mView.findViewById(R.id.badge_notif).setVisibility(View.GONE);
-        }
-        else
-        {
-            updateBadgeNotif();
-        }
+        getNotifications();
 
         //contact_btn = (Button) mView.findViewById(R.id.contact_account);
         //contact_btn.setPaintFlags(contact_btn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -378,6 +382,8 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
     @Override
     public void onResume()
     {
+        getNotifications();
+
         if (ApplicationData.getInstance().userDataContract.MembershipType == 0 && ApplicationData.getInstance().userDataContract.WeekNumber > 1)
         {
             mView.findViewById(R.id.badge_notif).setVisibility(View.GONE);
@@ -703,5 +709,56 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
             mHelper.disposeWhenFinished();
             mHelper = null;
         }
+    }
+
+    private void getNotifications()
+    {
+        ApplicationData.getInstance().setPreviousDate(AppUtil.getCurrentDateinLong());
+        previousDate = AppUtil.getCurrentDateinLong();
+
+        caller.GetNotificationsThread(new AsyncResponse()
+        {
+            @Override
+            public void processFinish(Object output)
+            {
+                response = output != null ? (GetNotificationsContract) output : new GetNotificationsContract();
+
+                if (response != null && response.Data != null && response.Data.Notifications != null && response.Cursor != null)
+                {
+                    System.out.println("notifications: " + response.Data.Notifications.size());
+
+                    ApplicationData.getInstance().setNotificationsCount(response.Data.Notifications.size());
+
+                    List<NotificationsContract> notificationsList = (List<NotificationsContract>) response.Data.Notifications;
+
+                    for (NotificationsContract notif : notificationsList)
+                    {
+                        NotificationsContract n = ApplicationData.getInstance().notificationList.get(notif.notification_id);
+
+                        ApplicationData.getInstance().notificationList.put(notif.notification_id + "", notif);
+                    }
+
+                    int unreadCount = 0;
+
+                    for (NotificationsContract notif : ApplicationData.getInstance().notificationList.values())
+                    {
+                        if (!notif.is_read) {
+                            unreadCount++;
+                        }
+                    }
+
+                    ApplicationData.getInstance().unreadNotifications = unreadCount;
+
+                    if (ApplicationData.getInstance().userDataContract.MembershipType == 0 && ApplicationData.getInstance().userDataContract.WeekNumber > 1)
+                    {
+                        mView.findViewById(R.id.badge_notif).setVisibility(View.GONE);
+                    }
+                    else
+                    {
+                        updateBadgeNotif();
+                    }
+                }
+            }
+        }, (int) previousDate);
     }
 }

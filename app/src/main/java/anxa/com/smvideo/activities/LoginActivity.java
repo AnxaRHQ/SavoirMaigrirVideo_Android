@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.List;
+
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.activities.account.BrowserActivity;
@@ -25,6 +27,8 @@ import anxa.com.smvideo.common.WebkitURL;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
 import anxa.com.smvideo.contracts.LoginContract;
+import anxa.com.smvideo.contracts.Notifications.GetNotificationsContract;
+import anxa.com.smvideo.contracts.Notifications.NotificationsContract;
 import anxa.com.smvideo.contracts.PaymentOrderGoogleContract;
 import anxa.com.smvideo.contracts.UserDataResponseContract;
 import anxa.com.smvideo.util.AppUtil;
@@ -45,7 +49,10 @@ public class LoginActivity extends Activity{
     private Button loginButton;
 
     private ApiCaller apiCaller;
+    private GetNotificationsContract response;
     private ProgressBar loginProgressBar;
+
+    private long previousDate;
 
     private static int NPNA_OFFERACTIVITY = 333;
     @Override
@@ -99,19 +106,22 @@ public class LoginActivity extends Activity{
         loginButton = (Button)findViewById(R.id.login_login_button);
     }
 
-    public void goBackToLandingPage(View view){
+    public void goBackToLandingPage(View view)
+    {
 //        onBackPressed();
 
         Intent mainIntent = new Intent(this, MainLandingPageActivity.class);
         startActivity(mainIntent);
     }
 
-    public void validateLogin(View view){
+    public void validateLogin(View view)
+    {
         if (validateLogin())
             loginToAPI();
     }
 
-    private void loginToAPI(){
+    private void loginToAPI()
+    {
         loginProgressBar.setVisibility(View.VISIBLE);
         loginButton.setEnabled(false);
 
@@ -130,16 +140,21 @@ public class LoginActivity extends Activity{
                 if (output != null) {
                     UserDataResponseContract c = (UserDataResponseContract) output;
 
-                    if (c != null) {
-                        if(c.Message.equalsIgnoreCase("Failed")){
+                    if (c != null)
+                    {
+                        if(c.Message.equalsIgnoreCase("Failed"))
+                        {
                             displayToastMessage(getString(R.string.ALERTMESSAGE_LOGIN_FAILED));
                         }
-                        else if(c.Message.equalsIgnoreCase("NoAccess")){
+                        else if(c.Message.equalsIgnoreCase("NoAccess"))
+                        {
                             ApplicationData.getInstance().userDataContract = c.Data;
                             ApplicationData.getInstance().regId = c.Data.Id;
                             ApplicationData.getInstance().saveLoginCredentials(loginContract.Email, loginContract.Password);
                             goToNpnaPage();
-                        }else {
+                        }
+                        else
+                        {
                             ApplicationData.getInstance().userDataContract = c.Data;
                             ApplicationData.getInstance().regId = c.Data.Id;
 
@@ -147,7 +162,7 @@ public class LoginActivity extends Activity{
                             ApplicationData.getInstance().setAnxamatsSessionStart(getBaseContext(), System.currentTimeMillis());
                             ApplicationData.getInstance().saveLoginCredentials(loginContract.Email, loginContract.Password);
 
-                            goToAccountLandingPage();
+                            getNotifications();
                         }
                     }else{
                         displayToastMessage(getString(R.string.ALERTMESSAGE_LOGIN_FAILED));
@@ -156,23 +171,25 @@ public class LoginActivity extends Activity{
 
             }
         }, loginContract);
-
     }
 
-    private void goToAccountLandingPage(){
+    private void goToAccountLandingPage()
+    {
         ApplicationData.getInstance().accountType = "account";
         ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Home;
         Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(mainIntent);
         finish();
     }
+
     private void goToNpnaPage()
     {
         Intent npna = new Intent(getApplicationContext(), NpnaActivity.class);
         startActivity(npna);
     }
 
-    private Boolean validateLogin() {
+    private Boolean validateLogin()
+    {
         if (email_et.getText() == null || email_et.getText().length() <= 0) {
             displayToastMessage(getString(R.string.ALERTMESSAGE_LOGIN_EMPTY));
             return false;
@@ -187,7 +204,8 @@ public class LoginActivity extends Activity{
         }
     }
 
-    public void displayToastMessage(final String message) {
+    public void displayToastMessage(final String message)
+    {
         final Context context = this;
         this.runOnUiThread(new Runnable() {
 
@@ -200,11 +218,56 @@ public class LoginActivity extends Activity{
         });
     }
 
-    public void goToForgetPw(View view){
+    public void goToForgetPw(View view)
+    {
         ApplicationData.getInstance().accountType = "free";
         Intent mainContentBrowser = new Intent(this, BrowserActivity.class);
         mainContentBrowser.putExtra("HEADER_TITLE", getResources().getString(R.string.login_forgot_pw));
         mainContentBrowser.putExtra("URL_PATH", WebkitURL.forgetPw);
         startActivity(mainContentBrowser);
+    }
+
+    private void getNotifications()
+    {
+        ApplicationData.getInstance().setPreviousDate(AppUtil.getCurrentDateinLong());
+        previousDate = AppUtil.getCurrentDateinLong();
+
+        apiCaller.GetNotificationsThread(new AsyncResponse()
+        {
+            @Override
+            public void processFinish(Object output)
+            {
+                response = output != null ? (GetNotificationsContract) output : new GetNotificationsContract();
+
+                if (response != null && response.Data != null && response.Data.Notifications != null && response.Cursor != null)
+                {
+                    System.out.println("notifications: " + response.Data.Notifications.size());
+
+                    ApplicationData.getInstance().setNotificationsCount(response.Data.Notifications.size());
+
+                    List<NotificationsContract> notificationsList = (List<NotificationsContract>) response.Data.Notifications;
+
+                    for (NotificationsContract notif : notificationsList)
+                    {
+                        NotificationsContract n = ApplicationData.getInstance().notificationList.get(notif.notification_id);
+
+                        ApplicationData.getInstance().notificationList.put(notif.notification_id + "", notif);
+                    }
+
+                    int unreadCount = 0;
+
+                    for (NotificationsContract notif : ApplicationData.getInstance().notificationList.values())
+                    {
+                        if (!notif.is_read) {
+                            unreadCount++;
+                        }
+                    }
+
+                    ApplicationData.getInstance().unreadNotifications = unreadCount;
+
+                    goToAccountLandingPage();
+                }
+            }
+        }, (int) previousDate);
     }
 }
