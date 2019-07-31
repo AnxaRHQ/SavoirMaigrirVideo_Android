@@ -19,7 +19,7 @@
         <HorizontalScrollView
             android:id="@+id/progress_horizontal"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="50dp"
             android:animateLayoutChanges="true"
             android:scrollbars="none"
             android:layout_below="@+id/headermenu"
@@ -29,11 +29,10 @@
 
             <LinearLayout
                 android:id="@+id/progress_tab"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_alignParentRight="true"
                 android:layout_below="@+id/headermenu">
 
                 <Button
@@ -42,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:padding="10dp"
+                    android:padding="11dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_weight_graph_bg"
                     android:text="@string/nav_account_weight" />
@@ -53,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:padding="10dp"
+                    android:padding="12dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_weight_graph_bg"
                     android:text="@string/nav_account_steps" />
@@ -64,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:padding="10dp"
+                    android:padding="11dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_weight_graph_bg"
                     android:text="@string/nav_account_biceps" />
@@ -75,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:padding="10dp"
+                    android:padding="11dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_weight_graph_bg"
                     android:text="@string/nav_account_poitrine" />
@@ -86,7 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:padding="10dp"
+                    android:padding="11dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_weight_graph_bg"
                     android:text="@string/nav_account_taille" />
@@ -97,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:padding="10dp"
+                    android:padding="11dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_weight_graph_bg"
                     android:text="@string/nav_account_hanches" />
@@ -108,7 +107,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:padding="10dp"
+                    android:padding="11dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_weight_graph_bg"
                     android:text="@string/nav_account_cuisse" />

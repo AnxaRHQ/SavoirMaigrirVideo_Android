@@ -14,11 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Set;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
@@ -205,6 +203,17 @@ public class NotificationsActivity extends Activity implements View.OnClickListe
                         ApplicationData.getInstance().notificationList.put(notif.notification_id + "", notif);
                     }
 
+                    int unreadCount = 0;
+
+                    for (NotificationsContract notif : ApplicationData.getInstance().notificationList.values())
+                    {
+                        if (!notif.is_read) {
+                            unreadCount++;
+                        }
+                    }
+
+                    ApplicationData.getInstance().unreadNotifications = unreadCount;
+
                     notificationList = new ArrayList<>(ApplicationData.getInstance().notificationList.values());
 
                     sort(notificationList);
@@ -214,27 +223,6 @@ public class NotificationsActivity extends Activity implements View.OnClickListe
                 }
             }
         }, (int) previousDate);
-
-
-        /* Get Unread Notifications */
-
-        int unreadCount = 0;
-
-        Hashtable<String, NotificationsContract> notificationsListArray = ApplicationData.getInstance().notificationList;
-
-        Set<String> keys = notificationsListArray.keySet();
-
-        for (String notifKey : keys)
-        {
-            NotificationsContract notif = notificationsListArray.get(notifKey);
-
-            if (!notif.is_read)
-            {
-                unreadCount++;
-            }
-        }
-
-        ApplicationData.getInstance().unreadNotifications = unreadCount;
     }
 
     private void markNotifAsRead(final int notifId, final int tooltype_id, final int tool_id)

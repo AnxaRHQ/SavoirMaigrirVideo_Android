@@ -2,7 +2,6 @@ package anxa.com.smvideo.activities.free;
 
 import android.app.Fragment;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -18,13 +17,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
-import anxa.com.smvideo.connection.http.RecipeDownloadImageAsync;
 import anxa.com.smvideo.contracts.RecipeContract;
 import anxa.com.smvideo.util.RecipeHelper;
 import anxa.com.smvideo.util.UITagHandler;

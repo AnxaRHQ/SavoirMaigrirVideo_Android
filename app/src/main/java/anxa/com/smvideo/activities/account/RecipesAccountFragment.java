@@ -1,6 +1,5 @@
 package anxa.com.smvideo.activities.account;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
@@ -15,21 +14,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
-import anxa.com.smvideo.activities.free.RecipeActivity;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
 import anxa.com.smvideo.contracts.RecipeContract;
 import anxa.com.smvideo.contracts.RecipeResponseContract;
 import anxa.com.smvideo.ui.CustomListView;
 import anxa.com.smvideo.ui.RecipesListAdapter;
-
-import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by aprilanxa on 13/07/2017.
@@ -104,12 +98,6 @@ public class RecipesAccountFragment extends BaseFragment implements View.OnClick
                         if (c != null && c.Data != null && c.Data.Recipes != null) {
                             ApplicationData.getInstance().recipeAccountList.clear();
 
-                            Collections.sort(c.Data.Recipes, new Comparator<RecipeContract>() {
-                                @Override
-                                public int compare(final RecipeContract object1, final RecipeContract object2) {
-                                    return object1.Title.compareTo(object2.Title);
-                                }
-                            });
                             recipesList = (List<RecipeContract>) c.Data.Recipes;
                             ApplicationData.getInstance().recipeAccountList.addAll(recipesList);
 
@@ -133,12 +121,7 @@ public class RecipesAccountFragment extends BaseFragment implements View.OnClick
                     //INITIALIZE ALL ONCLICK AND API RELATED PROCESS HERE TO AVOID CRASHES
 
                     if (c != null && c.Data != null && c.Data.Recipes != null) {
-                        Collections.sort(c.Data.Recipes, new Comparator<RecipeContract>() {
-                            @Override
-                            public int compare(final RecipeContract object1, final RecipeContract object2) {
-                                return object1.Title.compareTo(object2.Title);
-                            }
-                        });
+
                         recipesList = (List<RecipeContract>) c.Data.Recipes;
                         ApplicationData.getInstance().recipeAccountList.addAll(recipesList);
 

@@ -375,6 +375,21 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         }*/
     }
 
+    @Override
+    public void onResume()
+    {
+        if (ApplicationData.getInstance().userDataContract.MembershipType == 0 && ApplicationData.getInstance().userDataContract.WeekNumber > 1)
+        {
+            mView.findViewById(R.id.badge_notif).setVisibility(View.GONE);
+        }
+        else
+        {
+            updateBadgeNotif();
+        }
+
+        super.onResume();
+    }
+
     private void updateBadgeNotif()
     {
         if (ApplicationData.getInstance().unreadNotifications > 0)

@@ -1,7 +1,6 @@
 package anxa.com.smvideo.activities.account;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -38,7 +37,6 @@ import java.util.List;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
-import anxa.com.smvideo.activities.account.BaseFragment;
 import anxa.com.smvideo.contracts.RecipeContract;
 import anxa.com.smvideo.util.RecipeHelper;
 import anxa.com.smvideo.util.UITagHandler;
@@ -47,13 +45,15 @@ import anxa.com.smvideo.util.UITagHandler;
  * Created by aprilanxa on 04/08/2017.
  */
 
-public class RecipeAccountActivity extends BaseFragment implements View.OnClickListener {
-    private List<RecipeContract> recipesList;
+public class RecipeAccountActivity extends BaseFragment implements View.OnClickListener
+{
     private ImageView backButton;
     private Button shareButton;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         mView = inflater.inflate(R.layout.recipe, null);
 
@@ -78,14 +78,16 @@ public class RecipeAccountActivity extends BaseFragment implements View.OnClickL
         return mView;
     }
 
-    private void updateUI(RecipeContract recipeContract) {
+    private void updateUI(RecipeContract recipeContract)
+    {
         ((TextView)mView.findViewById(R.id.recipeTitle)).setText(recipeContract.Title);
         Bitmap avatar = null;
         avatar = RecipeHelper.GetRecipeImage(recipeContract.Id);
         ImageView img = (ImageView) mView.findViewById(R.id.recipeImage);
-        //img.setTag(recipeContract.Id);
-        if (avatar == null) {
 
+        //img.setTag(recipeContract.Id);
+        if (avatar == null)
+        {
             Glide.with(this).load(recipeContract.ImageUrl).diskCacheStrategy(DiskCacheStrategy.RESULT).into(img);
             try {
                 if (!ApplicationData.getInstance().recipePhotoList.containsKey(String.valueOf(recipeContract.Id)) && img.getDrawable() != null) {
@@ -104,12 +106,25 @@ public class RecipeAccountActivity extends BaseFragment implements View.OnClickL
             ((ProgressBar) mView.findViewById(R.id.recipeImageProgress)).setVisibility(View.GONE);
         }
         ((TextView) mView.findViewById(R.id.recipeIngredientsTitle)).setText((recipeContract.IngredientsTitle));
-        ((TextView) mView.findViewById(R.id.recipeIngredients)).setText(Html.fromHtml(recipeContract.IngredientsHtml, null, new UITagHandler()));
-        ((TextView) mView.findViewById(R.id.recipePreparation)).setText(Html.fromHtml(recipeContract.PreparationHtml, null, new UITagHandler()));
+
+        String recipeIngredients = "•  " + recipeContract.IngredientsHtml.replace("\r\n","<br/>•  ");
+
+        ((TextView) mView.findViewById(R.id.recipeIngredients)).setText(Html.fromHtml(recipeIngredients, null, new UITagHandler()));
+
+        String recipePreparation = "";
+        int i = 1;
+
+        for (String steps : recipeContract.PreparationHtml.split("\r\n"))
+        {
+            recipePreparation += i + ". " + steps + "<br/><br/>";
+            i++;
+        }
+
+        ((TextView) mView.findViewById(R.id.recipePreparation)).setText(Html.fromHtml(recipePreparation, null, new UITagHandler()));
     }
 
-
-    private Bitmap getAvatar(int recipeId) {
+    private Bitmap getAvatar(int recipeId)
+    {
         Bitmap avatarBMP = null;
         if (recipeId > 0) {
             avatarBMP = ApplicationData.getInstance().recipePhotoList.get(String.valueOf(recipeId));
@@ -120,8 +135,10 @@ public class RecipeAccountActivity extends BaseFragment implements View.OnClickL
     }
 
     @Override
-    public void onClick(final View v) {
-        if (v==backButton){
+    public void onClick(final View v)
+    {
+        if (v==backButton)
+        {
             try {
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.popBackStack();
@@ -129,7 +146,8 @@ public class RecipeAccountActivity extends BaseFragment implements View.OnClickL
                 e.printStackTrace();
             }
         }
-        else if (v==shareButton){
+        else if (v==shareButton)
+        {
             generatePdf((ScrollView)mView.findViewById(R.id.recipeScrollView));
         }
     }
@@ -191,24 +209,25 @@ public class RecipeAccountActivity extends BaseFragment implements View.OnClickL
         }
 
     }
-    private  boolean isStoragePermissionGranted() {
-        if (Build.VERSION.SDK_INT >= 23) {
+    private  boolean isStoragePermissionGranted()
+    {
+        if (Build.VERSION.SDK_INT >= 23)
+        {
             if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
 
                 return true;
-            } else {
-
-
+            }
+            else
+            {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 return false;
             }
         }
-        else { //permission is automatically granted on sdk<23 upon installation
-
+        else
+        {
+            //permission is automatically granted on sdk<23 upon installation
             return true;
         }
     }
-
-
 }
