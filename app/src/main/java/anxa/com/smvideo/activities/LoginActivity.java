@@ -60,6 +60,10 @@ public class LoginActivity extends Activity{
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         email_et = (EditText)findViewById(R.id.login_email_et);
+        if (ApplicationData.getInstance().getSavedUserName()!=null || ApplicationData.getInstance().getSavedUserName().length() > 1){
+            email_et.setText(ApplicationData.getInstance().getSavedUserName());
+        }
+
         password_et = (EditText)findViewById(R.id.login_password_et);
         password_et.setOnTouchListener(new View.OnTouchListener() {
             @Override

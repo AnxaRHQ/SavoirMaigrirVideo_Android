@@ -128,6 +128,11 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
         // Populate the Navigation Drawer with options
         mDrawerPane = (RelativeLayout) findViewById(R.id.drawerPane);
         mDrawerList = (ListView) findViewById(R.id.navList);
+
+        if (ApplicationData.getInstance().userDataContract.IsAnyVip)
+        {
+            ((ImageView)findViewById(R.id.avatar_header)).setImageResource(R.drawable.logo_navbar_vip);
+        }
         DrawerListAdapter adapter = new DrawerListAdapter(this, mNavItems);
         mDrawerList.setAdapter(adapter);
 

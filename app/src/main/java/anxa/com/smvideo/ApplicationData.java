@@ -95,6 +95,7 @@ public class ApplicationData extends Application
     public String accountType = "account";
     public String userName = "User";
     public RegUserProfile regUserProfile;
+    public boolean shownHpDialog;
     private Context context;
 
     public int screenWidth;

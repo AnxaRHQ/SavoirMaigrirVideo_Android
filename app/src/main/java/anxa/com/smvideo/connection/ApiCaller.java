@@ -28,6 +28,7 @@ import anxa.com.smvideo.contracts.Carnet.MealPlanForDayResponseContract;
 import anxa.com.smvideo.contracts.Carnet.UploadMealsDataContract;
 import anxa.com.smvideo.contracts.Carnet.UploadMealsDataResponseContract;
 import anxa.com.smvideo.contracts.CoachingVideosResponseContract;
+import anxa.com.smvideo.contracts.CurrentBannerResponseContract;
 import anxa.com.smvideo.contracts.GetAlertsResponseContract;
 import anxa.com.smvideo.contracts.Graph.GetStepDataResponseContract;
 import anxa.com.smvideo.contracts.Graph.StepDataContract;
@@ -637,5 +638,14 @@ public class ApiCaller
         }
 
         apiClient.PostAsync(asyncResponse, CommandConstants.COMMAND_GETNOTIFICATIONS, command, commentObj.toString(), MarkNotificationAsReadContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void GetCurrentBanner(AsyncResponse asyncResponse, int userId) {
+
+        MasterCommand command = new MasterCommand();
+        command.RegId = userId;
+        command.Command = CommandConstants.COMMAND_CURRENTBANNERGET;
+
+        apiClient.GetAsync(asyncResponse, "alert", command, CurrentBannerResponseContract.class);
     }
 }

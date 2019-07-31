@@ -35,7 +35,7 @@
 
             <TextView
                 android:id="@+id/pers_intro1_tv"
-                style="@style/RecipeBold"
+                style="@style/blackBoldLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/off_white"
@@ -97,7 +97,8 @@
 
                     <TextView
                         android:id="@+id/pers_option1_title_tv"
-                        style="@style/RecipeBold"
+                        style="@style/blackBoldLarge"
+                        android:layout_gravity="start"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -148,7 +149,7 @@
 
                     <TextView
                         android:id="@+id/pers_option2_title_tv"
-                        style="@style/RecipeBold"
+                        style="@style/blackBoldLarge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -199,7 +200,7 @@
 
                     <TextView
                         android:id="@+id/pers_option3_title_tv"
-                        style="@style/RecipeBold"
+                        style="@style/blackBoldLarge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -250,7 +251,7 @@
 
                     <TextView
                         android:id="@+id/pers_option4_title_tv"
-                        style="@style/RecipeBold"
+                        style="@style/blackBoldLarge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -304,7 +305,7 @@
 
                     <TextView
                         android:id="@+id/pers_option5_title_tv"
-                        style="@style/RecipeBold"
+                        style="@style/blackBoldLarge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -357,7 +358,7 @@
 
                     <TextView
                         android:id="@+id/pers_option6_title_tv"
-                        style="@style/RecipeBold"
+                        style="@style/blackBoldLarge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"

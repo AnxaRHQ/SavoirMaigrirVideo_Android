@@ -224,6 +224,13 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/text_blackgray</item>
         <item name="android:textSize">20sp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+    <style name="blackBoldLarge">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/registrationHeader</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_centerHorizontal">true</item>
     </style>
     <style name="regBlackText">
         <item name="android:textStyle">normal</item>

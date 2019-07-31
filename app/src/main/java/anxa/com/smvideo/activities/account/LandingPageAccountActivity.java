@@ -1,18 +1,24 @@
 package anxa.com.smvideo.activities.account;
 
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.Date;
@@ -24,6 +30,7 @@ import anxa.com.smvideo.common.SavoirMaigrirVideoConstants;
 import anxa.com.smvideo.common.WebkitURL;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
+import anxa.com.smvideo.contracts.CurrentBannerResponseContract;
 import anxa.com.smvideo.contracts.DietProfilesDataContract;
 import anxa.com.smvideo.contracts.PaymentOrderGoogleContract;
 import anxa.com.smvideo.contracts.PaymentOrderResponseContract;
@@ -33,6 +40,7 @@ import anxa.com.smvideo.util.IabBroadcastReceiver;
 import anxa.com.smvideo.util.IabHelper;
 import anxa.com.smvideo.util.IabResult;
 import anxa.com.smvideo.util.Inventory;
+import anxa.com.smvideo.util.MovementCheck;
 import anxa.com.smvideo.util.Purchase;
 
 /**
@@ -61,7 +69,7 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
     String mSubscribedSku = "";
     boolean mSubscribedTo = false;
     private PaymentOrderGoogleContract paymentOrderGoogleContract;
-
+    Dialog bannerDialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
@@ -134,6 +142,7 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         });
 
         ApplicationData.getInstance().showLandingPage = false;
+        checkHpDialog();
 
         //initialize on click (transfer inside api call if there will be one in the future
         ((Button) mView.findViewById(R.id.LandingConsultationButton)).setOnClickListener(this);
@@ -602,6 +611,64 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         } catch (IabHelper.IabAsyncInProgressException e) {
             //complain("Error querying inventory. Another async operation in progress.");
         }
+    }
+    private void checkHpDialog()
+    {
+        caller.GetCurrentBanner(new AsyncResponse() {
+            @Override
+            public void processFinish(Object output) {
+                final CurrentBannerResponseContract response = output != null ? (CurrentBannerResponseContract) output : new CurrentBannerResponseContract();
+                if (response.Banner == null) {
+
+                }
+                if (response.Banner != null && response.Banner.BannerContent != null && !response.Banner.BannerContent.isEmpty() && !ApplicationData.getInstance().shownHpDialog) {
+                    ApplicationData.getInstance().shownHpDialog = true;
+                    bannerDialog = new Dialog(context);
+                    bannerDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    bannerDialog.setContentView(R.layout.genericdialog);
+                    bannerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    //((ScrollView)findViewById(R.id.mainScroll)).fullScroll(ScrollView.FOCUS_UP);
+                    ((TextView) bannerDialog.findViewById(R.id.dialog_content)).setMovementMethod(MovementCheck.getInstance(context));
+                    ((TextView) bannerDialog.findViewById(R.id.dialog_content)).setText(Html.fromHtml(response.Banner.BannerContent));
+
+                    ((Button) bannerDialog.findViewById(R.id.dialog_button)).setText(response.Banner.CallToAction);
+                    ((Button) bannerDialog.findViewById(R.id.dialog_button)).setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View view) {
+                            if(response.Banner.BannerLink != null && !response.Banner.BannerLink.isEmpty()){
+                                ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Consultation;
+
+                                Bundle bundle = new Bundle();
+                                bundle.putString("header_title", getString(R.string.nav_account_webinars));
+                                bundle.putString("webkit_url", WebkitURL.webinarWebkitUrl);
+
+                                goToWebkitPage(ApplicationData.SelectedFragment.Account_Consultation, bundle);
+                                bannerDialog.dismiss();
+                            }else{
+                                bannerDialog.dismiss();
+                              /*  if (showGoogleFitFirstLaunchDialog) {
+                                    showGoogleFitFirstLaunchDialog = false;
+                                    showStepsFirstLaunchDialog();
+                                }*/
+                            }
+                        }
+                    });
+                    ((ImageView) bannerDialog.findViewById(R.id.freedialog_buttonx)).setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View view) {
+
+                            bannerDialog.dismiss();
+                           /* if (showGoogleFitFirstLaunchDialog && fromLogin) {
+                                showGoogleFitFirstLaunchDialog = false;
+                                showStepsFirstLaunchDialog();
+                            }*/
+                        }
+                    });
+                    if (!((MainActivity) context).isFinishing()) {
+                        bannerDialog.show();
+                    }
+
+                }
+            }
+        }, ApplicationData.getInstance().regId);
     }
 
     @Override

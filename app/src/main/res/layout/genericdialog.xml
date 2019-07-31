@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:id="@+id/popBottom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/off_white">
+        <TextView
+            android:id="@+id/dialog_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/text_black"
+            android:textSize="14sp"
+            android:lineSpacingExtra="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text=""
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/dialog_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:layout_margin="20dp"
+            style="@style/btnStyleDarkOrange"
+            android:background="@drawable/button_orange_roundedcorners"
+            android:text="Fermer"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"/>
+        <Button
+            android:id="@+id/dialog_button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            style="@style/btnStyleDarkOrange"
+            android:background="@drawable/button_orange_roundedcorners"
+            android:text="Fermer"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/freedialog_buttonx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-30dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/popBottom"
+        android:src="@drawable/anxacoaching_x_btn"
+        android:visibility="visible" />
+</RelativeLayout>

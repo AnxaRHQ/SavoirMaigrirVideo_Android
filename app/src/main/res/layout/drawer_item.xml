@@ -21,11 +21,11 @@
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/icon"
         android:layout_toRightOf="@+id/icon"
-        android:gravity="center_vertical"
+        android:gravity="left"
         android:text="Discoveries"
         android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:layout_marginLeft="10dp"/>
+        android:textSize="16sp"
+        android:layout_marginLeft="5dp"/>
     <View
         android:id="@+id/vwDivider"
         android:layout_width="match_parent"

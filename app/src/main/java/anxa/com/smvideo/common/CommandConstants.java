@@ -65,4 +65,5 @@ public class CommandConstants
 
     public static String COMMAND_GETNOTIFICATIONS       = "mobilenotification";
     public static String COMMAND_MARKNOTIFASREAD        = "mark-as-read";
+    public static String COMMAND_CURRENTBANNERGET       = "GetCurrentBanner";
 }

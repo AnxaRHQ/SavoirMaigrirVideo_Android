@@ -32,7 +32,7 @@ public class WebkitURL
     public static String webinarAutoLoginURL    = "/3actparjour/login?u=%d&p=%password&redirect=/1dirparjour/webinar/broadcast";
     public static String autoLoginURL           = "/3actparjour/login?u=%u&p=%p";
 
-    public static String webinarWebkitUrl       = "/5minparjour/mobile/conference?regId=%regId&sig=%sig";
+    public static String webinarWebkitUrl       = "/5minparjour/mobile/conference/broadcast?regId=%regId&sig=%sig";
     public static String fichesWebkitUrl        = "/5minparjour/mobile/fichespratiques?regId=%regId&sig=%sig";
     public static String ambassadriceWebkitUrl  = "/5minparjour/mobile/community/SuperAmbassadeur?regId=%regId&sig=%sig";
     public static String nutritionWebkitUrl     = "/5minparjour/mobile/nutrition?regId=%regId&sig=%sig";
