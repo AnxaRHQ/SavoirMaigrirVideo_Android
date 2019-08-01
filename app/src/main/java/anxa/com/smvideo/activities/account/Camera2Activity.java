@@ -11,6 +11,7 @@ import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.constraint.BuildConfig;
 import android.view.KeyEvent;
@@ -259,6 +260,8 @@ public class Camera2Activity extends Activity implements OnClickListener {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         capturedImageUri = imS.getOutputImageFileUri(this);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, capturedImageUri);
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
         startActivityForResult(intent, REQUEST_CODE_CAMERA);
     }
 
