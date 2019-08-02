@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.text.Html;
 import android.util.Log;
@@ -24,7 +25,11 @@ import android.widget.TextView;
 
 import android.support.design.widget.BottomSheetDialog;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import anxa.com.smvideo.ApplicationData;
@@ -48,12 +53,12 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
     private String inflater = Context.LAYOUT_INFLATER_SERVICE;
     private String currentDate;
     private MainActivityCallBack MainListener;
+    private ApiCaller caller;
 
     private int coachId = 0;
+    private Bitmap userAvatar = null;
 
     private static final int RATING_ACTIVITY = 150;
-
-    private ApiCaller caller;
 
     public CommentViewAdapter(Context context,
                               List<MessagesContract> items,
@@ -90,7 +95,6 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
             viewHolder.chatDate = ((TextView) row.findViewById(R.id.date));
             viewHolder.chatTimestamp = ((TextView) row.findViewById(R.id.timestamp));
             viewHolder.chatLike = (ImageView) row.findViewById(R.id.chat_like);
-
             row.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) row.getTag();
@@ -99,31 +103,37 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
         if (items != null && items.size() > 0 && getCount() > 0) {
             MessagesContract message = items.get(position);
 
-            //download profile image
             String proFileImageURL = AppUtil.BuildProfilePicUrl(context.getResources().getString(R.string.profile_pic_url), Integer.toString(ApplicationData.getInstance().regId));
 
-            //download profile pic
-//            new DownloadImageTask((ImageView) viewHolder.imageView)
-//                    .execute(proFileImageURL);
+            Bitmap avatar = null;
 
-            final ImageView viewHolder_iv = viewHolder.imageView;
+
+            // download profile image
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
+            if (userAvatar == null)
+            {
+                userAvatar = downloadBitmap(proFileImageURL);
+            }
+
+              //download profile pic
+
+            /*final ImageView viewHolder_iv = viewHolder.imageView;
             final String profileURL_img = proFileImageURL;
             final  Handler mHandler = new Handler(context.getMainLooper());
             mHandler.post(new Runnable() {
                 int i=0;
                 @Override
                 public void run() {
-                    new DownloadImageTask((ImageView) viewHolder_iv).execute(profileURL_img);
+                    userAvatar = downloadBitmap(profileURL_img);
                     mHandler.postDelayed(this, 5000);
                 }
-            });
-
-//            proFileImageURL = AppUtil.BuildProfilePicUrl(context.getResources().getString(R.string.profile_pic_url), Integer.toString(message.CoachId));
-
-            Bitmap avatar = null;
-            viewHolder.chatLike.setTag(message.Id);
+            });*/
 
             viewHolder.imageView.setTag(message.DateCreated);
+
+            viewHolder.chatLike.setTag(message.Id);
 
             String date = AppUtil.getMonthDay(AppUtil.toDate(message.DateCreated));
             String time = AppUtil.getTimeOnly24(AppUtil.toDate(message.DateCreated).getTime());
@@ -199,8 +209,8 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
                 row.findViewById(R.id.chat_message_cont).setLayoutParams(params3);
                 row.findViewById(R.id.chat_like).setLayoutParams(params4);
 
-
                 row.findViewById(R.id.chat_message).setBackgroundResource(R.drawable.comment_bubble_coach);
+
                 if (avatar == null) {
                     new AdapterDownloadImageTask(viewHolder.imageView).execute(proFileImageURL);
                 } else {
@@ -212,7 +222,7 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
 //                viewHolder.chatMessage.setMovementMethod(MovementCheck.getInstance(context));
 
             } else {
-                avatar = getAvatar(0);
+
                 viewHolder.chatMessage.setVisibility(View.GONE);
                 viewHolder.chatMessage_user.setVisibility(View.VISIBLE);
                 viewHolder.chatLike.setVisibility(View.GONE);
@@ -240,7 +250,8 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
                 row.findViewById(R.id.chat_message_cont).setLayoutParams(params3);
 //                row.findViewById(R.id.chat_like).setLayoutParams(params4);
                 row.findViewById(R.id.chat_message_user).setBackgroundResource(R.drawable.comment_bubble_user_inverted);
-                viewHolder.imageView.setImageBitmap(avatar);
+
+                viewHolder.imageView.setImageBitmap(userAvatar);
 
                 viewHolder.chatMessage_user.setText(Html.fromHtml(message.MessageChat));
                 viewHolder.chatMessage_user.setLinksClickable(true);
@@ -259,6 +270,43 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
 
         }
         return row;
+    }
+
+    private Bitmap downloadBitmap(String url)
+    {
+        HttpURLConnection urlConnection = null;
+        try {
+            URL uri = new URL(url);
+            urlConnection = (HttpURLConnection) uri.openConnection();
+
+            int statusCode = urlConnection.getResponseCode();
+
+            System.out.println("status code: "+ statusCode);
+
+            InputStream inputStream = urlConnection.getInputStream();
+            if (inputStream != null) {
+
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                return bitmap;
+            }
+        } catch (Exception e) {
+            Log.d("URLCONNECTIONERROR", e.toString());
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+            Log.w("ImageDownloader", "Error downloading image from " + url);
+
+            Bitmap avatarBMP = BitmapFactory.decodeResource(context.getResources(), R.drawable.profile_default_avatar, ApplicationData.getInstance().options_Avatar);
+
+            return avatarBMP;
+
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+
+            }
+        }
+        return null;
     }
 
     @Override
@@ -441,15 +489,18 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
     }
 
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
+    {
         final ImageView bmImage;
 
         public DownloadImageTask(ImageView bmImage) {
             this.bmImage = bmImage;
         }
 
-        protected Bitmap doInBackground(String... urls) {
-            String urlDisplay = urls[0];
+        @Override
+        protected Bitmap doInBackground(String... strings)
+        {
+            String urlDisplay = strings[0];
             Bitmap mIcon11 = null;
             try {
                 InputStream in = new java.net.URL(urlDisplay).openStream();
@@ -464,8 +515,12 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
             return mIcon11;
         }
 
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
+        @Override
+        protected void onPostExecute(Bitmap bitmap)
+        {
+            super.onPostExecute(bitmap);
+
+            bmImage.setImageBitmap(bitmap);
         }
     }
 
