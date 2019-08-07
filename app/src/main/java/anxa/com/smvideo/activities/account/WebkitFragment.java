@@ -82,6 +82,10 @@ public class WebkitFragment extends BaseFragment implements View.OnClickListener
             backButton.setOnClickListener(this);
         }
 
+        if (ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_Consultation)
+        {
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+        }
 
 //        ((ImageView) mView.findViewById(R.id.header_menu_iv)).setVisibility(View.VISIBLE);
 
