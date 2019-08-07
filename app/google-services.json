@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "93392966888",
+    "firebase_url": "https://savoir-maigrir-version-express.firebaseio.com",
+    "project_id": "savoir-maigrir-version-express",
+    "storage_bucket": "savoir-maigrir-version-express.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93392966888:android:a14cf75a7c1cb4e4",
+        "android_client_info": {
+          "package_name": "anxa.com.smvideo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "93392966888-pha1qe5vs5v11o2rcdfs48fjs6sd07bs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "anxa.com.smvideo",
+            "certificate_hash": "f30c15ed8aff22cd708f245f6290d468e2a17258"
+          }
+        },
+        {
+          "client_id": "93392966888-21rvckrkalfceqk6q4hlrbnlmph4h6th.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtakfmX1tNZaT5VZO4c1yHGGzO8OSaf-c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "93392966888-21rvckrkalfceqk6q4hlrbnlmph4h6th.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "93392966888-nui72f62jru4tjhc4ud1l311ilfvtcb9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hapilabs.jmc",
+                "app_store_id": "1300058675"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
