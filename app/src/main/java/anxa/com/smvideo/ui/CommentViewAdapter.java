@@ -275,7 +275,9 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
     private Bitmap downloadBitmap(String url)
     {
         HttpURLConnection urlConnection = null;
-        try {
+
+        try
+        {
             URL uri = new URL(url);
             urlConnection = (HttpURLConnection) uri.openConnection();
 
@@ -284,26 +286,39 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
             System.out.println("status code: "+ statusCode);
 
             InputStream inputStream = urlConnection.getInputStream();
-            if (inputStream != null) {
 
+            if (inputStream != null)
+            {
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                 return bitmap;
             }
+
         } catch (Exception e) {
-            Log.d("URLCONNECTIONERROR", e.toString());
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
+
+            Log.d("URL CONNECTION ERROR", e.toString());
+
             Log.w("ImageDownloader", "Error downloading image from " + url);
 
-            Bitmap avatarBMP = BitmapFactory.decodeResource(context.getResources(), R.drawable.profile_default_avatar, ApplicationData.getInstance().options_Avatar);
+            /* Instead get the error image */
 
-            return avatarBMP;
+            InputStream inputStream = urlConnection.getErrorStream();
+
+            if (inputStream != null)
+            {
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                return bitmap;
+            }
+            else
+            {
+                Bitmap avatarBMP = BitmapFactory.decodeResource(context.getResources(), R.drawable.profile_default_avatar, ApplicationData.getInstance().options_Avatar);
+                return avatarBMP;
+            }
 
         } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
 
+            if (urlConnection != null)
+            {
+                urlConnection.disconnect();
             }
         }
         return null;
