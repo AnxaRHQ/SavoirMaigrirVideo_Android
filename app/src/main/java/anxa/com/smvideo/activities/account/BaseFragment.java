@@ -94,7 +94,10 @@ public class BaseFragment extends Fragment
             if (banner != null)
             {
                 (banner).setVisibility(View.GONE);
-
+                if(ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_Consultation)
+                {
+                    (banner).setVisibility(View.GONE);
+                }
                 if ((TextView) mView.findViewById(R.id.textLive) != null) {
                     ((TextView) mView.findViewById(R.id.textLive)).setVisibility(View.GONE);
 
@@ -122,7 +125,10 @@ public class BaseFragment extends Fragment
                     if (calendar3.get(Calendar.DAY_OF_WEEK) >= 2 && calendar3.get(Calendar.DAY_OF_WEEK) <= 6)
                     {
                         (banner).setVisibility(View.VISIBLE);
-
+                        if(ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_Consultation)
+                        {
+                            (banner).setVisibility(View.GONE);
+                        }
                         ((TextView) ((RelativeLayout) mView.findViewById(R.id.bannerWebinar)).findViewById(R.id.banner_text)).setText(Html.fromHtml(getResources().getString(R.string.banner_webinar_lapause)));
                         switch (calendar3.get(Calendar.DAY_OF_WEEK)) {
                             case 2:
@@ -160,6 +166,10 @@ public class BaseFragment extends Fragment
                 if (x.after(calendar4.getTime()) && x.before(calendar5.getTime())) {
                     if (calendar3.get(Calendar.DAY_OF_WEEK) >= 2 && calendar3.get(Calendar.DAY_OF_WEEK) <= 6) {
                         (banner).setVisibility(View.VISIBLE);
+                        if(ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_Consultation)
+                        {
+                            (banner).setVisibility(View.GONE);
+                        }
                         if ((TextView) mView.findViewById(R.id.textLive) != null) {
                             ((TextView) mView.findViewById(R.id.textLive)).setVisibility(View.VISIBLE);
 

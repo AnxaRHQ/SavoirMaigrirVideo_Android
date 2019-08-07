@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -443,7 +444,7 @@ public class CarnetList extends ScrollView {
         photoMain.setTag(meal);
         photoMain.setScaleType(ImageView.ScaleType.CENTER_CROP);
         ((LinearLayout) layout.findViewById(R.id.icon_container)).setVisibility(View.VISIBLE);
-
+        ProgressBar photoMainProgress = ((ProgressBar) layout.findViewById(R.id.mealphotoprogress));
         // approved & commented
         if (meal.IsApproved) {
             ((LinearLayout) layout.findViewById(R.id.icon_container_approved)).setVisibility(View.VISIBLE);
@@ -483,7 +484,7 @@ public class CarnetList extends ScrollView {
             // photoMain.setTag(1);
 
             if (meal.Album.PhotoCount > 0)
-                updatePhotoMain(meal.Album.Photos.get(0), photoMain, meal.MealType);
+                updatePhotoMain(meal.Album.Photos.get(0), photoMain, meal.MealType, photoMainProgress);
 
             if (meal.Album.PhotoCount > 1) {
                 ((LinearLayout) layout.findViewById(R.id.multiPhoto_layout)).setVisibility(View.VISIBLE);
@@ -492,38 +493,43 @@ public class CarnetList extends ScrollView {
                     ImageView photoThumb1 = ((ImageView) layout.findViewById(R.id.mealphoto1));
                     photoThumb1.setOnClickListener(listener);
                     photoThumb1.setTag(meal);
-                    updatePhotoThumb(meal.Album.Photos.get(0), photoThumb1, meal.MealType);
+                    ProgressBar photoThumb1Progress = ((ProgressBar) layout.findViewById(R.id.mealphoto1progress));
+                    updatePhotoThumb(meal.Album.Photos.get(0), photoThumb1, photoThumb1Progress, meal.MealType);
 
                     ImageView photoThumb2 = ((ImageView) layout.findViewById(R.id.mealphoto2));
                     photoThumb2.setOnClickListener(listener);
                     photoThumb2.setTag(meal);
-                    updatePhotoThumb(meal.Album.Photos.get(1), photoThumb2, meal.MealType);
+                    ProgressBar photoThumb2Progress = ((ProgressBar) layout.findViewById(R.id.mealphoto2progress));
+                    updatePhotoThumb(meal.Album.Photos.get(1), photoThumb2,photoThumb2Progress, meal.MealType);
 
                 }
                 if (meal.Album.Photos.size() >= 3) {
                     ImageView photoThumb3 = ((ImageView) layout.findViewById(R.id.mealphoto3));
                     photoThumb3.setOnClickListener(listener);
                     photoThumb3.setTag(meal);
-                    updatePhotoThumb(meal.Album.Photos.get(2), photoThumb3, meal.MealType);
+                    ProgressBar photoThumb3Progress = ((ProgressBar) layout.findViewById(R.id.mealphoto3progress));
+                    updatePhotoThumb(meal.Album.Photos.get(2), photoThumb3, photoThumb3Progress, meal.MealType);
 
                 }
                 if (meal.Album.Photos.size() >= 4) {
                     ImageView photoThumb4 = ((ImageView) layout.findViewById(R.id.mealphoto4));
                     photoThumb4.setOnClickListener(listener);
                     photoThumb4.setTag(meal);
-                    updatePhotoThumb(meal.Album.Photos.get(3), photoThumb4, meal.MealType);
+                    ProgressBar photoThumb4Progress = ((ProgressBar) layout.findViewById(R.id.mealphoto4progress));
+                    updatePhotoThumb(meal.Album.Photos.get(3), photoThumb4,photoThumb4Progress, meal.MealType);
 
                 }
                 if (meal.Album.Photos.size() >= 5) {
                     ImageView photoThumb5 = ((ImageView) layout.findViewById(R.id.mealphoto5));
                     photoThumb5.setOnClickListener(listener);
                     photoThumb5.setTag(meal);
-                    updatePhotoThumb(meal.Album.Photos.get(4), photoThumb5, meal.MealType);
+                    ProgressBar photoThumb5Progress = ((ProgressBar) layout.findViewById(R.id.mealphoto5progress));
+                    updatePhotoThumb(meal.Album.Photos.get(4), photoThumb5,photoThumb5Progress, meal.MealType);
                 }
             }
 
         } else {
-            updatePhotoMain(null, photoMain, meal.MealType);
+            updatePhotoMain(null, photoMain, meal.MealType, photoMainProgress);
             ((LinearLayout) layout.findViewById(R.id.multiPhoto_layout)).setVisibility(View.GONE);
         }
 
@@ -677,12 +683,12 @@ public class CarnetList extends ScrollView {
 
     }
 
-    public ImageView updatePhotoMain(PhotoContract photo, ImageView item, int type) {
+    public ImageView updatePhotoMain(PhotoContract photo, ImageView item, int type, ProgressBar loader) {
         if (photo != null) {
             // try getting on the ImageManager
             Bitmap bmp = ImageManager.getInstance().findImage(Integer.toString(photo.PhotoId));
             if (bmp == null) {
-                new DownloadImageTask(item, photo.PhotoId).execute(photo.UrlLarge);
+                new DownloadImageTask(item, photo.PhotoId, loader).execute(photo.UrlLarge);
             } else
                 item.setImageBitmap(bmp);
         } else
@@ -696,13 +702,17 @@ public class CarnetList extends ScrollView {
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         final ImageView bmImage;
         String photoid = "";
+        ProgressBar loader;
 
-        public DownloadImageTask(ImageView bmImage, int photoID) {
+        public DownloadImageTask(ImageView bmImage, int photoID, ProgressBar loader) {
             this.bmImage = bmImage;
             this.photoid = Integer.toString(photoID);
+            this.loader = loader;
+            loader.setVisibility(VISIBLE);
         }
 
         protected Bitmap doInBackground(String... urls) {
+
             String urlDisplay = urls[0];
             Bitmap mIcon11 = null;
             try {
@@ -717,6 +727,7 @@ public class CarnetList extends ScrollView {
         }
 
         protected void onPostExecute(Bitmap result) {
+            loader.setVisibility(GONE);
             bmImage.setImageBitmap(result);
 
             ImageManager.getInstance().addImage(photoid, result);
@@ -724,12 +735,12 @@ public class CarnetList extends ScrollView {
         }
     }
 
-    public ImageView updatePhotoThumb(PhotoContract photo, ImageView item, int type) {
+    public ImageView updatePhotoThumb(PhotoContract photo, ImageView item, ProgressBar loader, int type) {
         if (photo != null) {
             // try getting on the ImageManager
             Bitmap bmp = ImageManager.getInstance().findImage(Integer.toString(photo.PhotoId));
             if (bmp == null) {
-                new DownloadImageTask(item, photo.PhotoId).execute(photo.UrlLarge);
+                new DownloadImageTask(item, photo.PhotoId, loader).execute(photo.UrlLarge);
             } else
                 item.setImageBitmap(bmp);
         } else

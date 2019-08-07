@@ -61,6 +61,9 @@ public class WebkitFragment extends BaseFragment implements View.OnClickListener
         this.context = getActivity();
         mView = inflater.inflate(R.layout.webinar, null);
 
+        if(ApplicationData.getInstance().selectedFragment == ApplicationData.SelectedFragment.Account_Consultation) {
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+        }
         String headerTitle = getArguments().getString("header_title");
         String webkitBaseUrl =  getArguments().getString("webkit_url");
         ((TextView) mView.findViewById(R.id.header_title_tv)).setText(headerTitle);
