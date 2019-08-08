@@ -429,11 +429,12 @@
 
 
         <ProgressBar
-            style="?android:attr/progressBarStyleSmall"
             android:id="@+id/account_progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
+            android:indeterminateDrawable="@drawable/animateprogress"
             android:visibility="visible" />
 
     </RelativeLayout>

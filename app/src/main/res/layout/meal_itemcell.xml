@@ -58,15 +58,18 @@
             android:src="@drawable/meal_addameal"
             android:scaleType="centerInside"
             android:background="#efefef" />
+
+        <!-- Progress Bar -->
+
         <ProgressBar
-            android:id="@+id/mealphotoprogress"
+            android:id="@+id/mealProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@android:style/Widget.ProgressBar.Small"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:indeterminateDrawable="@drawable/animateprogress"
             android:visibility="gone"/>
+
         <!--mutiple photo -->
         <LinearLayout
             android:id="@+id/multiPhoto_layout"
@@ -77,116 +80,46 @@
             android:weightSum="5"
             android:background="#7F333333"
             android:visibility="invisible">
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <ImageView
-                    android:id="@+id/mealphoto1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="1dp"
-                    android:scaleType="centerCrop"/>
-                <ProgressBar
-                    android:id="@+id/mealphoto1progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@android:style/Widget.ProgressBar.Small"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_centerInParent="true"
-                    android:visibility="gone"
-                    />
-            </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <ImageView
-                    android:id="@+id/mealphoto2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="1dp"
-                    android:scaleType="centerCrop"/>
-                <ProgressBar
-                    android:id="@+id/mealphoto2progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@android:style/Widget.ProgressBar.Small"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_centerInParent="true"
-                    android:visibility="gone"
-                    />
-            </RelativeLayout>
+            <ImageView
+                android:id="@+id/mealphoto1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="1dp"
+                android:scaleType="centerCrop"/>
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <ImageView
-                    android:id="@+id/mealphoto3"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="1dp"
-                    android:scaleType="centerCrop"/>
-                <ProgressBar
-                    android:id="@+id/mealphoto3progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@android:style/Widget.ProgressBar.Small"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_centerInParent="true"
-                    android:visibility="gone"
-                    />
-            </RelativeLayout>
+            <ImageView
+                android:id="@+id/mealphoto2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="1dp"
+                android:scaleType="centerCrop" />
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <ImageView
-                    android:id="@+id/mealphoto4"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="1dp"
-                    android:scaleType="centerCrop"/>
-                <ProgressBar
-                    android:id="@+id/mealphoto4progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@android:style/Widget.ProgressBar.Small"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_centerInParent="true"
-                    android:visibility="gone"
-                    />
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <ImageView
-                    android:id="@+id/mealphoto5"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="1dp"
-                    android:scaleType="centerCrop"/>
-                <ProgressBar
-                    android:id="@+id/mealphoto5progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@android:style/Widget.ProgressBar.Small"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_centerInParent="true"
-                    android:visibility="gone"
-                    />
-            </RelativeLayout>
+            <ImageView
+                android:id="@+id/mealphoto3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="1dp"
+                android:scaleType="centerCrop"/>
 
+            <ImageView
+                android:id="@+id/mealphoto4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="1dp"
+                android:scaleType="centerCrop"/>
 
+            <ImageView
+                android:id="@+id/mealphoto5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="1dp"
+                android:scaleType="centerCrop"/>
 
         </LinearLayout>
 
@@ -247,13 +180,12 @@
 
             <ProgressBar
                 android:id="@+id/resumeProgressBar"
-               android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|center"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:clickable="false"
-                android:indeterminate="true" />
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
+                android:indeterminateDrawable="@drawable/animateprogress"
+                android:clickable="false" />
 
         </LinearLayout>
 
@@ -332,7 +264,7 @@
         android:text=""
         android:visibility="gone" />
 
-    <!--seperator -->
+    <!--separator -->
     <View
         android:id="@+id/separator"
         android:layout_width="fill_parent"

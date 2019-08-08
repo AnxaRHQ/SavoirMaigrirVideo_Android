@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -51,6 +52,7 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
     private List<CoachingVideosContract> videosList;
     private CustomListView coachingListView;
     private Button header_right;
+    private ProgressBar progressBar;
 
     private YouTubePlayerFragment playerFragment;
 
@@ -99,6 +101,10 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
 
         backButton = (ImageView) (mView.findViewById(R.id.header_menu_back));
         backButton.setOnClickListener(this);
+
+        progressBar = mView.findViewById(R.id.coachingProgressbar);
+
+        progressBar.setVisibility(View.VISIBLE);
 
         coachingListView = (CustomListView) mView.findViewById(R.id.coachingListView);
 
@@ -345,6 +351,8 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
                         VideoHelper.sortCoachingVideos("index", videosList);
                         videosList.get(0).IsSelected = true;
                         adapter.updateItems(videosList);
+
+                        progressBar.setVisibility(View.GONE);
 
                         RefreshPlayer(mView, videosList.get(0));
                     }

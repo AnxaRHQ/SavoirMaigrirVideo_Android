@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -80,6 +81,7 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
     private Button mealPlan_btn;
     private Button shoppingList_btn;
     private Button recettes_btn;
+    private ProgressBar progressBar;
 
     private LinearLayout repasHeader_ll;
     private LinearLayout repasSearch_ll;
@@ -176,6 +178,7 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
         backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.header_menu_back);
         backButton.setOnClickListener(this);
 
+        progressBar = (ProgressBar) mView.findViewById(R.id.repasProgressbar);
 
         shareButton = (Button) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.shareButton);
         shareButton.setOnClickListener(this);
@@ -292,6 +295,7 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
                     if (c != null && c.Data != null) {
                         ApplicationData.getInstance().repasContractArrayList = c.Data.Repas;
                         updateRepasList();
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
             }
@@ -417,6 +421,8 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
                             }
                         }
                         getListPerRecipe();
+
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
             }
@@ -833,7 +839,10 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
         System.out.println("onclick weekNumber: " + weekNumber + " dayNumber: " + dayNumber);
         System.out.println("onclick weekNumber: " + weekNumber + " totalWeeksArchive: " + totalWeeksArchive);
 
-        if (v == nextDay_btn) {
+        if (v == nextDay_btn)
+        {
+            progressBar.setVisibility(View.VISIBLE);
+
             /* Repas */
 
             if (mealPlan_btn.isSelected()) {
@@ -907,7 +916,11 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
                     }
                 }
             }
-        } else if (v == previousDay_btn) {
+        }
+        else if (v == previousDay_btn)
+        {
+            progressBar.setVisibility(View.VISIBLE);
+
             /* Repas */
 
             if (mealPlan_btn.isSelected()) {
@@ -978,7 +991,9 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
                     }
                 }
             }
-        } else if (v == mealPlan_btn) {
+        }
+        else if (v == mealPlan_btn)
+        {
             repasHeader_ll.setVisibility(View.VISIBLE);
             repasSearch_ll.setVisibility(View.VISIBLE);
 
@@ -1007,7 +1022,11 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
             repasScrollView.setVisibility(View.VISIBLE);
             shoppingListScrollView.setVisibility(View.GONE);
             removeRepasFragment();
-        } else if (v == shoppingList_btn) {
+        }
+        else if (v == shoppingList_btn)
+        {
+            progressBar.setVisibility(View.VISIBLE);
+
             System.out.println("Repas weeknumber shoppingList_btn: " + weekNumber);
 
             repasHeader_ll.setVisibility(View.VISIBLE);
@@ -1046,7 +1065,11 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
 
             getShoppingList();
             removeRepasFragment();
-        } else if (v == recettes_btn) {
+        }
+        else if (v == recettes_btn)
+        {
+            progressBar.setVisibility(View.VISIBLE);
+
             mealPlan_btn.setSelected(false);
             shoppingList_btn.setSelected(false);
             recettes_btn.setSelected(true);

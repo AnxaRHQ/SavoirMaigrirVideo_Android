@@ -504,6 +504,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:id="@+id/landing_account_progressBar"
+        android:indeterminateDrawable="@drawable/animateprogress"
         android:visibility="gone"/>
 
 </RelativeLayout>

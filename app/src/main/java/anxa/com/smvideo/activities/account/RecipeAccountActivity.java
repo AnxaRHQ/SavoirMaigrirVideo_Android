@@ -100,7 +100,7 @@ public class RecipeAccountActivity extends BaseFragment implements View.OnClickL
                 e.printStackTrace();
             }
             mView.findViewById(R.id.recipeImageProgress).setVisibility(View.GONE);
-            //new RecipeDownloadImageAsync(img, (ProgressBar) mView.findViewById(R.id.recipeImageProgress), recipeContract.Id).execute(recipeContract.ImageUrl);
+
         } else {
             ((ImageView) mView.findViewById(R.id.recipeImage)).setImageBitmap(avatar);
             ((ProgressBar) mView.findViewById(R.id.recipeImageProgress)).setVisibility(View.GONE);

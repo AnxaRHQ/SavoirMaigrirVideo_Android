@@ -92,5 +92,7 @@
             android:cacheColorHint="#000000"
             android:divider="#000000"
             android:dividerHeight="1dp" />
+
     </LinearLayout>
+
 </LinearLayout>

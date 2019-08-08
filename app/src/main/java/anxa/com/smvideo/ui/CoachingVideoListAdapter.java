@@ -17,7 +17,6 @@ import java.util.List;
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.connection.http.VideoDownloadImageAsync;
 import anxa.com.smvideo.contracts.CoachingVideosContract;
-import anxa.com.smvideo.util.VideoHelper;
 
 /**
  * Created by aprilanxa on 29/06/2017.

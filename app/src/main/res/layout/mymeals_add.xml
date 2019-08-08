@@ -496,7 +496,7 @@
 
                 <LinearLayout
                     android:id="@+id/progress"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:orientation="vertical"
@@ -504,8 +504,10 @@
 
                     <ProgressBar
                         android:id="@+id/progressBar"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerInParent="true"
                         android:layout_gravity="center_horizontal"
                         android:indeterminateDrawable="@drawable/animateprogress"
                         android:visibility="visible" />

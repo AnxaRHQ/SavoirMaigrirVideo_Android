@@ -116,7 +116,7 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
             ((TextView) findViewById(R.id.header_title_tv)).setText(AppUtil.getFRMonthDay(AppUtil.toDateGMT(currentMeal.MealCreationDate)));
         }
 
-        progressBar = (ProgressBar)findViewById(R.id.progressBar_mealView);
+        progressBar = (ProgressBar)findViewById(R.id.mealProgressBar);
 
         // init listview
         commentlist = (CarnetCommentListLayout) findViewById(R.id.commentlist);
@@ -367,7 +367,7 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
                         iv_thumbnails[i].setImageResource(AppUtil.getPhotoResource(currentMeal.MealType)); // use
 
                     } else {
-                            updatePhotoThumb(photos.get(i), iv_thumbnails[i], currentMeal.MealType);
+                            updatePhotoThumb(photos.get(i), null, iv_thumbnails[i], currentMeal.MealType);
                     }
 
                     iv_thumbnails[i].setOnClickListener(this);
@@ -382,14 +382,17 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
             if (photos.get(selectedPhotoIndex) != null) {
                 Bitmap bmp_main = ImageManager.getInstance().findImage(Integer.toString(photos.get(selectedPhotoIndex).PhotoId));
                 if (bmp_main==null)
-                    new DownloadImageTask(iv_mainPhoto, photos.get(selectedPhotoIndex).PhotoId).execute(photos.get(selectedPhotoIndex).UrlLarge);
+                    new DownloadImageTask(iv_mainPhoto, progressBar, photos.get(selectedPhotoIndex).PhotoId).execute(photos.get(selectedPhotoIndex).UrlLarge);
                 else
-                    iv_mainPhoto.setImageBitmap(bmp_main); //
+                {
+                    iv_mainPhoto.setImageBitmap(bmp_main);
+                    progressBar.setVisibility(View.GONE);
+                }
 
             }else {
                 Bitmap bmp = ImageManager.getInstance().findImage(Integer.toString(photos.get(selectedPhotoIndex).PhotoId));
                 if (bmp == null){
-                    new DownloadImageTask(iv_mainPhoto, photos.get(selectedPhotoIndex).PhotoId).execute(photos.get(selectedPhotoIndex).UrlLarge);
+                    new DownloadImageTask(iv_mainPhoto, progressBar, photos.get(selectedPhotoIndex).PhotoId).execute(photos.get(selectedPhotoIndex).UrlLarge);
                 }
             }
 
@@ -475,10 +478,17 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
         }
     }
 
-    public ImageView updatePhotoThumb(PhotoContract photo, ImageView item, int type) {
+    public ImageView updatePhotoThumb(PhotoContract photo, ProgressBar progressBar, ImageView item, int type) {
         if (photo != null && photo.UrlLarge != null)
-            new DownloadImageTask(item, photo.PhotoId).execute(photo.UrlLarge);
-        else if (photo != null) {
+        {
+            progressBar.setVisibility(View.VISIBLE);
+
+            new DownloadImageTask(item, progressBar, photo.PhotoId).execute(photo.UrlLarge);
+        }
+        else if (photo != null)
+        {
+            progressBar.setVisibility(View.GONE);
+
             // try getting on the ImageManager
             Bitmap bmp = ImageManager.getInstance().findImage(Integer.toString(photo.PhotoId));
             if (bmp == null)
@@ -486,9 +496,11 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
                 // dummy
             else
                 item.setImageBitmap(bmp);
-        } else
-            item.setImageResource(AppUtil.getPhotoResource(type)); // use
 
+        } else {
+            item.setImageResource(AppUtil.getPhotoResource(type)); // use
+            progressBar.setVisibility(View.GONE);
+        }
         return item;
     }
 
@@ -561,11 +573,13 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
     {
         final ImageView bmImage;
+        ProgressBar progressBar;
         String photoid = "";
 
-        public DownloadImageTask(ImageView bmImage, int photoID)
+        public DownloadImageTask(ImageView bmImage, ProgressBar progress, int photoID)
         {
             this.bmImage = bmImage;
+            this.progressBar = progress;
             this.photoid = Integer.toString(photoID);
         }
 
@@ -589,6 +603,7 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
 
         protected void onPostExecute(Bitmap result)
         {
+            progressBar.setVisibility(View.GONE);
             bmImage.setImageBitmap(result);
 
             ImageManager.getInstance().addImage(photoid, result);

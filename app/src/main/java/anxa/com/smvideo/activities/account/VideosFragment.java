@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -43,6 +44,7 @@ public class VideosFragment extends BaseFragment implements View.OnClickListener
 
     private VideoListAdapter adapter;
     private List<VideoContract> videosList;
+    private ProgressBar progressBar;
 
     private CustomListView coachingListView;
 
@@ -58,12 +60,16 @@ public class VideosFragment extends BaseFragment implements View.OnClickListener
 
         caller = new ApiCaller();
 
-        backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.exercice_headermenu)).findViewById(R.id.header_menu_back);
+        backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.video_headermenu)).findViewById(R.id.header_menu_back);
         backButton.setOnClickListener(this);
 
         //header change
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.nav_account_videos));
 //        ((TextView) (mView.findViewById(R.id.header_right_tv))).setVisibility(View.INVISIBLE);
+
+        progressBar = mView.findViewById(R.id.videoProgressbar);
+
+        progressBar.setVisibility(View.VISIBLE);
 
         coachingListView = (CustomListView) mView.findViewById(R.id.coachingListView);
 
@@ -146,6 +152,8 @@ public class VideosFragment extends BaseFragment implements View.OnClickListener
                         VideoHelper.sort("index", videosList);
                         videosList.get(0).IsSelected = true;
                         adapter.updateItems(videosList);
+
+                        progressBar.setVisibility(View.GONE);
 
                         RefreshPlayer(mView, videosList.get(0));
                     }
