@@ -275,7 +275,8 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
     private Bitmap downloadBitmap(String url)
     {
         HttpURLConnection urlConnection = null;
-
+        url = AppUtil.CheckImageUrl(url);
+        Log.d("IMAGE URL", "image url is " + url);
         try
         {
             URL uri = new URL(url);
@@ -344,6 +345,7 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
 
             Bitmap mIcon11 = null;
             try {
+                urldisplay = AppUtil.CheckImageUrl(urldisplay);
                 InputStream in = new java.net.URL(urldisplay).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);
 

@@ -2,6 +2,7 @@ package anxa.com.smvideo.activities.account;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -54,10 +55,11 @@ public class AproposFragment extends Fragment implements View.OnClickListener
         ((TextView) (mView.findViewById(R.id.header_title_tv))).setText(getString(R.string.apropos_menu_title));
 
         backButton = (ImageView) mView.findViewById(R.id.header_menu_back);
-        backButton.setVisibility(View.VISIBLE);
-        backButton.setImageDrawable(null);
-        backButton.setBackground(context.getResources().getDrawable(R.drawable.ic_menu_white_24dp));
-
+        if (!ApplicationData.getInstance().accountType.equalsIgnoreCase("account")) {
+            backButton.setVisibility(View.VISIBLE);
+            backButton.setImageDrawable(null);
+            backButton.setBackground(context.getResources().getDrawable(R.drawable.ic_menu_white_24dp));
+        }
         ((TextView) (mView.findViewById(R.id.header_menu_iv))).setVisibility(View.GONE);
 
         version_tv = (TextView) (mView.findViewById(R.id.apropos_version_tv));
@@ -92,6 +94,25 @@ public class AproposFragment extends Fragment implements View.OnClickListener
             goToContactPage();
         }else if (v == logout_row){
             logoutUser();
+        }else if(v == backButton){
+            if (ApplicationData.getInstance().accountType.equalsIgnoreCase("account")) {
+                Fragment fragment = new LandingPageAccountActivity();
+
+                ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Home;
+                FragmentManager fragmentManager = getFragmentManager();
+
+                if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT") != null) {
+                    fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT")).commit();
+                } else {
+                }
+
+                try {
+
+                    fragmentManager.beginTransaction().replace(R.id.mainContent, fragment, "CURRENT_FRAGMENT").commit();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

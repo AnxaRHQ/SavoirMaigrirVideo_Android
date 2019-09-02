@@ -28,7 +28,7 @@ public class WebkitURL
     public static String free_contactURL        = "/1dirparjour/minisite/contact";
 
     public static String webinarURL             = "/1dirparjour/webinar";
-
+    public static String espaceVipURL           = "/5minparjour/coaching/espacevip";
     public static String webinarAutoLoginURL    = "/3actparjour/login?u=%d&p=%password&redirect=/1dirparjour/webinar/broadcast";
     public static String autoLoginURL           = "/3actparjour/login?u=%u&p=%p";
 
@@ -42,6 +42,9 @@ public class WebkitURL
     public static String boutiqueWebkitUrl      = "/5minparjour/mobile/boutique?regId=%regId&sig=%sig";
     public static String invitationsWebkitUrl   = "/centralized/amis/invitations/?regId=%regId&sig=%sig";
     public static String alertesWebkitUrl       = "/5minparjour/mobile/user/alertessmartphone/?regId=%regId&sig=%sig";
+    public static String repasWebkitUrl         = "/5minparjour/mobile/repas/plans?regId=%regId&sig=%sig";
+    public static String shoppingWebkitUrl         = "/5minparjour/mobile/repas/listesdescourses?regId=%regId&sig=%sig";
+    public static String sessionWebkitUrl       = "/5minparjour/mobile/coaching/sessiondujour/?regId=%regId&w=%w&d=%day&sig=%sig";
 
     public static String bicepsWebkitUrl        = "/5minparjour/Mobile/graph/WeightGraph/?regId=%regId&gt=biceps&sig=%sig#";
     public static String chestWebkitUrl         = "/5minparjour/Mobile/graph/WeightGraph/?regId=%regId&gt=chest&sig=%sig#";

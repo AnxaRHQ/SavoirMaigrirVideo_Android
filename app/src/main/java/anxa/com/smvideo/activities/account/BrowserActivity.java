@@ -8,7 +8,6 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.compat.BuildConfig;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -27,6 +26,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
 import anxa.com.smvideo.ApplicationData;
+import anxa.com.smvideo.BuildConfig;
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.common.WebkitURL;
 import anxa.com.smvideo.customview.VideoEnabledWebChromeClient;

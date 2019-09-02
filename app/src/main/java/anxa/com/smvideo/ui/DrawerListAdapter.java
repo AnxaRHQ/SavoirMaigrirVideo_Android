@@ -2,6 +2,7 @@ package anxa.com.smvideo.ui;
 
 import android.content.Context;
 import android.opengl.Visibility;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.models.NavItem;
 
@@ -62,7 +64,14 @@ public class DrawerListAdapter extends BaseAdapter {
 
         titleView.setText( mNavItems.get(position).mTitle );
         iconView.setImageResource(mNavItems.get(position).mIcon);
-        if(position==5) {
+        if (ApplicationData.getInstance().accountType.equalsIgnoreCase("account"))
+        {
+            if(position==7) {
+            titleView.setTextColor(ContextCompat.getColor(mContext, R.color.text_orange));
+            iconView.setImageResource(R.drawable.leftnav_vip);
+            }
+        }
+        if(position==6) {
             divider.setVisibility(View.VISIBLE);
         }else{
             divider.setVisibility(View.GONE);

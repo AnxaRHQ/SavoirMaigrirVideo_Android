@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.compat.BuildConfig;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,12 +32,15 @@ import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;
 
 import anxa.com.smvideo.ApplicationData;
+import anxa.com.smvideo.BuildConfig;
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.common.WebkitURL;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.customview.VideoEnabledWebChromeClient;
 import anxa.com.smvideo.customview.VideoEnabledWebView;
 import anxa.com.smvideo.util.AppUtil;
+
+import static android.view.View.GONE;
 
 public class WebkitFragment extends BaseFragment implements View.OnClickListener {
 
@@ -47,7 +49,7 @@ public class WebkitFragment extends BaseFragment implements View.OnClickListener
     public String contentString = "";
 
     ProgressBar myProgressBar;
-
+    private String autologinURL;
 
     private Context context;
     protected ApiCaller caller;
@@ -66,18 +68,22 @@ public class WebkitFragment extends BaseFragment implements View.OnClickListener
         }
         String headerTitle = getArguments().getString("header_title");
         String webkitBaseUrl =  getArguments().getString("webkit_url");
-        ((TextView) mView.findViewById(R.id.header_title_tv)).setText(headerTitle);
+        boolean hideHeader = getArguments().getBoolean("hide_header", false);
 
+        ((TextView) mView.findViewById(R.id.header_title_tv)).setText(headerTitle);
+        if(hideHeader){
+            mView.findViewById(R.id.header_menu_webinar).setVisibility(GONE);
+        }
         Log.w("headerTitle",headerTitle);
 
         if (getArguments().get("isHideHeader") != null)
         {
-            ((View) mView.findViewById(R.id.header_menu_webinar)).setVisibility(View.GONE);
+            ((View) mView.findViewById(R.id.header_menu_webinar)).setVisibility(GONE);
         }
 
         if (getArguments().get("isHideRightNav") != null)
         {
-            ((Button) mView.findViewById(R.id.header_menu_iv)).setVisibility(View.GONE);
+            ((Button) mView.findViewById(R.id.header_menu_iv)).setVisibility(GONE);
         }
         else {
             backButton = (ImageView) ((RelativeLayout) mView.findViewById(R.id.header_menu_webinar)).findViewById(R.id.header_menu_back);
@@ -193,8 +199,16 @@ public class WebkitFragment extends BaseFragment implements View.OnClickListener
         mainContentWebView.getSettings().setUserAgentString(ApplicationData.getInstance().customAgent + " " + BuildConfig.VERSION_NAME + " " + defaultagent);
 
         CookieManager.getInstance().setCookie("http://savoir-maigrir.aujourdhui.com", "produit=sid=221");
+        autologinURL = WebkitURL.autoLoginURL.replace("%u", Integer.toString(ApplicationData.getInstance().userDataContract.Id));
+        try {
+            autologinURL = autologinURL.replace("%p", AppUtil.SHA1(Integer.toString(ApplicationData.getInstance().userDataContract.Id) + "Dxx-|%dsDaI"));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        mainContentWebView.loadUrl( WebkitURL.domainURL + autologinURL);
 
-        mainContentWebView.loadUrl(URLPath);
         mainContentWebView.setWebChromeClient(webChromeClient);
 
         mainContentWebView.setWebViewClient(new WebViewClient() {
@@ -206,21 +220,29 @@ public class WebkitFragment extends BaseFragment implements View.OnClickListener
                 super.onPageFinished(view, url);
                 if (myProgressBar != null)
                     myProgressBar.setVisibility(View.INVISIBLE);
+                if(url.equalsIgnoreCase(WebkitURL.domainURL + "/5minparjour")) {
+                    mainContentWebView.loadUrl(URLPath);
+                }
             }
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 System.out.println("FullBrowserActivity " + url);
+                if(url.equalsIgnoreCase(WebkitURL.domainURL + "/5minparjour"))
+                {
+                    return true;
+                }
                 if (url.contains(WebkitURL.domainURL.replace("http://", ""))) {
                     return false;
                 }
 
-                view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-                return true;
+                //view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                return false;
             }
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
+
                 //registration for JMC
 //                if (url.equalsIgnoreCase(WebkitURL.domainURL + WebkitURL.registrationDoneURL)) {
 //                    Intent returnIntent = new Intent();

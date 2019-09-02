@@ -2,6 +2,7 @@ package anxa.com.smvideo.activities.account;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
@@ -10,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +20,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.common.SavoirMaigrirVideoConstants;
+import anxa.com.smvideo.common.WebkitURL;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
 import anxa.com.smvideo.contracts.CoachingVideosContract;
@@ -36,7 +43,11 @@ import anxa.com.smvideo.contracts.CoachingVideosResponseContract;
 import anxa.com.smvideo.contracts.VideoContract;
 import anxa.com.smvideo.ui.CoachingVideoListAdapter;
 import anxa.com.smvideo.ui.CustomListView;
+import anxa.com.smvideo.util.AppUtil;
 import anxa.com.smvideo.util.VideoHelper;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 /**
  * Created by aprilanxa on 14/06/2017.
@@ -53,6 +64,7 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
     private CustomListView coachingListView;
     private Button header_right;
     private ProgressBar progressBar;
+    private TextView viewMore;
 
     private YouTubePlayerFragment playerFragment;
 
@@ -61,6 +73,7 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
     private int selectedCoachingWeekNumber;
     private ImageView backButton;
     private boolean fromArchive;
+    private boolean sessionView;
     String headerTitle;
 
     @Override
@@ -71,7 +84,7 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
         mView = inflater.inflate(R.layout.coaching_account, null);
 
         caller = new ApiCaller();
-
+        sessionView = false;
         IntentFilter filter = new IntentFilter();
         filter.addAction(this.getResources().getString(R.string.coaching_broadcast_string));
         context.registerReceiver(the_receiver, filter);
@@ -104,11 +117,11 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
 
         progressBar = mView.findViewById(R.id.coachingProgressbar);
 
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(VISIBLE);
 
         coachingListView = (CustomListView) mView.findViewById(R.id.coachingListView);
 
-        ((LinearLayout)mView.findViewById(R.id.youtube_layout_caption)).setVisibility(View.VISIBLE);
+        ((LinearLayout)mView.findViewById(R.id.youtube_layout_caption)).setVisibility(VISIBLE);
 
         videosList = new ArrayList<CoachingVideosContract>();
         videosList_all = new ArrayList<CoachingVideosContract>();
@@ -130,10 +143,11 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
         ft.replace(R.id.youtube_layout, playerFragment, tag);
         ft.commit();
 
-        selectedCoachingWeekNumber = ApplicationData.getInstance().selectedWeekNumber;
+        selectedCoachingWeekNumber = currentCoachingWeekNumber;
 
         if (ApplicationData.getInstance().fromArchive) {
             updateVideosList();
+            progressBar.setVisibility(GONE);
         } else {
             getCoachingVideosFromAPI();
         }
@@ -145,6 +159,19 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
     @Override
     public void onResume() {
         super.onResume();
+        if(videosList != null && videosList.size() > 0) {
+            FragmentManager fm = getFragmentManager();
+            String tag = YouTubePlayerFragment.class.getSimpleName();
+            playerFragment = (YouTubePlayerFragment) fm.findFragmentByTag(tag);
+
+            if (playerFragment != null) {
+                FragmentTransaction ft = fm.beginTransaction();
+                playerFragment = YouTubePlayerFragment.newInstance();
+                ft.replace(R.id.youtube_layout, playerFragment, tag);
+                ft.commit();
+            }
+            RefreshPlayer(mView, videosList.get(0));
+        }
     }
 
     @Override
@@ -156,7 +183,9 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
         }
         else if(v == backButton)
         {
-            super.removeFragment();
+
+                super.removeFragment();
+
         }
         else
         {
@@ -200,6 +229,29 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
                     ((TextView) (mView.findViewById(R.id.videoTitle))).setText(video.Title);
                     ((TextView) (mView.findViewById(R.id.videoDesc))).setText(video.Description);
                     ((TextView) (mView.findViewById(R.id.videoDuration))).setText(video.Duration);
+                    ((TextView) (mView.findViewById(R.id.videoViewMore))).setVisibility(VISIBLE);
+                    ((TextView) (mView.findViewById(R.id.videoViewMore))).setOnClickListener(new View.OnClickListener(){
+
+                        @Override
+                        public void onClick(View v) {
+
+                            Intent mainIntent = new Intent(context, WebkitActivity.class);
+                            mainIntent.putExtra("isHideRightNav", "true");
+                            mainIntent.putExtra("header_title", getString(R.string.nav_account_coaching));
+                            String webkitUrl = WebkitURL.sessionWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)).replace("%w", Integer.toString(video.WeekNumber)).replace("%day", Integer.toString(video.DayNumber));
+                            try {
+                                webkitUrl = webkitUrl.replace("%sig", AppUtil.SHA1("get" + webkitUrl.split(Pattern.quote("?"))[0] + Integer.toString(ApplicationData.getInstance().userDataContract.Id) + "Au!Ui 7RCw h9p1m36"));
+                            } catch (NoSuchAlgorithmException e) {
+                                e.printStackTrace();
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
+                            mainIntent.putExtra("webkit_url", webkitUrl);
+
+                            startActivity(mainIntent);
+                        }
+                    });
+
                     youTubePlayer.setPlaybackEventListener(new YouTubePlayer.PlaybackEventListener() {
                         @Override
                         public void onBuffering(boolean arg0) {
@@ -248,7 +300,7 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
 
             @Override
             public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-                //Toast.makeText(YouTubePlayerFragmentActivity.this, "Error while initializing YouTubePlayer.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error while initializing YouTubePlayer.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -275,6 +327,18 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
 
     private void updateVideosList()
     {
+/*        FragmentManager fm = getFragmentManager();
+        String tag = YouTubePlayerFragment.class.getSimpleName();
+        playerFragment = (YouTubePlayerFragment) fm.findFragmentByTag(tag);
+
+        if (playerFragment != null)
+        {
+            FragmentTransaction ft = fm.beginTransaction();
+            playerFragment = YouTubePlayerFragment.newInstance();
+            ft.replace(R.id.youtube_layout, playerFragment, tag);
+            ft.commit();
+        }*/
+
         videosList = new ArrayList<>();
 
         for (CoachingVideosContract v : ApplicationData.getInstance().coachingVideoList)
@@ -304,6 +368,8 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
 
         if (videosList.size() > 0)
         {
+
+
             VideoHelper.sortCoachingVideos("index", videosList);
             videosList.get(0).IsSelected = true;
             adapter.updateItems(videosList);
@@ -352,7 +418,7 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
                         videosList.get(0).IsSelected = true;
                         adapter.updateItems(videosList);
 
-                        progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(GONE);
 
                         RefreshPlayer(mView, videosList.get(0));
                     }
@@ -361,13 +427,15 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
         }, currentCoachingWeekNumber);
     }
 
+
     private BroadcastReceiver the_receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction() == context.getResources().getString(R.string.coaching_broadcast_string)) {
+            if (intent.getAction().equalsIgnoreCase(context.getResources().getString(R.string.coaching_broadcast_string))) {
                 fromArchive = true;
                 selectedCoachingWeekNumber = ApplicationData.getInstance().selectedWeekNumber;
                 updateVideosList();
+
             }
         }
     };

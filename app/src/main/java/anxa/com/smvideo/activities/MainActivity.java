@@ -98,13 +98,16 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
         }
         else {
             String welcome_message;
-            if (ApplicationData.getInstance().userDataContract.FirstName != null)
-            {
-                welcome_message = getString(R.string.welcome_account_1).replace("%@", ApplicationData.getInstance().userDataContract.FirstName).concat(getString(R.string.welcome_account_2).replace("%f", AppUtil.getCurrentDayName(AppUtil.getCurrentDayNumber()))).concat(getString(R.string.welcome_account_3).replace("%d", Integer.toString(ApplicationData.getInstance().currentWeekNumber)));
-                System.out.println("welcome message: " + welcome_message);
-            } else {
-                welcome_message = getString(R.string.welcome_account_1).replace("%@", ApplicationData.getInstance().userName).concat(getString(R.string.welcome_account_2).replace("%f", AppUtil.getCurrentDayName(AppUtil.getCurrentDayNumber()))).concat(getString(R.string.welcome_account_3).replace("%d", Integer.toString(ApplicationData.getInstance().currentWeekNumber)));
-                System.out.println("welcome message: " + welcome_message);
+            if (ApplicationData.getInstance().userDataContract != null) {
+                if (ApplicationData.getInstance().userDataContract.FirstName != null) {
+                    welcome_message = getString(R.string.welcome_account_1).replace("%@", ApplicationData.getInstance().userDataContract.FirstName).concat(getString(R.string.welcome_account_2).replace("%f", AppUtil.getCurrentDayName(AppUtil.getCurrentDayNumber()))).concat(getString(R.string.welcome_account_3).replace("%d", Integer.toString(ApplicationData.getInstance().currentWeekNumber)));
+                    System.out.println("welcome message: " + welcome_message);
+                } else {
+                    welcome_message = getString(R.string.welcome_account_1).replace("%@", ApplicationData.getInstance().userName).concat(getString(R.string.welcome_account_2).replace("%f", AppUtil.getCurrentDayName(AppUtil.getCurrentDayNumber()))).concat(getString(R.string.welcome_account_3).replace("%d", Integer.toString(ApplicationData.getInstance().currentWeekNumber)));
+                    System.out.println("welcome message: " + welcome_message);
+                }
+            }else{
+                logoutUser();
             }
 
             mNavItems.add(new NavItem(getString(R.string.menu_home)));
@@ -113,12 +116,13 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
             mNavItems.add(new NavItem(getString(R.string.menu_account_coaching)));
             mNavItems.add(new NavItem(getString(R.string.menu_account_communaute)));
             mNavItems.add(new NavItem(getString(R.string.left_nav_account_videos)));
-            //mNavItems.add(new NavItem(getString(R.string.menu_account_boutique)));
-            //mNavItems.add(new NavItem(getString(R.string.menu_account_espacevip)));
+            mNavItems.add(new NavItem(getString(R.string.left_nav_account_boutique)));
+            mNavItems.add(new NavItem(getString(R.string.menu_account_espacevip)));
             mNavItems.add(new NavItem(getString(R.string.menu_account_notifications)));
             mNavItems.add(new NavItem(getString(R.string.menu_account_invitations)));
             mNavItems.add(new NavItem(getString(R.string.menu_account_message)));
             mNavItems.add(new NavItem(getString(R.string.menu_account_paramducompte)));
+            mNavItems.add(new NavItem(getString(R.string.apropos_menu_title)));
             mNavItems.add(new NavItem(getString(R.string.mon_compte_disconnect)));
         }
 
@@ -312,7 +316,31 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                     }
 
                     break;
-                case 6: //notifications
+                case 6: //boutique
+
+                    if (!CheckFreeUser(true))
+                    {
+                        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Boutique;
+                        fragment = new WebkitFragment();
+                        bundle.putString("header_title", getString(R.string.menu_account_boutique));
+                        bundle.putString("webkit_url", WebkitURL.boutiqueWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
+                        fragment.setArguments(bundle);
+                    }
+
+                    break;
+                case 7: //vip
+
+                    if (!CheckFreeUser(true))
+                    {
+                        ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_EspaceVip;
+                        fragment = new DtsWebkitFragment();
+                        bundle.putString("header_title", getString(R.string.menu_account_espacevip));
+                        bundle.putString("webkit_url", WebkitURL.espaceVipURL);
+                        fragment.setArguments(bundle);
+                    }
+
+                    break;
+                case 8: //notifications
 
                     if (!CheckFreeUser(true))
                     {
@@ -322,7 +350,7 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                     }
 
                     break;
-                case 7: //invitations
+                case 9: //invitations
 
                     if (!CheckFreeUser(true))
                     {
@@ -334,7 +362,7 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                     }
 
                     break;
-                case 8: //messages
+                case 10: //messages
 
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Messages;
                     bundle.putBoolean("fromNotifications", false);
@@ -342,13 +370,19 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                     fragment.setArguments(bundle);
 
                     break;
-                case 9: //parameters du compte
+                case 11: //parameters du compte
 
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_MonCompte;
                     fragment = new MonCompteAccountFragment();
 
                     break;
-                case 10: //deconnection
+                case 12: //a propos
+
+                    ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Apropos;
+                    fragment = new AproposFragment();
+
+                    break;
+                case 13: //deconnection
                     logoutUser();
                     break;
                 default:
@@ -401,7 +435,7 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
             ApplicationData.getInstance().fromArchive = false;
             ApplicationData.getInstance().fromArchiveConseils = false;
             if (ApplicationData.getInstance().accountType.equalsIgnoreCase("account")) {
-                ApplicationData.getInstance().selectedWeekNumber = AppUtil.getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), new Date());
+                ApplicationData.getInstance().selectedWeekNumber = ApplicationData.getInstance().currentWeekNumber;
             }
             mDrawerLayout.openDrawer(Gravity.LEFT);
         }

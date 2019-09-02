@@ -165,7 +165,7 @@
     <style name="whiteNormalMedium">
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">15dp</item>
+        <item name="android:textSize">14dp</item>
     </style>
 
     <style name="whiteNormalRepas">

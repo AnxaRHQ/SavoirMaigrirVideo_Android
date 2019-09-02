@@ -87,7 +87,7 @@ public class NotificationListAdapter extends ArrayAdapter<NotificationsContract>
             viewHolder.imageView = (RoundedImageView) row.findViewById(R.id.imgCoachAvatar);
             viewHolder.chatMessage = ((TextView) row.findViewById(R.id.txtNotifMessage));
             viewHolder.chatMessage_icon = ((ImageView) row.findViewById(R.id.imgNotifIcon));
-            viewHolder.chatDate = ((TextView) row.findViewById(R.id.txtTimestamp));
+            //viewHolder.chatDate = ((TextView) row.findViewById(R.id.txtTimestamp));
             row.setTag(viewHolder);
         }
         else {
@@ -117,7 +117,7 @@ public class NotificationListAdapter extends ArrayAdapter<NotificationsContract>
             String time = AppUtil.getTimeOnly(AppUtil.toDate(notification.date_created_utc).getTime());
 
             String timeStamp = AppUtil.getDateFormatNotifications(AppUtil.toDate(notification.date_created_utc)) + " " + context.getString(R.string.NOTIFICATIONS_TIME_AT) + " " + time;
-            viewHolder.chatDate.setText(timeStamp);
+            //viewHolder.chatDate.setText(timeStamp);
         }
         else {
             String coachIdToSave = notification.coach_profile_picture.substring(notification.coach_profile_picture.indexOf("users/") + 6, notification.coach_profile_picture.lastIndexOf("/"));
@@ -148,7 +148,7 @@ public class NotificationListAdapter extends ArrayAdapter<NotificationsContract>
             String time = AppUtil.getTimeOnly(AppUtil.toDate(notification.date_created_utc).getTime());
 
             String timeStamp = AppUtil.getDateFormatNotifications(AppUtil.toDate(notification.date_created_utc)) + " " + context.getString(R.string.NOTIFICATIONS_TIME_AT) + " " + time;
-            viewHolder.chatDate.setText(timeStamp);
+            //viewHolder.chatDate.setText(timeStamp);
         }
 
         //notif state -- read unread

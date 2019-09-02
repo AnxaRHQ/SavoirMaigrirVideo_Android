@@ -35,6 +35,7 @@ import java.util.regex.Pattern;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
+import anxa.com.smvideo.common.WebkitURL;
 import anxa.com.smvideo.contracts.Carnet.ExerciseContract;
 import anxa.com.smvideo.contracts.Carnet.MealCommentContract;
 import anxa.com.smvideo.contracts.Carnet.MealContract;
@@ -2390,5 +2391,25 @@ public class AppUtil {
         }
 
         return localTime;
+    }
+
+    public static String CheckImageUrl(String img)
+    {
+        if (img != null && !img.isEmpty() && img.toLowerCase().contains("http://img.aujourdhui.com/"))
+        {
+            return img.replace("http://img.aujourdhui.com/", WebkitURL.domainURL + "/img_aj/");
+        }
+        if (img != null && !img.isEmpty() && img.toLowerCase().contains("http://photos.aujourdhui.com/"))
+        {
+            return img.replace("http://photos.aujourdhui.com/", WebkitURL.domainURL +"/img1_aj/");
+        }
+        if (img != null && !img.isEmpty() && img.toLowerCase().contains("http://img1.aujourdhui.com/"))
+        {
+            return img.replace("http://img1.aujourdhui.com/", WebkitURL.domainURL + "/img1_aj/");
+        }
+
+        return img;
+
+
     }
 }

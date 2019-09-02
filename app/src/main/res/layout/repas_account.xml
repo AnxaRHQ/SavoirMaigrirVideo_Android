@@ -12,6 +12,7 @@
         android:layout_height="wrap_content" />
 
 
+
     <LinearLayout
         android:id="@+id/repasTab_ll"
         android:layout_width="match_parent"
@@ -50,12 +51,20 @@
             android:text="@string/repas_header_recettes" />
     </LinearLayout>
 
+<LinearLayout android:id="@+id/repasMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+    android:layout_below="@id/repasTab_ll">
+
+</LinearLayout>
     <LinearLayout
         android:id="@+id/repasHeader_ll"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_below="@id/repasTab_ll"
-        android:background="@android:color/white">
+        android:background="@android:color/white"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/repasHeader_tv"
@@ -74,7 +83,8 @@
         android:layout_height="40dp"
         android:layout_below="@id/repasHeader_ll"
         android:background="@android:color/transparent"
-        android:weightSum="10">
+        android:weightSum="10"
+        android:visibility="gone">
 
         <ImageButton
             android:id="@+id/previousDayButton"
@@ -279,7 +289,8 @@
         android:id="@+id/shoppingListScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/repasSearch_ll">
+        android:layout_below="@+id/repasSearch_ll"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"

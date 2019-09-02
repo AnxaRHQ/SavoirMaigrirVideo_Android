@@ -59,6 +59,7 @@
     <string name="menu_account_videos">500+ VIDÉOS</string>
     <string name="nav_account_videos">500+ vidéos</string>
     <string name="left_nav_account_videos">VIDÉOS</string>
+    <string name="left_nav_account_boutique">BOUTIQUE</string>
     <string name="menu_account_exercices">Exercices</string>
     <string name="menu_account_boutique">Boutique</string>
     <string name="menu_account_espacevip">Espace VIP</string>
@@ -189,7 +190,7 @@
     <string name="WEIGHT_BUTTON">Courbe de Poids</string>
     <string name="WEIGHT_GRAPH_NO_DATA">Poids actuel: Pas de données</string>
     <string name="WEIGHT_GRAPH_CURRENT_WEIGHT_ASOF">Poids actuel: %@ kg le</string>
-    <string name="btn_edit">Editer</string>
+    <string name="btn_edit">Modifier</string>
     <string name="btn_delete">Supprimer</string>
     <string name="WEIGHT_GRAPH_BROADCAST_DELETE">WEIGHT_GRAPH_DELETE</string>
     <string name="WEIGHT_GRAPH_BROADCAST_EDIT">WEIGHT_GRAPH_EDIT</string>

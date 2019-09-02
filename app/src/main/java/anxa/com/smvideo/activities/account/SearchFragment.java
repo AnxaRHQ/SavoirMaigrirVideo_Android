@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.compat.BuildConfig;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;

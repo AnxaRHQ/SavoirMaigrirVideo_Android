@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.compat.BuildConfig;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +30,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;
 
 import anxa.com.smvideo.ApplicationData;
+import anxa.com.smvideo.BuildConfig;
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.common.WebkitURL;
 import anxa.com.smvideo.connection.ApiCaller;

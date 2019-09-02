@@ -71,7 +71,8 @@ public class ApplicationData extends Application
         Account_MonCompte(20),
         Account_Search(21),
         Account_CoachingNative(22),
-        Account_Carnet(23);
+        Account_Carnet(23),
+        Account_EspaceVip(24);
 
 
         private int numVal;

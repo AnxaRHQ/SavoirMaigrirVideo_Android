@@ -55,13 +55,26 @@
             android:visibility="gone"
             android:layout_gravity="center_horizontal"/>
     </LinearLayout>
-    <ImageView
+<!--    <ImageView
         android:id="@+id/freedialog_buttonx"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="-30dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/popBottom"
-        android:src="@drawable/anxacoaching_x_btn"
-        android:visibility="visible" />
+        android:src="@drawable/meal_x_btn"
+        android:visibility="visible" />-->
+    <Button
+        android:id="@+id/freedialog_buttonx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_orange_circle"
+        android:layout_marginLeft="-30dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/popBottom"
+        android:visibility="visible"
+        android:textColor="@color/text_white"
+        android:textSize="20dp"
+        android:padding="0dp"
+        android:text="×"/>
 </RelativeLayout>

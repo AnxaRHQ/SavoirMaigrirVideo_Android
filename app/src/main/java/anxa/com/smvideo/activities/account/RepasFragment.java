@@ -49,6 +49,7 @@ import java.util.List;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
+import anxa.com.smvideo.common.WebkitURL;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
 import anxa.com.smvideo.contracts.RecipeContract;
@@ -64,6 +65,8 @@ import anxa.com.smvideo.ui.RepasRelatedListAdapter;
 import anxa.com.smvideo.ui.ShoppingListAdapter;
 import anxa.com.smvideo.ui.ShoppingListRecipeAdapter;
 import anxa.com.smvideo.util.AppUtil;
+
+import static android.view.View.GONE;
 
 /**
  * Created by aprilanxa on 22/06/2017.
@@ -88,7 +91,7 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
 
     private ScrollView repasScrollView;
     private ScrollView shoppingListScrollView;
-
+    private LinearLayout repasMain;
     private CustomListView bfastListView;
     private CustomListView lunchListView;
     private CustomListView dinnerListView;
@@ -183,7 +186,17 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
         shareButton = (Button) ((RelativeLayout) mView.findViewById(R.id.headermenu)).findViewById(R.id.shareButton);
         shareButton.setOnClickListener(this);
         shareButton.setVisibility(View.VISIBLE);
-        repasProgram_tv = (TextView) (mView.findViewById(R.id.repasHeader_tv));
+        repasMain = ((LinearLayout) mView.findViewById(R.id.repasMain));
+        mealPlan_btn = (Button) mView.findViewById(R.id.meal_plan_button);
+        shoppingList_btn = (Button) mView.findViewById(R.id.shopping_list_button);
+        recettes_btn = (Button) mView.findViewById(R.id.recettes_button);
+        mealPlan_btn.setOnClickListener(this);
+        shoppingList_btn.setOnClickListener(this);
+        recettes_btn.setOnClickListener(this);
+
+        mealPlan_btn.setSelected(true);
+        progressBar.setVisibility(GONE);
+       /* repasProgram_tv = (TextView) (mView.findViewById(R.id.repasHeader_tv));
         shoppingList_recipe_tv = (TextView) (mView.findViewById(R.id.shoppingList_recipe_header));
         repasDay_et = (EditText) (mView.findViewById(R.id.repasDay_et));
 
@@ -270,11 +283,39 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
 
         System.out.println("Repas weeknumber 2: " + weekNumber);
 
-        getMealOfTheDay();
+        getMealOfTheDay();*/
 
         super.onCreateView(inflater, container, savedInstanceState);
 
+      showRepasFragment(true);
         return mView;
+    }
+
+    private void showRepasFragment(boolean isRepas)
+    {
+        Bundle bundle = new Bundle();
+        bundle.putString("header_title", getString(R.string.nav_account_webinars));
+        if(isRepas) {
+            bundle.putString("webkit_url", WebkitURL.repasWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
+        }else{
+            bundle.putString("webkit_url", WebkitURL.shoppingWebkitUrl.replace("%regId", Integer.toString(ApplicationData.getInstance().userDataContract.Id)));
+
+        }
+        bundle.putBoolean("hide_header", true);
+
+        Fragment fragment = new WebkitFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragment.setArguments(bundle);
+
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPASMAIN") != null) {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPASMAIN")).commit();
+        } else { }
+
+        try {
+            fragmentManager.beginTransaction().replace(R.id.repasMain, fragment, "CURRENT_FRAGMENT_IN_REPASMAIN").commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /* Repas */
@@ -295,7 +336,7 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
                     if (c != null && c.Data != null) {
                         ApplicationData.getInstance().repasContractArrayList = c.Data.Repas;
                         updateRepasList();
-                        progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(GONE);
                     }
                 }
             }
@@ -422,7 +463,7 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
                         }
                         getListPerRecipe();
 
-                        progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(GONE);
                     }
                 }
             }
@@ -760,18 +801,18 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
     }
 
     private void hideCategories() {
-        ((TextView) mView.findViewById(R.id.shopping_category_1)).setVisibility(View.GONE);
-        ((TextView) mView.findViewById(R.id.shopping_category_2)).setVisibility(View.GONE);
-        ((TextView) mView.findViewById(R.id.shopping_category_3)).setVisibility(View.GONE);
-        ((TextView) mView.findViewById(R.id.shopping_category_4)).setVisibility(View.GONE);
-        ((TextView) mView.findViewById(R.id.shopping_category_5)).setVisibility(View.GONE);
-        ((TextView) mView.findViewById(R.id.shopping_category_6)).setVisibility(View.GONE);
-        ((TextView) mView.findViewById(R.id.shopping_category_7)).setVisibility(View.GONE);
-        ((TextView) mView.findViewById(R.id.shopping_category_8)).setVisibility(View.GONE);
-        ((TextView) mView.findViewById(R.id.shopping_category_9)).setVisibility(View.GONE);
-        ((TextView) mView.findViewById(R.id.shopping_category_10)).setVisibility(View.GONE);
-        ((TextView) mView.findViewById(R.id.shopping_category_11)).setVisibility(View.GONE);
-        shoppingList_recipe_tv.setVisibility(View.GONE);
+        ((TextView) mView.findViewById(R.id.shopping_category_1)).setVisibility(GONE);
+        ((TextView) mView.findViewById(R.id.shopping_category_2)).setVisibility(GONE);
+        ((TextView) mView.findViewById(R.id.shopping_category_3)).setVisibility(GONE);
+        ((TextView) mView.findViewById(R.id.shopping_category_4)).setVisibility(GONE);
+        ((TextView) mView.findViewById(R.id.shopping_category_5)).setVisibility(GONE);
+        ((TextView) mView.findViewById(R.id.shopping_category_6)).setVisibility(GONE);
+        ((TextView) mView.findViewById(R.id.shopping_category_7)).setVisibility(GONE);
+        ((TextView) mView.findViewById(R.id.shopping_category_8)).setVisibility(GONE);
+        ((TextView) mView.findViewById(R.id.shopping_category_9)).setVisibility(GONE);
+        ((TextView) mView.findViewById(R.id.shopping_category_10)).setVisibility(GONE);
+        ((TextView) mView.findViewById(R.id.shopping_category_11)).setVisibility(GONE);
+        shoppingList_recipe_tv.setVisibility(GONE);
 
         if (shoppingListAdapter_1 != null) {
             shoppingListAdapter_1.clear();
@@ -829,8 +870,8 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
             e.printStackTrace();
         }
 
-        repasHeader_ll.setVisibility(View.GONE);
-        repasSearch_ll.setVisibility(View.GONE);
+      /*  repasHeader_ll.setVisibility(GONE);
+        repasSearch_ll.setVisibility(GONE);*/
     }
 
     @Override
@@ -846,7 +887,8 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
             /* Repas */
 
             if (mealPlan_btn.isSelected()) {
-                if (isUserWeek0) {
+                showRepasFragment(true);
+                /*if (isUserWeek0) {
                     isPreviousButtonDisabled(false);
 
                     if (weekNumber == 1 && dayNumber != 7) {
@@ -868,7 +910,7 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
                             getMealOfTheDay();
                         }
                     } else {
-                        /* Limit up to +2 weeks only */
+                        *//* Limit up to +2 weeks only *//*
 
                         if (weekNumber == (ApplicationData.getInstance().userDataContract.WeekNumber + 2) && dayNumber == 7) {
                         } else {
@@ -886,20 +928,21 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
                             getMealOfTheDay();
                         }
                     }
-                }
+                }*/
             }
 
             /* Courses */
 
             else if (shoppingList_btn.isSelected()) {
-                if (isUserWeek0) {
+                showRepasFragment(false);
+                /*if (isUserWeek0) {
                     isPreviousButtonDisabled(true);
                     isNextButtonDisabled(true);
                 } else {
                     if (!CheckFreeUser(false)) {
                         isPreviousButtonDisabled(false);
 
-                        /* Limit up to +2 weeks only */
+                        *//* Limit up to +2 weeks only *//*
 
                         if (weekNumber != (ApplicationData.getInstance().userDataContract.WeekNumber + 2)) {
                             weekNumber++;
@@ -914,14 +957,14 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
                         isPreviousButtonDisabled(true);
                         isNextButtonDisabled(true);
                     }
-                }
+                }*/
             }
         }
         else if (v == previousDay_btn)
         {
-            progressBar.setVisibility(View.VISIBLE);
+           /* progressBar.setVisibility(View.VISIBLE);
 
-            /* Repas */
+            *//* Repas *//*
 
             if (mealPlan_btn.isSelected()) {
                 if (isUserWeek0) {
@@ -946,7 +989,7 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
                             getMealOfTheDay();
                         }
                     } else {
-                        /* Limit up to +2 weeks only */
+                        *//* Limit up to +2 weeks only *//*
 
                         if (weekNumber == 1 && dayNumber == 1) {
                         } else {
@@ -966,7 +1009,7 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
                 }
             }
 
-            /* Courses */
+            *//* Courses *//*
 
             else if (shoppingList_btn.isSelected()) {
                 if (isUserWeek0) {
@@ -990,11 +1033,14 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
                         isNextButtonDisabled(true);
                     }
                 }
-            }
+            }*/
         }
         else if (v == mealPlan_btn)
-        {
-            repasHeader_ll.setVisibility(View.VISIBLE);
+        {  showRepasFragment(true);
+            mealPlan_btn.setSelected(true);
+            shoppingList_btn.setSelected(false);
+            recettes_btn.setSelected(false);
+            /*repasHeader_ll.setVisibility(View.VISIBLE);
             repasSearch_ll.setVisibility(View.VISIBLE);
 
             if (isUserWeek0) {
@@ -1021,11 +1067,14 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
 
             repasScrollView.setVisibility(View.VISIBLE);
             shoppingListScrollView.setVisibility(View.GONE);
-            removeRepasFragment();
+            removeRepasFragment();*/
         }
         else if (v == shoppingList_btn)
-        {
-            progressBar.setVisibility(View.VISIBLE);
+        { showRepasFragment(false);
+            mealPlan_btn.setSelected(false);
+            shoppingList_btn.setSelected(true);
+            recettes_btn.setSelected(false);
+           /* progressBar.setVisibility(View.VISIBLE);
 
             System.out.println("Repas weeknumber shoppingList_btn: " + weekNumber);
 
@@ -1064,7 +1113,7 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
             shoppingListScrollView.setVisibility(View.VISIBLE);
 
             getShoppingList();
-            removeRepasFragment();
+            removeRepasFragment();*/
         }
         else if (v == recettes_btn)
         {
@@ -1073,17 +1122,18 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
             mealPlan_btn.setSelected(false);
             shoppingList_btn.setSelected(false);
             recettes_btn.setSelected(true);
-            repasScrollView.setVisibility(View.GONE);
-            shoppingListScrollView.setVisibility(View.GONE);
+          /*  repasScrollView.setVisibility(GONE);
+            shoppingListScrollView.setVisibility(GONE);*/
+            //removeRepasFragment();
             loadRecetteFragment();
         } else if (v == backButton) {
             super.removeFragment();
         }
         else if (v == shareButton) {
             if (shoppingList_btn.isSelected()) {
-                generatePdf(shoppingListScrollView);
+                generatePdf(repasMain);
             }else if(mealPlan_btn.isSelected()){
-                generatePdf(repasScrollView);
+                generatePdf(repasMain);
             }else{
                 generatePdf((RelativeLayout)mView.findViewById(R.id.recettesContent));
             }

@@ -15,12 +15,12 @@
         layout="@layout/main_video"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5" />
+        android:layout_weight="4" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="7"
+        android:layout_weight="8"
         android:background="@android:color/transparent">
 
         <RelativeLayout
@@ -48,11 +48,13 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
-            android:background="@android:color/transparent">
+            android:background="@android:color/transparent"
+            android:gravity="top"
+            android:foregroundGravity="top">
 
             <TextView
                 android:id="@+id/videoTitle"
-                style="@style/whiteBoldMedium"
+                style="@style/whiteBoldLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="" />
@@ -60,7 +62,7 @@
             <TextView
                 android:id="@+id/videoDesc"
                 android:layout_marginTop="2dp"
-                style="@style/whiteNormalSmall"
+                style="@style/whiteNormalMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="" />
@@ -72,17 +74,30 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="" />
-
+            <TextView
+                android:id="@+id/videoViewMore"
+                android:textColorLink="@color/text_orange"
+                android:textColor="@color/text_orange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="4dp"
+                android:gravity="right"
+                android:text="Voir plus"
+                android:visibility="gone"
+                android:textSize="15dp"/>
         </LinearLayout>
 
         <anxa.com.smvideo.ui.CustomListView
             android:id="@+id/coachingListView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@+id/youtube_layout_caption"
             android:cacheColorHint="#000000"
             android:divider="#000000"
             android:dividerHeight="1dp"
             android:background="@android:color/white"/>
+
+
     </RelativeLayout>
 </LinearLayout>
