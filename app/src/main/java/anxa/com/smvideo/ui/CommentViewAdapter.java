@@ -260,6 +260,7 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
                 {
                     viewHolder.chatLike.setImageDrawable(context.getResources().getDrawable(R.drawable.like_orange));
                     viewHolder.chatLike.setVisibility(View.VISIBLE);
+                    viewHolder.chatLike.setClickable(false);
                 }else{
                     viewHolder.chatLike.setVisibility(View.GONE);
                 }

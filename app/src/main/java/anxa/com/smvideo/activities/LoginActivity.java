@@ -64,7 +64,7 @@ public class LoginActivity extends Activity{
         loginContract = new LoginContract();
 
         getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         email_et = (EditText)findViewById(R.id.login_email_et);
         if (ApplicationData.getInstance().getSavedUserName()!=null || ApplicationData.getInstance().getSavedUserName().length() > 1){

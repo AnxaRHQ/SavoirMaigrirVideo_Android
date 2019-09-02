@@ -691,6 +691,7 @@ public class CarnetList extends ScrollView {
 
             // try getting on the ImageManager
             Bitmap bmp = ImageManager.getInstance().findImage(Integer.toString(photo.PhotoId));
+            photo.UrlLarge = AppUtil.CheckImageUrl(photo.UrlLarge);
             if (bmp == null) {
                 new DownloadImageTask(item, progressBar, photo.PhotoId).execute(photo.UrlLarge);
             }
@@ -721,6 +722,7 @@ public class CarnetList extends ScrollView {
         protected Bitmap doInBackground(String... urls) {
             String urlDisplay = urls[0];
             Bitmap mIcon11 = null;
+            urlDisplay = AppUtil.CheckImageUrl(urlDisplay);
             try {
                 InputStream in = new URL(urlDisplay).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);

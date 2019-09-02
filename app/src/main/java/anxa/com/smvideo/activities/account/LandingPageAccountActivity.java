@@ -673,7 +673,7 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
                             }
                         }
                     });
-                    ((ImageView) bannerDialog.findViewById(R.id.freedialog_buttonx)).setOnClickListener(new View.OnClickListener() {
+                    ((Button) bannerDialog.findViewById(R.id.freedialog_buttonx)).setOnClickListener(new View.OnClickListener() {
                         public void onClick(View view) {
 
                             bannerDialog.dismiss();

@@ -48,7 +48,7 @@
             android:layout_alignLeft="@+id/txtNotifMessage"
             android:layout_alignStart="@+id/txtNotifMessage"
             android:layout_below="@+id/txtNotifMessage"
-
+            android:visibility="gone"
             android:layout_gravity="center"
             android:paddingLeft="5dp"
             android:text="2 hours ago"

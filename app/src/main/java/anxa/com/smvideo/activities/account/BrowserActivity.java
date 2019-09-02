@@ -163,7 +163,7 @@ public class BrowserActivity extends Activity implements View.OnClickListener{
 
         String defaultagent = AppUtil.getDefaultUserAgent(this);
 
-        mainContentWebView.getSettings().setUserAgentString(ApplicationData.getInstance().customAgent + " " + BuildConfig.VERSION_NAME + " " + defaultagent);
+        mainContentWebView.getSettings().setUserAgentString(mainContentWebView.getSettings().getUserAgentString() + " " + BuildConfig.VERSION_NAME + " " + defaultagent);
 
         CookieManager.getInstance().setCookie("http://savoir-maigrir.aujourdhui.com", "produit=sid=221");
 

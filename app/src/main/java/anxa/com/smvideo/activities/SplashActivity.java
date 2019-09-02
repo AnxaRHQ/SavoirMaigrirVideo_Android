@@ -163,7 +163,7 @@ public class SplashActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_CODE_MAIN)
         {
-
+            goToAccountPage();
         }
     }
 }

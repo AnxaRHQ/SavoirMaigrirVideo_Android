@@ -586,6 +586,8 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
         protected Bitmap doInBackground(String... urls)
         {
             String urlDisplay = urls[0];
+            urlDisplay = AppUtil.CheckImageUrl(urlDisplay);
+
             Bitmap mIcon11 = null;
 
             try {
