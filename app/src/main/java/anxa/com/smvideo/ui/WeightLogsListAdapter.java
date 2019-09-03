@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.text.InputFilter;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
@@ -305,7 +307,10 @@ public class WeightLogsListAdapter extends ArrayAdapter<WeightHistoryContract> i
     }
 
 
-    private void showDatePicker() {
+    private void showDatePicker()
+    {
+        Locale.setDefault(Locale.FRANCE);
+
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
             @Override

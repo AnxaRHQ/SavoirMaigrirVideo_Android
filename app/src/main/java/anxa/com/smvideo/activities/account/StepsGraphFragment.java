@@ -371,7 +371,7 @@ public class StepsGraphFragment extends BaseFragment implements View.OnClickList
         AppUtil.setListViewHeightBasedOnChildren(stepsLogsListView);
 
         stepsLogsListView.setFocusable(false);
-        steps_graph_scrollview.fullScroll(ScrollView.FOCUS_UP);
+        steps_graph_scrollview.smoothScrollTo(0, 0);
     }
 
     public void updateStepsGraph(int selectedDateRange_)

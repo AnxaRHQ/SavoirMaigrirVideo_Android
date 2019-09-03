@@ -1,7 +1,6 @@
 package anxa.com.smvideo.activities.account;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,14 +15,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -35,11 +31,9 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.YAxisValueFormatter;
-import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,15 +45,13 @@ import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
-import anxa.com.smvideo.contracts.VideoResponseContract;
 import anxa.com.smvideo.contracts.WeightGraphContract;
 import anxa.com.smvideo.contracts.WeightGraphResponseContract;
 import anxa.com.smvideo.contracts.WeightHistoryContract;
-import anxa.com.smvideo.contracts.WeightHistoryDataContract;
 import anxa.com.smvideo.contracts.WeightHistoryResponseContract;
 import anxa.com.smvideo.ui.WeightLogsListAdapter;
 import anxa.com.smvideo.util.AppUtil;
-
+import anxa.com.smvideo.util.DecimalInputTextWatcher;
 
 /**
  * Created by aprilanxa on 28/06/2017.
@@ -167,6 +159,7 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
 
         weight_enter_et = (EditText) mView.findViewById(R.id.weight_enter_et);
         weight_enter_et.setOnKeyListener(this);
+        weight_enter_et.addTextChangedListener(new DecimalInputTextWatcher(weight_enter_et, 2));
 
         getWeightGraphData();
 
@@ -193,6 +186,8 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
         }
     };
 
+
+
     private void postWeightData()
     {
         dismissKeyboard();
@@ -201,7 +196,7 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
 
         if (weightInput_tv.length() > 0) {
             if (weightInput_tv.contains(",")) {
-                weightInput_tv.replace(",", ".");
+                weightInput_tv = weightInput_tv.replace(",", ".");
             }
         } else {
             return;
@@ -237,6 +232,8 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
                     }
                 }
             }, weightToPost);
+
+            updateWeightGraphUI();
         }
         else
         {
@@ -404,42 +401,37 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
         lostWeightValue_tv.setText(String.format("%.1f", weightLost) + " kg");
         bmiValue_tv.setText(String.format("%.1f", latestWeight.Bmi));
 
-        if (weightGraphDataArrayList.size() < 10) {
-            mView.findViewById(R.id.weight_graph_date_ll).setVisibility(View.GONE);
-            updateWeightGraph(DATE_RANGE_ALL);
-        } else {
-            mView.findViewById(R.id.weight_graph_date_ll).setVisibility(View.VISIBLE);
-            weight_1m.setSelected(false);
-            weight_3m.setSelected(false);
-            weight_1y.setSelected(false);
-            weight_all.setSelected(false);
+        mView.findViewById(R.id.weight_graph_date_ll).setVisibility(View.VISIBLE);
+        weight_1m.setSelected(false);
+        weight_3m.setSelected(false);
+        weight_1y.setSelected(false);
+        weight_all.setSelected(false);
 
-            if (fromSubmitWeight) {
+        if (fromSubmitWeight) {
+            selectedDateRange = DATE_RANGE_1M;
+            weight_1m.setSelected(true);
+            dateRange_tv.setText(AppUtil.get1MDateRangeDisplay(true, true, dateRangeIndex));
+        } else {
+            if (AppUtil.isWeightDataHistory1Year()) {
+                selectedDateRange = DATE_RANGE_1Y;
+                weight_1y.setSelected(true);
+                weight_all.setVisibility(View.VISIBLE);
+                dateRange_tv.setText(AppUtil.get1YDateRangeDisplay(true, true));
+            } else if (AppUtil.isWeightDataHistory3MonthsMore()) {
+                selectedDateRange = DATE_RANGE_3M;
+                weight_3m.setSelected(true);
+                weight_all.setVisibility(View.GONE);
+                dateRange_tv.setText(AppUtil.get3MDateRangeDisplay(true, true, dateRangeIndex));
+            } else if (AppUtil.isWeightDataHistory3MonthsLess()) {
                 selectedDateRange = DATE_RANGE_1M;
                 weight_1m.setSelected(true);
                 dateRange_tv.setText(AppUtil.get1MDateRangeDisplay(true, true, dateRangeIndex));
             } else {
-                if (AppUtil.isWeightDataHistory1Year()) {
-                    selectedDateRange = DATE_RANGE_1Y;
-                    weight_1y.setSelected(true);
-                    weight_all.setVisibility(View.VISIBLE);
-                    dateRange_tv.setText(AppUtil.get1YDateRangeDisplay(true, true));
-                } else if (AppUtil.isWeightDataHistory3MonthsMore()) {
-                    selectedDateRange = DATE_RANGE_3M;
-                    weight_3m.setSelected(true);
-                    weight_all.setVisibility(View.GONE);
-                    dateRange_tv.setText(AppUtil.get3MDateRangeDisplay(true, true, dateRangeIndex));
-                } else if (AppUtil.isWeightDataHistory3MonthsLess()) {
-                    selectedDateRange = DATE_RANGE_1M;
-                    weight_1m.setSelected(true);
-                    dateRange_tv.setText(AppUtil.get1MDateRangeDisplay(true, true, dateRangeIndex));
-                } else {
-                    selectedDateRange = DATE_RANGE_ALL;
-                    weight_all.setSelected(true);
-                }
+                selectedDateRange = DATE_RANGE_ALL;
+                weight_all.setSelected(true);
             }
-            updateWeightGraph(selectedDateRange);
         }
+        updateWeightGraph(selectedDateRange);
     }
 
     private void updateWeightGraph(int range)
@@ -650,7 +642,7 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
         AppUtil.setListViewHeightBasedOnChildren(weightLogsListView);
 
         weightLogsListView.setFocusable(false);
-        weight_scrollView.fullScroll(ScrollView.FOCUS_UP);
+        weight_scrollView.smoothScrollTo(0, 0);
     }
 
     private void dismissKeyboard()

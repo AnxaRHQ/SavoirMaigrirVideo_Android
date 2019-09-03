@@ -812,10 +812,11 @@ public class AppUtil {
             Calendar cal = Calendar.getInstance();
             TimeZone tz = cal.getTimeZone();
 
-        /* date formatter in local timezone */
-            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
+            /* date formatter in local timezone */
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.FRANCE);
 
             sdf.setTimeZone(tz);
+
             localTime = sdf.format(date);
 
         } catch (NullPointerException e) {
