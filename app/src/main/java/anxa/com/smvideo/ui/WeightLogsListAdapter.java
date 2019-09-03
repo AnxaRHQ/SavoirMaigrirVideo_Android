@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.text.method.DigitsKeyListener;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.contracts.WeightHistoryContract;
 import anxa.com.smvideo.util.AppUtil;
+import anxa.com.smvideo.util.DecimalInputTextWatcher;
 
 /**
  * Created by aprilanxa on 12/07/2017.
@@ -224,6 +226,10 @@ public class WeightLogsListAdapter extends ArrayAdapter<WeightHistoryContract> i
 
         date.setInputType(InputType.TYPE_DATETIME_VARIATION_NORMAL | InputType.TYPE_DATETIME_VARIATION_DATE);
         weight.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+        weight.setKeyListener(DigitsKeyListener.getInstance("0123456789,."));
+        weight.addTextChangedListener(new DecimalInputTextWatcher(weight, 2));
+
         int maxLength = 5;
         InputFilter[] fArray = new InputFilter[1];
         fArray[0] = new InputFilter.LengthFilter(maxLength);

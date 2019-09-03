@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.method.DigitsKeyListener;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -159,6 +160,7 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
 
         weight_enter_et = (EditText) mView.findViewById(R.id.weight_enter_et);
         weight_enter_et.setOnKeyListener(this);
+        weight_enter_et.setKeyListener(DigitsKeyListener.getInstance("0123456789,."));
         weight_enter_et.addTextChangedListener(new DecimalInputTextWatcher(weight_enter_et, 2));
 
         getWeightGraphData();
