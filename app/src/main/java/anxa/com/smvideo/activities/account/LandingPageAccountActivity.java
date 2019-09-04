@@ -124,7 +124,7 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
 
                         userName = c.Data.FirstName;
 
-                        String welcome_message = getString(R.string.welcome_account_1).replace("%@", userName) + getString(R.string.welcome_account_2);
+                        String welcome_message = getResources().getString(R.string.welcome_account_1).replace("%@", userName) + getResources().getString(R.string.welcome_account_2);
                         ((TextView) (mView.findViewById(R.id.welcome_message_account_tv))).setText(welcome_message);
 
                         if (c.Data.DietProfiles != null)
