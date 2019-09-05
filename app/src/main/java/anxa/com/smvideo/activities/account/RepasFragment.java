@@ -1140,8 +1140,6 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
 
         }else if (v == header_right) {
         } else {
-            int recipeId = (Integer) v.getTag(R.id.recipe_id);
-            getSpecificRecipe(recipeId);
         }
     }
 

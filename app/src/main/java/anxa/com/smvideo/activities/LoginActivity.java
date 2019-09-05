@@ -3,6 +3,10 @@ package anxa.com.smvideo.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Browser;
 import android.text.method.HideReturnsTransformationMethod;
@@ -10,10 +14,13 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.List;
@@ -38,6 +45,8 @@ import anxa.com.smvideo.util.IabResult;
 import anxa.com.smvideo.util.Inventory;
 import anxa.com.smvideo.util.Purchase;
 
+import static android.media.MediaCodec.MetricsConstants.MODE;
+
 /**
  * Created by aprilanxa on 27/07/2017.
  */
@@ -47,10 +56,12 @@ public class LoginActivity extends Activity{
     private LoginContract loginContract;
     private EditText email_et, password_et;
     private Button loginButton;
+    private LinearLayout spacer;
 
     private ApiCaller apiCaller;
     private GetNotificationsContract response;
     private ProgressBar loginProgressBar;
+    private LinearLayout loginParent;
 
     private long previousDate;
 
@@ -64,7 +75,7 @@ public class LoginActivity extends Activity{
         loginContract = new LoginContract();
 
         getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         email_et = (EditText)findViewById(R.id.login_email_et);
         if (ApplicationData.getInstance().getSavedUserName()!=null || ApplicationData.getInstance().getSavedUserName().length() > 1){
@@ -104,6 +115,38 @@ public class LoginActivity extends Activity{
         loginProgressBar.setVisibility(View.GONE);
 
         loginButton = (Button)findViewById(R.id.login_login_button);
+        loginParent=findViewById(R.id.loginParent);
+        spacer = findViewById(R.id.spacer);
+        loginParent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                loginParent.getWindowVisibleDisplayFrame(r);
+                int screenHeight = loginParent.getRootView().getHeight();
+                int keypadHeight = screenHeight - r.bottom;
+                if (keypadHeight > screenHeight * 0.15) {
+                    LinearLayout.LayoutParams param = (LinearLayout.LayoutParams)
+                            spacer.getLayoutParams();
+                    param.weight = 3.3f;
+                    spacer.setLayoutParams(param);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        loginParent.setBackgroundTintMode(PorterDuff.Mode.SRC_ATOP);
+                        loginParent.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.helptips_black_overlay)));
+                    }
+
+                } else {
+                    LinearLayout.LayoutParams param = (LinearLayout.LayoutParams)
+                            spacer.getLayoutParams();
+                    param.weight = 6.0f;
+                    spacer.setLayoutParams(param);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        loginParent.setBackgroundTintMode(null);
+                        loginParent.setBackgroundTintList(null);
+                    }
+
+                }
+            }
+        });
     }
 
     public void goBackToLandingPage(View view)

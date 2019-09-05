@@ -2,13 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@drawable/landing_login_bg"
-    android:orientation="vertical">
+    android:backgroundTint="@color/helptips_black_overlay"
+    android:backgroundTintMode="src_atop"
+    android:id="@+id/loginParent"
+    android:weightSum="10">
 
     <LinearLayout
+        android:id="@+id/spacer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5">
+        android:layout_weight="6"
+        android:orientation="vertical">
     </LinearLayout>
 
     <RelativeLayout
@@ -18,7 +24,7 @@
 
         <EditText
             android:layout_marginTop="10dp"
-            android:layout_width="260dp"
+            android:layout_width="match_parent"
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/login_email_et"
@@ -27,10 +33,12 @@
             android:background="@drawable/button_white_edittext_background"
             android:hint="@string/login_email_placeholder"
             android:paddingLeft="10dp"
-            android:layout_height="45dp" />
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
 
         <EditText
-            android:layout_width="260dp"
+            android:layout_width="match_parent"
             android:layout_height="45dp"
             android:fontFamily="sans-serif"
             android:inputType="textPassword"
@@ -43,16 +51,20 @@
             android:paddingLeft="10dp"
             android:layout_marginTop="-5dp"
             android:drawableRight="@drawable/password_visible"
-            android:tag="hidden"/>
+            android:tag="hidden"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
 
         <RelativeLayout
-            android:layout_width="260dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@+id/login_password_et"
             android:gravity="center_vertical"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
 
             <TextView
                 android:id="@+id/login_forgotpw"
@@ -64,7 +76,8 @@
                 android:clickable="true"
                 android:onClick="goToForgetPw"
                 android:text="@string/login_forgot_pw"
-                android:layout_alignParentLeft="true"/>
+                android:layout_alignParentLeft="true"
+                />
 
             <Button
                 android:id="@+id/login_login_button"
