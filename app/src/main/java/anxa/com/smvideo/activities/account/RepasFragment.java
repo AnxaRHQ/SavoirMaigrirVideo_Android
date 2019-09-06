@@ -307,12 +307,12 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
         FragmentManager fragmentManager = getFragmentManager();
         fragment.setArguments(bundle);
 
-        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPASMAIN") != null) {
-            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPASMAIN")).commit();
+        if (getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS") != null) {
+            fragmentManager.beginTransaction().remove(getFragmentManager().findFragmentByTag("CURRENT_FRAGMENT_IN_REPAS")).commit();
         } else { }
 
         try {
-            fragmentManager.beginTransaction().replace(R.id.repasMain, fragment, "CURRENT_FRAGMENT_IN_REPASMAIN").commit();
+            fragmentManager.beginTransaction().replace(R.id.repasMain, fragment, "CURRENT_FRAGMENT_IN_REPAS").commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1124,7 +1124,7 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
             recettes_btn.setSelected(true);
           /*  repasScrollView.setVisibility(GONE);
             shoppingListScrollView.setVisibility(GONE);*/
-            //removeRepasFragment();
+            removeRepasFragment();
             loadRecetteFragment();
         } else if (v == backButton) {
             super.removeFragment();

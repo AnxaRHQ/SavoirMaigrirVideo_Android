@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
@@ -501,7 +502,7 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
         weightLineChart.setPinchZoom(true);
 
         // x-axis limit line
-        LimitLine llXAxis = new LimitLine((float) targetWeight, "Objective: " + (int) targetWeight + "kg");
+        LimitLine llXAxis = new LimitLine((float) targetWeight, "Objectif: " + (int) targetWeight + "kg");
         llXAxis.setLineWidth(2f);
         llXAxis.setLineColor(Color.parseColor("#ffa135"));
         llXAxis.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_TOP);
@@ -542,9 +543,9 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
             String dayData = "";
 
             if (selectedDateRange == DATE_RANGE_1M) {
-                dayData = new SimpleDateFormat("MM/dd").format(AppUtil.toDate(graphMealList.get(i).Date));
+                dayData = new SimpleDateFormat("MM/dd", Locale.FRANCE).format(AppUtil.toDate(graphMealList.get(i).Date));
             } else {
-                dayData = new SimpleDateFormat("MMM").format(AppUtil.toDate(graphMealList.get(i).Date));
+                dayData = new SimpleDateFormat("MMM", Locale.FRANCE).format(AppUtil.toDate(graphMealList.get(i).Date));
             }
             dayArray.add(dayData);
         }

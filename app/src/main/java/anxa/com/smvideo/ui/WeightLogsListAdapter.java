@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -214,17 +215,18 @@ public class WeightLogsListAdapter extends ArrayAdapter<WeightHistoryContract> i
         weight.setText(String.format("%.2f", selectedWeight.WeightKg));
 
         date_tv.setText(context.getResources().getString(R.string.WEIGHT_GRAPH_DATE));
-
+        date.setInputType(InputType.TYPE_NULL);
+        date.requestFocus();
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDatePicker();
+                showDatePicker(selectedWeight.Date);
             }
         });
 
         weight_tv.setText("Poids (kg)");
 
-        date.setInputType(InputType.TYPE_DATETIME_VARIATION_NORMAL | InputType.TYPE_DATETIME_VARIATION_DATE);
+        //date.setInputType(InputType.TYPE_DATETIME_VARIATION_NORMAL | InputType.TYPE_DATETIME_VARIATION_DATE);
         weight.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
         weight.setKeyListener(DigitsKeyListener.getInstance("0123456789,."));
@@ -250,11 +252,11 @@ public class WeightLogsListAdapter extends ArrayAdapter<WeightHistoryContract> i
 
             public void onClick(DialogInterface dialog, int id) {
                 try {
-                    selectedWeight.WeightKg = Float.valueOf(weight.getText().toString());
+                    selectedWeight.WeightKg = Float.valueOf(weight.getText().toString().replace(",", "."));
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(weight_tv.getWindowToken(), 0);
                     if( selectedWeight.WeightKg >= ApplicationData.getInstance().minWeight &&  selectedWeight.WeightKg <= ApplicationData.getInstance().maxWeight){
-                        if (isChangeDate) {
+                        {
                             selectedWeight.Date = myCalendar.getTime().getTime() / 1000;
                         }
                         ApplicationData.getInstance().currentWeight = selectedWeight;
@@ -313,7 +315,7 @@ public class WeightLogsListAdapter extends ArrayAdapter<WeightHistoryContract> i
     }
 
 
-    private void showDatePicker()
+    private void showDatePicker(final long selectedDate)
     {
         Locale.setDefault(Locale.FRANCE);
 
@@ -322,17 +324,25 @@ public class WeightLogsListAdapter extends ArrayAdapter<WeightHistoryContract> i
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
+
                 // TODO Auto-generated method stub
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                //view.init(year, monthOfYear, dayOfMonth, null);
                 updateLabel();
             }
 
-        };
 
-        new DatePickerDialog(context, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+
+        };
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(selectedDate * 1000);
+
+        DatePickerDialog dialog = new DatePickerDialog(context, date, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
+
+        dialog.show();
 
     }
 

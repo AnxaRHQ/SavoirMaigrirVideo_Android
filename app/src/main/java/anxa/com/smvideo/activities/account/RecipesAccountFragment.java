@@ -154,6 +154,7 @@ public class RecipesAccountFragment extends BaseFragment implements View.OnClick
             }
         }
         recipesListView.setAdapter(adapter);
+        adapter.clear();
         adapter.updateItems(currentViewRecipeList);
 
         adapter.notifyDataSetChanged();
@@ -212,6 +213,7 @@ public class RecipesAccountFragment extends BaseFragment implements View.OnClick
             if (currentViewRecipeList.size() > 0) {
                 adapter.updateItems(currentViewRecipeList);
             } else {
+                adapter.clear();
                 getRecipePerCategory(recipeCategoryToSearch.getNumVal());
             }
         } else {

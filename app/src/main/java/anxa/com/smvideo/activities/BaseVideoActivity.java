@@ -2,6 +2,7 @@ package anxa.com.smvideo.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -27,7 +28,19 @@ public class BaseVideoActivity extends Activity
     {
         gson = new Gson();
     }
-
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+       if(ApplicationData.getInstance().isLoggedIn(this) == false)
+       {
+           if (!this.getClass().getSimpleName().equalsIgnoreCase("LoginActivity") && !this.getClass().getSimpleName().equalsIgnoreCase("RegistrationActivity") && !this.getClass().getSimpleName().equalsIgnoreCase("SplashActivity")
+                   && !this.getClass().getSimpleName().equalsIgnoreCase("FullBrowserActivity") && !this.getClass().getSimpleName().equalsIgnoreCase("LandingActivity") && !this.getClass().getSimpleName().equalsIgnoreCase("MainActivity")
+                   && !this.getClass().getSimpleName().equalsIgnoreCase("RegistrationTourActivity")&& !this.getClass().getSimpleName().equalsIgnoreCase("ForgotPasswordActivity")) {
+               logoutUser();
+               return;
+           }
+       }
+    }
     @Override
     protected void onResume()
     {
@@ -104,7 +117,6 @@ public class BaseVideoActivity extends Activity
         ApplicationData.getInstance().setAnxamatsSessionStart(this, 0);
         //clear login details
         ApplicationData.getInstance().userDataContract = new UserDataContract();
-        ApplicationData.getInstance().regId = 1;
 
         ApplicationData.getInstance().setIsLogin(this, false);
         //clear the saved login credentials
@@ -119,5 +131,6 @@ public class BaseVideoActivity extends Activity
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(mainIntent);
+        finish();
     }
 }

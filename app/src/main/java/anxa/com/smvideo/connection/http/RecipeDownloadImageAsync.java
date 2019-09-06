@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import anxa.com.smvideo.ApplicationData;
+import anxa.com.smvideo.util.AppUtil;
 import anxa.com.smvideo.util.RecipeHelper;
 
 /**
@@ -39,7 +40,7 @@ public class RecipeDownloadImageAsync extends AsyncTask<String, Void, Bitmap>
     protected Bitmap doInBackground(String... urls)
     {
         String urldisplay = urls[0];
-
+        urldisplay = AppUtil.CheckImageUrl(urldisplay);
         Bitmap mIcon11 = null;
 
         try {

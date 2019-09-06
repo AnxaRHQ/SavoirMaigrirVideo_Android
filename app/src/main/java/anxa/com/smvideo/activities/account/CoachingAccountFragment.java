@@ -98,6 +98,10 @@ public class CoachingAccountFragment extends BaseFragment implements View.OnClic
         {
             currentCoachingWeekNumber   = ApplicationData.getInstance().userDataContract.WeekNumber;
             currentCoachingDayNumber    = ApplicationData.getInstance().userDataContract.DayNumber;
+            if(currentCoachingWeekNumber > 90){
+                currentCoachingWeekNumber = 90;
+                currentCoachingDayNumber = 7;
+            }
         }
 
         ApplicationData.getInstance().currentWeekNumber = currentCoachingWeekNumber;

@@ -305,16 +305,10 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
 
             InputStream inputStream = urlConnection.getErrorStream();
 
-            if (inputStream != null)
-            {
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                return bitmap;
-            }
-            else
-            {
+
                 Bitmap avatarBMP = BitmapFactory.decodeResource(context.getResources(), R.drawable.profile_default_avatar, ApplicationData.getInstance().options_Avatar);
                 return avatarBMP;
-            }
+            
 
         } finally {
 

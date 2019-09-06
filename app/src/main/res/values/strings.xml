@@ -186,7 +186,7 @@
     <string name="WEIGHT_GRAPH_DEVICE">Appareil</string>
     <string name="WEIGHT_GRAPH_IMC">IMC</string>
     <string name="WEIGHT_GRAPH_NO_MORE_CONTENTS_TO_SHOW">Fin du contenu</string>
-    <string name="WEIGHT_GRAPH_EDIT_WEIGHT">Editer le Poids</string>
+    <string name="WEIGHT_GRAPH_EDIT_WEIGHT">Modifier le Poids</string>
     <string name="WEIGHT_BUTTON">Courbe de Poids</string>
     <string name="WEIGHT_GRAPH_NO_DATA">Poids actuel: Pas de données</string>
     <string name="WEIGHT_GRAPH_CURRENT_WEIGHT_ASOF">Poids actuel: %@ kg le</string>

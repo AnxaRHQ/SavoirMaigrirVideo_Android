@@ -27,7 +27,7 @@ public class RecipesListAdapter extends ArrayAdapter<RecipeContract> implements 
 {
     private final Context context;
     private List<RecipeContract> items = new ArrayList<RecipeContract>();
-
+    ArrayList<AsyncTask<String, Void, Bitmap>> imageTasks = new ArrayList<AsyncTask<String, Void, Bitmap>>();
     LayoutInflater layoutInflater;
     String inflater = Context.LAYOUT_INFLATER_SERVICE;
     View.OnClickListener listener;
@@ -52,6 +52,13 @@ public class RecipesListAdapter extends ArrayAdapter<RecipeContract> implements 
     public void clear()
     {
         this.items = new ArrayList<>();
+        if(imageTasks != null) {
+            for(int i = 0; i < imageTasks.size(); i++)
+            {
+                imageTasks.get(i).cancel(true);
+            }
+
+        }
         notifyDataSetChanged();
     }
 
@@ -94,7 +101,7 @@ public class RecipesListAdapter extends ArrayAdapter<RecipeContract> implements 
         viewHolder.recipeImage.setTag(recipe.Id);
 
         if (avatar == null) {
-            new RecipeDownloadImageAsync(viewHolder.recipeImage, viewHolder.recipeImageProgress, recipe.Id).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, recipe.ImageUrl);
+            imageTasks.add(new RecipeDownloadImageAsync(viewHolder.recipeImage, viewHolder.recipeImageProgress, recipe.Id).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR,recipe.ImageUrl));
         } else {
             viewHolder.recipeImage.setImageBitmap(avatar);
             viewHolder.recipeImageProgress.setVisibility(View.GONE);

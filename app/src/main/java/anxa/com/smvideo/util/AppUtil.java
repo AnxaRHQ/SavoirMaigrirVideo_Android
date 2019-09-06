@@ -125,12 +125,12 @@ public class AppUtil {
         }
 
         if (initDate) {
-            stringDisplay = new SimpleDateFormat("MMM dd").format(new Date());
-            stringDisplay = new SimpleDateFormat("MMM dd").format(cal.getTime()) + " - " + stringDisplay;
+            stringDisplay = new SimpleDateFormat("MMM dd", Locale.FRANCE).format(new Date());
+            stringDisplay = new SimpleDateFormat("MMM dd", Locale.FRANCE).format(cal.getTime()) + " - " + stringDisplay;
             ApplicationData.getInstance().currentDateRangeDisplay_date = new Date();
 
         } else {
-            stringDisplay = new SimpleDateFormat("MMM yyyy").format(cal.getTime());
+            stringDisplay = new SimpleDateFormat("MMM yyyy", Locale.FRANCE).format(cal.getTime());
             ApplicationData.getInstance().currentDateRangeDisplay_date = cal.getTime();
         }
 
@@ -154,7 +154,7 @@ public class AppUtil {
             cal.setTime(new Date());
             cal.add(Calendar.DAY_OF_YEAR, -6);
 
-            stringDisplay = new SimpleDateFormat("MMM dd").format(cal.getTime()) + " - " + new SimpleDateFormat("MMM dd").format(new Date());
+            stringDisplay = new SimpleDateFormat("MMM dd", Locale.FRANCE).format(cal.getTime()) + " - " + new SimpleDateFormat("MMM dd").format(new Date());
             //store previous month
             ApplicationData.getInstance().currentDateRangeDisplay_date = cal.getTime();
             ApplicationData.getInstance().currentDateRangeDisplay_date2 = new Date();
@@ -180,8 +180,8 @@ public class AppUtil {
             cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
             cal2.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 
-            stringDisplay = new SimpleDateFormat("MMM dd").format(cal2.getTime());
-            stringDisplay = new SimpleDateFormat("MMM dd").format(cal.getTime()) + " - " + stringDisplay;
+            stringDisplay = new SimpleDateFormat("MMM dd", Locale.FRANCE).format(cal2.getTime());
+            stringDisplay = new SimpleDateFormat("MMM dd", Locale.FRANCE).format(cal.getTime()) + " - " + stringDisplay;
 
             //store previous month
             ApplicationData.getInstance().currentDateRangeDisplay_date = cal.getTime();
@@ -201,7 +201,7 @@ public class AppUtil {
             cal.setTime(new Date());
             cal.add(Calendar.MONTH, -2);
 
-            stringDisplay = new SimpleDateFormat("MMM yyyy").format(cal.getTime()) + " - " + new SimpleDateFormat("MMM yyyy").format(new Date());
+            stringDisplay = new SimpleDateFormat("MMM yyyy", Locale.FRANCE).format(cal.getTime()) + " - " + new SimpleDateFormat("MMM yyyy").format(new Date());
             //store previous month
             ApplicationData.getInstance().currentDateRangeDisplay_date = cal.getTime();
             ApplicationData.getInstance().currentDateRangeDisplay_date2 = new Date();
@@ -212,8 +212,8 @@ public class AppUtil {
             if (previous) {
                 cal.add(Calendar.MONTH, -3);
                 cal2.add(Calendar.MONTH, -3);
-                stringDisplay = new SimpleDateFormat("MMM yyyy").format(cal2.getTime());
-                stringDisplay = new SimpleDateFormat("MMM yyyy").format(cal.getTime()) + " - " + stringDisplay;
+                stringDisplay = new SimpleDateFormat("MMM yyyy", Locale.FRANCE).format(cal2.getTime());
+                stringDisplay = new SimpleDateFormat("MMM yyyy", Locale.FRANCE).format(cal.getTime()) + " - " + stringDisplay;
 
                 //store previous month
                 ApplicationData.getInstance().currentDateRangeDisplay_date = cal.getTime();
@@ -222,8 +222,8 @@ public class AppUtil {
             } else {
                 cal.add(Calendar.MONTH, +3);
                 cal2.add(Calendar.MONTH, +3);
-                stringDisplay = new SimpleDateFormat("MMM yyyy").format(cal2.getTime());
-                stringDisplay = new SimpleDateFormat("MMM yyyy").format(cal.getTime()) + " - " + stringDisplay;
+                stringDisplay = new SimpleDateFormat("MMM yyyy", Locale.FRANCE).format(cal2.getTime());
+                stringDisplay = new SimpleDateFormat("MMM yyyy", Locale.FRANCE).format(cal.getTime()) + " - " + stringDisplay;
 
                 //store previous month
                 ApplicationData.getInstance().currentDateRangeDisplay_date = cal.getTime();
@@ -255,12 +255,12 @@ public class AppUtil {
 
         if (initDate) {
             cal.add(Calendar.MONTH, -11);
-            stringDisplay = new SimpleDateFormat("MMM yyyy").format(new Date());
-            stringDisplay = new SimpleDateFormat("MMM yyyy").format(cal.getTime()) + " - " + stringDisplay;
+            stringDisplay = new SimpleDateFormat("MMM yyyy", Locale.FRANCE).format(new Date());
+            stringDisplay = new SimpleDateFormat("MMM yyyy", Locale.FRANCE).format(cal.getTime()) + " - " + stringDisplay;
             ApplicationData.getInstance().currentDateRangeDisplay_date = new Date();
 
         } else {
-            stringDisplay = new SimpleDateFormat("yyyy").format(cal.getTime());
+            stringDisplay = new SimpleDateFormat("yyyy", Locale.FRANCE).format(cal.getTime());
             ApplicationData.getInstance().currentDateRangeDisplay_date = cal.getTime();
         }
 
