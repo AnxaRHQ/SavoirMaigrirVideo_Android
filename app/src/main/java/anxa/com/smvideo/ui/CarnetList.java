@@ -735,7 +735,12 @@ public class CarnetList extends ScrollView {
         }
 
         protected void onPostExecute(Bitmap result) {
-            progressBar.setVisibility(View.GONE);
+
+            if (progressBar != null)
+            {
+                progressBar.setVisibility(View.GONE);
+            }
+
             bmImage.setImageBitmap(result);
             ImageManager.getInstance().addImage(photoid, result);
         }
