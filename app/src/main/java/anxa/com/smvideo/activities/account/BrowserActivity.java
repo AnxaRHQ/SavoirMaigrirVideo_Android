@@ -86,6 +86,9 @@ public class BrowserActivity extends Activity implements View.OnClickListener{
         mainContentWebView = (VideoEnabledWebView) findViewById(R.id.maincontentWebView);
 
         forwardBrowserButton = (ImageButton) findViewById(R.id.forward);
+
+        forwardBrowserButton.setVisibility(mainContentWebView.canGoForward() ? View.VISIBLE : View.INVISIBLE);
+
         forwardBrowserButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 mainContentWebView.goForward();
@@ -93,6 +96,9 @@ public class BrowserActivity extends Activity implements View.OnClickListener{
 
         });
         backBrowserButton = (ImageButton) findViewById(R.id.back);
+
+        backBrowserButton.setVisibility(mainContentWebView.canGoBack() ? View.VISIBLE : View.INVISIBLE);
+
         backBrowserButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 mainContentWebView.goBack();
@@ -174,26 +180,53 @@ public class BrowserActivity extends Activity implements View.OnClickListener{
             private boolean testPayment = false;
 
             @Override
-            public void onPageFinished(WebView view, String url) {
+            public void onPageFinished(WebView view, String url)
+            {
                 // TODO Auto-generated method stub
-                super.onPageFinished(view, url);
-                if (myProgressBar != null)
+
+                backBrowserButton.setVisibility(mainContentWebView.canGoBack() ? View.VISIBLE : View.INVISIBLE);
+                forwardBrowserButton.setVisibility(mainContentWebView.canGoForward() ? View.VISIBLE : View.INVISIBLE);
+
+                if (myProgressBar != null) {
                     myProgressBar.setVisibility(View.INVISIBLE);
+                }
+
+                if(url.equalsIgnoreCase(WebkitURL.domainURL + "/5minparjour")) {
+                    mainContentWebView.loadUrl(URLPath);
+                }
+
+                super.onPageFinished(view, url);
             }
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 System.out.println("BrowserActivity " + url);
+                if(url.equalsIgnoreCase(WebkitURL.domainURL + "/5minparjour"))
+                {
+                    return true;
+                }
+
+                if (url.startsWith("tel:") || url.startsWith("mailto:")) {
+                    view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+
+                    return true;
+                }
+
                 if (url.contains(WebkitURL.domainURL.replace("http://", ""))) {
                     return false;
                 }
 
-                view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-                return true;
+
+                return false;
             }
 
             @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            public void onPageStarted(WebView view, String url, Bitmap favicon)
+            {
+                if (myProgressBar != null) {
+                    myProgressBar.setVisibility(View.VISIBLE);
+                }
+
                 System.out.println("BrowserActivity onPageStarted url: " + url);
             }
         });

@@ -387,9 +387,17 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
 
         latestWeight = ApplicationData.getInstance().weightGraphContractList.get(0);
 
-        String currentWeightString = getResources().getString(R.string.WEIGHT_GRAPH_CURRENT_WEIGHT_ASOF) + " " + AppUtil.getWeightDateFormat(AppUtil.toDate(latestWeight.Date));
-        String currentWeight = String.valueOf(latestWeight.WeightKg);
-        final String stringToDisplay = currentWeightString.replace("%@", currentWeight);
+        if (isAdded())
+        {
+            String currentWeightString = getResources().getString(R.string.WEIGHT_GRAPH_CURRENT_WEIGHT_ASOF) + " " + AppUtil.getWeightDateFormat(AppUtil.toDate(latestWeight.Date));
+            String currentWeight = String.valueOf(latestWeight.WeightKg);
+            final String stringToDisplay = currentWeightString.replace("%@", currentWeight);
+            currentWeightTitle.setText(stringToDisplay);
+        }
+        else
+        {
+            currentWeightTitle.setText("0 kg");
+        }
 
         if (ApplicationData.getInstance().initialWeightContract != null) {
             initialWeight = ApplicationData.getInstance().initialWeightContract.WeightKg;
@@ -397,7 +405,6 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
 
         final double weightLost = initialWeight - latestWeight.WeightKg;
 
-        currentWeightTitle.setText(stringToDisplay);
         dateRange_tv.setText(AppUtil.get1MDateRangeDisplay(true, true, 1));
 
         targetWeightValue_tv.setText(String.valueOf(targetWeight) + " kg");
@@ -478,7 +485,15 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
 
         // no description text
         weightLineChart.setDescription("");
-        weightLineChart.setNoDataTextDescription(getResources().getString(R.string.WEIGHT_GRAPH_NO_DATA));
+
+        if (isAdded())
+        {
+            weightLineChart.setNoDataTextDescription(getResources().getString(R.string.WEIGHT_GRAPH_NO_DATA));
+        }
+        else
+        {
+            weightLineChart.setNoDataTextDescription("Poids actuel: Pas de données");
+        }
 
         // dataToGraphArray(graphMealList);
 

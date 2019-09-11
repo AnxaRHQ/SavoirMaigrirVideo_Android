@@ -19,9 +19,9 @@ public class WebkitURL
     public static String offerURL               = "/1dirparjour/registration/offer";
     public static String forgetPw               = "/3actparjour/forgot-password";
 
-    public static String conditionsURL          = "/3actparjour/login?u=%d&p=%password&redirect=/1dirparjour/aide/cgv";
-    public static String privacyURL             = "/3actparjour/login?u=%d&p=%password&redirect=/1dirparjour/aide/privacy";
-    public static String contactURL             = "/3actparjour/login?u=%d&p=%password&redirect=/1dirparjour/aide/contact";
+    public static String conditionsURL          = "/3actparjour/login?u=%d&p=%password&redirect=/5minparjour/aide/termsandconditions";
+    public static String privacyURL             = "/3actparjour/login?u=%d&p=%password&redirect=/5minparjour/aide/privacypolicy";
+    public static String contactURL             = "/3actparjour/login?u=%d&p=%password&redirect=/5minparjour/Aide/Contact";
 
     public static String free_conditionsURL     = "/1dirparjour/minisite/cgv";
     public static String free_privacyURL        = "/1dirparjour/minisite/privacy";

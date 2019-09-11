@@ -68,7 +68,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:minLines="1"
-                android:text="80,00 kg"
+                android:text="0 kg"
                 android:textSize="12sp" />
 
             <LinearLayout
@@ -83,7 +83,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:paddingBottom="3dp"
-                    android:text="Vous avez perdu 10,00 kg (50%)"
                     android:textSize="12sp" />
 
                 <ProgressBar
@@ -94,7 +93,7 @@
                     android:clickable="false"
                     android:indeterminate="false"
                     android:max="100"
-                    android:progress="25" />
+                    android:progress="0" />
 
 
             </LinearLayout>
@@ -107,7 +106,7 @@
                 android:layout_marginRight="2dp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="60,00 kg"
+                android:text="0 kg"
                 android:textSize="12sp" />
         </LinearLayout>
 

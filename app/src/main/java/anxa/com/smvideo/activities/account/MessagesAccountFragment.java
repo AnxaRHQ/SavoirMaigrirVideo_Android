@@ -373,10 +373,17 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
                         message = items.get(i);
                         if (message.CoachIdLiked > 0)
                         {
-                            String likeString = getResources().getString(R.string.messages_liked);
-                            likeString = likeString.replace("%@", message.CoachLikedName);
-                            message.MessageChat = message.MessageChat.replace("<br><br><i>" + likeString + "</i>", "");
-                            message.MessageChat = message.MessageChat + "<br><br><i>" + likeString + "</i>";
+                            if (isAdded())
+                            {
+                                String likeString = getResources().getString(R.string.messages_liked);
+                                likeString = likeString.replace("%@", message.CoachLikedName);
+                                message.MessageChat = message.MessageChat.replace("<br><br><i>" + likeString + "</i>", "");
+                                message.MessageChat = message.MessageChat + "<br><br><i>" + likeString + "</i>";
+                            }
+                            else
+                            {
+                                message.MessageChat = "";
+                            }
                         }
                         // implDao.add(message);
                     }

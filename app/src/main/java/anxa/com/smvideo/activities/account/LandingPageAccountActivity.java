@@ -124,7 +124,13 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
 
                         userName = c.Data.FirstName;
 
-                        String welcome_message = getResources().getString(R.string.welcome_account_1).replace("%@", userName) + getResources().getString(R.string.welcome_account_2);
+                        String welcome_message = "";
+
+                        if (isAdded())
+                        {
+                            welcome_message = getString(R.string.welcome_account_1).replace("%@", userName).concat(getString(R.string.welcome_account_2).replace("%f", AppUtil.getCurrentDayName(AppUtil.getCurrentDayNumber()))).concat(getString(R.string.welcome_account_3).replace("%d", Integer.toString(ApplicationData.getInstance().currentWeekNumber)));
+                        }
+
                         ((TextView) (mView.findViewById(R.id.welcome_message_account_tv))).setText(welcome_message);
 
                         if (c.Data.DietProfiles != null)
@@ -137,10 +143,6 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
                                 }
                             }
                             ApplicationData.getInstance().currentWeekNumber = AppUtil.getCurrentWeekNumber(Long.parseLong(ApplicationData.getInstance().dietProfilesDataContract.CoachingStartDate), new Date());
-                            //welcome_message = welcome_message.replace("%d", Integer.toString(ApplicationData.getInstance().currentWeekNumber));
-                             welcome_message = getString(R.string.welcome_account_1).replace("%@", userName).concat(getString(R.string.welcome_account_2).replace("%f", AppUtil.getCurrentDayName(AppUtil.getCurrentDayNumber()))).concat(getString(R.string.welcome_account_3).replace("%d", Integer.toString(ApplicationData.getInstance().currentWeekNumber)));
-
-                            ((TextView) (mView.findViewById(R.id.welcome_message_account_tv))).setText(welcome_message);
                         }
                         updateProgressBar();
                     }
@@ -418,10 +420,19 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
 
         float lost_weight = ApplicationData.getInstance().dietProfilesDataContract.StartWeightInKg - ApplicationData.getInstance().dietProfilesDataContract.CurrentWeightInKg;
         float lost_percentage = (lost_weight / (ApplicationData.getInstance().dietProfilesDataContract.StartWeightInKg - ApplicationData.getInstance().dietProfilesDataContract.TargetWeightInKg)) * 100;
-        String lost_weight_message = getResources().getString(R.string.lost_weight_text) + " " + String.format("%.2f", lost_weight) + " kg (" + String.format("%.0f", lost_percentage) + "%)";
-        lost_weight_tv.setText(lost_weight_message);
 
-        weightProgressBar.setProgress((int) lost_percentage);
+        if (isAdded())
+        {
+            String lost_weight_message = getResources().getString(R.string.lost_weight_text) + " " + String.format("%.2f", lost_weight) + " kg (" + String.format("%.0f", lost_percentage) + "%)";
+            lost_weight_tv.setText(lost_weight_message);
+
+            weightProgressBar.setProgress((int) lost_percentage);
+        }
+        else
+        {
+            lost_weight_tv.setText("");
+            weightProgressBar.setProgress(0);
+        }
     }
 
     public void goToRepasPage()

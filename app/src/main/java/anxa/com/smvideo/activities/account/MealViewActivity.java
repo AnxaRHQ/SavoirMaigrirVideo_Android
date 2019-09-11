@@ -481,7 +481,10 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
     public ImageView updatePhotoThumb(PhotoContract photo, ProgressBar progressBar, ImageView item, int type) {
         if (photo != null && photo.UrlLarge != null)
         {
-            progressBar.setVisibility(View.VISIBLE);
+            if (progressBar != null)
+            {
+                progressBar.setVisibility(View.VISIBLE);
+            }
 
             new DownloadImageTask(item, progressBar, photo.PhotoId).execute(photo.UrlLarge);
         }
@@ -605,7 +608,11 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
 
         protected void onPostExecute(Bitmap result)
         {
-            progressBar.setVisibility(View.GONE);
+            if (progressBar != null)
+            {
+                progressBar.setVisibility(View.GONE);
+            }
+
             bmImage.setImageBitmap(result);
 
             ImageManager.getInstance().addImage(photoid, result);
