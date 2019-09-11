@@ -40,7 +40,7 @@
                         android:layout_margin="5dp"
                         android:background="@drawable/button_weight_graph_bg"
                         android:clickable="true"
-                        android:text="1M"
+                        android:text="@string/GRAPH_1M_LABEL"
                         android:textColor="@drawable/button_weight_graph_text"
                         android:textSize="16sp" />
 
@@ -51,7 +51,7 @@
                         android:layout_margin="5dp"
                         android:background="@drawable/button_weight_graph_bg"
                         android:clickable="true"
-                        android:text="3M"
+                        android:text="@string/GRAPH_3M_LABEL"
                         android:textColor="@drawable/button_weight_graph_text"
                         android:textSize="16sp" />
 
@@ -62,7 +62,7 @@
                         android:layout_margin="5dp"
                         android:background="@drawable/button_weight_graph_bg"
                         android:clickable="true"
-                        android:text="1Y"
+                        android:text="@string/GRAPH_1Y_LABEL"
                         android:textColor="@drawable/button_weight_graph_text"
                         android:textSize="16sp" />
 
@@ -73,7 +73,7 @@
                         android:layout_margin="5dp"
                         android:background="@drawable/button_weight_graph_bg"
                         android:clickable="true"
-                        android:text="All"
+                        android:text="@string/GRAPH_ALL_LABEL"
                         android:textColor="@drawable/button_weight_graph_text"
                         android:textSize="16sp" />
                 </LinearLayout>

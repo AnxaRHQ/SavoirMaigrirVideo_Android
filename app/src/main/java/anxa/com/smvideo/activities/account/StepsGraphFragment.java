@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -42,6 +41,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
@@ -248,7 +248,7 @@ public class StepsGraphFragment extends BaseFragment implements View.OnClickList
         cal.add(Calendar.YEAR, -5); // to get previous year add -5
         fromDate = cal.getTime();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
 
         try
         {
@@ -294,9 +294,17 @@ public class StepsGraphFragment extends BaseFragment implements View.OnClickList
         if (response.Data.size()>0)
         {
             StepDataContract latestSteps = response.Data.get(0);
-            String currenStepsString = getResources().getString(R.string.LAST_RECORDED_STEPS) + " " + latestSteps.StepDate;
-            final String stringToDisplay = currenStepsString.replace("%d", Integer.toString(latestSteps.Steps));
-            ((TextView) mView.findViewById(R.id.currentSteps_tv)).setText(stringToDisplay);
+
+            if (isAdded())
+            {
+                String currentStepsString = getResources().getString(R.string.LAST_RECORDED_STEPS) + " " + latestSteps.StepDate;
+                final String stringToDisplay = currentStepsString.replace("%d", Integer.toString(latestSteps.Steps));
+                ((TextView) mView.findViewById(R.id.currentSteps_tv)).setText(stringToDisplay);
+            }
+            else
+            {
+                ((TextView) mView.findViewById(R.id.currentSteps_tv)).setText("0");
+            }
 
             if (response.Data.size() < 10) {
                 mView.findViewById(R.id.steps_graph_date_ll).setVisibility(View.GONE);
@@ -435,7 +443,15 @@ public class StepsGraphFragment extends BaseFragment implements View.OnClickList
 
         // no description text
         stepsBarChart.setDescription("");
-        stepsBarChart.setNoDataTextDescription(getResources().getString(R.string.NO_DATA));
+
+        if (isAdded())
+        {
+            stepsBarChart.setNoDataTextDescription(getResources().getString(R.string.NO_DATA));
+        }
+        else
+        {
+            stepsBarChart.setNoDataTextDescription("Pas de données");
+        }
 
         // enable value highlighting
         //stepsBarChart.setHighlightEnabled(true);
@@ -512,11 +528,11 @@ public class StepsGraphFragment extends BaseFragment implements View.OnClickList
             String dayData = "";
 
             if (selectedDateRange == DATE_RANGE_1W || selectedDateRange == DATE_RANGE_1M) {
-                dayData = new SimpleDateFormat("MMM dd").format(AppUtil.stringToDateWeight(stepsList.get(i).StepDate));
+                dayData = new SimpleDateFormat("MMM dd", Locale.FRANCE).format(AppUtil.stringToDateWeight(stepsList.get(i).StepDate));
             } else if (selectedDateRange == DATE_RANGE_1Y || selectedDateRange == DATE_RANGE_3M) {
-                dayData = new SimpleDateFormat("MMM").format(AppUtil.stringToDateWeight(stepsList.get(i).StepDate));
+                dayData = new SimpleDateFormat("MMM", Locale.FRANCE).format(AppUtil.stringToDateWeight(stepsList.get(i).StepDate));
             } else {
-                dayData = new SimpleDateFormat("MMM dd").format(AppUtil.stringToDateWeight(stepsList.get(i).StepDate));
+                dayData = new SimpleDateFormat("MMM dd", Locale.FRANCE).format(AppUtil.stringToDateWeight(stepsList.get(i).StepDate));
             }
 
             dayArray.add(dayData);
