@@ -470,7 +470,7 @@
     </string>
     <string name="npnaoffer1text">Accédez à ce programme</string>
     <string name="npnaoffer2text">Des milliers de personnes comme vous sont en train de maigrir en suivant le programme de coaching.</string>
-
+    <string name="DOWNLOADING_FILE">Téléchargement du fichier</string>
     <!--Native Diet Messages-->
     <string name="messages_add_a_comment">Ajouter un commentaire</string>
     <string name="messages_btn_submit">Poster</string>

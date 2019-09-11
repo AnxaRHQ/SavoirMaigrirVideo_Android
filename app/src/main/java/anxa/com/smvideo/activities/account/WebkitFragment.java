@@ -1,20 +1,26 @@
 package anxa.com.smvideo.activities.account;
 
 
+import android.Manifest;
+import android.app.DownloadManager;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
+import android.webkit.DownloadListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -24,6 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubePlayerFragment;
 
@@ -40,6 +47,7 @@ import anxa.com.smvideo.customview.VideoEnabledWebChromeClient;
 import anxa.com.smvideo.customview.VideoEnabledWebView;
 import anxa.com.smvideo.util.AppUtil;
 
+import static android.content.Context.DOWNLOAD_SERVICE;
 import static android.view.View.GONE;
 
 public class WebkitFragment extends BaseFragment implements View.OnClickListener {
@@ -57,6 +65,7 @@ public class WebkitFragment extends BaseFragment implements View.OnClickListener
 
     private VideoEnabledWebView mainContentWebView;
     private VideoEnabledWebChromeClient webChromeClient;
+    private static final String TAG = WebkitFragment.class.getSimpleName();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -197,7 +206,33 @@ public class WebkitFragment extends BaseFragment implements View.OnClickListener
         String defaultagent = AppUtil.getDefaultUserAgent(context);
 
         mainContentWebView.getSettings().setUserAgentString(ApplicationData.getInstance().customAgent + " " + BuildConfig.VERSION_NAME + " " + defaultagent);
+        mainContentWebView.setDownloadListener(new DownloadListener() {
 
+            @Override
+            public void onDownloadStart(String url, String userAgent,
+                                        String contentDisposition, String mimetype,
+                                        long contentLength) {
+                if(isStoragePermissionGranted()) {
+                    DownloadManager.Request request = new DownloadManager.Request(
+                            Uri.parse(url));
+
+                    request.allowScanningByMediaScanner();
+                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED); //Notify client once download is completed!
+                    String str = url;
+                    str = str.substring(str.lastIndexOf("filename=") + 1);
+                    str = str.replace("filename=", "");
+                    str = str.substring(0, str.indexOf(".pdf"));
+                    str = str + ".pdf";
+                    if (str != null) {
+                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, str);
+                        DownloadManager dm = (DownloadManager) getActivity().getSystemService(DOWNLOAD_SERVICE);
+                        dm.enqueue(request);
+                        Toast.makeText(context, R.string.DOWNLOADING_FILE, //To notify the Client that the file is being downloaded
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
         CookieManager.getInstance().setCookie("http://savoir-maigrir.aujourdhui.com", "produit=sid=221");
         autologinURL = WebkitURL.autoLoginURL.replace("%u", Integer.toString(ApplicationData.getInstance().userDataContract.Id));
         try {
@@ -228,6 +263,7 @@ public class WebkitFragment extends BaseFragment implements View.OnClickListener
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 System.out.println("FullBrowserActivity " + url);
+
                 if(url.equalsIgnoreCase(WebkitURL.domainURL + "/5minparjour"))
                 {
                     return true;
@@ -285,6 +321,25 @@ public class WebkitFragment extends BaseFragment implements View.OnClickListener
         if (v == backButton)
         {
             removeFragment();
+        }
+    }
+
+    private  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (getActivity().checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v(TAG,"Permission is granted");
+                return true;
+            } else {
+
+                Log.v(TAG,"Permission is revoked");
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v(TAG,"Permission is granted");
+            return true;
         }
     }
 }
