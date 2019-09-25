@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:paddingBottom="3dp"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
 
                 <ProgressBar
                     android:id="@+id/weight_landing_progressBar"

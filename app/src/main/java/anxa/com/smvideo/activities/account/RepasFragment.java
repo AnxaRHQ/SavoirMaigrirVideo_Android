@@ -1117,7 +1117,7 @@ public class RepasFragment extends BaseFragment implements View.OnClickListener 
         }
         else if (v == recettes_btn)
         {
-            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
 
             mealPlan_btn.setSelected(false);
             shoppingList_btn.setSelected(false);

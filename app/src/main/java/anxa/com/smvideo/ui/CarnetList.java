@@ -34,6 +34,7 @@ import anxa.com.smvideo.activities.account.ExerciseActivity;
 import anxa.com.smvideo.activities.account.MoodAddActivity;
 import anxa.com.smvideo.activities.account.WaterViewActivity;
 import anxa.com.smvideo.common.CommonConstants;
+import anxa.com.smvideo.connection.http.MealPhotoDownloadAsync;
 import anxa.com.smvideo.contracts.Carnet.ExerciseContract;
 import anxa.com.smvideo.contracts.Carnet.MealContract;
 import anxa.com.smvideo.contracts.Carnet.MoodContract;
@@ -693,57 +694,18 @@ public class CarnetList extends ScrollView {
             Bitmap bmp = ImageManager.getInstance().findImage(Integer.toString(photo.PhotoId));
             photo.UrlLarge = AppUtil.CheckImageUrl(photo.UrlLarge);
             if (bmp == null) {
-                new DownloadImageTask(item, progressBar, photo.PhotoId).execute(photo.UrlLarge);
+                new MealPhotoDownloadAsync(item, progressBar, photo.PhotoId).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,photo.UrlLarge);
             }
             else {
                 item.setImageBitmap(bmp);
                 progressBar.setVisibility(View.GONE);
             }
-        } else
+        } else {
             item.setImageResource(AppUtil.getPhotoResource(type));
+            progressBar.setVisibility(View.GONE);
+        }
 
         return item;
-
-    }
-
-
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
-    {
-        final ImageView bmImage;
-        ProgressBar progressBar;
-        String photoid = "";
-
-        public DownloadImageTask(ImageView bmImage, ProgressBar progress, int photoID) {
-            this.bmImage = bmImage;
-            this.progressBar = progress;
-            this.photoid = Integer.toString(photoID);
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urlDisplay = urls[0];
-            Bitmap mIcon11 = null;
-            urlDisplay = AppUtil.CheckImageUrl(urlDisplay);
-            try {
-                InputStream in = new URL(urlDisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-
-            if (progressBar != null)
-            {
-                progressBar.setVisibility(View.GONE);
-            }
-
-            bmImage.setImageBitmap(result);
-            ImageManager.getInstance().addImage(photoid, result);
-        }
     }
 
     public ImageView updatePhotoThumb(PhotoContract photo, ImageView item, int type) {
@@ -751,12 +713,13 @@ public class CarnetList extends ScrollView {
             // try getting on the ImageManager
             Bitmap bmp = ImageManager.getInstance().findImage(Integer.toString(photo.PhotoId));
             if (bmp == null) {
-                new DownloadImageTask(item, null, photo.PhotoId).execute(photo.UrlLarge);
+                new MealPhotoDownloadAsync(item, null, photo.PhotoId).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,photo.UrlLarge);
             } else
                 item.setImageBitmap(bmp);
-        } else
+        } else {
             item.setImageResource(AppUtil.getPhotoResource(type)); // use
 
+        }
         return item;
     }
 

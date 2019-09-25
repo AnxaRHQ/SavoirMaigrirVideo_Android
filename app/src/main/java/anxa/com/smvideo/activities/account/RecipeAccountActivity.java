@@ -86,25 +86,34 @@ public class RecipeAccountActivity extends BaseFragment implements View.OnClickL
         ImageView img = (ImageView) mView.findViewById(R.id.recipeImage);
 
         //img.setTag(recipeContract.Id);
-        if (avatar == null)
+
+        if (recipeContract.ImageUrl.isEmpty())
         {
-            Glide.with(this).load(recipeContract.ImageUrl).diskCacheStrategy(DiskCacheStrategy.RESULT).into(img);
-            try {
-                if (!ApplicationData.getInstance().recipePhotoList.containsKey(String.valueOf(recipeContract.Id)) && img.getDrawable() != null) {
-
-                    ApplicationData.getInstance().recipePhotoList.put(String.valueOf(recipeContract.Id), ((GlideBitmapDrawable) img.getDrawable()).getBitmap());
-                }
-
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            mView.findViewById(R.id.recipeImageProgress).setVisibility(View.GONE);
-
-        } else {
-            ((ImageView) mView.findViewById(R.id.recipeImage)).setImageBitmap(avatar);
-            ((ProgressBar) mView.findViewById(R.id.recipeImageProgress)).setVisibility(View.GONE);
+            ((ImageView) mView.findViewById(R.id.recipeImage)).setImageDrawable(this.getResources().getDrawable(R.drawable.placeholder_recipe));
         }
+        else
+        {
+            if (avatar == null)
+            {
+                Glide.with(this).load(recipeContract.ImageUrl).diskCacheStrategy(DiskCacheStrategy.RESULT).into(img);
+                try {
+                    if (!ApplicationData.getInstance().recipePhotoList.containsKey(String.valueOf(recipeContract.Id)) && img.getDrawable() != null) {
+
+                        ApplicationData.getInstance().recipePhotoList.put(String.valueOf(recipeContract.Id), ((GlideBitmapDrawable) img.getDrawable()).getBitmap());
+                    }
+
+                } catch (Exception e) {
+                    Log.e("Error", e.getMessage());
+                    e.printStackTrace();
+                }
+                mView.findViewById(R.id.recipeImageProgress).setVisibility(View.GONE);
+
+            } else {
+                ((ImageView) mView.findViewById(R.id.recipeImage)).setImageBitmap(avatar);
+                ((ProgressBar) mView.findViewById(R.id.recipeImageProgress)).setVisibility(View.GONE);
+            }
+        }
+
         ((TextView) mView.findViewById(R.id.recipeIngredientsTitle)).setText((recipeContract.IngredientsTitle));
 
         String recipeIngredients = "•  " + recipeContract.IngredientsHtml.replace("\r\n","<br/>•  ");

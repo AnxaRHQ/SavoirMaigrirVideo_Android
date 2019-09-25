@@ -277,13 +277,22 @@ public class WebkitFragment extends BaseFragment implements View.OnClickListener
             }
 
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            public boolean shouldOverrideUrlLoading(WebView view, String url)
+            {
                 System.out.println("FullBrowserActivity " + url);
 
-                if(url.equalsIgnoreCase(WebkitURL.domainURL + "/5minparjour"))
+                if (url.contains("/5minparjour/Mobile/Home"))
+                {
+                    removeFragment();
+
+                    return false;
+                }
+
+                if (url.equalsIgnoreCase(WebkitURL.domainURL + "/5minparjour"))
                 {
                     return true;
                 }
+
                 if (url.contains(WebkitURL.domainURL.replace("http://", ""))) {
                     return false;
                 }

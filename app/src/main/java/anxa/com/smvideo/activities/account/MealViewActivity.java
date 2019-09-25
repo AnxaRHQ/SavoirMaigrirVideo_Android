@@ -35,6 +35,7 @@ import anxa.com.smvideo.activities.MainActivity;
 import anxa.com.smvideo.activities.NpnaOfferActivity;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
+import anxa.com.smvideo.connection.http.MealPhotoDownloadAsync;
 import anxa.com.smvideo.contracts.Carnet.CommentGroupContract;
 import anxa.com.smvideo.contracts.Carnet.FoodGroupContract;
 import anxa.com.smvideo.contracts.Carnet.MealCommentContract;
@@ -336,6 +337,7 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
             // update the placeholder photo depending on the meal type
             iv_mainPhoto.setImageResource(AppUtil.getPhotoResource(currentMeal.MealType));
             iv_mainPhoto.setOnClickListener(this);
+            progressBar.setVisibility(View.GONE);
 
         } else {
             // display the bitmap and thumbnail
@@ -367,7 +369,7 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
                         iv_thumbnails[i].setImageResource(AppUtil.getPhotoResource(currentMeal.MealType)); // use
 
                     } else {
-                            updatePhotoThumb(photos.get(i), null, iv_thumbnails[i], currentMeal.MealType);
+                        updatePhotoThumb(photos.get(i), null, iv_thumbnails[i], currentMeal.MealType);
                     }
 
                     iv_thumbnails[i].setOnClickListener(this);
@@ -382,7 +384,7 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
             if (photos.get(selectedPhotoIndex) != null) {
                 Bitmap bmp_main = ImageManager.getInstance().findImage(Integer.toString(photos.get(selectedPhotoIndex).PhotoId));
                 if (bmp_main==null)
-                    new DownloadImageTask(iv_mainPhoto, progressBar, photos.get(selectedPhotoIndex).PhotoId).execute(photos.get(selectedPhotoIndex).UrlLarge);
+                    new MealPhotoDownloadAsync(iv_mainPhoto, progressBar, photos.get(selectedPhotoIndex).PhotoId).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,photos.get(selectedPhotoIndex).UrlLarge);
                 else
                 {
                     iv_mainPhoto.setImageBitmap(bmp_main);
@@ -392,8 +394,9 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
             }else {
                 Bitmap bmp = ImageManager.getInstance().findImage(Integer.toString(photos.get(selectedPhotoIndex).PhotoId));
                 if (bmp == null){
-                    new DownloadImageTask(iv_mainPhoto, progressBar, photos.get(selectedPhotoIndex).PhotoId).execute(photos.get(selectedPhotoIndex).UrlLarge);
+                    new MealPhotoDownloadAsync(iv_mainPhoto, progressBar, photos.get(selectedPhotoIndex).PhotoId).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,photos.get(selectedPhotoIndex).UrlLarge);
                 }
+
             }
 
             iv_mainPhoto.setOnClickListener(this);
@@ -479,7 +482,7 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
     }
 
     public ImageView updatePhotoThumb(PhotoContract photo, ProgressBar progressBar, ImageView item, int type) {
-        if (photo != null && photo.UrlLarge != null)
+        /*if (photo != null && photo.UrlLarge != null)
         {
             if (progressBar != null)
             {
@@ -488,21 +491,24 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
 
             new DownloadImageTask(item, progressBar, photo.PhotoId).execute(photo.UrlLarge);
         }
-        else if (photo != null)
+        else */
+
+        if (photo != null)
         {
-            progressBar.setVisibility(View.GONE);
+            //progressBar.setVisibility(View.GONE);
 
             // try getting on the ImageManager
             Bitmap bmp = ImageManager.getInstance().findImage(Integer.toString(photo.PhotoId));
             if (bmp == null)
-                item.setImageResource(AppUtil.getPhotoResource(type)); // use
+                //item.setImageResource(AppUtil.getPhotoResource(type)); // use
                 // dummy
+                new MealPhotoDownloadAsync(item, progressBar, photo.PhotoId).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,photo.UrlLarge);
             else
                 item.setImageBitmap(bmp);
 
         } else {
             item.setImageResource(AppUtil.getPhotoResource(type)); // use
-            progressBar.setVisibility(View.GONE);
+            //progressBar.setVisibility(View.GONE);
         }
         return item;
     }
@@ -571,52 +577,6 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
                 finish();
             }
         }, ApplicationData.getInstance().regId,contract);
-    }
-
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
-    {
-        final ImageView bmImage;
-        ProgressBar progressBar;
-        String photoid = "";
-
-        public DownloadImageTask(ImageView bmImage, ProgressBar progress, int photoID)
-        {
-            this.bmImage = bmImage;
-            this.progressBar = progress;
-            this.photoid = Integer.toString(photoID);
-        }
-
-        protected Bitmap doInBackground(String... urls)
-        {
-            String urlDisplay = urls[0];
-            urlDisplay = AppUtil.CheckImageUrl(urlDisplay);
-
-            Bitmap mIcon11 = null;
-
-            try {
-                InputStream in = new java.net.URL(urlDisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-
-            ApplicationData.getInstance().setUserProfilePhoto(mIcon11);
-
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result)
-        {
-            if (progressBar != null)
-            {
-                progressBar.setVisibility(View.GONE);
-            }
-
-            bmImage.setImageBitmap(result);
-
-            ImageManager.getInstance().addImage(photoid, result);
-        }
     }
 
     /* Free Users */

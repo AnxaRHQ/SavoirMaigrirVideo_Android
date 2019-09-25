@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,8 +26,7 @@ public class NpnaActivity extends BaseVideoActivity {
         setContentView(R.layout.npna);
         //header change
         ((TextView) (this.findViewById(R.id.header_title_tv))).setText(R.string.app_name);
-        ((TextView) (this.findViewById(R.id.header_right_tv))).setVisibility(View.INVISIBLE);
-        ((ImageView) findViewById(R.id.header_menu_iv)).setVisibility(View.GONE);
+        ((Button) (this.findViewById(R.id.header_menu_iv))).setVisibility(View.INVISIBLE);
         ((ImageView) findViewById(R.id.header_menu_back)).setVisibility(View.GONE);
         ((TextView) findViewById(R.id.npna_intro)).setText(Html.fromHtml(getResources().getString(R.string.npna_intro).replace("#subscriptionenddate#", AppUtil.getEditWeightDateFormat(AppUtil.toDate(Long.valueOf(ApplicationData.getInstance().userDataContract.DietProfiles.get(0).CoachingEndDate).longValue())))));
         ((TextView) findViewById(R.id.npna_intro2)).setText(Html.fromHtml(getResources().getString(R.string.npna_intro2)));

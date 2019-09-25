@@ -29,6 +29,13 @@
     <string name="recipe_plat">Plat</string>
     <string name="recipe_dessert">Dessert</string>
     <string name="recipe_soup">Soupe</string>
+    <string name="recipe_appetizer">Amuse-gueule</string>
+    <string name="recipe_drink">Boisson</string>
+    <string name="recipe_sauce">Sauce</string>
+    <string name="recipe_encas">Encas</string>
+    <string name="recipe_simplissime">Simplissime</string>
+    <string name="recipe_thermomix">Thermomix</string>
+
     <string name="recipe_preparation">Préparation</string>
 
     <string name="moncompte_title">Vous n\'avez pas d\'abonnement en cours</string>
@@ -670,7 +677,7 @@
     <string name="dashboard_activities_content2">Carnet Minceur</string>
 
     <string name="ADD_MEAL_FOLLOWED_PLAN">J\'ai respecté mon plan de repas</string>
-    <string name="MENU_EDIT_MEAL">Editer le repas</string>
+    <string name="MENU_EDIT_MEAL">Modifier le repas</string>
     <string name="MENU_DELETE_MEAL">Supprimer le repas</string>
     <string name="NOTIFICATIONS_CANCEL">Annuler</string>
 

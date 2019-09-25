@@ -1,5 +1,6 @@
 package anxa.com.smvideo.connection.http;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import anxa.com.smvideo.ApplicationData;
+import anxa.com.smvideo.R;
 import anxa.com.smvideo.util.AppUtil;
 import anxa.com.smvideo.util.RecipeHelper;
 
@@ -39,9 +41,9 @@ public class RecipeDownloadImageAsync extends AsyncTask<String, Void, Bitmap>
 
     protected Bitmap doInBackground(String... urls)
     {
+        Bitmap mIcon11 = null;
         String urldisplay = urls[0];
         urldisplay = AppUtil.CheckImageUrl(urldisplay);
-        Bitmap mIcon11 = null;
 
         try {
 

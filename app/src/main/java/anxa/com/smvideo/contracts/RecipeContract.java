@@ -37,7 +37,9 @@ public class RecipeContract {
         Sauce(7),
         Snack(8),
         Soup(9),
-        Other(10);
+        Other(10),
+        Simplissime(0),
+        Thermomix(100);
 
         private int numVal;
 

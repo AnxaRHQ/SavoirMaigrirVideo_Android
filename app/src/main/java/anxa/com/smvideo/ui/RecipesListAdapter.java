@@ -2,6 +2,7 @@ package anxa.com.smvideo.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -100,11 +101,20 @@ public class RecipesListAdapter extends ArrayAdapter<RecipeContract> implements 
 
         viewHolder.recipeImage.setTag(recipe.Id);
 
-        if (avatar == null) {
-            imageTasks.add(new RecipeDownloadImageAsync(viewHolder.recipeImage, viewHolder.recipeImageProgress, recipe.Id).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR,recipe.ImageUrl));
-        } else {
-            viewHolder.recipeImage.setImageBitmap(avatar);
-            viewHolder.recipeImageProgress.setVisibility(View.GONE);
+        if (recipe.ImageUrl.isEmpty())
+        {
+            viewHolder.recipeImage.setImageDrawable(context.getResources().getDrawable(R.drawable.placeholder_recipe));
+        }
+        else
+        {
+            if (avatar == null)
+            {
+                imageTasks.add(new RecipeDownloadImageAsync(viewHolder.recipeImage, viewHolder.recipeImageProgress, recipe.Id).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR,recipe.ImageUrl));
+
+            } else {
+                viewHolder.recipeImage.setImageBitmap(avatar);
+                viewHolder.recipeImageProgress.setVisibility(View.GONE);
+            }
         }
 
         return row;

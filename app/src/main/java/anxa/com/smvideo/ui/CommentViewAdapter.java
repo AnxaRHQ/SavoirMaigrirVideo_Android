@@ -569,7 +569,7 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
 
                     }
                 });
-        // create alert dialog
+
         final AlertDialog alertDialog = alertDialogBuilder.create();
 
         if (rating <= 5) {
@@ -580,11 +580,12 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    alertDialog.show();
+                    //alertDialog.show();
                 }
             }, 2000);
 
         } else {
+
             alertDialog.show();
 
         }
