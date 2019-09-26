@@ -26,7 +26,7 @@ public class MealPhotoDownloadAsync extends AsyncTask<String, Void, Bitmap>
     private String photoID;
     private ProgressBar progressBar;
 
-    public MealPhotoDownloadAsync(ImageView bmImage,ProgressBar progress, int photoID)
+    public MealPhotoDownloadAsync(ImageView bmImage, ProgressBar progress, int photoID)
     {
         this.bmImage = bmImage;
         this.photoID = Integer.toString(photoID);

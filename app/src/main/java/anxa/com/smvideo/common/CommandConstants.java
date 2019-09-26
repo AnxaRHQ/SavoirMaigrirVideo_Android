@@ -58,6 +58,7 @@ public class CommandConstants
 
     public static String COMMAND_CARNETSYNC             = "sync";
     public static String COMMAND_MEALSYNC               = "meal/sync";
+    public static String COMMAND_MEALCOMMENT            = "meal";
     public static String COMMAND_CARNETMEALPLANFORDAY   = "meal/MealPlanForDay";
     public static String COMMAND_UPLOADPHOTO            = "upload";
     public static String COMMAND_SEND                   = "send";

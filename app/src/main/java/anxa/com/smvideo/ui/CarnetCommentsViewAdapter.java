@@ -3,29 +3,20 @@ package anxa.com.smvideo.ui;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
-
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -33,6 +24,7 @@ import java.util.regex.Pattern;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
+import anxa.com.smvideo.connection.http.CommentPhotoDownloadAsync;
 import anxa.com.smvideo.connection.listener.MainActivityCallBack;
 import anxa.com.smvideo.contracts.Carnet.MealCommentContract;
 import anxa.com.smvideo.util.AppUtil;
@@ -87,7 +79,9 @@ public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract>
         View row = convertView;
 
         ViewHolder viewHolder = null;
-        if (row == null) {
+
+        if (row == null)
+        {
             LayoutInflater layoutInflator = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -99,20 +93,26 @@ public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract>
             viewHolder.chatMessage_user = ((TextView) row.findViewById(R.id.chat_message_user));
             viewHolder.chatDate = ((TextView) row.findViewById(R.id.date));
             viewHolder.chatTimestamp = ((TextView) row.findViewById(R.id.timestamp));
+            viewHolder.chatLike = (ImageView) row.findViewById(R.id.chat_like);
             row.setTag(viewHolder);
-        } else {
+        }
+        else
+        {
             viewHolder = (ViewHolder) row.getTag();
         }
 
-        if (items != null && items.size() > 0 && getCount() > 0) {
+        if (items != null && items.size() > 0 && getCount() > 0)
+        {
             MealCommentContract message = items.get(position);
 
-            String proFileImageURL = AppUtil.BuildProfilePicUrl(context.getResources().getString(R.string.profile_pic_url), Integer.toString(ApplicationData.getInstance().regId));
+            String proFileImageURL = AppUtil.BuildProfilePicUrl(context.getResources().getString(R.string.profile_pic_url), Integer.toString(ApplicationData.getInstance().userDataContract.AjRegNo));
 
             Bitmap avatar = null;
 
             viewHolder.imageView.setTag(message.Timestamp);
             //viewHolder.audioMessage_layout.setVisibility(View.GONE);
+
+            viewHolder.chatLike.setVisibility((message.IsLiked) ? View.VISIBLE : View.INVISIBLE);
 
             String date = AppUtil.getMonthDay(AppUtil.toDate(message.Timestamp));
             String time = AppUtil.getTimeOnly24Comments(AppUtil.toDate(message.Timestamp).getTime());
@@ -140,12 +140,17 @@ public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract>
                 currentDate = date;
             }
 
-            try {
+            if (message.Coach != null)
+            {
                 coachId = Integer.parseInt(message.Coach.CoachProfileId);
                 viewHolder.imageView.setTag(coachId);
 
                 viewHolder.chatMessage_user.setVisibility(View.GONE);
                 viewHolder.chatMessage.setVisibility(View.VISIBLE);
+
+                Bitmap coachAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.profile_default_avatar, ApplicationData.getInstance().options_Avatar);
+
+                viewHolder.imageView.setImageBitmap(coachAvatar);
 
                 avatar = getAvatar(Integer.parseInt(message.Coach.CoachProfileId));
                 proFileImageURL = message.Coach.PrimaryPictureUrl;
@@ -169,7 +174,7 @@ public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract>
                 row.findViewById(R.id.chat_message).setBackgroundResource(R.drawable.comment_bubble_coach);
 
                 if (avatar == null) {
-                    new AdapterDownloadImageTask(viewHolder.imageView).execute(proFileImageURL);
+                    new CommentPhotoDownloadAsync(viewHolder.imageView).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, proFileImageURL);
                 } else {
                     viewHolder.imageView.setImageBitmap(avatar);
                 }
@@ -179,7 +184,7 @@ public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract>
                     Pattern pattern = Pattern.compile("src=\"(.*?)\"");
                     Matcher matcher = pattern.matcher(str);
 
-                    viewHolder.audioMessage_layout.setVisibility(View.GONE);
+                    //viewHolder.audioMessage_layout.setVisibility(View.GONE);
                     viewHolder.chatMessage.setVisibility(View.VISIBLE);
 
                 }
@@ -197,11 +202,19 @@ public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract>
                 viewHolder.chatMessage.setText(Html.fromHtml(message.Text));
                 viewHolder.chatMessage.setLinksClickable(true);
                 viewHolder.chatMessage.setMovementMethod(MovementCheck.getInstance(context));
+            }
+            else
+            {
+                Bitmap userAvatar = BitmapFactory.decodeResource(context.getResources(), R.drawable.profile_default_avatar, ApplicationData.getInstance().options_Avatar);
 
+                viewHolder.imageView.setImageBitmap(userAvatar);
 
-            } catch (NullPointerException e) {
+                if (avatar == null) {
+                    new CommentPhotoDownloadAsync(viewHolder.imageView).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, proFileImageURL);
+                } else {
+                    viewHolder.imageView.setImageBitmap(avatar);
+                }
 
-                avatar = getAvatar(0);
                 viewHolder.chatMessage.setVisibility(View.GONE);
                 viewHolder.chatMessage_user.setVisibility(View.VISIBLE);
                 //viewHolder.audioMessage_layout.setVisibility(View.GONE);
@@ -222,12 +235,9 @@ public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract>
                 row.findViewById(R.id.timestamp).setLayoutParams(params2);
                 row.findViewById(R.id.chat_message_cont).setLayoutParams(params3);
                 row.findViewById(R.id.chat_message_user).setBackgroundResource(R.drawable.comment_bubble_user_inverted);
-                viewHolder.imageView.setImageBitmap(avatar);
                 viewHolder.chatMessage_user.setText(Html.fromHtml(message.Text));
                 viewHolder.chatMessage_user.setLinksClickable(true);
-
             }
-
 
             viewHolder.chatTimestamp.setText(time);
 
@@ -245,51 +255,8 @@ public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract>
 
     }
 
-    private class AdapterDownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        private ImageView bmImage;
-        private String path;
-
-        public AdapterDownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-            this.path = bmImage.getTag().toString();
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            String coachIdToSave = urldisplay.substring(urldisplay.indexOf("users/") + 6, urldisplay.lastIndexOf("/"));
-
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-
-                if (!ApplicationData.getInstance().coachCommentsPhotosList.containsKey(coachIdToSave) && mIcon11 != null) {
-                    ApplicationData.getInstance().coachCommentsPhotosList.put(coachIdToSave, mIcon11);
-                }
-
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            if (!bmImage.getTag().toString().equals(path)) {
-                return;
-            }
-
-            if (result != null && bmImage != null) {
-                bmImage.setVisibility(View.VISIBLE);
-                bmImage.setImageBitmap(result);
-
-            } else {
-                bmImage.setVisibility(View.GONE);
-            }
-        }
-    }
-
-    private Bitmap getAvatar(int coachId) {
+    private Bitmap getAvatar(int coachId)
+    {
         Bitmap avatarBMP = null;
         if (coachId > 0) {
             avatarBMP = ApplicationData.getInstance().coachCommentsPhotosList.get(String.valueOf(coachId));
@@ -307,15 +274,16 @@ public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract>
         }
 
         return avatarBMP;
-
     }
 
-    private static class ViewHolder {
+    private static class ViewHolder
+    {
         RoundedImageView imageView;
         TextView chatMessage;
         TextView chatMessage_user;
         TextView chatDate;
         TextView chatTimestamp;
+        ImageView chatLike;
         RelativeLayout audioMessage_layout;
     }
 
@@ -365,7 +333,6 @@ public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract>
             });
         }
 
-
         try {
             mediaPlayer.setDataSource(mediaUrl);
         } catch (IllegalArgumentException e) {
@@ -413,7 +380,8 @@ public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract>
     }
 
     private void muteMediaPlayer() {
-        try {
+        try
+        {
             if (isSoundOn) {
                 isSoundOn = false;
                 if (mediaPlayer != null) {
@@ -425,7 +393,6 @@ public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract>
                     mediaPlayer.setVolume(1, 1);
                 }
             }
-
         } catch (IllegalArgumentException e) {
             System.out.println("IllegalArgumentException: " + e.toString());
         } catch (SecurityException e) {
@@ -434,5 +401,4 @@ public class CarnetCommentsViewAdapter extends ArrayAdapter<MealCommentContract>
             System.out.println("IllegalStateException: " + e.toString());
         }
     }
-
 }

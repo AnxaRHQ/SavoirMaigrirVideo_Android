@@ -415,6 +415,7 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
         comment.Id = currentMeal.MealId;
         comment.Text = comment_message;
         comment.Timestamp = AppUtil.getCurrentDateinLongGMT();
+        comment.IsLiked = false;
         currentMeal.Comments.Comments.add(comment);
 
         commentlist = (CarnetCommentListLayout) findViewById(R.id.commentlist);
@@ -443,20 +444,21 @@ public class MealViewActivity extends Activity implements View.OnClickListener, 
         });
     }
 
-    public void submitComment(MealCommentContract currentcomment) {
+    public void submitComment(MealCommentContract currentcomment)
+    {
+        //pass a valid meal data of the regid used
 
-//        String username = Integer.toString(ApplicationData.getInstance().userDataContract.Id);
-//        if (username != null) {
-//            //pass a valid meal data of the regid used
-//
-//            caller.PostComment(new AsyncResponse() {
-//                @Override
-//                public void processFinish(Object output) {
-//                    Log.d("PostComment", output.toString());
-//
-//                }
-//            }, Integer.parseInt(ApplicationData.getInstance().userProfile.getReg_id()), currentMeal.MealId, currentcomment);
-//        }
+        caller.postMealComment(new AsyncResponse() {
+            @Override
+            public void processFinish(Object output) {
+
+                if (output != null)
+                {
+                    Log.d("PostComment", output.toString());
+                }
+
+            }
+        }, ApplicationData.getInstance().userDataContract.Id, String.format("%d",currentMeal.MealId), currentcomment);
     }
 
 

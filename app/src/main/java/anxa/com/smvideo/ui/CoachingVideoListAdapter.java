@@ -22,7 +22,8 @@ import anxa.com.smvideo.contracts.CoachingVideosContract;
  * Created by aprilanxa on 29/06/2017.
  */
 
-public class CoachingVideoListAdapter extends ArrayAdapter<CoachingVideosContract> implements View.OnClickListener {
+public class CoachingVideoListAdapter extends ArrayAdapter<CoachingVideosContract> implements View.OnClickListener
+{
     private final Context context;
     private List<CoachingVideosContract> items = new ArrayList<CoachingVideosContract>();
 
@@ -30,7 +31,8 @@ public class CoachingVideoListAdapter extends ArrayAdapter<CoachingVideosContrac
     String inflater = Context.LAYOUT_INFLATER_SERVICE;
     View.OnClickListener listener;
 
-    public CoachingVideoListAdapter(Context context, List<CoachingVideosContract> items, View.OnClickListener listener) {
+    public CoachingVideoListAdapter(Context context, List<CoachingVideosContract> items, View.OnClickListener listener)
+    {
         super(context, R.layout.listitem_video, items);
 
         layoutInflater = (LayoutInflater) context.getSystemService(inflater);
@@ -40,13 +42,15 @@ public class CoachingVideoListAdapter extends ArrayAdapter<CoachingVideosContrac
 
     }
 
-    public void updateItems(List<CoachingVideosContract> items) {
+    public void updateItems(List<CoachingVideosContract> items)
+    {
         this.items = items;
         notifyDataSetChanged();
     }
 
     @Override
-    public void clear() {
+    public void clear()
+    {
         this.items = new ArrayList<>();
         notifyDataSetChanged();
     }
@@ -57,12 +61,14 @@ public class CoachingVideoListAdapter extends ArrayAdapter<CoachingVideosContrac
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
         ViewHolder viewHolder = null;
 
         View row = convertView;
-        if (row == null) {
+
+        if (row == null)
+        {
             LayoutInflater layoutInflator = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -86,6 +92,7 @@ public class CoachingVideoListAdapter extends ArrayAdapter<CoachingVideosContrac
         row.setOnClickListener(this);
         Bitmap avatar = null;
         viewHolder.videoImage.setTag(contract.VideoUrl);
+
         if (contract.IsSelected) {
             if (Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                 viewHolder.videoImage.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.orange_border));
@@ -101,6 +108,7 @@ public class CoachingVideoListAdapter extends ArrayAdapter<CoachingVideosContrac
         }
         //display message
         viewHolder.videoTitle.setText(contract.Title);
+
         if (avatar == null) {
             new VideoDownloadImageAsync(viewHolder.videoImage, viewHolder.videoImageProgress, contract.VideoUrl).execute(contract.ThumbnailUrl.replace("hqdefault", "default"));
         } else {
@@ -133,11 +141,10 @@ public class CoachingVideoListAdapter extends ArrayAdapter<CoachingVideosContrac
 
     }
 
-
-    private static class ViewHolder {
+    private static class ViewHolder
+    {
         ImageView videoImage;
         TextView videoTitle;
         ProgressBar videoImageProgress;
     }
-
 }

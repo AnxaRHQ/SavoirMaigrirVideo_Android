@@ -61,6 +61,7 @@
                 android:layout_alignParentLeft="true"
                 android:background="@android:color/transparent"
                 android:src="@drawable/profile_default_avatar" />
+
             <ImageView
                 android:id="@+id/chat_like"
                 android:layout_width="30dp"
@@ -69,6 +70,7 @@
                 android:src="@drawable/like_gray"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/timestamp"/>
+
             <TextView
                 android:id="@+id/timestamp"
                 android:layout_width="wrap_content"
@@ -118,6 +120,7 @@
                     android:layout_toLeftOf="@id/chat_status"
                     android:layout_toRightOf="@id/chat_avatar"
                     android:orientation="vertical">
+
                     <TextView
                         android:id="@+id/chat_message_user"
                         android:textSize="13sp"
@@ -132,7 +135,9 @@
                         android:text="sample text please read"
                         android:textColor="@android:color/black"
                         android:autoLink="web"/>
+
                 </LinearLayout>
+
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

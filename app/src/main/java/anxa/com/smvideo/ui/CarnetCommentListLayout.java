@@ -17,8 +17,8 @@ import anxa.com.smvideo.R;
 import anxa.com.smvideo.connection.listener.MainActivityCallBack;
 import anxa.com.smvideo.contracts.Carnet.MealCommentContract;
 
-public class CarnetCommentListLayout extends LinearLayout implements AbsListView.OnScrollListener{
-
+public class CarnetCommentListLayout extends LinearLayout implements AbsListView.OnScrollListener
+{
     Context context;
 
     OnClickListener listener;
@@ -39,28 +39,31 @@ public class CarnetCommentListLayout extends LinearLayout implements AbsListView
     int totalItem;
 
     @SuppressLint("NewApi")
-    public CarnetCommentListLayout(Context context, AttributeSet attrs, int defStyle) {
+    public CarnetCommentListLayout(Context context, AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
 
         layoutInflater = (LayoutInflater) context.getSystemService(inflater);
         onCreateView(null);
-
     }
 
-    public CarnetCommentListLayout(Context context, AttributeSet attrs) {
+    public CarnetCommentListLayout(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
         this.context = context;
         layoutInflater = (LayoutInflater) context.getSystemService(inflater);
         onCreateView(null);
     }
 
-    public CarnetCommentListLayout(Context context, List<Object> items) {
+    public CarnetCommentListLayout(Context context, List<Object> items)
+    {
         super(context);
         layoutInflater = (LayoutInflater) context.getSystemService(inflater);
         onCreateView(null);
     }
 
-    public boolean initData(List<MealCommentContract> items, Context context, OnClickListener listener, MainActivityCallBack mainListener) {
+    public boolean initData(List<MealCommentContract> items, Context context, OnClickListener listener, MainActivityCallBack mainListener)
+    {
         System.out.print("initData: " + items.size());
 
         layoutInflater = (LayoutInflater) context.getSystemService(inflater);
@@ -73,10 +76,12 @@ public class CarnetCommentListLayout extends LinearLayout implements AbsListView
         return true;
     }
 
-    public boolean updateDataFromRefresh(List<MealCommentContract> items) {
+    public boolean updateDataFromRefresh(List<MealCommentContract> items)
+    {
         this.items = items;
 
-        if (adapter == null) {
+        if (adapter == null)
+        {
             if (row == null) {
                 row = LayoutInflater.from(context).inflate(R.layout.commentlist, null, false);
             }
@@ -97,13 +102,14 @@ public class CarnetCommentListLayout extends LinearLayout implements AbsListView
         return true;
     }
 
-    public boolean updateData(List<MealCommentContract> items) {
-
+    public boolean updateData(List<MealCommentContract> items)
+    {
         final int startingItem = items.size() - totalItem + currentFirstVisibleItem;
 
         this.items = items;
 
-        if (adapter == null) {
+        if (adapter == null)
+        {
             if (row == null) {
                 row = LayoutInflater.from(context).inflate(R.layout.commentlist, null, false);
             }
@@ -136,8 +142,8 @@ public class CarnetCommentListLayout extends LinearLayout implements AbsListView
         return true;
     }
 
-
-    public void onCreateView(ViewGroup container) {
+    public void onCreateView(ViewGroup container)
+    {
         if (items == null) {
             return;
         }
@@ -159,7 +165,8 @@ public class CarnetCommentListLayout extends LinearLayout implements AbsListView
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem,
-                         int visibleItemCount, int totalItemCount) {
+                         int visibleItemCount, int totalItemCount)
+    {
 
         this.currentFirstVisibleItem = firstVisibleItem;
         this.currentVisibleItemCount = visibleItemCount;
@@ -169,12 +176,13 @@ public class CarnetCommentListLayout extends LinearLayout implements AbsListView
             if (totalItem - currentFirstVisibleItem == currentVisibleItemCount) {
             }
         }
-
     }
 
     @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-        if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL){
+    public void onScrollStateChanged(AbsListView view, int scrollState)
+    {
+        if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
+        {
             userScrolled = true;
             //set load more button to visible
 //            System.out.println("userScrolled SCROLL_STATE_TOUCH_SCROLL");
@@ -185,13 +193,16 @@ public class CarnetCommentListLayout extends LinearLayout implements AbsListView
 
         }
         if (totalItem - currentFirstVisibleItem == currentVisibleItemCount
-                && scrollState == SCROLL_STATE_IDLE && userScrolled) {
+                && scrollState == SCROLL_STATE_IDLE && userScrolled)
+        {
             Intent broadint = new Intent();
             broadint.setAction("END_OF_LINE");
             getContext().sendBroadcast(broadint);
             //get latest
-        }else if (currentFirstVisibleItem == 0
-                && scrollState == SCROLL_STATE_IDLE && userScrolled){
+        }
+        else if (currentFirstVisibleItem == 0
+                && scrollState == SCROLL_STATE_IDLE && userScrolled)
+        {
 
             listview.setStackFromBottom(false);
             listview.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_DISABLED);

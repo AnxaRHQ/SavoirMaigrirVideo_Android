@@ -147,7 +147,14 @@ public class WeightGraphFragment extends BaseFragment implements View.OnClickLis
         weightProgressBar = (ProgressBar) mView.findViewById(R.id.weight_graph_progressBar);
         weightProgressBar.setVisibility(View.GONE);
 
-        targetWeight = ApplicationData.getInstance().dietProfilesDataContract.TargetWeightInKg;
+        if (ApplicationData.getInstance().dietProfilesDataContract != null)
+        {
+            targetWeight = ApplicationData.getInstance().dietProfilesDataContract.TargetWeightInKg;
+        }
+        else
+        {
+            targetWeight = 0;
+        }
 
         date_left_btn.setOnClickListener(this);
         date_right_btn.setOnClickListener(this);

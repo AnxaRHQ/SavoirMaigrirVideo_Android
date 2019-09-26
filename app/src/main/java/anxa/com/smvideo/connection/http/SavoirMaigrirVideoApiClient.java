@@ -91,6 +91,11 @@ public class SavoirMaigrirVideoApiClient {
             builder.appendQueryParameter("deviceType", String.valueOf(command.DeviceType));
         }
 
+        if (command.mealId != null)
+        {
+            builder.appendQueryParameter("mealId", command.mealId);
+        }
+
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(httpMethod);
         stringBuilder.append(apiName);

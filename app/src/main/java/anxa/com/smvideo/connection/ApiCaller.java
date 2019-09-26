@@ -24,6 +24,7 @@ import anxa.com.smvideo.contracts.BMResultsResponseContract;
 import anxa.com.smvideo.contracts.BMVideoResponseContract;
 import anxa.com.smvideo.contracts.BaseContract;
 import anxa.com.smvideo.contracts.Carnet.GetCarnetSyncContract;
+import anxa.com.smvideo.contracts.Carnet.MealCommentContract;
 import anxa.com.smvideo.contracts.Carnet.MealPlanForDayResponseContract;
 import anxa.com.smvideo.contracts.Carnet.UploadMealsDataContract;
 import anxa.com.smvideo.contracts.Carnet.UploadMealsDataResponseContract;
@@ -508,6 +509,16 @@ public class ApiCaller
         apiClient.GetAsync(asyncResponse, CommandConstants.COMMAND_MEALSYNC, command, params, GetCarnetSyncContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    public void postMealComment(AsyncResponse asyncResponse, int userId, String mealID, MealCommentContract contract)
+    {
+        MasterCommand command = new MasterCommand();
+        command.RegId   = ApplicationData.getInstance().regId;
+        command.mealId  = mealID;
+        command.Command = "comment";
+
+        apiClient.PostAsync(asyncResponse, CommandConstants.COMMAND_MEALCOMMENT, command, gson.toJson(contract), MealCommentContract.class, AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
     public void GetMealPlanForDay(AsyncResponse asyncResponse, int userId, String selectedDate, int mealType)
     {
         MasterCommand command = new MasterCommand();
@@ -602,7 +613,6 @@ public class ApiCaller
 
     public void GetUserAlerts(AsyncResponse asyncResponse, int userId)
     {
-
         MasterCommand command = new MasterCommand();
         command.RegId = userId;
         command.Command = "alert-with-webinars";

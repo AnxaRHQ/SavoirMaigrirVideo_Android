@@ -103,7 +103,7 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
         if (items != null && items.size() > 0 && getCount() > 0) {
             MessagesContract message = items.get(position);
 
-            String proFileImageURL = AppUtil.BuildProfilePicUrl(context.getResources().getString(R.string.profile_pic_url), Integer.toString(ApplicationData.getInstance().regId));
+            String proFileImageURL = AppUtil.BuildProfilePicUrl(context.getResources().getString(R.string.profile_pic_url), Integer.toString(ApplicationData.getInstance().userDataContract.AjRegNo));
 
             Bitmap avatar = null;
 
@@ -212,7 +212,7 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
                 row.findViewById(R.id.chat_message).setBackgroundResource(R.drawable.comment_bubble_coach);
 
                 if (avatar == null) {
-                    new AdapterDownloadImageTask(viewHolder.imageView).execute(proFileImageURL);
+                    new AdapterDownloadImageTask(viewHolder.imageView).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, proFileImageURL);
                 } else {
                     viewHolder.imageView.setImageBitmap(avatar);
                 }
@@ -576,11 +576,12 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
             Intent intent = new Intent(context, MessageRatingReasonActivity.class);
             intent.putExtra("QUESTIONID", Integer.parseInt(v.getTag().toString()));
             ((MainActivity)getContext()).startActivityForResult(intent, 2);
+            
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    //alertDialog.show();
+                    alertDialog.show();
                 }
             }, 2000);
 

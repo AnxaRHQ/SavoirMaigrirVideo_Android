@@ -15,5 +15,7 @@ public class MasterCommand
     public String RegEmail;
     public boolean IncludeData;
 
+    public String mealId;
+
     public String DeviceType;
 }

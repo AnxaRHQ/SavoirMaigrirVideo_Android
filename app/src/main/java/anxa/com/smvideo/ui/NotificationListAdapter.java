@@ -126,7 +126,7 @@ public class NotificationListAdapter extends ArrayAdapter<NotificationsContract>
 
             //coach profile photo
             if (avatar == null) {
-                new AdapterDownloadImageTask(viewHolder.imageView).execute(notification.coach_profile_picture);
+                new AdapterDownloadImageTask(viewHolder.imageView).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, notification.coach_profile_picture);
             } else {
                 viewHolder.imageView.setImageBitmap(avatar);
             }

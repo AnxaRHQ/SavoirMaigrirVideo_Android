@@ -16,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import anxa.com.smvideo.ApplicationData;
@@ -106,6 +108,16 @@ public class RecipesAccountFragment extends BaseFragment implements View.OnClick
                             ApplicationData.getInstance().recipeAccountList.clear();
 
                             recipesList = (List<RecipeContract>) c.Data.Recipes;
+
+                            Collections.sort(recipesList, new Comparator() {
+                                @Override
+                                public int compare(Object o1, Object o2) {
+                                    RecipeContract p1 = (RecipeContract) o1;
+                                    RecipeContract p2 = (RecipeContract) o2;
+                                    return Integer.valueOf(p1.Id).compareTo(p2.Id);
+                                }
+                            });
+
                             ApplicationData.getInstance().recipeAccountList.addAll(recipesList);
 
                             updateRecipesList();
@@ -133,6 +145,16 @@ public class RecipesAccountFragment extends BaseFragment implements View.OnClick
                     if (c != null && c.Data != null && c.Data.Recipes != null) {
 
                         recipesList = (List<RecipeContract>) c.Data.Recipes;
+
+                        Collections.sort(recipesList, new Comparator() {
+                            @Override
+                            public int compare(Object o1, Object o2) {
+                                RecipeContract p1 = (RecipeContract) o1;
+                                RecipeContract p2 = (RecipeContract) o2;
+                                return Integer.valueOf(p1.Id).compareTo(p2.Id);
+                            }
+                        });
+
                         ApplicationData.getInstance().recipeAccountList.addAll(recipesList);
 
                         updateRecipesListPerCategory(selectedRecipeTypeParam);
