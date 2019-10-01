@@ -1,12 +1,14 @@
 package anxa.com.smvideo.activities;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -41,6 +43,7 @@ import anxa.com.smvideo.activities.account.AproposFragment;
 import anxa.com.smvideo.activities.account.CoachingAccountFragment;
 import anxa.com.smvideo.activities.account.DtsWebkitFragment;
 import anxa.com.smvideo.activities.account.LandingPageAccountActivity;
+import anxa.com.smvideo.activities.account.MessageRatingReasonActivity;
 import anxa.com.smvideo.activities.account.MessagesAccountFragment;
 import anxa.com.smvideo.activities.account.MonCompteAccountFragment;
 import anxa.com.smvideo.activities.account.NotificationsActivity;
@@ -833,5 +836,33 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
         Intent mainContentBrowser = new Intent(this, NpnaOfferActivity.class);
         mainContentBrowser.putExtra("UPGRADE_PAYMENT", true);
         startActivity(mainContentBrowser);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 2)
+        {
+            if (resultCode == MessageRatingReasonActivity.RESULT_OK)
+            {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+                // set dialog message
+                alertDialogBuilder
+                        .setMessage(this.getResources().getString(R.string.message_rating_thankyou))
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        });
+
+                final AlertDialog alertDialog = alertDialogBuilder.create();
+
+                alertDialog.show();
+            }
+        }
     }
 }

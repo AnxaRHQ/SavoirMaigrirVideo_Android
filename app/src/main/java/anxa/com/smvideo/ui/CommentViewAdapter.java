@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -25,10 +24,8 @@ import android.widget.TextView;
 
 import android.support.design.widget.BottomSheetDialog;
 
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
@@ -36,17 +33,16 @@ import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
 import anxa.com.smvideo.activities.MainActivity;
 import anxa.com.smvideo.activities.account.MessageRatingReasonActivity;
-import anxa.com.smvideo.activities.account.MessagesAccountFragment;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
+import anxa.com.smvideo.connection.http.MessagesPhotoDownloadAsync;
 import anxa.com.smvideo.connection.listener.MainActivityCallBack;
 import anxa.com.smvideo.contracts.MessageRatingContract;
 import anxa.com.smvideo.contracts.MessagesContract;
 import anxa.com.smvideo.util.AppUtil;
 
-
-public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implements View.OnClickListener {
-
+public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implements View.OnClickListener
+{
     private Context context;
     private List<MessagesContract> items;
     private LayoutInflater layoutInflater;
@@ -212,7 +208,7 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
                 row.findViewById(R.id.chat_message).setBackgroundResource(R.drawable.comment_bubble_coach);
 
                 if (avatar == null) {
-                    new AdapterDownloadImageTask(viewHolder.imageView).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, proFileImageURL);
+                    new MessagesPhotoDownloadAsync(viewHolder.imageView).execute(proFileImageURL);//.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, proFileImageURL);
                 } else {
                     viewHolder.imageView.setImageBitmap(avatar);
                 }
@@ -323,51 +319,6 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
     @Override
     public int getCount() {
         return items.size();// more than zero
-    }
-
-    private class AdapterDownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        private ImageView bmImage;
-        private String path;
-
-        public AdapterDownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-            this.path = bmImage.getTag().toString();
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            String coachIdToSave = urldisplay.substring(urldisplay.indexOf("users/") + 6, urldisplay.lastIndexOf("/"));
-
-            Bitmap mIcon11 = null;
-            try {
-                urldisplay = AppUtil.CheckImageUrl(urldisplay);
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-
-                if (!ApplicationData.getInstance().coachPhotosList.containsKey(coachIdToSave) && mIcon11 != null) {
-                    ApplicationData.getInstance().coachPhotosList.put(coachIdToSave, mIcon11);
-                }
-
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            if (!bmImage.getTag().toString().equals(path)) {
-                return;
-            }
-
-            if (result != null && bmImage != null) {
-                bmImage.setVisibility(View.VISIBLE);
-                bmImage.setImageBitmap(result);
-
-            } else {
-                bmImage.setVisibility(View.GONE);
-            }
-        }
     }
 
     private Bitmap getAvatar(int coachId) {
@@ -500,42 +451,6 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
         }
     }
 
-
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap>
-    {
-        final ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... strings)
-        {
-            String urlDisplay = strings[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urlDisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-
-            ApplicationData.getInstance().setUserProfilePhoto(mIcon11);
-
-            return mIcon11;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap)
-        {
-            super.onPostExecute(bitmap);
-
-            bmImage.setImageBitmap(bitmap);
-        }
-    }
-
     public void SaveRating(final int rating, String reason, final BottomSheetDialog dialog, final View v, ImageView img) {
         img.setImageDrawable(context.getResources().getDrawable(R.drawable.rating_button_orange));
         MessageRatingContract contract = new MessageRatingContract();
@@ -572,18 +487,20 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
 
         final AlertDialog alertDialog = alertDialogBuilder.create();
 
-        if (rating <= 5) {
-            Intent intent = new Intent(context, MessageRatingReasonActivity.class);
+        if (rating <= 5)
+        {
+            final Intent intent = new Intent(context, MessageRatingReasonActivity.class);
             intent.putExtra("QUESTIONID", Integer.parseInt(v.getTag().toString()));
-            ((MainActivity)getContext()).startActivityForResult(intent, 2);
-            
-            final Handler handler = new Handler();
+            ((MainActivity) getContext()).startActivityForResult(intent, 2);
+
+            /*final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+
                     alertDialog.show();
                 }
-            }, 2000);
+            }, 2000);*/
 
         } else {
 

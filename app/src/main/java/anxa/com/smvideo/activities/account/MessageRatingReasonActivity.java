@@ -1,6 +1,9 @@
 package anxa.com.smvideo.activities.account;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
+import anxa.com.smvideo.activities.MainActivity;
 import anxa.com.smvideo.connection.ApiCaller;
 import anxa.com.smvideo.connection.http.AsyncResponse;
 import anxa.com.smvideo.contracts.MessageRatingContract;
@@ -29,10 +33,11 @@ public class MessageRatingReasonActivity extends Activity {
 
     private ApiCaller caller;
 
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
        super.onCreate(savedInstanceState);
 
-       caller = new ApiCaller();
+        caller = new ApiCaller();
 
         setContentView(R.layout.messageratingreason);
 
@@ -48,7 +53,9 @@ public class MessageRatingReasonActivity extends Activity {
 
         questionId = getIntent().getIntExtra("QUESTIONID",0);
     }
-    public void showReason(View view) {
+
+    public void showReason(View view)
+    {
         switch (view.getId()) {
             case R.id.cbRatingAutres:
                 if (cbRatingAutres.isChecked()) {
@@ -61,7 +68,9 @@ public class MessageRatingReasonActivity extends Activity {
             default:
         }
     }
-    public void dismissPage(View view){
+
+    public void dismissPage(View view)
+    {
         if(questionId > 0)
         {
             String comment = "";
@@ -88,9 +97,14 @@ public class MessageRatingReasonActivity extends Activity {
                 @Override
                 public void processFinish(Object output) {
 
+                    setResult(MessageRatingReasonActivity.RESULT_OK, getIntent());
+
+                    finish();
+
                 }
             }, Integer.toString(ApplicationData.getInstance().userDataContract.Id), contract);
         }
-        finish();
+
+        //finish();
     }
 }

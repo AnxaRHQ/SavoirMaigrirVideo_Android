@@ -222,7 +222,7 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
 
         loadPrevious = false;
         newPostMessageContract = new PostMessagesContract();
-        items.clear();
+        //items.clear();
 
         ApplicationData.getInstance().setPreviousDate(AppUtil.getCurrentDateinLong());
         previousDate = AppUtil.getCurrentDateinLong();
