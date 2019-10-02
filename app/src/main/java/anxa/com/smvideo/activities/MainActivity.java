@@ -209,6 +209,7 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
                     MessagesAccountFragment messagesAccountFragment = new MessagesAccountFragment();
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("fromNotifications", false);
+                    bundle.putBoolean("firstIteration", true);
                     bundle.putString("selectedButton", getString(R.string.menu_account_carnet));
                     messagesAccountFragment.setArguments(bundle);
 
@@ -369,6 +370,7 @@ public class MainActivity extends BaseVideoActivity implements View.OnClickListe
 
                     ApplicationData.getInstance().selectedFragment = ApplicationData.SelectedFragment.Account_Messages;
                     bundle.putBoolean("fromNotifications", false);
+                    bundle.putBoolean("firstIteration", true);
                     fragment = new MessagesAccountFragment();
                     fragment.setArguments(bundle);
 

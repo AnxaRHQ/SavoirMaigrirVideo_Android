@@ -456,6 +456,7 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
         MessageRatingContract contract = new MessageRatingContract();
         contract.QuestionId = Integer.parseInt(v.getTag().toString());
         contract.Rating = rating;
+
         caller = new ApiCaller();
 
         System.out.println("onclick messageID: " + v.getTag());

@@ -227,7 +227,19 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
         ApplicationData.getInstance().setPreviousDate(AppUtil.getCurrentDateinLong());
         previousDate = AppUtil.getCurrentDateinLong();
 
-        getPreviousQuestionsThread();
+        if (getArguments().getBoolean("firstIteration"))
+        {
+            getPreviousQuestionsThread(true);
+
+            Bundle b = getArguments();
+            b.putBoolean("firstIteration", false);
+
+            this.setArguments(b);
+        }
+        else
+        {
+            getPreviousQuestionsThread(false);
+        }
     }
 
     public void onPause() {
@@ -275,7 +287,7 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
     public void loadMoreMessages(View view) {
         loadPrevious = true;
         startProgressBar();
-        getPreviousQuestionsThread();
+        getPreviousQuestionsThread(false);
     }
 
     /**
@@ -322,7 +334,7 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
         }, ApplicationData.getInstance().userDataContract.Id, (int) (System.currentTimeMillis() / 1000L));
     }
 
-    private void getPreviousQuestionsThread()
+    private void getPreviousQuestionsThread(final boolean firstIteration)
     {
         caller.GetPreviousMessagesThread(new AsyncResponse()
         {
@@ -338,10 +350,10 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
                     previousDate = response.Cursor.previous;
 
                     ApplicationData.getInstance().messagesResponseContract = response;
-                    boolean firstIteration = false;
 
-                    if (items.size() == 0) {
-                        firstIteration = true;
+                    if (firstIteration)
+                    {
+                        items.clear();
                     }
 
                     items.addAll(response.Data.Messages);

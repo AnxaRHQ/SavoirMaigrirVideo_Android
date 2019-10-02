@@ -326,6 +326,7 @@ public class NotificationsActivity extends Activity implements View.OnClickListe
         MessagesAccountFragment messagesAccountFragment = new MessagesAccountFragment();
         Bundle bundle = new Bundle();
         bundle.putBoolean("fromNotifications", true);
+        bundle.putBoolean("firstIteration", true);
         bundle.putString("selectedButton", getString(R.string.menu_account_messages));
         messagesAccountFragment.setArguments(bundle);
 
@@ -343,6 +344,7 @@ public class NotificationsActivity extends Activity implements View.OnClickListe
         MessagesAccountFragment messagesAccountFragment = new MessagesAccountFragment();
         Bundle bundle = new Bundle();
         bundle.putBoolean("fromNotifications", true);
+        bundle.putBoolean("firstIteration", true);
         bundle.putString("selectedButton", getString(R.string.menu_account_carnet));
         messagesAccountFragment.setArguments(bundle);
 

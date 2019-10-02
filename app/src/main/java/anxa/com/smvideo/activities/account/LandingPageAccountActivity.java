@@ -462,6 +462,7 @@ public class LandingPageAccountActivity extends BaseFragment implements View.OnC
         MessagesAccountFragment messagesAccountFragment = new MessagesAccountFragment();
         Bundle bundle = new Bundle();
         bundle.putBoolean("fromNotifications", false);
+        bundle.putBoolean("firstIteration", true);
         messagesAccountFragment.setArguments(bundle);
 
         goToFragmentPage(messagesAccountFragment);
