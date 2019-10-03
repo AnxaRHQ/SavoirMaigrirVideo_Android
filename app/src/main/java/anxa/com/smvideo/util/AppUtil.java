@@ -1470,6 +1470,14 @@ public class AppUtil {
         return unixtime;
     }
 
+    public static long getMessageCreatedDateForDisplay(long timestamp) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timestamp * 1000);
+        calendar.add(Calendar.HOUR, 2);
+        long unixtime = calendar.getTime().getTime() / 1000L;
+        return unixtime;
+    }
+
     /**
      * Native Carnet
      **/

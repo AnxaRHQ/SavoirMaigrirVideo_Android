@@ -31,7 +31,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import anxa.com.smvideo.ApplicationData;
 import anxa.com.smvideo.R;
@@ -351,11 +353,6 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
 
                     ApplicationData.getInstance().messagesResponseContract = response;
 
-                    if (firstIteration)
-                    {
-                        items.clear();
-                    }
-
                     items.addAll(response.Data.Messages);
                     sort(items);
 
@@ -554,7 +551,7 @@ public class MessagesAccountFragment extends BaseFragment implements View.OnClic
                     MessagesContract newQuestionsContract = new MessagesContract();
                     newQuestionsContract.MessageChat = newPostMessageContract.MessageChat;
                     newQuestionsContract.CoachId = 0;
-                    newQuestionsContract.DateCreated = AppUtil.getCreatedDateForDisplay(newPostMessageContract.CreatedDate);
+                    newQuestionsContract.DateCreated = AppUtil.getMessageCreatedDateForDisplay(newPostMessageContract.CreatedDate);
                     newQuestionsContract.RegId = newPostMessageContract.RegId;
 
                     items.add(newQuestionsContract);

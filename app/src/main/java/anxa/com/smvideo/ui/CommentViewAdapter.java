@@ -488,6 +488,23 @@ public class CommentViewAdapter extends ArrayAdapter<MessagesContract> implement
 
         final AlertDialog alertDialog = alertDialogBuilder.create();
 
+        /* Update list */
+
+        for (int i=0 ; i<items.size(); i++)
+        {
+            MessagesContract messagesContract= items.get(i);
+
+            if (messagesContract.Id.equals(String.valueOf(contract.QuestionId)))
+            {
+                messagesContract.CoachIdLiked = 1;
+                messagesContract.Rating = (byte) (contract.Rating & 0xFF);
+
+                items.set(i, messagesContract);
+            }
+        }
+
+        /* Rating */
+
         if (rating <= 5)
         {
             final Intent intent = new Intent(context, MessageRatingReasonActivity.class);
